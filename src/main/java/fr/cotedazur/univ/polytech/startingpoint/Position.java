@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.util.Objects;
 
 /**
@@ -24,6 +25,10 @@ public class Position {
      * @param y coordonnée de l'ordonné
      */
 =======
+=======
+import java.util.Objects;
+
+>>>>>>> 47f8461 (modification de la classe Position)
 public class Position {
     //attribut
     private int x;
@@ -62,6 +67,7 @@ public class Position {
         return y;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
     /**
@@ -69,6 +75,9 @@ public class Position {
      * @param o objet a comparer
      * @return si l'objet mit en parametre est equivalent a l'actuel
      */
+=======
+
+>>>>>>> 47f8461 (modification de la classe Position)
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,6 +91,7 @@ public class Position {
         return Objects.hash(getX(), getY());
     }
 
+<<<<<<< HEAD
     /**
      * redefinition de la methode toString
      * @return une chaine de caractere
@@ -100,4 +110,10 @@ public class Position {
     }
 =======
 >>>>>>> d8cecf5 (modification classe Position)
+=======
+    @Override
+    public String toString() {
+        return "("+x+","+y+")";
+    }
+>>>>>>> 47f8461 (modification de la classe Position)
 }
