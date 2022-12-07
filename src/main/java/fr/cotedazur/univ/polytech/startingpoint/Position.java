@@ -7,8 +7,7 @@ public class Position {
 
     //constructeur
     public Position(){
-        x=0;
-        y=0;
+        this(0,0);
     }
     public Position(int x, int y){
         this.x=x;
@@ -22,13 +21,5 @@ public class Position {
 
     public int getY() {
         return y;
-    }
-
-    //mutateur
-    public void setX(int x) {
-        this.x = x;
-    }
-    public void setY(int y) {
-        this.y = y;
     }
 }
