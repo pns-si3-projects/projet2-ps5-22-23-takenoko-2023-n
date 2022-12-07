@@ -31,8 +31,7 @@ public class Position {
 
     //constructeur
     public Position(){
-        x=0;
-        y=0;
+        this(0,0);
     }
 >>>>>>> 112726f (creation de la classe Position)
     public Position(int x, int y){
@@ -62,6 +61,7 @@ public class Position {
     public int getY() {
         return y;
     }
+<<<<<<< HEAD
 
 <<<<<<< HEAD
     /**
@@ -98,4 +98,6 @@ public class Position {
         this.y = y;
 >>>>>>> 112726f (creation de la classe Position)
     }
+=======
+>>>>>>> d8cecf5 (modification classe Position)
 }
