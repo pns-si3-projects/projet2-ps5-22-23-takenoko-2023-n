@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+<<<<<<< HEAD
 import java.util.Objects;
 
 /**
@@ -22,27 +23,47 @@ public class Position {
      * @param x coordonnée de l'abscise
      * @param y coordonnée de l'ordonné
      */
+=======
+public class Position {
+    //attribut
+    private int x;
+    private int y;
+
+    //constructeur
+    public Position(){
+        x=0;
+        y=0;
+    }
+>>>>>>> 112726f (creation de la classe Position)
     public Position(int x, int y){
         this.x=x;
         this.y=y;
     }
 
+<<<<<<< HEAD
     /**
      * getter de l'attribut x
      * @return la valeur de x
      */
+=======
+    //acceseur
+>>>>>>> 112726f (creation de la classe Position)
     public int getX() {
         return x;
     }
 
+<<<<<<< HEAD
     /**
      * getter de l'attribut y
      * @return la valeur de y
      */
+=======
+>>>>>>> 112726f (creation de la classe Position)
     public int getY() {
         return y;
     }
 
+<<<<<<< HEAD
     /**
      * redefinition de la methode equals
      * @param o objet a comparer
@@ -68,5 +89,13 @@ public class Position {
     @Override
     public String toString() {
         return "("+x+","+y+")";
+=======
+    //mutateur
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
+        this.y = y;
+>>>>>>> 112726f (creation de la classe Position)
     }
 }
