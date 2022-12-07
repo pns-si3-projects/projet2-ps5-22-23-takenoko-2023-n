@@ -2,29 +2,52 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.Objects;
 
+/**
+ * classe Position, permenant d'avoir une position
+ * @author equipe N
+ */
 public class Position {
-    //attribut
     private int x;
     private int y;
 
-    //constructeur
+    /**
+     * contructeur par default pour l'Etang
+     */
     public Position(){
         this(0,0);
     }
+
+    /**
+     * constructeur de Position avec deux coordonnées
+     * @param x coordonnée de l'abscise
+     * @param y coordonnée de l'ordonné
+     */
     public Position(int x, int y){
         this.x=x;
         this.y=y;
     }
 
-    //acceseur
+    /**
+     * getter de l'attribut x
+     * @return la valeur de x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * getter de l'attribut y
+     * @return la valeur de y
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * redefinition de la methode equals
+     * @param o objet a comparer
+     * @return si l'objet mit en parametre est equivalent a l'actuel
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,6 +61,10 @@ public class Position {
         return Objects.hash(getX(), getY());
     }
 
+    /**
+     * redefinition de la methode toString
+     * @return une chaine de caractere
+     */
     @Override
     public String toString() {
         return "("+x+","+y+")";
