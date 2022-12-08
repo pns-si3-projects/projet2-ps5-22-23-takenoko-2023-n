@@ -11,7 +11,7 @@ class JeuTest {
     Joueur joueur2;
     Jeu jeu;
     Etang etang;
-    ParcelleEtVoisines parcelleEtVoisines;
+    Plateau plateauJeu;
 
     @BeforeEach
     void setUp(){
@@ -19,7 +19,7 @@ class JeuTest {
         joueur2 = new Joueur("Robot2");
         jeu = new Jeu(joueur1);
         etang = new Etang();
-        parcelleEtVoisines = new ParcelleEtVoisines(etang);
+        plateauJeu = jeu.getPlateau();
     }
 
     @Test
@@ -29,7 +29,12 @@ class JeuTest {
     }
 
     @Test
-    void testGetPlateau() {
-        assertEquals(etang, jeu.getPlateau().getParcelles().get(0).getParcelleCible());
+    void testGetPlateau(){
+        assertEquals(etang,plateauJeu.getParcelles().get(0).getParcelleCible());
+    }
+
+    @Test
+    void testFinDePartie(){
+        assertEquals("Le joueur Robot1 a gagne la partie !",jeu.finDePartie());
     }
 }

@@ -4,7 +4,9 @@ public class Main {
     public static void main(String[] args){
         Joueur joueur = new Joueur("Robot1");
         Jeu jeu = new Jeu(joueur);
-        System.out.println(jeu);
+        System.out.println(jeu.toString());
+        jeu.tour();
+        System.out.println(jeu.finDePartie());
     }
 
 }
