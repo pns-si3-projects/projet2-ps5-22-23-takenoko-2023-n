@@ -22,4 +22,8 @@ public class Jeu {
     public void setEtang(Etang etang) {
         this.etang = etang;
     }
+
+    public String toString(){
+        return "Un nouveau jeu commence !\nJoueur : " + joueur.getNom();
+    }
 }
