@@ -2,25 +2,22 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 public class Jeu {
     private Joueur joueur;
-    private Etang etang;
+    private Plateau plateau;
 
-    public Jeu(Joueur joueur, Etang etang) {
+    public Jeu(Joueur joueur) {
         this.joueur = joueur;
-        this.etang = etang;
+        plateau = new Plateau();
     }
 
     public Joueur getJoueur() {
         return joueur;
     }
-    public Etang getEtang() {
-        return etang;
+    public Plateau getPlateau() {
+        return plateau;
     }
 
     public void setJoueur(Joueur joueur) {
         this.joueur = joueur;
-    }
-    public void setEtang(Etang etang) {
-        this.etang = etang;
     }
 
     public String toString(){
