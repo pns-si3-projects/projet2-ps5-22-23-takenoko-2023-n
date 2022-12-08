@@ -3,13 +3,15 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class JeuTest {
     Joueur joueur1;
     Joueur joueur2;
     Jeu jeu;
     Etang etang;
+    ParcelleEtVoisines parcelleEtVoisines;
 
     @BeforeEach
     void setUp(){
@@ -17,6 +19,7 @@ class JeuTest {
         joueur2 = new Joueur("Robot2");
         jeu = new Jeu(joueur1);
         etang = new Etang();
+        parcelleEtVoisines = new ParcelleEtVoisines(etang);
     }
 
     @Test
