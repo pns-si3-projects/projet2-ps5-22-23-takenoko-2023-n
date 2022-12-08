@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.Objects;
 
-public class ParcelleCouleur {
+public class ParcelleCouleur implements Parcelle{
     private final Position position;
 
     /**
@@ -18,6 +18,7 @@ public class ParcelleCouleur {
      * Renvoie la position de la parcelle
      * @return Retourne la position de la parcelle
      */
+    @Override
     public Position getPosition() {
         return position;
     }
