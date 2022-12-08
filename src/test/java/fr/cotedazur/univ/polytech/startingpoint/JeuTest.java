@@ -8,15 +8,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class JeuTest {
     Joueur joueur1;
     Joueur joueur2;
+    Plateau plateauJeu;
     Jeu jeu;
-    Etang etang;
 
     @BeforeEach
     void setUp(){
         joueur1 = new Joueur("Robot1");
         joueur2 = new Joueur("Robot2");
         jeu = new Jeu(joueur1);
-        etang = new Etang();
+        plateauJeu = jeu.getPlateau();
     }
 
     @Test
@@ -26,7 +26,21 @@ class JeuTest {
     }
 
     @Test
-    void testGetPlateau() {
-        assertEquals(etang, jeu.getPlateau().getParcelles().get(0).getParcelleCible());
+    void testGetPlateau(){
+        Parcelle etang = new Etang();
+        assertEquals(etang,plateauJeu.getParcelles().get(0).getParcelleCible());
+    }
+
+    @Test
+    void testFinDePartie(){
+        assertEquals("Le joueur Robot1 a gagne la partie !",jeu.finDePartie());
+    }
+
+    @Test
+    void testSetJoueur() {
+        Jeu jeu = new Jeu(joueur1);
+        jeu.setJoueur(joueur2);
+        assertEquals(joueur2, jeu.getJoueur());
+        assertNotEquals(joueur1, jeu.getJoueur());
     }
 }
