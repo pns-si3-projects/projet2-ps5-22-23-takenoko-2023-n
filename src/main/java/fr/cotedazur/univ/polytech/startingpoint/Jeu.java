@@ -16,10 +16,6 @@ public class Jeu {
         return plateau;
     }
 
-    public void setJoueur(Joueur joueur) {
-        this.joueur = joueur;
-    }
-
     public String toString(){
         return "Un nouveau jeu commence !\nJoueur : " + joueur.getNom();
     }
