@@ -8,7 +8,7 @@ import java.util.List;
  * @author equipe N
  */
 public class Plateau {
-    private List<ParcelleEtVoisines> parcelles;
+    private final List<ParcelleEtVoisines> parcelles;
 
     /**
      * Constructeur par défaut qui permet d'initialiser le jeu avec un Etang
@@ -16,7 +16,8 @@ public class Plateau {
     public Plateau() {
         Etang etang = new Etang();
         ParcelleEtVoisines etangEtVoisines = new ParcelleEtVoisines(etang);
-        this.parcelles = new ArrayList<>();
+        parcelles = new ArrayList<>();
+        addParcelle(etangEtVoisines);
     }
 
     public List<ParcelleEtVoisines> getParcelles() {
@@ -28,6 +29,11 @@ public class Plateau {
     }
 
     public void addParcelle(ParcelleCouleur parcelleCouleur, List<Parcelle> voisines) {
-        addParcelle(new ParcelleEtVoisines(parcelleCouleur, voisines));
+        try {
+            ParcelleEtVoisines parcelleEtVoisines = new ParcelleEtVoisines(parcelleCouleur, voisines);
+            addParcelle(parcelleEtVoisines);
+        } catch (ParcelleNonVoisineException e) {
+            System.out.println(e);
+        }
     }
 }
