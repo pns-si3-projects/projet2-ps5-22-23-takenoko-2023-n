@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import java.util.Objects;
+
 public class ParcelleCouleur {
     private final Position position;
 
@@ -18,5 +20,23 @@ public class ParcelleCouleur {
      */
     public Position getPosition() {
         return position;
+    }
+
+    /**
+     * Compare si l'objet donnee en parametre est le meme que lui meme
+     * @param obj objet a compare avec cette Parcelle couleur
+     * @return Retourne true si ils ont la meme position sinon false
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        else if(obj == null || obj.getClass() != this.getClass()) return false;
+        ParcelleCouleur parcelleToCompare = (ParcelleCouleur) obj;
+        return position.equals(parcelleToCompare.getPosition());
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(position);
     }
 }
