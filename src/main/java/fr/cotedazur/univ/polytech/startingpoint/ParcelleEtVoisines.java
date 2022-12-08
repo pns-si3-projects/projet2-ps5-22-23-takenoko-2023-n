@@ -4,44 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Permet d'enregistrer une ParcelleCouleur avec ses parcelles voisines
+ * Permet d'enregistrer une Parcelle avec ses parcelles voisines
  * @author equipe N
  */
 public class ParcelleEtVoisines {
-    /**
-     * C'est la ParcelleCouleur cible
-     */
-    private ParcelleCouleur parcelleCouleur;
+    /** Parcelle cible qui peut être un Etang ou une ParcelleCouleur */
+    private Parcelle parcelle;
+
+    /** Liste des voisines de la parcelle cible */
+    private List<Parcelle> parcellesVoisines;
 
     /**
-     * Liste des voisines de la ParcelleCouleur
+     * Constructeur par defaut
+     * Creer l'ensemble pour enregistrer la Parcelle avec ses voisines
+     * @param parcelle qui est la Parcelle cible
+     * @param parcellesVoisines qui sont les parcelles voisines de la Parcelle
      */
-    private List<ParcelleCouleur> parcellesVoisines;
-
-    /**
-     * Constructeur par défaut
-     * Créer l'ensemble pour enregistrer la ParcelleCouleur avec ses voisines
-     * @param parcelleCouleur qui est la ParcelleCouleur cible
-     * @param parcellesVoisines qui sont les parcelles voisines de la ParcelleCouleur
-     */
-    public ParcelleEtVoisines(ParcelleCouleur parcelleCouleur, List<ParcelleCouleur> parcellesVoisines) {
-        this.parcelleCouleur = parcelleCouleur;
+    public ParcelleEtVoisines(Parcelle parcelle, List<Parcelle> parcellesVoisines) {
+        this.parcelle = parcelle;
         this.parcellesVoisines = parcellesVoisines;
     }
 
     /**
-     * Constructeur pour l'Etang qui ne contient pas de voisines au début
-     * @param parcelleCouleur qui devrait être l'Etang car les autres parcelles auront forcément une(des) voisine(s)
+     * Constructeur pour l'Etang qui ne contient pas de voisines au debut du jeu
+     * @param etang qui est l'Etang du jeu et ne contient pas de voisines au debut
      */
-    public ParcelleEtVoisines(ParcelleCouleur parcelleCouleur) {
-        this(parcelleCouleur, new ArrayList<>());
+    public ParcelleEtVoisines(Etang etang) {
+        this(etang, new ArrayList<>());
     }
 
-    public ParcelleCouleur getParcelleCouleur() {
-        return parcelleCouleur;
+    public Parcelle getParcelle() {
+        return parcelle;
     }
 
-    public List<ParcelleCouleur> getParcellesVoisines() {
+    public List<Parcelle> getParcellesVoisines() {
         return parcellesVoisines;
     }
 }
