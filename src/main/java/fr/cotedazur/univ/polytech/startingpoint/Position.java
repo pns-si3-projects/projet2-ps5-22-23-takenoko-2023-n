@@ -22,6 +22,7 @@ public class Position {
      * @param x coordonnée de l'abscise
      * @param y coordonnée de l'ordonné
      */
+
     public Position(int x, int y){
         this.x=x;
         this.y=y;
@@ -31,6 +32,7 @@ public class Position {
      * getter de l'attribut x
      * @return la valeur de x
      */
+    
     public int getX() {
         return x;
     }
