@@ -40,4 +40,8 @@ public class ParcelleEtVoisines {
     public List<Parcelle> getParcellesVoisines() {
         return parcellesVoisines;
     }
+
+    public void addVoisine(Parcelle parcelle) {
+        parcellesVoisines.add(parcelle);
+    }
 }
