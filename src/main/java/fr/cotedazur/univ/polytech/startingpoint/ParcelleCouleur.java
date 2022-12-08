@@ -8,7 +8,7 @@ public class ParcelleCouleur {
      * @param p position unique de la parcelle
      */
     public ParcelleCouleur(Position p){
-        if(p == null) assert false : "Ne doit pas etre vide";
+        if(p == null) throw new NullPointerException("La position ne doit pas etre vide");
         position = p;
     }
 
