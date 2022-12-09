@@ -10,8 +10,10 @@ java ./src/main/java/fr/cotedazur/univ/polytech/startingpoint/Main
 ```
 Ou si vous avez Maven, il faut executer cette commande:  
 ```sh
+mvn install  
 mvn exec:java  
 ```
 
 ## Fonctionnalités  
-
+* Initialisation du jeu  
+* Le robot peut poser une parcelle  
