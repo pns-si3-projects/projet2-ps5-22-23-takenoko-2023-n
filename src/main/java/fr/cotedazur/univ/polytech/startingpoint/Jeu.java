@@ -66,4 +66,8 @@ public class Jeu {
     public String toString(){
         return "Un nouveau jeu commence !\nJoueur : " + joueur.getNom();
     }
+
+    public String toString(){
+        return "Un nouveau jeu commence !\nJoueur : " + joueur.getNom();
+    }
 }
