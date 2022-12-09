@@ -1,8 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 public class Jeu {
-    private Joueur joueur = new Joueur("joueur1");
-    private Etang etang = new Etang();
+    private Joueur joueur;
+    private Etang etang;
 
     public Jeu(Joueur joueur, Etang etang) {
         this.joueur = joueur;
@@ -21,5 +21,9 @@ public class Jeu {
     }
     public void setEtang(Etang etang) {
         this.etang = etang;
+    }
+
+    public String toString(){
+        return "Un nouveau jeu commence !\nJoueur : " + joueur.getNom();
     }
 }
