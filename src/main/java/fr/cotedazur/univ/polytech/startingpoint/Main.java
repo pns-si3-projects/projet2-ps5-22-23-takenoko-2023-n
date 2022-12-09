@@ -3,9 +3,10 @@ package fr.cotedazur.univ.polytech.startingpoint;
 public class Main {
     public static void main(String[] args){
         Joueur joueur = new Joueur("Robot1");
-        Etang etang = new Etang();
-        Jeu jeu = new Jeu(joueur, etang);
+        Jeu jeu = new Jeu(joueur);
         System.out.println(jeu.toString());
+        jeu.tour();
+        System.out.println(jeu.finDePartie());
     }
 
 }
