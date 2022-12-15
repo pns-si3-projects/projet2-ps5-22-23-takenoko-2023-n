@@ -3,8 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ParcelleCouleurTest {
     ParcelleCouleur pC1_1;
@@ -34,5 +33,14 @@ class ParcelleCouleurTest {
         assertEquals(pC1_1,pC1_1bis);
         assertNotEquals(pC1_1,pC2_1);
         assertNotEquals(pC1_1bis,pC2_1);
+    }
+
+    @Test
+    void addBambou(){
+        assertTrue(pC1_1.addBambou(pC1_1.getPosition()));
+        assertTrue(pC2_1.addBambou(pC2_1.getPosition()));
+        assertTrue(pC1_1.addBambou(pC1_1.getPosition()));
+        assertTrue(pC1_1.addBambou(pC1_1.getPosition()));
+        assertFalse(pC1_1.addBambou(pC1_1.getPosition()));
     }
 }

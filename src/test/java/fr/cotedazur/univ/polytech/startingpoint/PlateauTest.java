@@ -12,15 +12,29 @@ class PlateauTest {
     Plateau plateau;
     Etang etang;
     ParcelleCouleur pC1_m1;
+    ParcelleCouleur pC1_m1b;
     ParcelleCouleur pC2_0;
     ParcelleCouleur pCm2_0;
+    List<Parcelle> listeEtang_PC2;
+    List<Parcelle> listePC1_Etang;
+    List<Parcelle> listeParcelleAvecBambou;
+
     @BeforeEach
     void setUp() {
         plateau = new Plateau();
         etang = new Etang();
         pC1_m1 = new ParcelleCouleur(new Position(1,-1));
+        pC1_m1b=new ParcelleCouleur(new Position(1,-1));
         pC2_0 = new ParcelleCouleur(new Position(2,0));
         pCm2_0 = new ParcelleCouleur(new Position(-2,0));
+        listeEtang_PC2 = new ArrayList<>();
+        listePC1_Etang = new ArrayList<>();
+        listeParcelleAvecBambou=new ArrayList<>();
+        pC1_m1b.addBambou(pC1_m1b.getPosition()); // -> a regler car bissard
+        listeEtang_PC2.add(etang);
+        listeEtang_PC2.add(pC2_0);
+        listePC1_Etang.add(pC1_m1);
+        listePC1_Etang.add(etang);
     }
 
     @Test
@@ -64,5 +78,12 @@ class PlateauTest {
         assertEquals(parcelles[2],listParcelles.get(1).getParcelleCible());
         assertEquals(parcelles[1],listParcelles.get(2).getParcelleCible());
         assertEquals(parcelles[4],listParcelles.get(3).getParcelleCible());
+    }
+
+    @Test
+    void addParcelleAvecBambou(){
+        plateau.addParcelleAvecBambou(pC1_m1);
+        plateau.addParcelleAvecBambou(pC2_0);
+        assertEquals(pC1_m1,pC1_m1);
     }
 }
