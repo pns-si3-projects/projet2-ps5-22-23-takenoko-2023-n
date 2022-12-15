@@ -47,13 +47,17 @@ public class Plateau {
     public List<Position> getPositionDisponible() {
         return positionDisponible;
     }
-
+    
     /**
      * Getter pour le Panda
      * @return le panda
      */
     public Panda getPanda() {
         return panda;
+    }
+
+    public void addParcelle(ParcelleEtVoisines parcelleEtVoisines) {
+        parcelles.add(parcelleEtVoisines);
     }
 
     public void addParcelle(ParcelleEtVoisines parcelleEtVoisines) {
