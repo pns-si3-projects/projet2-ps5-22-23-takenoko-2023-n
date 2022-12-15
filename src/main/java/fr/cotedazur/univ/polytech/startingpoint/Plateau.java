@@ -20,11 +20,16 @@ public class Plateau {
         ParcelleEtVoisines etangEtVoisines = new ParcelleEtVoisines(etang);
         parcelles = new ArrayList<>();
         positionDisponible = new ArrayList<>();
-        addParcelle(etangEtVoisines);
+        parcelles.add(etangEtVoisines);
+        for(int i = 0; i<6;i++){
+            Parcelle parcellePossible = etangEtVoisines.getParcellesVoisines()[i];
+            positionDisponible.add(parcellePossible.getPosition());
+        }
     }
 
     /**
      * Getter des Parcelles en jeu
+     *
      * @return Retourne la liste de Parcelle en jeu
      */
     public List<ParcelleEtVoisines> getParcelles() {
@@ -35,60 +40,60 @@ public class Plateau {
      * Getter de la liste de Position disponible en jeu
      * @return Retourne la liste de Position disponible pour mettre une parcelle
      */
-    public List<Position> getPositionDisponible(){
+    public List<Position> getPositionDisponible() {
         return positionDisponible;
     }
 
     /**
-     * Change a chacune des deux parcelles disponibles leur voisins (soit de changer une parcelleDisponible en parcelleCouleur)
-     * @param parcelle qui vient d'etre ajoute a la liste
-     * @param parcelleVoisine qui est dans la liste
-     * @throws ParcelleNonVoisineException
+     * Renvoi la liste de parcelleVoisine a cote de la parcelle qu'on veut ajouter
+     * @param parcelle parcelle a ajouter
+     * @return Retourne la liste de ParcelleVoisine
      */
-    private void setVoisin(ParcelleEtVoisines parcelle, ParcelleEtVoisines parcelleVoisine) throws ParcelleNonVoisineException{
-        parcelle.addVoisine(parcelleVoisine);
-        parcelleVoisine.addVoisine(parcelle);
-    }
-
-    /**
-     * Verifie dans chaque parcelle de la liste si la parcelle ajouter peut etre un des voisins de ces parcelles
-     * @param parcelleACheck
-     * @throws ParcelleNonVoisineException
-     */
-    public void addVoisinParcelle(ParcelleEtVoisines parcelleACheck) throws ParcelleNonVoisineException{
-        for(ParcelleEtVoisines parcelleVoisin : parcelles){
-            Parcelle parcelle = parcelleVoisin.getParcelleCible();
-            if(parcelleACheck.peutEtreVoisine(parcelle)){
-                setVoisin(parcelleACheck,parcelleVoisin);
-                break;
+    public List<ParcelleEtVoisines> getVoisinPlateau(ParcelleCouleur parcelle){
+        List<ParcelleEtVoisines> listParcelle = new ArrayList<>();
+        for(ParcelleEtVoisines parcelleListe : parcelles){
+            if(parcelleListe.peutEtreVoisine(parcelle)){
+                listParcelle.add(parcelleListe);
             }
         }
+        return listParcelle;
     }
 
     /**
-     * Ajoute les nouvelles positions Disponible pour la parcelle ajouter dans la liste
-     * @param parcelleEtVoisines qui vient d'etre ajouter a la liste
+     * Ajoute a la liste de position disponible, les nouvelles positions possibles avec la nouvelle parcelle
+     * @param parcelle parcelle ajouter
      */
-    private void addNewPosition(ParcelleEtVoisines parcelleEtVoisines){
-        for(Parcelle parcelle : parcelleEtVoisines.getParcellesVoisines()){
-            if(parcelle.getClass() == ParcelleDisponible.class){
-                if(!positionDisponible.contains(parcelle.getPosition())){
-                    positionDisponible.add(parcelle.getPosition());
+    private void addNewPosition(ParcelleEtVoisines parcelle){
+        Parcelle[] listParcelleVoisin = parcelle.getParcellesVoisines();
+        for(int i = 0;i < 3; i++){
+            if(listParcelleVoisin[i].getClass() == ParcelleDisponible.class){
+                Position positionParcelleVoisin = listParcelleVoisin[i].getPosition();
+                if(listParcelleVoisin[i+3].getClass() == ParcelleCouleur.class && !positionDisponible.contains(positionParcelleVoisin)){
+                    positionDisponible.add(positionParcelleVoisin);
+                }
+            }
+        }
+        for(int i = 3;i < 6; i++){
+            if(listParcelleVoisin[i].getClass() == ParcelleDisponible.class){
+                Position positionParcelleVoisin = listParcelleVoisin[i].getPosition();
+                if(listParcelleVoisin[i-3].getClass() == ParcelleCouleur.class && !positionDisponible.contains(positionParcelleVoisin)){
+                    positionDisponible.add(positionParcelleVoisin);
                 }
             }
         }
     }
 
     /**
-     * Ajoute une parcelle au plateau
-     * @param parcelle a ajouter
+     * Ajoute une nouvelle Parcelle au plateau
+     * @param parcelle qu'on souhaite ajouter
      */
-
-    public void addParcelle(ParcelleEtVoisines parcelle) {
+    public void addParcelle(ParcelleCouleur parcelle) {
         try {
-            addVoisinParcelle(parcelle);
-            positionDisponible.remove(parcelle.getParcelleCible().getPosition());
-            addNewPosition(parcelle);
+            List<ParcelleEtVoisines> listVoisins = getVoisinPlateau(parcelle);
+            ParcelleEtVoisines parcelleEtVoisines = new ParcelleEtVoisines(parcelle,listVoisins);
+            parcelles.add(parcelleEtVoisines);
+            positionDisponible.remove(parcelle.getPosition());
+            addNewPosition(parcelleEtVoisines);
 
         } catch (ParcelleNonVoisineException e) {
             System.out.println(e);

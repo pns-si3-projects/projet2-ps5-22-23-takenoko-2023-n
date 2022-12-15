@@ -39,8 +39,7 @@ public class Joueur {
         List<Position> listPositionDisponible = Jeu.plateau.getPositionDisponible();
         int nombreAleatoire = (int) (Math.random() * listPositionDisponible.size());
         ParcelleCouleur parcelleCouleur = new ParcelleCouleur(listPositionDisponible.get(nombreAleatoire));
-        ParcelleEtVoisines parcelleVoisines = new ParcelleEtVoisines(parcelleCouleur);
-        Jeu.plateau.addParcelle(parcelleVoisines);
+        Jeu.plateau.addParcelle(parcelleCouleur);
         return "Le joueur "+ nom + " a ajoute une Parcelle a la position " + parcelleCouleur.getPosition();
     }
 
