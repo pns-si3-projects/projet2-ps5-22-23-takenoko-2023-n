@@ -62,7 +62,7 @@ public class Jeu {
      * Affiche l'initialisation du jeu
      * @return Retourne le message que la partie commence
      */
-    @Override
+
     public String toString(){
         return "Un nouveau jeu commence !\nJoueur : " + joueur.getNom();
     }
