@@ -12,6 +12,7 @@ import java.lang.Math;
 
 public class Joueur {
     private String nom;
+    private ObjectifParcelle objectifParcelle;
 
     /**
      * Construction du joueur
@@ -20,6 +21,10 @@ public class Joueur {
 
     public Joueur(String nom){
         this.nom = nom;
+    }
+
+    public void addObjectif(ObjectifParcelle objectifParcelle){
+        this.objectifParcelle = objectifParcelle;
     }
 
     /**

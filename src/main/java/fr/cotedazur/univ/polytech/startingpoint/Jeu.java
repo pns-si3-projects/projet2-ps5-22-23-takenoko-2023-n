@@ -19,6 +19,8 @@ public class Jeu {
 
     public Jeu(Joueur joueur) {
         this.joueur = joueur;
+        ObjectifParcelle objectifParcelle = new ObjectifParcelle(3);
+        this.joueur.addObjectif(objectifParcelle);
         plateau = new Plateau();
     }
 
