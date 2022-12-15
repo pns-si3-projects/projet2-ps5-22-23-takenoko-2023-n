@@ -27,8 +27,8 @@ public class Joueur {
      * @return Renvoie le message de l'action effectuee
      */
     public String choisiAction(){
-        String message = placeParcelleCouleur();
-        return message;
+        String action = placeParcelleCouleur();
+        return action;
     }
 
     /**
@@ -36,30 +36,11 @@ public class Joueur {
      * @return Renvoie le message de quelle parcelle a ete place
      */
     private String placeParcelleCouleur(){
-        List<Position> listPositionDisponible = ajoutPositionDisponibleEtang();
+        List<Position> listPositionDisponible = Jeu.plateau.getPositionDisponible();
         int nombreAleatoire = (int) (Math.random() * listPositionDisponible.size());
         ParcelleCouleur parcelleCouleur = new ParcelleCouleur(listPositionDisponible.get(nombreAleatoire));
-        Parcelle etang = Jeu.plateau.getParcelles().get(0).getParcelleCible();
-        List<Parcelle> listParcelleVoisine = new ArrayList<>();
-        listParcelleVoisine.add(etang);
-        Jeu.plateau.addParcelle(parcelleCouleur,listParcelleVoisine);
+        Jeu.plateau.addParcelle(parcelleCouleur);
         return "Le joueur "+ nom + " a ajoute une Parcelle a la position " + parcelleCouleur.getPosition();
-    }
-
-    /**
-     * Ajoute les positions disponible autour de l'etang (methode temporaire)
-     * @return Renvoie une liste de position disponible autour de l'etang
-     */
-
-    private List<Position> ajoutPositionDisponibleEtang(){
-        List<Position> listPositionDisponible = new ArrayList<>();
-        listPositionDisponible.add(new Position(2,0));
-        listPositionDisponible.add(new Position(1,1));
-        listPositionDisponible.add(new Position(-1,1));
-        listPositionDisponible.add(new Position(-2,0));
-        listPositionDisponible.add(new Position(-1,-1));
-        listPositionDisponible.add(new Position(1,-1));
-        return  listPositionDisponible;
     }
 
     /**
