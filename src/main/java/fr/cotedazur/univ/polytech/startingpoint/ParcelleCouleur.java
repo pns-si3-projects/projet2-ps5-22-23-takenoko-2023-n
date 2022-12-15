@@ -31,12 +31,9 @@ public class ParcelleCouleur implements Parcelle{
     @Override
     public boolean equals(Object obj) {
         if(this == obj) return true;
-        else if(obj == null) return false;
-        if(obj instanceof Parcelle) {
-            Parcelle parcelleToCompare = (Parcelle) obj;
-            return position.equals(parcelleToCompare.getPosition());
-        }
-        return false;
+        else if(obj == null || obj.getClass() != this.getClass()) return false;
+        ParcelleCouleur parcelleToCompare = (ParcelleCouleur) obj;
+        return position.equals(parcelleToCompare.getPosition());
     }
 
     @Override
