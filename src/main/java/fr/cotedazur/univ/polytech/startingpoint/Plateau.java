@@ -11,6 +11,7 @@ import java.util.List;
 public class Plateau {
     private final List<ParcelleEtVoisines> parcelles;
     private final List<Position> positionDisponible;
+    private List<ParcelleCouleur> parcelleAvecBambou;
 
     /**
      * Constructeur par défaut qui permet d'initialiser le jeu avec un Etang
@@ -25,6 +26,8 @@ public class Plateau {
             Parcelle parcellePossible = etangEtVoisines.getParcellesVoisines()[i];
             positionDisponible.add(parcellePossible.getPosition());
         }
+        parcelleAvecBambou=new ArrayList<>();
+        addParcelle(etangEtVoisines);
     }
 
     /**
@@ -96,6 +99,11 @@ public class Plateau {
 
         } catch (ParcelleNonVoisineException | ParcelleExistanteException e) {
             System.out.println(e);
+        }
+    }
+    public void addParcelleAvecBambou(ParcelleCouleur parcelleCouleur){
+        if(parcelleCouleur.addBambou(parcelleCouleur.getPosition())){
+            parcelleAvecBambou.add(parcelleCouleur);
         }
     }
 }

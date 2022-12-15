@@ -5,7 +5,7 @@ import java.util.Objects;
 public class ParcelleCouleur implements Parcelle{
     private final Position position;
     private Bambou bambou;
-    private int compteurBambou=0;
+    private static int compteurBambou=0;
 
     /**
      * Constructeur de la classe ParcelleCouleur
@@ -44,10 +44,9 @@ public class ParcelleCouleur implements Parcelle{
     /**
      * ajoute le position de la parcelle au bambou
      * @param p position de la parcelle
-     * @param bambou ajout bambou a la parcelle
      * @return true si on a ajouter un bambou a la parcelle, fasle si on  a pas pu ajouter un bambou a la parcelle
      */
-    public boolean addBambou(Position p,Bambou bambou){
+    public boolean addBambou(Position p){
         if(compteurBambou<4){
             bambou=new Bambou(p);
             compteurBambou++;
