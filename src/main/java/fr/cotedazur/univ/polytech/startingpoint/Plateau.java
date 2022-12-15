@@ -12,9 +12,10 @@ public class Plateau {
     private final List<ParcelleEtVoisines> parcelles;
     private final List<Position> positionDisponible;
     private List<ParcelleCouleur> parcelleAvecBambou;
+    private final Panda panda;
 
     /**
-     * Constructeur par défaut qui permet d'initialiser le jeu avec un Etang
+     * Constructeur par défaut qui permet d'initialiser le jeu avec un Etang et un Panda
      */
     public Plateau() {
         Etang etang = new Etang();
@@ -28,11 +29,11 @@ public class Plateau {
         }
         parcelleAvecBambou=new ArrayList<>();
         addParcelle(etangEtVoisines);
+        panda = new Panda();
     }
 
     /**
      * Getter des Parcelles en jeu
-     *
      * @return Retourne la liste de Parcelle en jeu
      */
     public List<ParcelleEtVoisines> getParcelles() {
@@ -45,6 +46,18 @@ public class Plateau {
      */
     public List<Position> getPositionDisponible() {
         return positionDisponible;
+    }
+
+    /**
+     * Getter pour le Panda
+     * @return le panda
+     */
+    public Panda getPanda() {
+        return panda;
+    }
+
+    public void addParcelle(ParcelleEtVoisines parcelleEtVoisines) {
+        parcelles.add(parcelleEtVoisines);
     }
 
     /**

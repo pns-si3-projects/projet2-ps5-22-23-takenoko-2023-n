@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 public class Panda {
-    private Position position;
+    private final Position position;
 
     /**
      * Constructeur par defaut
