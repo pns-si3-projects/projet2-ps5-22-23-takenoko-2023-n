@@ -107,8 +107,8 @@ public class ParcelleEtVoisines {
         int yC = parcelleCible.getPosition().getY();
 
         if(yV == yC){ // Si proche et sur la même ligne
-            if(xV - 2 == xC) return 4;
-            else if(xV+2 == xC) return 1;
+            if(xV - 2 == xC) return 1;
+            else if(xV+2 == xC) return 4;
         }
         else{ // Si proche au-dessus ou en-dessous
             if(yV - 1 == yC){

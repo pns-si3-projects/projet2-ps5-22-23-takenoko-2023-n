@@ -49,9 +49,10 @@ public class Plateau {
      * @param parcelle parcelle a ajouter
      * @return Retourne la liste de ParcelleVoisine
      */
-    public List<ParcelleEtVoisines> getVoisinPlateau(ParcelleCouleur parcelle){
+    public List<ParcelleEtVoisines> getVoisinPlateau(ParcelleCouleur parcelle) throws ParcelleExistanteException{
         List<ParcelleEtVoisines> listParcelle = new ArrayList<>();
         for(ParcelleEtVoisines parcelleListe : parcelles){
+            if(parcelle.getPosition().equals(parcelle)) throw new ParcelleExistanteException(parcelle);
             if(parcelleListe.peutEtreVoisine(parcelle)){
                 listParcelle.add(parcelleListe);
             }
@@ -65,20 +66,18 @@ public class Plateau {
      */
     private void addNewPosition(ParcelleEtVoisines parcelle){
         Parcelle[] listParcelleVoisin = parcelle.getParcellesVoisines();
-        for(int i = 0;i < 3; i++){
+        for(int i = 0;i < 5; i++){
             if(listParcelleVoisin[i].getClass() == ParcelleDisponible.class){
                 Position positionParcelleVoisin = listParcelleVoisin[i].getPosition();
-                if(listParcelleVoisin[i+3].getClass() == ParcelleCouleur.class && !positionDisponible.contains(positionParcelleVoisin)){
+                if(listParcelleVoisin[i+1].getClass() == ParcelleCouleur.class && !positionDisponible.contains(positionParcelleVoisin)){
                     positionDisponible.add(positionParcelleVoisin);
                 }
             }
         }
-        for(int i = 3;i < 6; i++){
-            if(listParcelleVoisin[i].getClass() == ParcelleDisponible.class){
-                Position positionParcelleVoisin = listParcelleVoisin[i].getPosition();
-                if(listParcelleVoisin[i-3].getClass() == ParcelleCouleur.class && !positionDisponible.contains(positionParcelleVoisin)){
-                    positionDisponible.add(positionParcelleVoisin);
-                }
+        if(listParcelleVoisin[5].getClass() == ParcelleDisponible.class){ // Pour verifier si la parcelle peut etre ajouter au nouvelle position
+            Position positionParcelleVoisin = listParcelleVoisin[5].getPosition();
+            if(listParcelleVoisin[0].getClass() == ParcelleCouleur.class && !positionDisponible.contains(positionParcelleVoisin)){
+                positionDisponible.add(positionParcelleVoisin);
             }
         }
     }
@@ -95,7 +94,7 @@ public class Plateau {
             positionDisponible.remove(parcelle.getPosition());
             addNewPosition(parcelleEtVoisines);
 
-        } catch (ParcelleNonVoisineException e) {
+        } catch (ParcelleNonVoisineException | ParcelleExistanteException e) {
             System.out.println(e);
         }
     }
