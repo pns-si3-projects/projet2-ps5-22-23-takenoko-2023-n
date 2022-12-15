@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class ParcelleEtVoisinesTest {
     ParcelleEtVoisines pEVEtang;
     ParcelleEtVoisines pEVC1;
+    ParcelleEtVoisines pEVC2;
     Etang etang;
     ParcelleCouleur pC1_1;
     ParcelleCouleur pCm2_0;
     ParcelleCouleur pC3_1;
-    List<Parcelle> voisinesEtang;
-    List<Parcelle> voisinesC1;
+    List<ParcelleEtVoisines> voisinesEtang;
 
     @BeforeEach
     void setUp() {
@@ -25,11 +25,11 @@ class ParcelleEtVoisinesTest {
         pC1_1 = new ParcelleCouleur(new Position(1,1));
         pCm2_0 = new ParcelleCouleur(new Position(-2,0));
         pC3_1 = new ParcelleCouleur(new Position(3,1));
-        voisinesC1 = new ArrayList<>();
         voisinesEtang = new ArrayList<>();
-        voisinesC1.add(etang); // Etang est a cote de pC1_1
+        voisinesEtang.add(pEVEtang);
         try {
-            pEVC1 = new ParcelleEtVoisines(pC1_1, voisinesC1);
+            pEVC1 = new ParcelleEtVoisines(pC1_1, voisinesEtang);
+            pEVC2 = new ParcelleEtVoisines(pCm2_0,voisinesEtang);
         } catch (ParcelleNonVoisineException e) {
             throw new AssertionError(e);
         }
@@ -44,9 +44,9 @@ class ParcelleEtVoisinesTest {
 
     @Test
     void getParcellesVoisines() {
-        assertEquals(new ArrayList<Parcelle>(), pEVEtang.getParcellesVoisines());
-        assertEquals(voisinesC1, pEVC1.getParcellesVoisines());
-        assertNotEquals(new ArrayList<Parcelle>(), pEVC1.getParcellesVoisines());
+        assertEquals(pC1_1, pEVEtang.getParcellesVoisines()[0]);
+        assertEquals(pCm2_0, pEVEtang.getParcellesVoisines()[4]);
+        assertNotEquals(etang, pEVC1.getParcellesVoisines()[0]);
     }
 
     @Test
@@ -60,16 +60,11 @@ class ParcelleEtVoisinesTest {
     void addVoisine() {
         try {
             pEVEtang.addVoisine(pCm2_0);
-            voisinesEtang.add(pCm2_0);
-            pEVEtang.addVoisine(pC1_1);
-            voisinesEtang.add(pC1_1);
-            pEVC1.addVoisine(pC3_1);
-            voisinesC1.add(pC3_1);
         } catch (ParcelleNonVoisineException e) {
             throw new AssertionError(e);
         }
-        assertEquals(voisinesEtang, pEVEtang.getParcellesVoisines());
-        assertEquals(voisinesC1, pEVC1.getParcellesVoisines());
+        assertEquals(pEVEtang.getParcellesVoisines()[4], pCm2_0);
+        assertEquals(pEVC1.getParcellesVoisines()[3], etang);
         try {
             pEVEtang.addVoisine(pC3_1);
         } catch (ParcelleNonVoisineException e) {
