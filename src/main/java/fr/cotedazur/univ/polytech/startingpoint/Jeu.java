@@ -30,6 +30,8 @@ public class Jeu {
         affichage.affichage(DEBUT_DE_TOUR+"1");
         String message = joueur.choisiAction();
         affichage.affichage(message);
+        String message2 = joueur.choisiAction();
+        affichage.affichage(message2);
         affichage.affichage(FIN_DE_TOUR+"1");
     }
 

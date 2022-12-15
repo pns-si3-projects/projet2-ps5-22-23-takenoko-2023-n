@@ -27,8 +27,8 @@ public class Joueur {
      * @return Renvoie le message de l'action effectuee
      */
     public String choisiAction(){
-        String message = placeParcelleCouleur();
-        return message;
+        String action = placeParcelleCouleur();
+        return action;
     }
 
     /**
