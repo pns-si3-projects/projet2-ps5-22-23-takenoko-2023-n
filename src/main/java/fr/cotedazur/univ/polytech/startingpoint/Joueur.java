@@ -1,8 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.lang.Math;
+import java.util.Optional;
 
 /**
  * Classe du joueur qui effectue des actions
@@ -45,7 +44,10 @@ public class Joueur {
         int nombreAleatoire = (int) (Math.random() * listPositionDisponible.size());
         ParcelleCouleur parcelleCouleur = new ParcelleCouleur(listPositionDisponible.get(nombreAleatoire));
         Jeu.plateau.addParcelle(parcelleCouleur);
-        return "Le joueur "+ nom + " a ajoute une Parcelle a la position " + parcelleCouleur.getPosition();
+        String message = "Le joueur "+ nom + " a ajoute une Parcelle a la position " + parcelleCouleur.getPosition();
+        Optional<String> objectif = objectifParcelle.checkObjectifNombreParcelleAposer(parcelleCouleur);
+        if(objectif.isPresent()) message += objectif.get();
+        return message;
     }
 
     /**

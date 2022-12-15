@@ -19,7 +19,7 @@ public class Jeu {
 
     public Jeu(Joueur joueur) {
         this.joueur = joueur;
-        ObjectifParcelle objectifParcelle = new ObjectifParcelle(3);
+        ObjectifParcelle objectifParcelle = new ObjectifParcelle(3,2);
         this.joueur.addObjectif(objectifParcelle);
         plateau = new Plateau();
     }
