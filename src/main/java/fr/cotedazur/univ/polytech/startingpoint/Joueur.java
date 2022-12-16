@@ -104,10 +104,53 @@ public class Joueur {
     }
 
     /**
+     * Permet au joueur de deplacer le Panda sur une autre Parcelle
+     * @return Renvoie le message de l'action effectuee
+     */
+    public String deplacePanda(){
+        String action = actionDeplacePanda();
+        return action;
+    }
+
+    /**
+     * Renvoie une liste de Parcelle possibles pour deplacer le Panda
+     * @param panda qui dit où il pourrait se deplacer
+     * @param parcelles qui est la liste des choix de deplacement
+     * @return une liste de Parcelle possibles pour deplacer le Panda
+     */
+    private List<Parcelle> getParcellesDeplacement(Panda panda, List<ParcelleEtVoisines> parcelles) {
+        List<Parcelle> parcellesDeplacement = new ArrayList<>();
+        for (ParcelleEtVoisines parcelle : parcelles) {
+            if (panda.deplacementPossible(parcelle.getParcelleCible().getPosition())) {
+                parcellesDeplacement.add(parcelle.getParcelleCible());
+            }
+        }
+        return parcellesDeplacement;
+    }
+
+    /**
+     * Deplace le Panda sur une Parcelle aléatoire dans les possibles
+     * @return le message du deplacement du Panda
+     */
+    private String actionDeplacePanda() {
+        List<ParcelleEtVoisines> parcelles =  Jeu.plateau.getParcelles();
+        Panda panda = Jeu.plateau.getPanda();
+        List<Parcelle> parcelleDeplacement = getParcellesDeplacement(panda, parcelles);
+        int nombreAleatoire = (int) (Math.random() * parcelleDeplacement.size());
+        Parcelle parcelleChoisie = parcelleDeplacement.get(nombreAleatoire);
+
+        int x = parcelleChoisie.getPosition().getX();
+        int y = parcelleChoisie.getPosition().getY();
+        int xPanda = panda.getPosition().getX();
+        int yPanda = panda.getPosition().getY();
+        panda.deplacePanda(x - xPanda, y - yPanda);
+        return "Le joueur "+ nom + " deplace le Panda sur la parcelle " + parcelleChoisie.getPosition();
+    }
+
+    /**
      * Getter du Nom
      * @return Renvoie son Nom
      */
-
     public String getNom(){
         return nom;
     }

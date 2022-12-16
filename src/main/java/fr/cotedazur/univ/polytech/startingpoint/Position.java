@@ -45,6 +45,11 @@ public class Position {
         return y;
     }
 
+    public void deplace(int x, int y) {
+        this.x += x;
+        this.y += y;
+    }
+
     /**
      * redefinition de la methode equals
      * @param o objet a comparer
