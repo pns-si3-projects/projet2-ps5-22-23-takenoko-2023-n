@@ -25,22 +25,23 @@ public class Joueur {
     }
 
     /**
-     * Ajoute un objectif au joueur
-     * @param objectifParcelle objectif a ajouter
-     */
-    public void addObjectif(ObjectifParcelle objectifParcelle){
-        if(this.objectifParcelle.isEmpty()){
-            this.objectifParcelle = Optional.of(objectifParcelle);
-        }
-    }
-
-    /**
      * Permet au joueur de choisir une action (en ce moment de poser une parcelle) et renvoie un message de l'action faite
      * @return Renvoie le message de l'action effectuee
      */
     public String choisiAction(){
-        String action = placeParcelleCouleur();
-        return action;
+        if(objectifParcelle.isPresent()){
+            return placeParcelleCouleur();
+        }
+        else {
+            piocheObjectif();
+            return "Le joueur"+ nom +" a pioche un nouveau objectif qui vaut " + objectifParcelle.get().getPoint();
+        }
+    }
+    public void piocheObjectif(){
+        int nombreAleatoire = (int) (Math.random() * Jeu.piocheObjectifParcelle.size());
+        ObjectifParcelle objectifParcelle = Jeu.piocheObjectifParcelle.get(nombreAleatoire);
+        Jeu.piocheObjectifParcelle.remove(nombreAleatoire);
+        this.objectifParcelle = Optional.of(objectifParcelle);
     }
 
     /**
@@ -92,6 +93,14 @@ public class Joueur {
             }
         }
         return "";
+    }
+
+    /**
+     * Getter de points
+     * @return Renvoie les points du joueur
+     */
+    public int getNombreDePoint(){
+        return nombreDePoint;
     }
 
     /**
