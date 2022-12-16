@@ -102,7 +102,7 @@ public class Plateau {
         }
     }
     public void addParcelleAvecBambou(ParcelleCouleur parcelleCouleur){
-        if(parcelleCouleur.addBambou(parcelleCouleur.getPosition())){
+        if(parcelleCouleur.addBambou()){
             parcelleAvecBambou.add(parcelleCouleur);
         }
     }

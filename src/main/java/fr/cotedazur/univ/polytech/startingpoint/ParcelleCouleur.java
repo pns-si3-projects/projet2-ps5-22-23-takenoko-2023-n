@@ -21,7 +21,7 @@ public class ParcelleCouleur implements Parcelle{
      * @return la valeur de l'attribuy bambou
      */
     public Bambou getBambou() {
-        return bambou;
+        return new Bambou(position) ;
     }
 
 
@@ -46,9 +46,8 @@ public class ParcelleCouleur implements Parcelle{
      * @param p position de la parcelle
      * @return true si on a ajouter un bambou a la parcelle, fasle si on  a pas pu ajouter un bambou a la parcelle
      */
-    public boolean addBambou(Position p){
+    public boolean addBambou(){
         if(compteurBambou<4){
-            bambou=new Bambou(p);
             compteurBambou++;
             return true;
         }else{

@@ -37,10 +37,10 @@ class ParcelleCouleurTest {
 
     @Test
     void addBambou(){
-        assertTrue(pC1_1.addBambou(pC1_1.getPosition()));
-        assertTrue(pC2_1.addBambou(pC2_1.getPosition()));
-        assertTrue(pC1_1.addBambou(pC1_1.getPosition()));
-        assertTrue(pC1_1.addBambou(pC1_1.getPosition()));
-        assertFalse(pC1_1.addBambou(pC1_1.getPosition()));
+        assertTrue(pC1_1.addBambou());
+        assertTrue(pC2_1.addBambou());
+        assertTrue(pC1_1.addBambou());
+        assertTrue(pC1_1.addBambou());
+        assertFalse(pC1_1.addBambou());
     }
 }

@@ -30,7 +30,7 @@ class PlateauTest {
         listeEtang_PC2 = new ArrayList<>();
         listePC1_Etang = new ArrayList<>();
         listeParcelleAvecBambou=new ArrayList<>();
-        pC1_m1b.addBambou(pC1_m1b.getPosition()); // -> a regler car bissard
+        pC1_m1b.addBambou();
         listeEtang_PC2.add(etang);
         listeEtang_PC2.add(pC2_0);
         listePC1_Etang.add(pC1_m1);
