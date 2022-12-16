@@ -45,7 +45,7 @@ public class ObjectifParcelle {
      * @return Renvoie ce qui reste a faire dans l'objectif
      */
     public String etatObjectif(){
-        return "Il reste " + nombreParcelleAposer + " parcelle(s) a poser";
+        return "Il reste " + nombreRestantFinirObjectif + " parcelle(s) a poser";
     }
 
     /**
