@@ -6,12 +6,13 @@ import java.util.Optional;
 /**
  * Classe du joueur qui effectue des actions
  * @author equipe N
- * @version 1.0
+ * @version 2.0
  */
 
 public class Joueur {
     private String nom;
-    private ObjectifParcelle objectifParcelle;
+    private Optional<ObjectifParcelle> objectifParcelle;
+    private int nombreDePoint;
 
     /**
      * Construction du joueur
@@ -20,10 +21,17 @@ public class Joueur {
 
     public Joueur(String nom){
         this.nom = nom;
+        objectifParcelle = Optional.empty();
     }
 
+    /**
+     * Ajoute un objectif au joueur
+     * @param objectifParcelle objectif a ajouter
+     */
     public void addObjectif(ObjectifParcelle objectifParcelle){
-        this.objectifParcelle = objectifParcelle;
+        if(this.objectifParcelle.isEmpty()){
+            this.objectifParcelle = Optional.of(objectifParcelle);
+        }
     }
 
     /**
@@ -45,9 +53,45 @@ public class Joueur {
         ParcelleCouleur parcelleCouleur = new ParcelleCouleur(listPositionDisponible.get(nombreAleatoire));
         Jeu.plateau.addParcelle(parcelleCouleur);
         String message = "Le joueur "+ nom + " a ajoute une Parcelle a la position " + parcelleCouleur.getPosition();
-        Optional<String> objectif = objectifParcelle.checkObjectifNombreParcelleAposer(parcelleCouleur);
-        if(objectif.isPresent()) message += objectif.get();
-        return message;
+        char avancee = avanceeObjectif(parcelleCouleur);
+        return message + messageObjectif(avancee);
+    }
+
+    /**
+     * Methode qui permet d'avancer l'objectif et donne un etat d'avancement
+     * @param parcelle a verifier pour l'avancement
+     * @return Retourne l'avancement de l'objectif
+     */
+    private char avanceeObjectif(Parcelle parcelle){
+        if(objectifParcelle.isPresent()){
+            ObjectifParcelle objectif = objectifParcelle.get();
+            if(objectif.avanceObjectif(parcelle)) {
+                if (objectif.checkObjectifTermine()) {
+                    nombreDePoint += objectif.getPoint();
+                    return 't';
+                }
+                else return 'a';
+            }
+        }
+        return ' ';
+    }
+
+    /**
+     * Renvoie le message de l'avancee d'un objectif ou la fin d'un objectif
+     * @return Retourne le message de l'avancee d'un objectif ou la fin d'un objectif
+     */
+    private String messageObjectif(char status){
+        if(objectifParcelle.isPresent()){
+            if(status == 't'){
+                String message = objectifParcelle.get().toString();
+                objectifParcelle = Optional.empty();
+                return "\n" + message + "est termine !\nLe nombre de points du joueur est de " + nombreDePoint;
+            }
+            else if(status == 'a'){
+                return "\n" + objectifParcelle.get().etatObjectif();
+            }
+        }
+        return "";
     }
 
     /**
