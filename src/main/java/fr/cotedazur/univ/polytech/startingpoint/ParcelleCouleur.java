@@ -5,7 +5,7 @@ import java.util.Objects;
 public class ParcelleCouleur implements Parcelle{
     private final Position position;
     private Bambou bambou;
-    private static int compteurBambou=0;
+    private int compteurBambou;
 
     /**
      * Constructeur de la classe ParcelleCouleur
@@ -14,6 +14,7 @@ public class ParcelleCouleur implements Parcelle{
     public ParcelleCouleur(Position p){
         if(p == null) throw new NullPointerException("La position ne doit pas etre vide");
         position = p;
+        compteurBambou = 0;
     }
 
     /**
@@ -43,7 +44,6 @@ public class ParcelleCouleur implements Parcelle{
 
     /**
      * ajoute le position de la parcelle au bambou
-     * @param p position de la parcelle
      * @return true si on a ajouter un bambou a la parcelle, fasle si on  a pas pu ajouter un bambou a la parcelle
      */
     public boolean addBambou(){

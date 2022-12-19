@@ -41,6 +41,7 @@ class ParcelleCouleurTest {
         assertTrue(pC2_1.addBambou());
         assertTrue(pC1_1.addBambou());
         assertTrue(pC1_1.addBambou());
+        assertTrue(pC1_1.addBambou());
         assertFalse(pC1_1.addBambou());
     }
 }

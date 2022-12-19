@@ -28,7 +28,6 @@ public class Plateau {
             positionDisponible.add(parcellePossible.getPosition());
         }
         parcelleAvecBambou=new ArrayList<>();
-        addParcelle(etangEtVoisines);
         panda = new Panda();
     }
 
