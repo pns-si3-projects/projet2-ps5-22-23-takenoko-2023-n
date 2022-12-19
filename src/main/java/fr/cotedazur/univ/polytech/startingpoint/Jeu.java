@@ -45,7 +45,7 @@ public class Jeu {
         affichage.affichage(DEBUT_DE_TOUR+nombredeTour);
         String message = joueur.choisiAction();
         affichage.affichage(message);
-        String message2 = joueur.placeParcelle();
+        String message2 = joueur.choisiAction();
         affichage.affichage(message2);
         nombredeTour++;
         affichage.affichage(FIN_DE_TOUR+(nombredeTour-1));

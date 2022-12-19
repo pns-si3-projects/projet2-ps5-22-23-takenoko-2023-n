@@ -60,9 +60,6 @@ public class Plateau {
         parcelles.add(parcelleEtVoisines);
     }
 
-    public void addParcelle(ParcelleEtVoisines parcelleEtVoisines) {
-        parcelles.add(parcelleEtVoisines);
-    }
 
     /**
      * Renvoi la liste de parcelleVoisine a cote de la parcelle qu'on veut ajouter
