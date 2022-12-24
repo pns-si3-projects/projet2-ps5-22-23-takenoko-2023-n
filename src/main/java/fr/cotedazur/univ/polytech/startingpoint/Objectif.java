@@ -5,16 +5,6 @@ public abstract class Objectif {
     protected int nombrePoints;
 
 
-    // Définition des constructeurs
-    /**
-     * Constructeur pour un Objectif
-     * @param nbPoints > 0 est le nombre de points de l'Objectif
-     */
-    protected Objectif(int nbPoints) {
-        nombrePoints = nbPoints;
-    }
-
-
     // Accesseurs et méthode toString
     /**
      * Renvoie le nombre de points de l'Objectif
@@ -24,14 +14,8 @@ public abstract class Objectif {
         return nombrePoints;
     }
 
-    /**
-     * Renvoie l'objectif à réaliser
-     * @return l'objet désignant l'objectif à réaliser
-     */
-    protected abstract Object getObjectifs();
-
     @Override
     public String toString() {
-        return "Objectif de " + nombrePoints + " points";
+        return "Objectif qui vaut " + nombrePoints + " points";
     }
 }
