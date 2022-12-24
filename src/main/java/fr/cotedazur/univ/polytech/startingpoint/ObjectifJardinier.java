@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import java.util.Objects;
+
 public class ObjectifJardinier extends Objectif {
     // Définition des attributs
     private int nombreBambousAFairePousser;
@@ -32,5 +34,24 @@ public class ObjectifJardinier extends Objectif {
         s += nombreBambousAFairePousser + " bambous à faire pousser et vaut ";
         s += nombrePoints + " points";
         return s;
+    }
+
+    /**
+     * Compare 2 ObjectifJardinier par le nombre de points et le nombre de bambous à faire pousser
+     * @param o est l'objet à comparer avec celui actuel
+     * @return si l'ObjectifJardinier en paramètre a le même nombre de points et de bambous à faire pousser
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ObjectifJardinier that = (ObjectifJardinier) o;
+        return getNombreBambousAFairePousser() == that.getNombreBambousAFairePousser();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getNombreBambousAFairePousser());
     }
 }

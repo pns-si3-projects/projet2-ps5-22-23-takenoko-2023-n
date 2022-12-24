@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import java.util.Objects;
+
 public class ObjectifParcelle extends Objectif {
     // Définition des attributs
     private int nombreParcelles;
@@ -17,7 +19,7 @@ public class ObjectifParcelle extends Objectif {
     }
 
 
-    // Accesseurs et méthode toString
+    // Accesseurs et méthode toString et equals
     /**
      * Renvoie le nombre de parcelles irriguées qui doivent se retrouver sur le plateau
      * @return le nombre de parcelles iriguées qui doivent être sur le plateau
@@ -32,5 +34,24 @@ public class ObjectifParcelle extends Objectif {
         s += nombreParcelles + " parcelles et vaut ";
         s += nombrePoints + " points";
         return s;
+    }
+
+    /**
+     * Compare 2 ObjectifParcelle par le nombre de points et le nombre de parcelles
+     * @param o est l'objet à comparer avec celui actuel
+     * @return si l'ObjectifParcelle en paramètre a le même nombre de points et de parcelles
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ObjectifParcelle that = (ObjectifParcelle) o;
+        return getNombreParcelles() == that.getNombreParcelles();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getNombreParcelles());
     }
 }
