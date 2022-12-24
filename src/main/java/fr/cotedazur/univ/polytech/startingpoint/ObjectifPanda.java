@@ -29,7 +29,7 @@ public class ObjectifPanda extends Objectif {
     @Override
     public String toString() {
         String s = "Objectif de ";
-        s += nombreBambousAManger + " bambous et vaut ";
+        s += nombreBambousAManger + " bambous à posséder et vaut ";
         s += nombrePoints + " points";
         return s;
     }
