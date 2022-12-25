@@ -2,6 +2,10 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.Objects;
 
+/**
+ * Représente les objectifs des parcelles avec un nombre de parcelles à placer et irriguer si besoin
+ * @author équipe N
+ */
 public class ObjectifParcelle extends Objectif {
     // Définition des attributs
     private int nombreParcelles;

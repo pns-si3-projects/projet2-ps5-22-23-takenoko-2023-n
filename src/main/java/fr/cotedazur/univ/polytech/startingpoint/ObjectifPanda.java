@@ -2,6 +2,10 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.Objects;
 
+/**
+ * Représente les objectifs du panda avec un nombre de bambous à manger
+ * @author équipe N
+ */
 public class ObjectifPanda extends Objectif {
     // Définition des attributs
     private int nombreBambousAManger;

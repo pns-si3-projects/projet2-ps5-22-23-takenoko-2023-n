@@ -2,6 +2,10 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.Objects;
 
+/**
+ * Généralise les objectifs du jeu par le nombre de points qui est commun
+ * @author équipe N
+ */
 public abstract class Objectif {
     // Définition des attributs
     protected int nombrePoints;

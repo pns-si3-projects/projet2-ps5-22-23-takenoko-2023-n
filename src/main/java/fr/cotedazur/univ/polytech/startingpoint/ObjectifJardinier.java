@@ -2,6 +2,10 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.Objects;
 
+/**
+ * Représente les objectifs du jardinier avec un nombre de bambous à faire pousser
+ * @author équipe N
+ */
 public class ObjectifJardinier extends Objectif {
     // Définition des attributs
     private int nombreBambousAFairePousser;
