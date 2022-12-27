@@ -37,6 +37,10 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
         return objectifPandaList[0] + objectifPandaList[1] + objectifPandaList[2] + objectifPandaList[3];
     }
 
+    public boolean isEmpty() {
+        return getNombreObjectifs() == 0;
+    }
+
     @Override
     public String toString() {
         return "Pioche d'objectifs de panda : " + getNombreObjectifs() + " cartes.";
@@ -46,7 +50,7 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
     // Méthodes d'utilisation
     @Override
     public Objectif pioche() {
-        assert getNombreObjectifs()>0 : "La pioche d'objectifs de panda est vide";
+        assert !isEmpty() : "La pioche d'objectifs de panda est vide";
         int positionCarte = random.nextInt(getNombreObjectifs());
         if (positionCarte < 0 || positionCarte >= getNombreObjectifs()) throw new IndexOutOfBoundsException("La position demandée dans la pioche est impossible");
         return prendCarteObjectifPanda(positionCarte);
