@@ -5,7 +5,10 @@ public class Main {
         Joueur joueur = new Joueur("Robot1");
         Jeu jeu = new Jeu(joueur);
         System.out.println(jeu);
-        jeu.tour();
+        Boolean etatjeu = false;
+        while (!etatjeu){
+            etatjeu = jeu.tour();
+        }
         System.out.println(jeu.finDePartie());
     }
 }

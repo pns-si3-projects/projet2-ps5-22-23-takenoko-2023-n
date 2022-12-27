@@ -1,6 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Classe qui contient le jeu, donc le plateau et le joueur
  * @author equipe N
@@ -8,7 +11,10 @@ package fr.cotedazur.univ.polytech.startingpoint;
  */
 public class Jeu {
     private Joueur joueur;
+    private int nombredeTour;
     protected static Plateau plateau;
+    protected static final List<ObjectifParcelle> piocheObjectifParcelle = new ArrayList<>();
+
     private final static String DEBUT_DE_TOUR = "Debut du tour numero ";
     private final static String FIN_DE_TOUR = "Fin du tour numero ";
 
@@ -19,20 +25,31 @@ public class Jeu {
 
     public Jeu(Joueur joueur) {
         this.joueur = joueur;
+        addPioche();
+        joueur.piocheObjectif();
         plateau = new Plateau();
+        nombredeTour = 1;
+    }
+
+    private void addPioche(){
+        piocheObjectifParcelle.add(new ObjectifParcelle(1,1));
+        piocheObjectifParcelle.add(new ObjectifParcelle(2,2));
+        piocheObjectifParcelle.add(new ObjectifParcelle(3,3));
     }
 
     /**
      * Fait un tour de jeu avec le joueur et affiche les actions du joueur
      */
-    public void tour(){
+    public boolean tour(){
         Afficheur affichage = new Afficheur();
-        affichage.affichage(DEBUT_DE_TOUR+"1");
+        affichage.affichage(DEBUT_DE_TOUR+nombredeTour);
         String message = joueur.choisiAction();
         affichage.affichage(message);
         String message2 = joueur.choisiAction();
         affichage.affichage(message2);
-        affichage.affichage(FIN_DE_TOUR+"1");
+        nombredeTour++;
+        affichage.affichage(FIN_DE_TOUR+(nombredeTour-1));
+        return joueur.getNombreDePoint() >= 4;
     }
 
     /**
