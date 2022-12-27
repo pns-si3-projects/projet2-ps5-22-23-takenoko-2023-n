@@ -7,7 +7,7 @@ import java.util.Random;
  * Gère la pioche des cartes objectif de parcelles
  * @author équipe N
  */
-public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> {
+public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implements PiocheObjectifInterface {
     // Définition des attributs
     private Random random;
 
@@ -46,6 +46,7 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> {
      * Renvoie le nombre de cartes que contient la pioche
      * @return le nombre de cartes dans la pioche
      */
+    @Override
     public int getNombreObjectifs() {
         return size();
     }
@@ -60,8 +61,9 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> {
     /**
      * Renvoie une carte objectif désignée dans la pioche
      * @return la carte objectif piochée
-     * @implNote La pioche ne doit pas être vide
+     * @implSpec la pioche ne doit pas être vide
      */
+    @Override
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de parcelles est vide";
         int positionCarte = random.nextInt(getNombreObjectifs());

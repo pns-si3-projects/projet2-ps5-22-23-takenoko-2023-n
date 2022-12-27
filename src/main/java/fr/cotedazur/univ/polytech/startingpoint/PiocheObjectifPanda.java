@@ -6,7 +6,7 @@ import java.util.Random;
  * Gère la pioche des cartes objectif de panda
  * @author équipe N
  */
-public class PiocheObjectifPanda {
+public class PiocheObjectifPanda implements PiocheObjectifInterface {
     // Définition des attributs
     private Random random;
     private int[] objectifPandaList;
@@ -36,6 +36,7 @@ public class PiocheObjectifPanda {
      * Renvoie le nombre de cartes que contient la pioche
      * @return le nombre de cartes dans la pioche
      */
+    @Override
     public int getNombreObjectifs() {
         return objectifPandaList[0] + objectifPandaList[1] + objectifPandaList[2] + objectifPandaList[3];
     }
@@ -50,8 +51,9 @@ public class PiocheObjectifPanda {
     /**
      * Renvoie une carte objectif désignée dans la pioche
      * @return la carte objectif piochée
-     * @implNote La pioche ne doit pas être vide
+     * @implSpec la pioche ne doit pas être vide
      */
+    @Override
     public Objectif pioche() {
         assert getNombreObjectifs()>0 : "La pioche d'objectifs de panda est vide";
         int positionCarte = random.nextInt(getNombreObjectifs());
@@ -59,6 +61,12 @@ public class PiocheObjectifPanda {
         return prendCarteObjectifPanda(positionCarte);
     }
 
+    /**
+     * Cherche l'objectifPanda à créer, le renvoie et le retire de la pioche
+     * @param position est la position de l'objectifPanda entre toutes les cartes restantes de la pioche
+     * @return l'objectifPanda désigné par la position
+     * @implSpec la position doit être comprise entre 0 et "le nombre de cartes de la pioche - 1"
+     */
     private ObjectifPanda prendCarteObjectifPanda(int position) {
         assert position>0 && position<getNombreObjectifs() : "La position demandée dans la pioche est impossible";
         ObjectifPanda res = null;
@@ -73,6 +81,12 @@ public class PiocheObjectifPanda {
         throw new IndexOutOfBoundsException("La position de la carte demandée est en dehors de la pioche");
     }
 
+    /**
+     * Crée l'objectifPanda désigné par la position et le renvoie
+     * @param position est la position de la carte objectifPanda dans le tableau de la pioche
+     * @return la carte objectifPanda demandée
+     * @implSpec la position doit être comprise entre 0 et 4
+     */
     private ObjectifPanda creeCarteObjectifPanda(int position) {
         return switch (position) {
             case 0 -> new ObjectifPanda(3, 2);
