@@ -65,6 +65,7 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> {
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de parcelles est vide";
         int positionCarte = random.nextInt(getNombreObjectifs());
-        return get(positionCarte);
+        if (positionCarte < 0 || positionCarte >= size()) throw new RuntimeException();
+        return remove(positionCarte);
     }
 }
