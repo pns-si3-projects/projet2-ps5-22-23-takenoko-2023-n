@@ -33,17 +33,18 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
 
     // Accesseurs et méthode toString
     @Override
-    public int getNombreObjectifs() {
+    public int getNombreObjectifsRestants() {
         return objectifPandaList[0] + objectifPandaList[1] + objectifPandaList[2] + objectifPandaList[3];
     }
 
+    @Override
     public boolean isEmpty() {
-        return getNombreObjectifs() == 0;
+        return getNombreObjectifsRestants() == 0;
     }
 
     @Override
     public String toString() {
-        return "Pioche d'objectifs de panda : " + getNombreObjectifs() + " cartes.";
+        return "Pioche d'objectifs de panda : " + getNombreObjectifsRestants() + " cartes.";
     }
 
 
@@ -51,8 +52,8 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
     @Override
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de panda est vide";
-        int positionCarte = random.nextInt(getNombreObjectifs());
-        if (positionCarte < 0 || positionCarte >= getNombreObjectifs()) throw new IndexOutOfBoundsException("La position demandée dans la pioche est impossible");
+        int positionCarte = random.nextInt(getNombreObjectifsRestants());
+        if (positionCarte < 0 || positionCarte >= getNombreObjectifsRestants()) throw new IndexOutOfBoundsException("La position demandée dans la pioche est impossible");
         return prendCarteObjectifPanda(positionCarte);
     }
 
@@ -63,7 +64,7 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
      * @implSpec la position doit être comprise entre 0 et "le nombre de cartes de la pioche - 1"
      */
     private ObjectifPanda prendCarteObjectifPanda(int position) {
-        assert position>0 && position<getNombreObjectifs() : "La position demandée dans la pioche est impossible";
+        assert position>0 && position< getNombreObjectifsRestants() : "La position demandée dans la pioche est impossible";
         ObjectifPanda res = null;
         int somme = 0;
         for (int i=0; i<objectifPandaList.length; i++) {

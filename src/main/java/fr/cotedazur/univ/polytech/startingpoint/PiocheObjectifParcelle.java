@@ -43,8 +43,13 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
 
     // Accesseurs et méthode toString
     @Override
-    public int getNombreObjectifs() {
+    public int getNombreObjectifsRestants() {
         return size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.isEmpty();
     }
 
     @Override
@@ -57,7 +62,7 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
     @Override
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de parcelles est vide";
-        int positionCarte = random.nextInt(getNombreObjectifs());
+        int positionCarte = random.nextInt(getNombreObjectifsRestants());
         if (positionCarte < 0 || positionCarte >= size()) throw new RuntimeException();
         return remove(positionCarte);
     }
