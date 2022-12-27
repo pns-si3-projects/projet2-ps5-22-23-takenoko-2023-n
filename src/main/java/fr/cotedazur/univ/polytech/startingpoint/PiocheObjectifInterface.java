@@ -7,6 +7,10 @@ public interface PiocheObjectifInterface {
      */
     public int getNombreObjectifsRestants();
 
+    /**
+     * Renvoie si la pioche d'objectifs ne contient plus de cartes
+     * @return true la pioche est vide, false sinon
+     */
     public boolean isEmpty();
 
     /**
