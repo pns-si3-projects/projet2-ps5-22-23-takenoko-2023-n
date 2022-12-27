@@ -32,10 +32,6 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
 
 
     // Accesseurs et méthode toString
-    /**
-     * Renvoie le nombre de cartes que contient la pioche
-     * @return le nombre de cartes dans la pioche
-     */
     @Override
     public int getNombreObjectifs() {
         return objectifPandaList[0] + objectifPandaList[1] + objectifPandaList[2] + objectifPandaList[3];
@@ -48,11 +44,6 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
 
 
     // Méthodes d'utilisation
-    /**
-     * Renvoie une carte objectif désignée dans la pioche
-     * @return la carte objectif piochée
-     * @implSpec la pioche ne doit pas être vide
-     */
     @Override
     public Objectif pioche() {
         assert getNombreObjectifs()>0 : "La pioche d'objectifs de panda est vide";

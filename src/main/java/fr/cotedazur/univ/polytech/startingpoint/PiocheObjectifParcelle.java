@@ -42,10 +42,6 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
 
 
     // Accesseurs et méthode toString
-    /**
-     * Renvoie le nombre de cartes que contient la pioche
-     * @return le nombre de cartes dans la pioche
-     */
     @Override
     public int getNombreObjectifs() {
         return size();
@@ -58,11 +54,6 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
 
 
     // Méthodes d'utilisation
-    /**
-     * Renvoie une carte objectif désignée dans la pioche
-     * @return la carte objectif piochée
-     * @implSpec la pioche ne doit pas être vide
-     */
     @Override
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de parcelles est vide";
