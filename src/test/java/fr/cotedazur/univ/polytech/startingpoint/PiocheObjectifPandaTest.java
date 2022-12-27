@@ -18,6 +18,11 @@ class PiocheObjectifPandaTest {
     void getNombreObjectifs() {
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         assertEquals(15, piocheObjectifPanda.getNombreObjectifs());
+        piocheObjectifPanda.pioche();
+        assertEquals(14, piocheObjectifPanda.getNombreObjectifs());
+        piocheObjectifPanda.pioche();
+        piocheObjectifPanda.pioche();
+        assertEquals(12, piocheObjectifPanda.getNombreObjectifs());
     }
 
     @Test
