@@ -21,14 +21,14 @@ class PiocheObjectifPandaTest {
     }
 
     @Test
-    void getNombreObjectifs() {
+    void getNombreObjectifsRestants() {
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
-        assertEquals(15, piocheObjectifPanda.getNombreObjectifs());
+        assertEquals(15, piocheObjectifPanda.getNombreObjectifsRestants());
         piocheObjectifPanda.pioche();
-        assertEquals(14, piocheObjectifPanda.getNombreObjectifs());
+        assertEquals(14, piocheObjectifPanda.getNombreObjectifsRestants());
         piocheObjectifPanda.pioche();
         piocheObjectifPanda.pioche();
-        assertEquals(12, piocheObjectifPanda.getNombreObjectifs());
+        assertEquals(12, piocheObjectifPanda.getNombreObjectifsRestants());
     }
 
     @Test
