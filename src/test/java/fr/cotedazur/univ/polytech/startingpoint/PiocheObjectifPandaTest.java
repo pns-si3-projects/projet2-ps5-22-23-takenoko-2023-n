@@ -15,6 +15,12 @@ class PiocheObjectifPandaTest {
     @Mock Random mockRandom = mock(Random.class);
 
     @Test
+    void isEmpty() {
+        piocheObjectifPanda = new PiocheObjectifPanda(new Random());
+        assertFalse(piocheObjectifPanda.isEmpty());
+    }
+
+    @Test
     void getNombreObjectifs() {
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         assertEquals(15, piocheObjectifPanda.getNombreObjectifs());
