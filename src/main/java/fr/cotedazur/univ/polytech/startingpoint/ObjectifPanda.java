@@ -23,7 +23,7 @@ public class ObjectifPanda extends Objectif {
     }
 
 
-    // Accesseurs et méthode toString
+    // Accesseurs et méthodes toString et equals
     /**
      * Renvoie le nombre de bambous que le joueur doit posséder
      * @return le nombre de bambous que le joueur doit posséder

@@ -23,7 +23,7 @@ public class ObjectifParcelle extends Objectif {
     }
 
 
-    // Accesseurs et méthode toString et equals
+    // Accesseurs et méthodes toString et equals
     /**
      * Renvoie le nombre de parcelles irriguées qui doivent se retrouver sur le plateau
      * @return le nombre de parcelles iriguées qui doivent être sur le plateau

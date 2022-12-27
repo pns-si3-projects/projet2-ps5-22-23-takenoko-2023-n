@@ -11,7 +11,7 @@ public abstract class Objectif {
     protected int nombrePoints;
 
 
-    // Accesseurs et méthode toString
+    // Accesseurs et méthodes toString et equals
     /**
      * Renvoie le nombre de points de l'Objectif
      * @return le nombre de points

@@ -23,7 +23,7 @@ public class ObjectifJardinier extends Objectif {
     }
 
 
-    // Accesseurs et méthode toString
+    // Accesseurs et méthodes toString et equals
     /**
      * Renvoie le nombre de bambous que le joueur doit faire pousser
      * @return le nombre de bambous que le joueur doit faire pousser
