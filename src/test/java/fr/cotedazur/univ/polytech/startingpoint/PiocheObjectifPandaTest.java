@@ -12,11 +12,14 @@ import static org.mockito.Mockito.when;
 
 class PiocheObjectifPandaTest {
     PiocheObjectifPanda piocheObjectifPanda;
-    @Mock Random mockRandom = mock(Random.class);
+    @Mock
+    Random mockRandom = mock(Random.class);
 
     @Test
     void isEmpty() {
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
+        assertFalse(piocheObjectifPanda.isEmpty());
+        piocheObjectifPanda.pioche();
         assertFalse(piocheObjectifPanda.isEmpty());
     }
 

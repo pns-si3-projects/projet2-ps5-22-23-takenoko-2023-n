@@ -16,6 +16,14 @@ class PiocheObjectifJardinierTest {
     Random mockRandom = mock(Random.class);
 
     @Test
+    void getNombreObjectifsRestants() {
+        piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
+        assertEquals(15, piocheObjectifJardinier.getNombreObjectifsRestants());
+        piocheObjectifJardinier.pioche();
+        assertEquals(14, piocheObjectifJardinier.getNombreObjectifsRestants());
+    }
+
+    @Test
     void piocheValeurTropGrande() {
         when(mockRandom.nextInt(anyInt())).thenReturn(15);
         piocheObjectifJardinier = new PiocheObjectifJardinier(mockRandom);

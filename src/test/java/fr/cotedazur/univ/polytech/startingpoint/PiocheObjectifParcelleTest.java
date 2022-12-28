@@ -13,7 +13,17 @@ import static org.mockito.Mockito.when;
 
 class PiocheObjectifParcelleTest {
     PiocheObjectifParcelle piocheObjectifParcelle;
-    @Mock Random mockRandom = mock(Random.class);
+    @Mock
+    Random mockRandom = mock(Random.class);
+
+    @Test
+    void getNombreObjectifsRestants() {
+        piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
+        assertEquals(15, piocheObjectifParcelle.getNombreObjectifsRestants());
+        piocheObjectifParcelle.pioche();
+        piocheObjectifParcelle.pioche();
+        assertEquals(13, piocheObjectifParcelle.getNombreObjectifsRestants());
+    }
 
     @Test
     void piocheValeurTropGrande() {
