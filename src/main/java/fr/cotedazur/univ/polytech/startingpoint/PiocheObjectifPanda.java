@@ -52,8 +52,9 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
     @Override
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de panda est vide";
-        int positionCarte = random.nextInt(getNombreObjectifsRestants());
-        if (positionCarte < 0 || positionCarte >= getNombreObjectifsRestants()) throw new IndexOutOfBoundsException("La position demandée dans la pioche est impossible");
+        int size = getNombreObjectifsRestants();
+        int positionCarte = random.nextInt(size);
+        if (positionCarte < 0 || positionCarte >= size) throw new RuntimeException();
         return prendCarteObjectifPanda(positionCarte);
     }
 

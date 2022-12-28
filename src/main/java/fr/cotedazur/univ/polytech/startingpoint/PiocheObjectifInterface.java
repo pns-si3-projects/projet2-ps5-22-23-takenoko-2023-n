@@ -16,7 +16,7 @@ public interface PiocheObjectifInterface {
     /**
      * Renvoie une carte objectif désignée dans la pioche
      * @return la carte objectif piochée
-     * @implNote La pioche ne doit pas être vide
+     * @implNote la pioche ne doit pas être vide
      */
     public Objectif pioche();
 }

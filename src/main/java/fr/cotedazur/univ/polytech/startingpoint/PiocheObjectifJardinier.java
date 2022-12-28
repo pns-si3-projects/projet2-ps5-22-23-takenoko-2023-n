@@ -49,7 +49,7 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
 
     @Override
     public boolean isEmpty() {
-        return this.isEmpty();
+        return size() == 0;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
     @Override
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de jardinier est vide";
-        int positionCarte = random.nextInt(getNombreObjectifsRestants());
+        int positionCarte = random.nextInt(size());
         if (positionCarte < 0 || positionCarte >= size()) throw new RuntimeException();
         return remove(positionCarte);
     }
