@@ -32,7 +32,7 @@ public class Position {
      * getter de l'attribut x
      * @return la valeur de x
      */
-    
+
     public int getX() {
         return x;
     }

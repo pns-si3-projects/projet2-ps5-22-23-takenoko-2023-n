@@ -2,6 +2,11 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.Objects;
 
+/**
+ * Classe Etang qui est la piece principal du jeu
+ * @author equipe N
+ * @version 1.0
+ */
 public class Etang implements Parcelle{
 
     private final Position position;

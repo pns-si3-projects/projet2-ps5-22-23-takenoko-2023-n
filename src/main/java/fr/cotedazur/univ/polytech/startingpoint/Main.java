@@ -1,12 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 public class Main {
-    public static void main(String[] args){
-        Joueur joueur = new Joueur("Robot1");
-        Jeu jeu = new Jeu(joueur);
-        System.out.println(jeu.toString());
-        jeu.tour();
-        System.out.println(jeu.finDePartie());
+    public static final Plateau PLATEAU = new Plateau();
+    public static void main(String... args) {
+        System.out.println("Hello World !!!");
     }
-
 }

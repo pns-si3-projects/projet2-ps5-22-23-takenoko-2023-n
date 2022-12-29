@@ -2,6 +2,11 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.Objects;
 
+/**
+ * Classe de Parcelle qui est mise dans le plateau
+ * @author equipe N
+ * @version 1.0
+ */
 public class ParcelleCouleur implements Parcelle{
     private final Position position;
 
