@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import java.util.Map;
+import java.util.Set;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -56,8 +56,8 @@ public class GestionnaireModificationPlateau {
      * @throws ParcelleExistanteException Renvoi une exception si la parcelle est existante
      */
     public List<Parcelle> getParcelleVoisin(Parcelle parcelle) throws ParcelleExistanteException {
-        Map<Parcelle,Parcelle[]> listParcelle = Main.PLATEAU.getMap();
-        Iterator<Parcelle> iterateurParcelle = listParcelle.keySet().iterator();
+        Set<Parcelle> listParcelle= Main.PLATEAU.getListParcelle();
+        Iterator<Parcelle> iterateurParcelle = listParcelle.iterator();
         List<Parcelle> parcelleVoisin = new ArrayList<>();
 
         while (iterateurParcelle.hasNext()){

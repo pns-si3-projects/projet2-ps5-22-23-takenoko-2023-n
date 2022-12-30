@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Classe du Plateau contenant le panda, la liste de Parcelles et leur voisins, le jardinier et la liste de Position Disponibles ainsi qu'un gestionnaire pour gérer les ajouts du plateau
@@ -50,11 +51,24 @@ public class Plateau {
     }
 
     /**
-     * Methode renvoyant la map de Parcelle et leur voisines
+     * Methode renvoyant la liste de Parcelle et leur voisines
      * @return Renvoie toutes les parcelles et leur voisines
      */
-    public Map<Parcelle,Parcelle[]> getMap(){
-        return LIST_PARCELLES_ET_VOISINES;
+    public Set<Parcelle> getListParcelle(){
+        return LIST_PARCELLES_ET_VOISINES.keySet();
+    }
+
+    /**
+     * Methode pour obtenir les voisins d'une parcelle existante
+     * @param
+     */
+    public Parcelle[] getTableauVoisin(Parcelle parcelle) throws ParcelleNonExistanteException{
+        if(LIST_PARCELLES_ET_VOISINES.containsKey(parcelle)){
+            return LIST_PARCELLES_ET_VOISINES.get(parcelle);
+        }
+        else {
+            throw new ParcelleNonExistanteException(parcelle);
+        }
     }
 
     /**
@@ -67,6 +81,14 @@ public class Plateau {
                 POSITIONS_DISPONIBLE.add(listVoisins[i].getPosition());
             }
         }
+    }
+
+    /**
+     * Méthode renvoyant un tableau de Position disponible
+     * @return Renvoi un tableau de Position disponible
+     */
+    public Position[] getPositionsDisponible(){
+        return (Position[]) POSITIONS_DISPONIBLE.toArray();
     }
 
     /**
