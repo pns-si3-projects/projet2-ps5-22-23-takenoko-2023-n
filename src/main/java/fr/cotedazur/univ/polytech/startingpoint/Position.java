@@ -7,9 +7,12 @@ import java.util.Objects;
  * @author equipe N
  */
 public class Position {
+    // Définition des attributs
     private int x;
     private int y;
 
+
+    // Définition des constructeurs
     /**
      * Contructeur par défaut pour l'etang
      */
@@ -27,6 +30,8 @@ public class Position {
         this.y = y;
     }
 
+
+    // Accesseurs et méthode toString et equals
     /**
      * Getteur pour l'attribut x
      * @return la valeur de x
@@ -44,6 +49,11 @@ public class Position {
     }
 
     @Override
+    public String toString() {
+        return "("+x+","+y+")";
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -53,10 +63,5 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(getX(), getY());
-    }
-
-    @Override
-    public String toString() {
-        return "("+x+","+y+")";
     }
 }
