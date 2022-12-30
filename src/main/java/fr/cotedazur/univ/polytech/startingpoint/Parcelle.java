@@ -1,10 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 /**
- * Methode commune de ParcelleCouleur et Parcelle disponible
+ * Interface commune de ParcelleCouleur, ParcelleDisponible et Etang qui ont aussi une position
  * @author equipe N
  * @version 1.0
  */
-public interface Parcelle {
-    Position getPosition();
+public interface Parcelle extends Positionnable{
+
 }
