@@ -48,6 +48,7 @@ public class PiocheBambou {
      */
     public SectionBambou pioche() {
         assert !isEmpty() : "La pioche de bambous est vide";
+        nombreBambous--;
         return new SectionBambou();
     }
 }
