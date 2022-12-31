@@ -5,7 +5,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
  * @author equipe N
  * @version 1.0
  */
-public class Jardinier implements Positionnable{
+public class Jardinier implements Personnage{
     private Position position;
 
     /**

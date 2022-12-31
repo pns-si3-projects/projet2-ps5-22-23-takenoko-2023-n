@@ -5,7 +5,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
  * @author equipe N
  * @version 1.0
  */
-public class Panda implements Positionnable{
+public class Panda implements Personnage{
     private Position position;
 
     /**
