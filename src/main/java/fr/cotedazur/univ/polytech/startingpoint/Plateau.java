@@ -1,10 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Classe du Plateau contenant le panda, la liste de Parcelles et leur voisins, le jardinier et la liste de Position Disponibles ainsi qu'un gestionnaire pour gérer les ajouts du plateau
@@ -12,11 +12,11 @@ import java.util.Set;
  * @version 1.0
  */
 public class Plateau {
-    private static final Map<Parcelle,Parcelle[]> LIST_PARCELLES_ET_VOISINES = new HashMap<>();
+    private final Map<Parcelle,Parcelle[]> LIST_PARCELLES_ET_VOISINES = new HashMap<>();
     private static final Panda PANDA = new Panda();
     private static final Jardinier JARDINIER = new Jardinier();
     private static final List<Position> POSITIONS_DISPONIBLE = new ArrayList<>();
-    private static final GestionnaireModificationPlateau GESTIONNAIRE_MODIFICATION_PLATEAU = new GestionnaireModificationPlateau();
+    private final GestionnaireModificationPlateau GESTIONNAIRE_MODIFICATION_PLATEAU = new GestionnaireModificationPlateau(this);
     private Etang etang;
 
     /**
@@ -60,7 +60,7 @@ public class Plateau {
 
     /**
      * Methode pour obtenir les voisins d'une parcelle existante
-     * @param
+     * @param parcelle La parcelle qui possede des voisins
      */
     public Parcelle[] getTableauVoisin(Parcelle parcelle) throws ParcelleNonExistanteException{
         if(LIST_PARCELLES_ET_VOISINES.containsKey(parcelle)){
@@ -76,9 +76,12 @@ public class Plateau {
      * @param listVoisins La liste des voisins de la parcelle qu'on vient d'ajouter
      */
     private void addPosition(Parcelle[] listVoisins){
-        for(int i = 0;i< listVoisins.length;i++){
-            if(listVoisins[i].getClass() == ParcelleDisponible.class){
-                POSITIONS_DISPONIBLE.add(listVoisins[i].getPosition());
+        for (Parcelle voisin : listVoisins) {
+            Position positionVoisin = voisin.getPosition();
+            if (voisin.getClass() == ParcelleDisponible.class) {
+                if(!POSITIONS_DISPONIBLE.contains(positionVoisin)){
+                    POSITIONS_DISPONIBLE.add(voisin.getPosition());
+                }
             }
         }
     }
@@ -88,7 +91,11 @@ public class Plateau {
      * @return Renvoi un tableau de Position disponible
      */
     public Position[] getPositionsDisponible(){
-        return (Position[]) POSITIONS_DISPONIBLE.toArray();
+        Position[] listPosition = new Position[POSITIONS_DISPONIBLE.size()];
+        for(int i = 0;i<POSITIONS_DISPONIBLE.size();i++){
+            listPosition[i] = POSITIONS_DISPONIBLE.get(i);
+        }
+        return listPosition;
     }
 
     /**
@@ -99,6 +106,10 @@ public class Plateau {
         return etang;
     }
 
+    private void deletePositionList(Position position){
+        POSITIONS_DISPONIBLE.remove(position);
+    }
+
     /**
      * Méthode permettant d'ajouter une parcelle au Plateau
      * @param parcelle La parcelle choisit dans la liste de Voisin Disponible
@@ -107,11 +118,13 @@ public class Plateau {
      */
     public void addParcelle(ParcelleCouleur parcelle) throws ParcelleExistanteException, NombreParcelleVoisinException{
         List<Parcelle> listParcelleVoisinAAjoute = GESTIONNAIRE_MODIFICATION_PLATEAU.getParcelleVoisin(parcelle);
-        if(listParcelleVoisinAAjoute.size() < 2 || listParcelleVoisinAAjoute.size() > 6) throw new NombreParcelleVoisinException(listParcelleVoisinAAjoute.size());
+        if(listParcelleVoisinAAjoute.isEmpty() || listParcelleVoisinAAjoute.size() > 6 ) throw new NombreParcelleVoisinException(listParcelleVoisinAAjoute.size());
+        else if(!listParcelleVoisinAAjoute.contains(etang) && listParcelleVoisinAAjoute.size() == 1) throw new NombreParcelleVoisinException(listParcelleVoisinAAjoute.size());
         try {
             Parcelle[] listParcelleVoisin = GESTIONNAIRE_MODIFICATION_PLATEAU.addVoisinParcelle(parcelle,listParcelleVoisinAAjoute);
             LIST_PARCELLES_ET_VOISINES.put(parcelle,listParcelleVoisin);
             addPosition(listParcelleVoisin);
+            deletePositionList(parcelle.getPosition());
         }
         catch (ParcelleNonVoisineException pNVE){
             System.out.println(pNVE);
