@@ -12,6 +12,7 @@ public class PiocheBambou {
     private int[] bambousList;
 
 
+    // Définition des constructeurs
     /**
      * Constructeur par défaut, crée une pioche de 90 sections de bambous
      * @param random est un objet Random qui va permettre de créer une pioche aléatoire
