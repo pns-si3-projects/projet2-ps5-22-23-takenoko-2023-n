@@ -49,7 +49,7 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
 
     @Override
     public boolean isEmpty() {
-        return size() == 0;
+        return super.isEmpty();
     }
 
     @Override

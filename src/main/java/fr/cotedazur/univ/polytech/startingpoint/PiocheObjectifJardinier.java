@@ -49,7 +49,7 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
 
     @Override
     public boolean isEmpty() {
-        return size() == 0;
+        return super.isEmpty();
     }
 
     @Override
