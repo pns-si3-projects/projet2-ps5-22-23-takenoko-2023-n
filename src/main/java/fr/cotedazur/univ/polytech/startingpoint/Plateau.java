@@ -117,4 +117,12 @@ public class Plateau {
             System.out.println(pNVE);
         }
     }
+
+    public Panda getPanda(){
+        return PANDA;
+    }
+
+    public Jardinier getJardinier(){
+        return JARDINIER;
+    }
 }
