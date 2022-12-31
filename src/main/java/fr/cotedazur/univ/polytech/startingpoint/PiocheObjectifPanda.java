@@ -18,16 +18,8 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
      * @param random est un objet Random qui va permettre de créer une pioche aléatoire
      */
     public PiocheObjectifPanda(Random random) {
-        objectifPandaList = new int[4];
-        creePiocheObjectifsPanda();
+        objectifPandaList = new int[]{5, 4, 3, 3};
         this.random = random;
-    }
-
-    private void creePiocheObjectifsPanda() {
-        objectifPandaList[0] = 5;
-        objectifPandaList[1] = 4;
-        objectifPandaList[2] = 3;
-        objectifPandaList[3] = 3;
     }
 
 
