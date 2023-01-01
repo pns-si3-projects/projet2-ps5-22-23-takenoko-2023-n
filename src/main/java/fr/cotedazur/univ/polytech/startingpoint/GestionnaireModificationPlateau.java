@@ -78,7 +78,7 @@ public class GestionnaireModificationPlateau {
      * @param positionParcelleVoisin La position du voisin de la parcelle principal
      * @return Renvoi l'indice a mettre dans le tableau des voisins
      */
-    private int positionTabVoisin(Position positionParcelleCible,Position positionParcelleVoisin){
+    protected int positionTabVoisin(Position positionParcelleCible,Position positionParcelleVoisin){
         int xV = positionParcelleVoisin.getX();
         int yV = positionParcelleVoisin.getY();
         int xC = positionParcelleCible.getX();
@@ -113,6 +113,7 @@ public class GestionnaireModificationPlateau {
 
         for(Parcelle parcelleVoisin : listParcelleVoisin){
             int positionTabVoisin = positionTabVoisin(parcelle.getPosition(),parcelleVoisin.getPosition());
+            if(positionTabVoisin == -1) throw new ParcelleNonVoisineException(parcelle,parcelleVoisin);
             parcellesVoisines[positionTabVoisin] = parcelleVoisin;
         }
 

@@ -15,7 +15,7 @@ public class Plateau {
     private final Map<Parcelle,Parcelle[]> LIST_PARCELLES_ET_VOISINES = new HashMap<>();
     private static final Panda PANDA = new Panda();
     private static final Jardinier JARDINIER = new Jardinier();
-    private static final List<Position> POSITIONS_DISPONIBLE = new ArrayList<>();
+    private final List<Position> POSITIONS_DISPONIBLE = new ArrayList<>();
     private final GestionnaireModificationPlateau GESTIONNAIRE_MODIFICATION_PLATEAU = new GestionnaireModificationPlateau(this);
     private Etang etang;
 
@@ -71,16 +71,29 @@ public class Plateau {
         }
     }
 
+    private boolean checkVoisin(int indiceTab,Parcelle[] listVoisins){
+        int indiceAvantTab = indiceTab - 1;
+        int indiceApresTab = indiceTab + 1;
+        if(indiceTab == 0){
+            indiceAvantTab = 5;
+        }
+        else if(indiceTab == 5){
+            indiceApresTab = 0;
+        }
+        return ((listVoisins[indiceAvantTab].getClass() != ParcelleDisponible.class || listVoisins[indiceAvantTab].getClass() == Etang.class)
+                || (listVoisins[indiceApresTab].getClass() == ParcelleCouleur.class || listVoisins[indiceApresTab].getClass() == Etang.class));
+    }
+
     /**
      * Ajoute les positions disponibles grâce à la liste des voisins d'une parcelle
      * @param listVoisins La liste des voisins de la parcelle qu'on vient d'ajouter
      */
     private void addPosition(Parcelle[] listVoisins){
-        for (Parcelle voisin : listVoisins) {
-            Position positionVoisin = voisin.getPosition();
-            if (voisin.getClass() == ParcelleDisponible.class) {
+        for(int i = 0;i< listVoisins.length;i++){
+            if(listVoisins[i].getClass() == ParcelleDisponible.class && checkVoisin(i,listVoisins)){
+                Position positionVoisin = listVoisins[i].getPosition();
                 if(!POSITIONS_DISPONIBLE.contains(positionVoisin)){
-                    POSITIONS_DISPONIBLE.add(voisin.getPosition());
+                    POSITIONS_DISPONIBLE.add(positionVoisin);
                 }
             }
         }
@@ -106,6 +119,13 @@ public class Plateau {
         return etang;
     }
 
+    private void addParcelleVoisin(List<Parcelle> voisin,Parcelle parcelle){
+        for(Parcelle voisinParcelle : voisin){
+            Parcelle[] listVoisinParcelle = LIST_PARCELLES_ET_VOISINES.get(voisinParcelle);
+            int indiceParcelleAAddTableau = GESTIONNAIRE_MODIFICATION_PLATEAU.positionTabVoisin(voisinParcelle.getPosition(),parcelle.getPosition());
+            listVoisinParcelle[indiceParcelleAAddTableau] = parcelle;
+        }
+    }
     private void deletePositionList(Position position){
         POSITIONS_DISPONIBLE.remove(position);
     }
@@ -123,6 +143,7 @@ public class Plateau {
         try {
             Parcelle[] listParcelleVoisin = GESTIONNAIRE_MODIFICATION_PLATEAU.addVoisinParcelle(parcelle,listParcelleVoisinAAjoute);
             LIST_PARCELLES_ET_VOISINES.put(parcelle,listParcelleVoisin);
+            addParcelleVoisin(listParcelleVoisinAAjoute,parcelle);
             addPosition(listParcelleVoisin);
             deletePositionList(parcelle.getPosition());
         }

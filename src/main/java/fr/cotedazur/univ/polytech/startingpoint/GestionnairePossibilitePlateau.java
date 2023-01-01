@@ -112,7 +112,7 @@ public class GestionnairePossibilitePlateau {
         int xParcelle = positionParcelleACheck.getX();
         int yParcelle = positionParcelleACheck.getY();
 
-        return (yParcelle == yPerso && (xPerso - xParcelle)%2 == 0);
+        return (xPerso != xParcelle && yParcelle == yPerso && (xPerso - xParcelle)%2 == 0);
     }
 
     /**
