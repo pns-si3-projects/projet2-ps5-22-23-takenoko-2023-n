@@ -8,8 +8,10 @@ import java.util.Random;
  */
 public class PiocheBambou {
     // Définition des attributs
+    private int nombreBambousVerts;
+    private int nombreBambousRoses;
+    private int nombreBambousJaunes;
     private Random random;
-    private int[] bambousList;
 
 
     // Définition des constructeurs
@@ -18,80 +20,106 @@ public class PiocheBambou {
      * @param random est un objet Random qui va permettre de créer une pioche aléatoire
      */
     public PiocheBambou(Random random) {
-        bambousList = new int[]{30, 24, 36};
+        nombreBambousVerts = 36;
+        nombreBambousRoses = 24;
+        nombreBambousJaunes = 30;
         this.random = random;
     }
 
 
     // Accesseurs et méthode toString
     /**
-     * Renvoie le nombre de sections de bambous que contient la pioche
-     * @return le nombre de sections de bambous restantes dans la pioche
+     * Renvoie le nombre de sections de bambous verts que contient la pioche
+     * @return le nombre de sections de bambous verts restantes dans la pioche
      */
-    public int getNombreBambousRestants() {
-        return bambousList[0] + bambousList[1] + bambousList[2];
+    public int getNombreBambousVertsRestants() {
+        return nombreBambousVerts;
     }
 
     /**
-     * Renvoie si la pioche de bambous est vide
+     * Renvoie le nombre de sections de bambous roses que contient la pioche
+     * @return le nombre de sections de bambous roses restantes dans la pioche
+     */
+    public int getNombreBambousRosesRestants() {
+        return nombreBambousRoses;
+    }
+
+    /**
+     * Renvoie le nombre de sections de bambous jaunes que contient la pioche
+     * @return le nombre de sections de bambous jaunes restantes dans la pioche
+     */
+    public int getNombreBambousJaunesRestants() {
+        return nombreBambousJaunes;
+    }
+
+    /**
+     * Renvoie si la pioche de bambous verts est vide
      * @return true la pioche est vide, false sinon
      */
-    public boolean isEmpty() {
-        return getNombreBambousRestants() == 0;
+    public boolean isEmptyBambousVerts() {
+        return nombreBambousVerts == 0;
+    }
+
+    /**
+     * Renvoie si la pioche de bambous roses est vide
+     * @return true la pioche est vide, false sinon
+     */
+    public boolean isEmptyBambousRoses() {
+        return nombreBambousRoses == 0;
+    }
+
+    /**
+     * Renvoie si la pioche de bambous verts est vide
+     * @return true la pioche est vide, false sinon
+     */
+    public boolean isEmptyBambousJaunes() {
+        return nombreBambousJaunes == 0;
     }
 
     @Override
     public String toString() {
-        return "Pioche de bambous : " + getNombreBambousRestants() + " sections.";
+        return "Pioche de bambous : " + nombreBambousVerts + " verts, "
+                + nombreBambousRoses + " roses et " + nombreBambousJaunes + " jaunes.";
     }
 
 
     // Méthodes d'utilisation
     /**
-     * Renvoie une section de bambou désignée dans la pioche
+     * Renvoie une section de bambou vert désignée dans la pioche
      * @return la section de bambou piochée
      * @implNote la pioche ne doit pas être vide
      */
-    public SectionBambou pioche() {
-        assert !isEmpty() : "La pioche de bambous est vide";
-        int size = getNombreBambousRestants();
-        int positionBambou = random.nextInt(size);
-        if (positionBambou < 0 || positionBambou >= size) throw new RuntimeException();
-        return prendSectionBambou(positionBambou);
+    public SectionBambou piocheSectionBambouVert() {
+        assert !isEmptyBambousVerts() : "La pioche de bambous verts est vide";
+        int positionBambou = random.nextInt(nombreBambousVerts);
+        if (positionBambou < 0 || positionBambou >= nombreBambousVerts) throw new RuntimeException();
+        nombreBambousVerts--;
+        return new SectionBambou();
     }
 
     /**
-     * Cherche la section de bambou à créer, la renvoie et la retire de la pioche
-     * @param position est la position du bambou entre tous les bambous restants de la pioche
-     * @return la section de bambou désignée par la position
-     * @implSpec la position doit être comprise entre 0 et "le nombre de bambous de la pioche - 1"
+     * Renvoie une section de bambou rose désignée dans la pioche
+     * @return la section de bambou piochée
+     * @implNote la pioche ne doit pas être vide
      */
-    private SectionBambou prendSectionBambou(int position) {
-        assert position>0 && position<getNombreBambousRestants() : "La position demandée dans la pioche est impossible";
-        SectionBambou res = null;
-        int somme = 0;
-        for (int i=0; i<bambousList.length; i++) {
-            somme += bambousList[i];
-            if (position < somme) {
-                bambousList[i]--;
-                return creeSectionBambou(i);
-            }
-        }
-        throw new IndexOutOfBoundsException("La position du bambou demandée est en dehors de la pioche");
+    public SectionBambou piocheSectionBambouRose() {
+        assert !isEmptyBambousRoses() : "La pioche de bambous roses est vide";
+        int positionBambou = random.nextInt(nombreBambousRoses);
+        if (positionBambou < 0 || positionBambou >= nombreBambousRoses) throw new RuntimeException();
+        nombreBambousRoses--;
+        return new SectionBambou();
     }
 
     /**
-     * Crée la section de bambou désignée par la position et la renvoie
-     * @param position est la position du bambou dans le tableau de la pioche
-     * @return la section de bambou demandée
-     * @implSpec la position doit être comprise entre 0 et 2
+     * Renvoie une section de bambou jaune désignée dans la pioche
+     * @return la section de bambou piochée
+     * @implNote la pioche ne doit pas être vide
      */
-    private SectionBambou creeSectionBambou(int position) {
-        return switch (position) {
-            case 0 -> new SectionBambou();
-            case 1 -> new SectionBambou();
-            case 2 -> new SectionBambou();
-            default -> throw new IndexOutOfBoundsException("La section de bambou demandée est introuvable");
-        };
+    public SectionBambou piocheSectionBambouJaune() {
+        assert !isEmptyBambousJaunes() : "La pioche de bambous jaunes est vide";
+        int positionBambou = random.nextInt(nombreBambousJaunes);
+        if (positionBambou < 0 || positionBambou >= nombreBambousJaunes) throw new RuntimeException();
+        nombreBambousJaunes--;
+        return new SectionBambou();
     }
 }
