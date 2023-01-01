@@ -71,6 +71,12 @@ public class Plateau {
         }
     }
 
+    /**
+     * Méthode privé de la méthode addPosition qui permet de savoir à l'indice du tableau si elle a une Parcelle existante, si oui renvoie true sinon false
+     * @param indiceTab indice du tableau de voisin à regarder à côté
+     * @param listVoisins liste des voisins de la Parcelle ajouté
+     * @return Renvoie vrai si la parcelleDisponible possède à côté de lui une parcelle existante dans le plateau
+     */
     private boolean checkVoisin(int indiceTab,Parcelle[] listVoisins){
         int indiceAvantTab = indiceTab - 1;
         int indiceApresTab = indiceTab + 1;
@@ -80,7 +86,7 @@ public class Plateau {
         else if(indiceTab == 5){
             indiceApresTab = 0;
         }
-        return ((listVoisins[indiceAvantTab].getClass() != ParcelleDisponible.class || listVoisins[indiceAvantTab].getClass() == Etang.class)
+        return ((listVoisins[indiceAvantTab].getClass() == ParcelleCouleur.class || listVoisins[indiceAvantTab].getClass() == Etang.class)
                 || (listVoisins[indiceApresTab].getClass() == ParcelleCouleur.class || listVoisins[indiceApresTab].getClass() == Etang.class));
     }
 
@@ -91,6 +97,7 @@ public class Plateau {
     private void addPosition(Parcelle[] listVoisins){
         for(int i = 0;i< listVoisins.length;i++){
             if(listVoisins[i].getClass() == ParcelleDisponible.class && checkVoisin(i,listVoisins)){
+                Boolean test = checkVoisin(i,listVoisins);
                 Position positionVoisin = listVoisins[i].getPosition();
                 if(!POSITIONS_DISPONIBLE.contains(positionVoisin)){
                     POSITIONS_DISPONIBLE.add(positionVoisin);
@@ -152,10 +159,18 @@ public class Plateau {
         }
     }
 
+    /**
+     * Getter du panda
+     * @return Renvoie le Panda
+     */
     public Panda getPanda(){
         return PANDA;
     }
 
+    /**
+     * Getter du jardinier
+     * @return Renvoie le jardinier
+     */
     public Jardinier getJardinier(){
         return JARDINIER;
     }
