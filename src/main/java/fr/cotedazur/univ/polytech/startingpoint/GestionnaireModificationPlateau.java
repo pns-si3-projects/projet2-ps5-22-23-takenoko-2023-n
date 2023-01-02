@@ -2,8 +2,8 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.Set;
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Classe permettant de Gérer l'ajout et la modification des parcelles du plateau
@@ -11,8 +11,9 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class GestionnaireModificationPlateau {
-    public GestionnaireModificationPlateau(){
-
+    Plateau plateau;
+    public GestionnaireModificationPlateau(Plateau plateau){
+        this.plateau = plateau;
     }
     /**
      * Permet de renvoyer une ParcelleDisponible a un indice particulier donc a une position particuliere
@@ -50,14 +51,14 @@ public class GestionnaireModificationPlateau {
     }
 
     /**
-     * Renvoi une liste de voisin d'une parcelle
+     * Renvoie une liste de voisin d'une parcelle
      * @param parcelle
      * @return Retourne la liste de voisin
-     * @throws ParcelleExistanteException Renvoi une exception si la parcelle est existante
+     * @throws ParcelleExistanteException Renvoie une exception si la parcelle est existante
      */
     public List<Parcelle> getParcelleVoisin(Parcelle parcelle) throws ParcelleExistanteException {
-        Set<Parcelle> listParcelle= Main.PLATEAU.getListParcelle();
-        Iterator<Parcelle> iterateurParcelle = listParcelle.iterator();
+        Set<Parcelle> setParcelle= plateau.getListParcelle();
+        Iterator<Parcelle> iterateurParcelle = setParcelle.iterator();
         List<Parcelle> parcelleVoisin = new ArrayList<>();
 
         while (iterateurParcelle.hasNext()){
@@ -77,7 +78,7 @@ public class GestionnaireModificationPlateau {
      * @param positionParcelleVoisin La position du voisin de la parcelle principal
      * @return Renvoi l'indice a mettre dans le tableau des voisins
      */
-    private int positionTabVoisin(Position positionParcelleCible,Position positionParcelleVoisin){
+    protected int positionTabVoisin(Position positionParcelleCible,Position positionParcelleVoisin){
         int xV = positionParcelleVoisin.getX();
         int yV = positionParcelleVoisin.getY();
         int xC = positionParcelleCible.getX();
@@ -112,6 +113,7 @@ public class GestionnaireModificationPlateau {
 
         for(Parcelle parcelleVoisin : listParcelleVoisin){
             int positionTabVoisin = positionTabVoisin(parcelle.getPosition(),parcelleVoisin.getPosition());
+            if(positionTabVoisin == -1) throw new ParcelleNonVoisineException(parcelle,parcelleVoisin);
             parcellesVoisines[positionTabVoisin] = parcelleVoisin;
         }
 
