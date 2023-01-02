@@ -6,5 +6,4 @@ package fr.cotedazur.univ.polytech.startingpoint;
  * @version 1.0
  */
 public interface Parcelle extends Positionnable{
-
 }

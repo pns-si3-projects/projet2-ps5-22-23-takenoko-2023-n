@@ -6,121 +6,117 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 /**
- * Classe permettant de Gérer l'ajout et la modification des parcelles du plateau
+ * Classe qui permet de gérer l'ajout et la modification des parcelles du plateau
  * @author equipe N
- * @version 1.0
  */
 public class GestionnaireModificationPlateau {
-    public GestionnaireModificationPlateau(){
-
-    }
+    // Méthodes d'utilisation
     /**
-     * Permet de renvoyer une ParcelleDisponible a un indice particulier donc a une position particuliere
-     * @param indiceTab indice pour renvoyer une certaine ParcelleDisponible
-     * @param positionParcelle cette position sert a adapter l'ajout de la parcelle disponible
-     * @return Retourne une parcelleDisponible donc une parcelle avec une position
+     * Cherche la liste des parcelles déjà placées qui seront voisines de la parcelle à ajouter
+     * @param parcelleAAjouter est la parcelle qu'on souhaite ajouter
+     * @return la liste de futures voisines de la parcelle à ajouter
+     * @throws ParcelleExistanteException si la parcelle à ajouter est déjà existante sur le plateau
      */
-    public ParcelleDisponible addParcelleVide(int indiceTab, Position positionParcelle){
-        int x = positionParcelle.getX();
-        int y = positionParcelle.getY();
-        return switch (indiceTab){
-            case 0 -> new ParcelleDisponible(new Position(x+1,y+1));
-            case 1 -> new ParcelleDisponible(new Position(x+2,y));
-            case 2 -> new ParcelleDisponible(new Position(x+1,y-1));
-            case 3 -> new ParcelleDisponible(new Position(x-1,y-1));
-            case 4 -> new ParcelleDisponible(new Position(x-2,y));
-            case 5 -> new ParcelleDisponible(new Position(x-1,y+1));
-            default -> throw new IllegalArgumentException("Pas bon argument en parametre");
-        };
+    public List<Parcelle> chercheFuturesVoisines(Parcelle parcelleAAjouter) throws ParcelleExistanteException {
+        Set<Parcelle> listParcelle= Main.PLATEAU.getListParcelle();
+        Iterator<Parcelle> iterateurParcelle = listParcelle.iterator();
+        List<Parcelle> parcelleVoisineList = new ArrayList<>();
+
+        while (iterateurParcelle.hasNext()) {
+            Parcelle parcellePossibleVoisine = iterateurParcelle.next();
+            if (parcelleAAjouter.equals(parcellePossibleVoisine)) throw new ParcelleExistanteException(parcelleAAjouter);
+            else if (peutEtreVoisine(parcelleAAjouter, parcellePossibleVoisine)) {
+                parcelleVoisineList.add(parcellePossibleVoisine);
+            }
+        }
+        return parcelleVoisineList;
     }
 
     /**
-     * Verifie si la Parcelle en parametre peut être voisine de la Parcelle cible
-     * @param parcelle est la Parcelle a verifier si elle est voisine de la cible
-     * @return si la Parcelle en parametre est la voisine de la Parcelle cible
+     * Vérifie si une parcelle peut être voisine de la parcelle ciblée
+     * @param parcelleCible est la parcelle ciblée
+     * @param parcellePossibleVoisine est la possible voisine de la parcelle cible
+     * @return si la parcelle donnée est voisine de la parcelle ciblée
      */
-    private boolean peutEtreVoisine(Parcelle parcelle,Parcelle parcellePossibleVoisin) {
-        int xV = parcellePossibleVoisin.getPosition().getX();
-        int yV = parcellePossibleVoisin.getPosition().getY();
-        int xC = parcelle.getPosition().getX();
-        int yC = parcelle.getPosition().getY();
+    private boolean peutEtreVoisine(Parcelle parcelleCible, Parcelle parcellePossibleVoisine) {
+        int xV = parcellePossibleVoisine.getPosition().getX();
+        int yV = parcellePossibleVoisine.getPosition().getY();
+        int xC = parcelleCible.getPosition().getX();
+        int yC = parcelleCible.getPosition().getY();
 
         if (yV == yC && (xV-2 == xC || xV+2 == xC)) return true; // Si proche et sur la même ligne
         return (yV - 1 == yC || yV + 1 == yC) && (xV - 1 == xC || xV + 1 == xC); // Si proche au-dessus ou en-dessous
     }
 
     /**
-     * Renvoi une liste de voisin d'une parcelle
-     * @param parcelle
-     * @return Retourne la liste de voisin
-     * @throws ParcelleExistanteException Renvoi une exception si la parcelle est existante
+     * Crée la liste des parcelles voisines de la parcelle à ajouter complétée par des ParcelleDisponible
+     * @param parcelleAAjouter la parcelle à ajouter
+     * @param parcelleVoisineList la liste des voisines déjà existantes
+     * @return la liste de toutes les voisines de la parcelle à ajouter
+     * @throws ParcelleNonVoisineException si une parcelle donnée n'est pas une voisine de la parcelle à ajouter
      */
-    public List<Parcelle> getParcelleVoisin(Parcelle parcelle) throws ParcelleExistanteException {
-        Set<Parcelle> listParcelle= Main.PLATEAU.getListParcelle();
-        Iterator<Parcelle> iterateurParcelle = listParcelle.iterator();
-        List<Parcelle> parcelleVoisin = new ArrayList<>();
+    public Parcelle[] addVoisinParcelle(Parcelle parcelleAAjouter, List<Parcelle> parcelleVoisineList) throws ParcelleNonVoisineException {
+        Parcelle[] parcellesVoisines = new Parcelle[6];
 
-        while (iterateurParcelle.hasNext()){
-            Parcelle parcellePossibleVoisin = iterateurParcelle.next();
-            if(parcelle.equals(parcellePossibleVoisin)) throw new ParcelleExistanteException(parcelle);
-            else if(peutEtreVoisine(parcelle,parcellePossibleVoisin)){
-                parcelleVoisin.add(parcellePossibleVoisin);
+        for (Parcelle parcelleVoisine : parcelleVoisineList) {
+            int positionTabVoisin = positionTabVoisin(parcelleAAjouter.getPosition(), parcelleVoisine.getPosition());
+            if (positionTabVoisin == -1) throw new ParcelleNonVoisineException(parcelleAAjouter, parcelleVoisine);
+            parcellesVoisines[positionTabVoisin] = parcelleVoisine;
+        }
+
+        for (int i=0; i<6; i++) {
+            if (parcellesVoisines[i] == null) {
+                parcellesVoisines[i] = addParcelleVide(i, parcelleAAjouter.getPosition());
             }
         }
 
-        return parcelleVoisin;
+        return parcellesVoisines;
     }
 
     /**
-     * Renvoi la position a mettre dans le tableau des voisins de la parcelle
-     * @param positionParcelleCible La position de la parcelle
-     * @param positionParcelleVoisin La position du voisin de la parcelle principal
-     * @return Renvoi l'indice a mettre dans le tableau des voisins
+     * Renvoie l'indice d'une parcelle voisine donnée dans le tableau de voisines
+     * @param positionParcelleCible la position de la parcelle ciblée
+     * @param positionParcelleVoisine la position de la voisine de la parcelle ciblée
+     * @return l'indice où mettre la parcelle voisine dans le tableau de voisines
      */
-    private int positionTabVoisin(Position positionParcelleCible,Position positionParcelleVoisin){
-        int xV = positionParcelleVoisin.getX();
-        int yV = positionParcelleVoisin.getY();
+    private int positionTabVoisin(Position positionParcelleCible, Position positionParcelleVoisine) {
+        int xV = positionParcelleVoisine.getX();
+        int yV = positionParcelleVoisine.getY();
         int xC = positionParcelleCible.getX();
         int yC = positionParcelleCible.getY();
 
-        if(yV == yC){ // Si proche et sur la même ligne
-            if(xV - 2 == xC) return 1;
-            else if(xV+2 == xC) return 4;
+        if (yV == yC) { // Si proche et sur la même ligne
+            if (xV - 2 == xC) return 1;
+            else if (xV+2 == xC) return 4;
         }
-        else{ // Si proche au-dessus ou en-dessous
-            if(yV - 1 == yC){
-                if(xV - 1 == xC) return 0;
-                else if(xV + 1 == xC) return 5;
-            }
-            else if(yV + 1 == yC){
-                if(xV - 1 == xC) return 2;
-                else if(xV + 1 == xC) return 3;
-            }
+        else if (yV - 1 == yC) { // Si proche en-dessous
+            if (xV - 1 == xC) return 0;
+            else if (xV + 1 == xC) return 5;
+        }
+        else if (yV + 1 == yC) { // Si proche au-dessus
+            if (xV - 1 == xC) return 2;
+            else if (xV + 1 == xC) return 3;
         }
         return -1;
     }
 
     /**
-     * Crée la liste des parcelles de voisins à l'aide des voisins dans le plateau et rempli les autres parcelles de ParcelleDisponible
-     * @param parcelle la parcelle a ajouté
-     * @param listParcelleVoisin La liste des voisins existant dans le plateau
-     * @return Renvoie la liste des voisins de la parcelle
-     * @throws ParcelleNonVoisineException Renvoie une exception si la parcelle ne peut pas etre voisine
+     * Permet de renvoyer une ParcelleDisponible à un indice particulier donc à une position particulière
+     * @param indiceTab (entre 0 et 5) permet de savoir dans quelle direction placer la ParcelleDisponible
+     * @param positionRepere sert de repère pour le positionnement de la ParcelleDisponible
+     * @return une parcelleDisponible donc une parcelle avec une position mais pas jouable
      */
-    public Parcelle[] addVoisinParcelle(Parcelle parcelle, List<Parcelle> listParcelleVoisin) throws ParcelleNonVoisineException{
-        Parcelle[] parcellesVoisines = new Parcelle[6];
-
-        for(Parcelle parcelleVoisin : listParcelleVoisin){
-            int positionTabVoisin = positionTabVoisin(parcelle.getPosition(),parcelleVoisin.getPosition());
-            parcellesVoisines[positionTabVoisin] = parcelleVoisin;
-        }
-
-        for(int i = 0;i<6;i++){
-            if(parcellesVoisines[i] == null){
-                parcellesVoisines[i] = addParcelleVide(i,parcelle.getPosition());
-            }
-        }
-
-        return parcellesVoisines;
+    public ParcelleDisponible addParcelleVide(int indiceTab, Position positionRepere) {
+        int x = positionRepere.getX();
+        int y = positionRepere.getY();
+        return switch (indiceTab) {
+            case 0 -> new ParcelleDisponible(new Position(x+1, y+1));
+            case 1 -> new ParcelleDisponible(new Position(x+2, y));
+            case 2 -> new ParcelleDisponible(new Position(x+1, y-1));
+            case 3 -> new ParcelleDisponible(new Position(x-1, y-1));
+            case 4 -> new ParcelleDisponible(new Position(x-2, y));
+            case 5 -> new ParcelleDisponible(new Position(x-1, y+1));
+            default -> throw new IllegalArgumentException("L'indice donné n'est pas accepté");
+        };
     }
 }

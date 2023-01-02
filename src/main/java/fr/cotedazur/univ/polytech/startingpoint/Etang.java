@@ -3,31 +3,40 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.Objects;
 
 /**
- * Classe Etang qui est la piece principal du jeu
+ * Classe qui est la piece centrale du jeu
  * @author equipe N
- * @version 1.0
  */
 public class Etang implements Parcelle{
-
+    // Définition des attributs
     private final Position position;
+
+
+    // Définition des constructeurs
+    /**
+     * Constructeur par défaut
+     */
     public Etang(){
         position = new Position();
     }
 
-    /**
-     * getter de l'attribut position
-     * @return la valeur de la position
-     */
+
+    // Accesseurs et méthodes toString et equals
     @Override
     public Position getPosition() {
         return position;
     }
 
     @Override
+    public String toString() {
+        return "Etang en " + position;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Etang etang)) return false;
-        return Objects.equals(getPosition(), etang.getPosition());
+        if (o == null || getClass() != o.getClass()) return false;
+        Etang etang = (Etang) o;
+        return getPosition().equals(etang.getPosition());
     }
 
     @Override

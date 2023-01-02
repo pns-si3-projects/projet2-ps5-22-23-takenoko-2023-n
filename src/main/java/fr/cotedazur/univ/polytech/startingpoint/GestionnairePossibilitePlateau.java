@@ -6,25 +6,22 @@ import java.util.Set;
 import java.util.Iterator;
 
 /**
- * Permet de renvoyer les déplacements possibles du plateau
+ * Permet de renvoyer les déplacements possibles sur le plateau
  * @author equipe N
- * @version 1.0
  */
 public class GestionnairePossibilitePlateau {
-    public void GestionnairePossibilitePlateau(){
-    }
-
+    // Méthodes d'utilisation
     /**
-     * Méthode privé qui renvoie vrai si la position de la parcelle est dans la diagonale droite du personnage
+     * Renvoie si la position de la parcelle est dans la diagonale droite du personnage
      * @param positionPersonnage La position du personnage
-     * @param positionParcelleACheck La position de la parcelle à vérifier
+     * @param positionParcelle La position de la parcelle à vérifier
      * @return Renvoie vrai si la parcelle est dans la diagonale droite du personnage
      */
-    private boolean possibleDeplacementDiagonaleDroite(Position positionPersonnage, Position positionParcelleACheck){
+    private boolean possibleDeplacementDiagonaleDroite(Position positionPersonnage, Position positionParcelle){
         int xPerso = positionPersonnage.getX();
         int yPerso = positionPersonnage.getY();
-        int xParcelle = positionParcelleACheck.getX();
-        int yParcelle = positionParcelleACheck.getY();
+        int xParcelle = positionParcelle.getX();
+        int yParcelle = positionParcelle.getY();
 
         if(Math.abs(xPerso-xParcelle) == Math.abs(yPerso-yParcelle)){
             if((xParcelle > xPerso && yParcelle > yPerso) || (xParcelle < xPerso && yParcelle < yPerso)){

@@ -106,7 +106,7 @@ public class Plateau {
      * @throws NombreParcelleVoisinException Renvoi une exception si le nombre de voisin est inférieur à 2 ou supérieur à 6
      */
     public void addParcelle(ParcelleCouleur parcelle) throws ParcelleExistanteException, NombreParcelleVoisinException{
-        List<Parcelle> listParcelleVoisinAAjoute = GESTIONNAIRE_MODIFICATION_PLATEAU.getParcelleVoisin(parcelle);
+        List<Parcelle> listParcelleVoisinAAjoute = GESTIONNAIRE_MODIFICATION_PLATEAU.chercheFuturesVoisines(parcelle);
         if(listParcelleVoisinAAjoute.size() < 2 || listParcelleVoisinAAjoute.size() > 6) throw new NombreParcelleVoisinException(listParcelleVoisinAAjoute.size());
         try {
             Parcelle[] listParcelleVoisin = GESTIONNAIRE_MODIFICATION_PLATEAU.addVoisinParcelle(parcelle,listParcelleVoisinAAjoute);
