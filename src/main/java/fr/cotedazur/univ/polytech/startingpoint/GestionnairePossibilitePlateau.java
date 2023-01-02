@@ -10,7 +10,11 @@ import java.util.Iterator;
  * @author equipe N
  */
 public class GestionnairePossibilitePlateau {
-    // Méthodes d'utilisation
+    Plateau plateau;
+    public GestionnairePossibilitePlateau(Plateau plateau){
+        this.plateau = plateau;
+    }
+
     /**
      * Renvoie si la position de la parcelle est dans la diagonale droite du personnage
      * @param positionPersonnage La position du personnage
@@ -39,7 +43,7 @@ public class GestionnairePossibilitePlateau {
      */
     public List<Position> deplacementPossiblePersonnageDiagonaleDroite(Personnage personnage){
         List<Position> listPositionDeplacementPossible = new ArrayList<>();
-        Set<Parcelle> listParcelleMap = Main.PLATEAU.getListParcelle();
+        Set<Parcelle> listParcelleMap = this.plateau.getListParcelle();
         Iterator<Parcelle> iterateurMap = listParcelleMap.iterator();
         Position positionPersonnage = personnage.getPosition();
 
@@ -81,7 +85,7 @@ public class GestionnairePossibilitePlateau {
      */
     public List<Position> deplacementPossiblePersonnageDiagonaleGauche(Personnage personnage){
         List<Position> listPositionDeplacementPossible = new ArrayList<>();
-        Set<Parcelle> listParcelleMap = Main.PLATEAU.getListParcelle();
+        Set<Parcelle> listParcelleMap = this.plateau.getListParcelle();
         Iterator<Parcelle> iterateurMap = listParcelleMap.iterator();
         Position positionPersonnage = personnage.getPosition();
 
@@ -107,7 +111,7 @@ public class GestionnairePossibilitePlateau {
         int xParcelle = positionParcelleACheck.getX();
         int yParcelle = positionParcelleACheck.getY();
 
-        return (yParcelle == yPerso && (xPerso - xParcelle)%2 == 0);
+        return (xPerso != xParcelle && yParcelle == yPerso && (xPerso - xParcelle)%2 == 0);
     }
 
     /**
@@ -117,7 +121,7 @@ public class GestionnairePossibilitePlateau {
      */
     public List<Position> deplacementPossiblePersonnageHorizontal(Personnage personnage){
         List<Position> listPositionDeplacementPossible = new ArrayList<>();
-        Set<Parcelle> listParcelleMap = Main.PLATEAU.getListParcelle();
+        Set<Parcelle> listParcelleMap = plateau.getListParcelle();
         Iterator<Parcelle> iterateurMap = listParcelleMap.iterator();
         Position positionPersonnage = personnage.getPosition();
 
