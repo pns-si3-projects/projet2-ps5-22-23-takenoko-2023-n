@@ -36,14 +36,14 @@ class PiocheParcelleTest {
     void piocheValeurTropGrande() {
         when(mockRandom.nextInt(anyInt())).thenReturn(27);
         piocheParcelle = new PiocheParcelle(mockRandom);
-        assertThrows(RuntimeException.class, () -> {piocheParcelle.pioche();});
+        assertThrows(ArithmeticException.class, () -> {piocheParcelle.pioche();});
     }
 
     @Test
     void piocheValeurTropPetite() {
         when(mockRandom.nextInt(anyInt())).thenReturn(-1);
         piocheParcelle = new PiocheParcelle(mockRandom);
-        assertThrows(RuntimeException.class, () -> {piocheParcelle.pioche();});
+        assertThrows(ArithmeticException.class, () -> {piocheParcelle.pioche();});
     }
 
     @Test

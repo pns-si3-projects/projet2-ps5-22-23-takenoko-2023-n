@@ -3,9 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +41,7 @@ class GestionnairePossibilitePlateauTest {
             plateau.addParcelle(pC3m1);
             plateau.addParcelle(pC40);
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisinException exception){
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
             assert false : "Ne doit normalement pas renvoyer d'erreur";
         }
     }
@@ -51,8 +49,8 @@ class GestionnairePossibilitePlateauTest {
     @Test
     void deplacementPossiblePersonnageDiagonaleDroite() {
         Panda panda = plateau.getPanda();
-        List<Position> deplacementPossibleDiagonaleDroite = gPP.deplacementPossiblePersonnageDiagonaleDroite(panda);
-        assertTrue(2 == deplacementPossibleDiagonaleDroite.size());
+        List<Position> deplacementPossibleDiagonaleDroite = gPP.deplacementPossiblePersonnageDiagonaleDroite(panda.getPosition());
+        assertEquals(2, deplacementPossibleDiagonaleDroite.size());
         assertEquals(pC11.getPosition(),deplacementPossibleDiagonaleDroite.get(0));
         assertEquals(pCm1m1.getPosition(),deplacementPossibleDiagonaleDroite.get(1));
     }
@@ -60,8 +58,8 @@ class GestionnairePossibilitePlateauTest {
     @Test
     void deplacementPossiblePersonnageDiagonaleGauche() {
         Jardinier jardinier = new Jardinier();
-        List<Position> deplacementPossibleDiagonaleGauche = gPP.deplacementPossiblePersonnageDiagonaleGauche(jardinier);
-        assertTrue(2 == deplacementPossibleDiagonaleGauche.size());
+        List<Position> deplacementPossibleDiagonaleGauche = gPP.deplacementPossiblePersonnageDiagonaleGauche(jardinier.getPosition());
+        assertEquals(2, deplacementPossibleDiagonaleGauche.size());
         assertEquals(pCm11.getPosition(),deplacementPossibleDiagonaleGauche.get(0));
         assertEquals(pC1m1.getPosition(),deplacementPossibleDiagonaleGauche.get(1));
     }
@@ -69,8 +67,8 @@ class GestionnairePossibilitePlateauTest {
     @Test
     void deplacementPossiblePersonnageHorizontal() {
         Panda panda = plateau.getPanda();
-        List<Position> deplacementPossibleHorrizontal = gPP.deplacementPossiblePersonnageHorizontal(panda);
-        assertTrue(3 == deplacementPossibleHorrizontal.size());
+        List<Position> deplacementPossibleHorrizontal = gPP.deplacementPossiblePersonnageHorizontal(panda.getPosition());
+        assertEquals(3, deplacementPossibleHorrizontal.size());
         assertEquals(pC20.getPosition(),deplacementPossibleHorrizontal.get(2));
         assertEquals(pCm20.getPosition(),deplacementPossibleHorrizontal.get(0));
         assertEquals(pC40.getPosition(),deplacementPossibleHorrizontal.get(1));
@@ -79,14 +77,12 @@ class GestionnairePossibilitePlateauTest {
     @Test
     void allDeplacement(){
         Jardinier jardinier = new Jardinier();
-        List<Position> deplacementPossible = gPP.deplacementPossiblePersonnageDiagonaleGauche(jardinier);
-        deplacementPossible.addAll(gPP.deplacementPossiblePersonnageHorizontal(jardinier));
-        deplacementPossible.addAll(gPP.deplacementPossiblePersonnageDiagonaleDroite(jardinier));
-        Set<Parcelle> setParcelle = plateau.getListParcelle();
-        assertFalse(setParcelle.size() == deplacementPossible.size());
-        Iterator<Parcelle> iterator = setParcelle.iterator();
-        while (iterator.hasNext()){
-            Parcelle parcelle = iterator.next();
+        List<Position> deplacementPossible = gPP.deplacementPossiblePersonnageDiagonaleGauche(jardinier.getPosition());
+        deplacementPossible.addAll(gPP.deplacementPossiblePersonnageHorizontal(jardinier.getPosition()));
+        deplacementPossible.addAll(gPP.deplacementPossiblePersonnageDiagonaleDroite(jardinier.getPosition()));
+        Parcelle[] parcelles = plateau.getParcelles();
+        assertNotEquals(parcelles.length, deplacementPossible.size());
+        for (Parcelle parcelle : parcelles) {
             if(!parcelle.equals(pC3m1) && !parcelle.equals(plateau.getEtang())) {
                 assertTrue(deplacementPossible.contains(parcelle.getPosition()));
             }

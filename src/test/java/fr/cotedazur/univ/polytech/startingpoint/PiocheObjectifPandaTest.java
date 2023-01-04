@@ -38,14 +38,14 @@ class PiocheObjectifPandaTest {
     void piocheValeurTropGrande() {
         when(mockRandom.nextInt(anyInt())).thenReturn(15);
         piocheObjectifPanda = new PiocheObjectifPanda(mockRandom);
-        assertThrows(RuntimeException.class, () -> {piocheObjectifPanda.pioche();});
+        assertThrows(ArithmeticException.class, () -> {piocheObjectifPanda.pioche();});
     }
 
     @Test
     void piocheValeurTropPetite() {
         when(mockRandom.nextInt(anyInt())).thenReturn(-1);
         piocheObjectifPanda = new PiocheObjectifPanda(mockRandom);
-        assertThrows(RuntimeException.class, () -> {piocheObjectifPanda.pioche();});
+        assertThrows(ArithmeticException.class, () -> {piocheObjectifPanda.pioche();});
     }
 
     @Test

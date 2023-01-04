@@ -27,14 +27,14 @@ class PiocheObjectifJardinierTest {
     void piocheValeurTropGrande() {
         when(mockRandom.nextInt(anyInt())).thenReturn(15);
         piocheObjectifJardinier = new PiocheObjectifJardinier(mockRandom);
-        assertThrows(RuntimeException.class, () -> {piocheObjectifJardinier.pioche();});
+        assertThrows(ArithmeticException.class, () -> {piocheObjectifJardinier.pioche();});
     }
 
     @Test
     void piocheValeurTropPetite() {
         when(mockRandom.nextInt(anyInt())).thenReturn(-1);
         piocheObjectifJardinier = new PiocheObjectifJardinier(mockRandom);
-        assertThrows(RuntimeException.class, () -> {piocheObjectifJardinier.pioche();});
+        assertThrows(ArithmeticException.class, () -> {piocheObjectifJardinier.pioche();});
     }
 
     @Test
