@@ -1,0 +1,225 @@
+package fr.cotedazur.univ.polytech.startingpoint;
+
+import java.util.*;
+
+/**
+ * Classe représentant le plateau du jeu, soit les parcelles, le panda, le jardinier
+ * Il est possible d'avoir la liste des voisines d'une parcelle et la liste des positions disponibles sur le Plateau
+ * @author equipe N
+ */
+public class Plateau {
+    // Définition des attributs
+    private final Map<Parcelle,Parcelle[]> parcelleEtVoisinesList;
+    private final Panda panda;
+    private final Jardinier jardinier;
+    private final Etang etang;
+    private final List<Position> positionsDisponibles;
+    private static final GestionnaireModificationPlateau GESTIONNAIRE_MODIFICATION_PLATEAU = new GestionnaireModificationPlateau();
+
+
+    // Définition des constructeurs
+    /**
+     * Constructeur par defaut, initialise le panda, le jardinier et l'étang
+     */
+    public Plateau() {
+        // Initialisation des attributs
+        parcelleEtVoisinesList = new HashMap<>();
+        panda = new Panda();
+        jardinier = new Jardinier();
+        etang = new Etang();
+        positionsDisponibles = new ArrayList<>();
+
+        // Ajout des voisines de l'étang et des parcelles disponibles
+        addVoisinesEtangEtDisponibles();
+    }
+
+    /**
+     * Ajoute les voisines de l'étang ainsi que les premières ParcelleDisponible
+     */
+    private void addVoisinesEtangEtDisponibles() {
+       Position positionEtang = etang.getPosition();
+       Parcelle[] listParcelle = new Parcelle[6];
+       for (int i=0; i<6; i++) {
+           listParcelle[i] = GESTIONNAIRE_MODIFICATION_PLATEAU.creeParcelleDisponible(i, positionEtang);
+       }
+       parcelleEtVoisinesList.put(etang, listParcelle);
+       addPositionDisponibleEtang();
+    }
+
+    /**
+     * Ajoute les premières parcelles disponibles lorsque l'étang est posé
+     */
+    private void addPositionDisponibleEtang(){
+        Parcelle[] listParcelleDisponibleEtang = parcelleEtVoisinesList.get(etang);
+        for (Parcelle parcelle : listParcelleDisponibleEtang) {
+            assert (parcelle.getClass() == ParcelleDisponible.class) : "Voisine de l'étang pas disponible à l'initialisation";
+            positionsDisponibles.add(parcelle.getPosition());
+        }
+    }
+
+
+    // Accesseurs et méthodes toString
+    /**
+     * Renvoie un tableau des parcelles présentes sur le plateau
+     * @return un tableau des parcelles du plateau
+     */
+    public Parcelle[] getParcelles() {
+        Parcelle[] parcelles = new Parcelle[parcelleEtVoisinesList.size()];
+        Iterator<Parcelle> iterateurParcelles = parcelleEtVoisinesList.keySet().iterator();
+        for (int i=0; i<parcelles.length; i++) {
+            parcelles[i] = iterateurParcelles.next();
+        }
+        return parcelles;
+    }
+
+    /**
+     * Renvoie la parcelle étang
+     * @return la parcelle étang
+     */
+    public Etang getEtang() {
+        return etang;
+    }
+
+    /**
+     * Renvoie le panda
+     * @return le Panda
+     */
+    public Panda getPanda() {
+        return panda;
+    }
+
+    /**
+     * Renvoie le jardinier
+     * @return le jardinier
+     */
+    public Jardinier getJardinier() {
+        return jardinier;
+    }
+
+    /**
+     * Renvoie un tableau des positions disponibles à l'ajout d'une parcelle
+     * @return un tableau des positions disponibles à l'ajout d'une parcelle
+     */
+    public Position[] getPositionsDisponible(){
+        Position[] listPosition = new Position[positionsDisponibles.size()];
+        for (int i=0; i<positionsDisponibles.size(); i++) {
+            listPosition[i] = positionsDisponibles.get(i);
+        }
+        return listPosition;
+    }
+
+    /**
+     * Renvoie les parcelles voisines d'une parcelle donnée
+     * @param parcelle est la parcelle ciblée pour connaitre ses voisines
+     * @return un tableau de parcelles qui sont les voisines de la parcelle ciblée
+     * @throws ParcelleNonExistanteException si la parcelle ciblée n'a pas été crée ou ajoutée au plateau
+     */
+    public Parcelle[] getTableauVoisines(Parcelle parcelle) throws ParcelleNonExistanteException {
+        if (parcelleEtVoisinesList.containsKey(parcelle)) {
+            return parcelleEtVoisinesList.get(parcelle);
+        }
+        throw new ParcelleNonExistanteException(parcelle);
+    }
+
+    /**
+     * Ajoute les positions disponibles grâce à la liste des voisines de la parcelle ajoutée
+     * @param listVoisines la liste des voisines de la parcelle qu'on vient d'ajouter
+     */
+    private void addPositionsDisponibles(Parcelle[] listVoisines){
+        for (Parcelle parcelle : listVoisines) {
+            if (parcelle.getClass().equals(ParcelleDisponible.class) && estPositionDisponible((ParcelleDisponible) parcelle)) {
+                Position positionVoisin = parcelle.getPosition();
+                if (!positionsDisponibles.contains(positionVoisin)){
+                    positionsDisponibles.add(positionVoisin);
+                }
+            }
+        }
+    }
+
+    /**
+     * Renvoie si la position de la parcelle disponible donnée peut recevoir une parcelle
+     * @param parcelleDisponible est la parcelle disponible ciblée pour recueillir sa position
+     * @return <code>true</code> si une parcelle peut être ajoutée à la même position que la percelle disponible, <code>false</code> sinon
+     */
+    private boolean estPositionDisponible(ParcelleDisponible parcelleDisponible) {
+        try {
+            List<Parcelle> parcellesVoisines = GESTIONNAIRE_MODIFICATION_PLATEAU.chercheFuturesVoisines(parcelleDisponible, getParcelles());
+            if (parcellesVoisines.contains(etang)) return true;
+            if (parcellesVoisines.size() >= 2) return true;
+        } catch (ParcelleExistanteException e) {
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * Méthode privé de la méthode addPosition qui permet de savoir à l'indice du tableau si elle a une Parcelle existante, si oui renvoie true sinon false
+     * @param indiceTab indice du tableau de voisin à regarder à côté
+     * @param listVoisins liste des voisins de la Parcelle ajouté
+     * @return Renvoie vrai si la parcelleDisponible possède à côté de lui une parcelle existante dans le plateau
+     */
+    private boolean checkVoisin(int indiceTab,Parcelle[] listVoisins){
+        int indiceAvantTab = indiceTab - 1;
+        int indiceApresTab = indiceTab + 1;
+        if(indiceTab == 0){
+            indiceAvantTab = 5;
+        }
+        else if(indiceTab == 5) {
+            indiceApresTab = 0;
+        }
+        return ((listVoisins[indiceAvantTab].getClass() == ParcelleCouleur.class || listVoisins[indiceAvantTab].getClass() == Etang.class)
+                || (listVoisins[indiceApresTab].getClass() == ParcelleCouleur.class || listVoisins[indiceApresTab].getClass() == Etang.class));
+    }
+
+    /**
+     * Permet d'ajouter une nouvelle parcelle au Plateau
+     * @param parcelle la parcelle à ajouter
+     * @throws ParcelleExistanteException si la parcelle est déjà sur le Plateau
+     * @throws NombreParcelleVoisineException si le nombre de voisines est inférieur à 2 ou supérieur à 6
+     */
+    public void addParcelle(ParcelleCouleur parcelle) throws ParcelleExistanteException, NombreParcelleVoisineException {
+        // On prend les voisines existantes sur le Plateau
+        List<Parcelle> futuresVoisinesList = GESTIONNAIRE_MODIFICATION_PLATEAU.chercheFuturesVoisines(parcelle, getParcelles());
+        int tailleListVoisines = futuresVoisinesList.size();
+
+        // Cas nombre de voisines incorrecte ou ne contient pas l'étang
+        if ((tailleListVoisines < 2 && !futuresVoisinesList.contains(etang)) || tailleListVoisines > 6) {
+            throw new NombreParcelleVoisineException(tailleListVoisines);
+        }
+
+        try {
+            // Se fait connaitre pour ses nouvelles voisines
+            addParcelleVoisine(futuresVoisinesList,parcelle);
+            // On prend toutes les voisines (dont les espaces vide en ParcelleDisponible)
+            Parcelle[] toutesVoisinesList = GESTIONNAIRE_MODIFICATION_PLATEAU.addVoisinesParcelle(parcelle, futuresVoisinesList);
+            parcelleEtVoisinesList.put(parcelle, toutesVoisinesList);
+            addPositionsDisponibles(toutesVoisinesList);
+            // On enlève la position de la parcelle ajoutée aux possibilités d'ajout de parcelle
+            deletePositionList(parcelle.getPosition());
+        }
+        catch (ParcelleNonVoisineException pNVE) {
+            System.out.println(pNVE);
+        }
+    }
+
+    /**
+     * Ajoute la parcelle à la liste des voisines des parcelles qui lui sont voisines
+     * @param voisines la liste des voisines de la parcelle en cours d'ajout
+     * @param parcelle la parcelle en cours d'ajout
+     */
+    private void addParcelleVoisine(List<Parcelle> voisines, Parcelle parcelle) {
+        for (Parcelle voisineParcelle : voisines) {
+            Parcelle[] listVoisineParcelle = parcelleEtVoisinesList.get(voisineParcelle);
+            int indiceDansTableauVoisines = GESTIONNAIRE_MODIFICATION_PLATEAU.positionTabVoisin(voisineParcelle.getPosition(), parcelle.getPosition());
+            listVoisineParcelle[indiceDansTableauVoisines] = parcelle;
+        }
+    }
+
+    /**
+     * Supprime une position disponible
+     * @param position est la position précédemment disponible à retirer
+     */
+    private void deletePositionList(Position position){
+        positionsDisponibles.remove(position);
+    }
+}
