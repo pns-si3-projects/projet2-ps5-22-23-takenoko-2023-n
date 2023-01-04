@@ -3,46 +3,50 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.Objects;
 
 /**
- * Classe de Parcelle qui est mise dans le plateau
+ * Classe représentant une parcelle posée sur le plateau
  * @author equipe N
- * @version 1.0
  */
-public class ParcelleCouleur implements Parcelle{
+public class ParcelleCouleur implements Parcelle {
+    // Définition des attributs
     private final Position position;
 
+
+    // Définition des constructeurs
     /**
-     * Constructeur de la classe ParcelleCouleur
-     * @param p position unique de la parcelle
+     * Constructeur par défaut
+     * @param position position finale de la parcelle
      */
-    public ParcelleCouleur(Position p){
-        if(p == null) throw new NullPointerException("La position ne doit pas etre vide");
-        position = p;
+    public ParcelleCouleur(Position position) {
+        if (position == null) throw new NullPointerException("La position ne doit pas être null");
+        this.position = position;
     }
 
+
+    // Accesseurs et méthodes toString et equals
     /**
      * Renvoie la position de la parcelle
-     * @return Retourne la position de la parcelle
+     * @return la position
      */
     @Override
     public Position getPosition() {
         return position;
     }
 
-    /**
-     * Compare si l'objet donnee en parametre est le meme que lui meme
-     * @param obj objet a compare avec cette Parcelle couleur
-     * @return Retourne true si ils ont la meme position sinon false
-     */
     @Override
-    public boolean equals(Object obj) {
-        if(this == obj) return true;
-        else if(obj == null || obj.getClass() != this.getClass()) return false;
-        ParcelleCouleur parcelleToCompare = (ParcelleCouleur) obj;
-        return position.equals(parcelleToCompare.getPosition());
+    public String toString() {
+        return "Parcelle de couleur en " + position;
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(position);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ParcelleCouleur that = (ParcelleCouleur) o;
+        return Objects.equals(getPosition(), that.getPosition());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPosition());
     }
 }

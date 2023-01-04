@@ -8,14 +8,15 @@ import java.util.Objects;
  */
 public class ObjectifPanda extends Objectif {
     // Définition des attributs
-    private int nombreBambousAManger;
+    private final int nombreBambousAManger;
 
 
     // Définition des constructeurs
     /**
      * Constructeur par défaut
-     * @param nbPoints > 0 est le nombre de points de l'objectif
-     * @param nbBambous > 0 est le nombre de bambous que le joueur doit posséder
+     * @param nbPoints est le nombre de points de l'objectif
+     * @param nbBambous est le nombre de bambous que le joueur doit posséder
+     * @implSpec <code>nbPoints > 0</code>, <code>nbBambous > 0</code>
      */
     public ObjectifPanda(int nbPoints, int nbBambous) {
         nombrePoints = nbPoints;
@@ -43,7 +44,7 @@ public class ObjectifPanda extends Objectif {
     /**
      * Compare 2 ObjectifPanda par le nombre de points et le nombre de bambous à manger
      * @param o est l'objet à comparer avec celui actuel
-     * @return si l'ObjectifPanda en paramètre a le même nombre de points et de bambous à manger
+     * @return <code>true</code> si l'ObjectifPanda donné a le même nombre de points et de bambous à manger, <code>false</code> sinon
      */
     @Override
     public boolean equals(Object o) {

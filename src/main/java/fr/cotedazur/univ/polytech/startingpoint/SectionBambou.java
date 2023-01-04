@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 /**
- * Classe représentant une section de SectionBambou
+ * Classe représentant une section de bambou
  * @author equipe N
  */
 public class SectionBambou {
@@ -14,6 +14,7 @@ public class SectionBambou {
      * Constructeur par défaut
      */
     public SectionBambou() {
+        // A compléter quand on ajoutera la couleur
     }
 
 

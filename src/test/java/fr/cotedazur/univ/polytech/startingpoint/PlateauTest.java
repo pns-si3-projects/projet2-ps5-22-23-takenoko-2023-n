@@ -4,9 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +21,7 @@ class PlateauTest {
             plateau.addParcelle(pC20);
             plateau.addParcelle(pC11);
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisinException exception){
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
             assert false : "Ne doit pas renvoyer d'exception";
         }
     }
@@ -33,16 +31,12 @@ class PlateauTest {
         List<Parcelle> listParcelle = new ArrayList<>();
         listParcelle.add(pC20);
         listParcelle.add(pC11);
-        Set<Parcelle> parcellesPlateau = plateau.getListParcelle();
-        assertTrue(parcellesPlateau.size() == 3);
-        Iterator<Parcelle> iteratorParcelles = parcellesPlateau.iterator();
-        int i = 0;
-        while (iteratorParcelles.hasNext()){
-            if(i != 0){ // Car il y a l'etang
-                assertTrue(listParcelle.contains(iteratorParcelles.next()));
+        Parcelle[] parcelles = plateau.getParcelles();
+        assertEquals(3, parcelles.length);
+        for (Parcelle parcelle : parcelles) {
+            if (!parcelle.getClass().equals(Etang.class)) {
+                assertTrue(listParcelle.contains(parcelle));
             }
-            else iteratorParcelles.next();
-            i++;
         }
     }
 
@@ -56,27 +50,23 @@ class PlateauTest {
         try {
             plateau.addParcelle(pC31);
         }
-        catch (NombreParcelleVoisinException | ParcelleExistanteException exception){
+        catch (NombreParcelleVoisineException | ParcelleExistanteException exception){
             assert false : "Ne doit pas renvoyer d'exception";
         }
 
-        Set<Parcelle> parcellesPlateau = plateau.getListParcelle();
-        assertTrue(parcellesPlateau.size() == 4);
-        Iterator<Parcelle> iteratorParcelles = parcellesPlateau.iterator();
-        int i = 0;
-        while (iteratorParcelles.hasNext()){
-            if(i != 0){ // Car il y a l'etang
-                assertTrue(listParcelle.contains(iteratorParcelles.next()));
+        Parcelle[] parcelles = plateau.getParcelles();
+        assertEquals(4, parcelles.length);
+        for (Parcelle parcelle : parcelles) {
+            if (!parcelle.getClass().equals(Etang.class)) {
+                assertTrue(listParcelle.contains(parcelle));
             }
-            else iteratorParcelles.next();
-            i++;
         }
     }
 
     @Test
     void getTableauVoisinSansException() {
         try {
-            Parcelle[] listVoisin = plateau.getTableauVoisin(pC20);
+            Parcelle[] listVoisin = plateau.getTableauVoisines(pC20);
             assertEquals(listVoisin[4],new Etang());
             assertEquals(listVoisin[0],new ParcelleDisponible(new Position(3,1)));
             assertEquals(listVoisin[1],new ParcelleDisponible(new Position(4,0)));
@@ -84,7 +74,7 @@ class PlateauTest {
             assertEquals(listVoisin[3],new ParcelleDisponible(new Position(1,-1)));
             assertEquals(listVoisin[5],pC11);
 
-            listVoisin = plateau.getTableauVoisin(pC11);
+            listVoisin = plateau.getTableauVoisines(pC11);
             assertEquals(listVoisin[3],new Etang());
             assertEquals(listVoisin[2],pC20);
         }
@@ -97,17 +87,17 @@ class PlateauTest {
     void getTableauVoisinAvecException() {
         ParcelleCouleur pC40 = new ParcelleCouleur(new Position(4,0));
         try {
-            plateau.getTableauVoisin(pC40);
+            plateau.getTableauVoisines(pC40);
         }
         catch (ParcelleNonExistanteException pNEE){
-            assertEquals("La parcelle de position "+ pC40.getPosition()+" n'existe pas dans la map",pNEE.getMessage());
+            assertEquals("La parcelle de position "+ pC40.getPosition()+" n'existe pas sur le plateau",pNEE.getMessage());
         }
     }
 
     @Test
     void getPositionsDisponible() {
         Position[] listPosition = plateau.getPositionsDisponible();
-        assertTrue(listPosition.length == 5);
+        assertEquals(5, listPosition.length);
         assertEquals(new Position(3,1),listPosition[4]);
         assertEquals(new Position(1,-1),listPosition[0]);
         assertEquals(new Position(-1,-1),listPosition[1]);
@@ -117,11 +107,11 @@ class PlateauTest {
         try {
             plateau.addParcelle(new ParcelleCouleur(new Position(3,1)));
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisinException exception){
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
             assert false : "Ne doit pas renvoyer d'exception";
         }
         listPosition = plateau.getPositionsDisponible();
-        assertTrue(listPosition.length == 6);
+        assertEquals(6, listPosition.length);
         assertEquals(new Position(4,0),listPosition[4]);
         assertEquals(new Position(2,2),listPosition[5]);
     }
@@ -133,12 +123,12 @@ class PlateauTest {
 
     @Test
     void addParcelleSansException() {
-        Set<Parcelle> mapPlateau = plateau.getListParcelle();
+        Parcelle[] parcelles = plateau.getParcelles();
         List<Parcelle> listParcelle = new ArrayList<>();
         listParcelle.add(new Etang());
         listParcelle.add(pC20);
         listParcelle.add(pC11);
-        assertTrue(mapPlateau.size() == 3);
+        assertEquals(3, parcelles.length);
 
         ParcelleCouleur pC31 = new ParcelleCouleur(new Position(3,1));
         ParcelleCouleur pCm1m1 = new ParcelleCouleur(new Position(-1,-1));
@@ -148,12 +138,12 @@ class PlateauTest {
             plateau.addParcelle(pC31);
             plateau.addParcelle(pCm1m1);
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisinException exception){
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
             assert false : "Ne doit pas renvoyer d'exception";
         }
-        mapPlateau = plateau.getListParcelle();
-        assertTrue(mapPlateau.size() == 5);
-        for(Parcelle parcelle : mapPlateau){
+        parcelles = plateau.getParcelles();
+        assertEquals(5, parcelles.length);
+        for(Parcelle parcelle : parcelles){
             assertTrue(listParcelle.contains(parcelle));
         }
     }
@@ -164,8 +154,8 @@ class PlateauTest {
         try {
             plateau.addParcelle(pC20bis);
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisinException exception){
-            assertEquals("La parcelle de position "+pC20bis.getPosition()+" est deja existante",exception.getMessage());
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
+            assertEquals("La parcelle de position "+pC20bis.getPosition()+" est déjà existante",exception.getMessage());
         }
     }
 
@@ -175,8 +165,8 @@ class PlateauTest {
         try {
             plateau.addParcelle(pC40);
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisinException exception){
-            assertEquals("Il manque des voisins",exception.getMessage());
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
+            assertEquals("Il manque des voisines",exception.getMessage());
         }
     }
 }

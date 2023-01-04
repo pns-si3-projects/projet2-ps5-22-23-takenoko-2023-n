@@ -8,14 +8,15 @@ import java.util.Objects;
  */
 public class ObjectifParcelle extends Objectif {
     // Définition des attributs
-    private int nombreParcelles;
+    private final int nombreParcelles;
 
 
     // Définition des constructeurs
     /**
      * Constructeur par défaut
-     * @param nbPoints > 0 est le nombre de points de l'objectif
-     * @param nbParcelles > 0 est le nombre de parcelles à poser pour finir l'objectif
+     * @param nbPoints est le nombre de points de l'objectif
+     * @param nbParcelles est le nombre de parcelles à poser
+     * @implSpec <code>nbPoints > 0</code>, <code>nbParcelles > 0</code>
      */
     public ObjectifParcelle(int nbPoints, int nbParcelles) {
         nombrePoints = nbPoints;
@@ -26,7 +27,7 @@ public class ObjectifParcelle extends Objectif {
     // Accesseurs et méthodes toString et equals
     /**
      * Renvoie le nombre de parcelles irriguées qui doivent se retrouver sur le plateau
-     * @return le nombre de parcelles iriguées qui doivent être sur le plateau
+     * @return le nombre de parcelles irriguées qui doivent être sur le plateau
      */
     public int getNombreParcelles() {
         return nombreParcelles;
@@ -43,7 +44,7 @@ public class ObjectifParcelle extends Objectif {
     /**
      * Compare 2 ObjectifParcelle par le nombre de points et le nombre de parcelles
      * @param o est l'objet à comparer avec celui actuel
-     * @return si l'ObjectifParcelle en paramètre a le même nombre de points et de parcelles
+     * @return <code>true</code> si l'ObjectifParcelle donné a le même nombre de points et de parcelles, <code>false</code> sinon
      */
     @Override
     public boolean equals(Object o) {

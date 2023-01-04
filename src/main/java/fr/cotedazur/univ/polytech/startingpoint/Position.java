@@ -8,20 +8,20 @@ import java.util.Objects;
  */
 public class Position {
     // Définition des attributs
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
 
     // Définition des constructeurs
     /**
-     * Contructeur par défaut pour l'etang
+     * Contructeur pour l'etang
      */
     public Position() {
         this(0, 0);
     }
 
     /**
-     * Constructeur avec deux coordonnées
+     * Constructeur par défaut
      * @param x coordonnée horizontale
      * @param y coordonnée verticale
      */
@@ -33,7 +33,7 @@ public class Position {
 
     // Accesseurs et méthode toString et equals
     /**
-     * Getteur pour l'attribut x
+     * Renvoie la valeur de l'attribut x
      * @return la valeur de x
      */
     public int getX() {
@@ -41,7 +41,7 @@ public class Position {
     }
 
     /**
-     * Getter pour l'attribut y
+     * Renvoie la valeur de l'attribut y
      * @return la valeur de y
      */
     public int getY() {

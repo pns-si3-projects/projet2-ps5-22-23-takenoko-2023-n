@@ -1,26 +1,35 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 /**
- * Classe du jardinier
+ * Classe représentant le Jardinier
  * @author equipe N
- * @version 1.0
  */
-public class Jardinier implements Personnage{
-    private Position position;
+public class Jardinier implements Personnage {
+    // Définition des attributs
+    private final Position position;
 
+
+    // Définition des constructeurs
     /**
-     * Constructeur par défaut du panda qui commence à la position de depart soit 0
+     * Constructeur par défaut du Jardinier qui commence sur l'étang
      */
-    public Jardinier(){
+    public Jardinier() {
         position = new Position();
     }
 
+
+    // Accesseurs et méthode toString
     /**
-     * Renvoie la position du panda
-     * @return Renvoie la position
+     * Renvoie la position du Jardinier
+     * @return la position
      */
     @Override
-    public Position getPosition(){
+    public Position getPosition() {
         return position;
+    }
+
+    @Override
+    public String toString() {
+        return "Jardinier en " + position;
     }
 }

@@ -3,31 +3,23 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.Random;
 
 /**
- * Gère la pioche des cartes objectif de panda
+ * Classe permettant de gérer la pioche des cartes objectif de panda
  * @author équipe N
  */
 public class PiocheObjectifPanda implements PiocheObjectifInterface {
     // Définition des attributs
-    private Random random;
-    private int[] objectifPandaList;
+    private final Random random;
+    private final int[] objectifPandaList;
 
 
     // Définition des constructeurs
     /**
-     * Constructeur par défaut, crée la pioche des objectifs de panda
+     * Constructeur par défaut
      * @param random est un objet Random qui va permettre de créer une pioche aléatoire
      */
     public PiocheObjectifPanda(Random random) {
-        objectifPandaList = new int[4];
-        creePiocheObjectifsPanda();
+        objectifPandaList = new int[]{5, 4, 3, 3};
         this.random = random;
-    }
-
-    private void creePiocheObjectifsPanda() {
-        objectifPandaList[0] = 5;
-        objectifPandaList[1] = 4;
-        objectifPandaList[2] = 3;
-        objectifPandaList[3] = 3;
     }
 
 
@@ -54,7 +46,7 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
         assert !isEmpty() : "La pioche d'objectifs de panda est vide";
         int size = getNombreObjectifsRestants();
         int positionCarte = random.nextInt(size);
-        if (positionCarte < 0 || positionCarte >= size) throw new RuntimeException();
+        if (positionCarte < 0 || positionCarte >= size) throw new ArithmeticException("Erreur objet random");
         return prendCarteObjectifPanda(positionCarte);
     }
 
@@ -65,8 +57,7 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
      * @implSpec la position doit être comprise entre 0 et "le nombre de cartes de la pioche - 1"
      */
     private ObjectifPanda prendCarteObjectifPanda(int position) {
-        assert position>0 && position< getNombreObjectifsRestants() : "La position demandée dans la pioche est impossible";
-        ObjectifPanda res = null;
+        assert position>0 && position<getNombreObjectifsRestants() : "La position demandée dans la pioche est impossible";
         int somme = 0;
         for (int i=0; i<objectifPandaList.length; i++) {
             somme += objectifPandaList[i];
@@ -80,12 +71,12 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
 
     /**
      * Crée l'objectifPanda désigné par la position et le renvoie
-     * @param position est la position de la carte objectifPanda dans le tableau de la pioche
+     * @param indice est la position de la carte objectifPanda dans le tableau de la pioche
      * @return la carte objectifPanda demandée
-     * @implSpec la position doit être comprise entre 0 et 4
+     * @implSpec la position doit être comprise entre 0 et 3
      */
-    private ObjectifPanda creeCarteObjectifPanda(int position) {
-        return switch (position) {
+    private ObjectifPanda creeCarteObjectifPanda(int indice) {
+        return switch (indice) {
             case 0 -> new ObjectifPanda(3, 2);
             case 1 -> new ObjectifPanda(4, 2);
             case 2 -> new ObjectifPanda(5, 2);

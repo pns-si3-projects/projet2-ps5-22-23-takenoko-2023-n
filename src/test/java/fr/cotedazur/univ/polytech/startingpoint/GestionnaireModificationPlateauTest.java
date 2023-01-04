@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +27,7 @@ class GestionnaireModificationPlateauTest {
     @BeforeEach
     void setUp(){
         plateau = new Plateau();
-        gMP = new GestionnaireModificationPlateau(plateau);
+        gMP = new GestionnaireModificationPlateau();
         etang = plateau.getEtang();
         positionEtang = etang.getPosition();
         // en fait ici, je comprends pas pq tu veux refaire ça before each
@@ -52,11 +51,11 @@ class GestionnaireModificationPlateauTest {
     @Test
     void addParcelleVide() {
         for(int i = 0;i<6;i++){
-            assertEquals(listParcelleDisponible[i],gMP.addParcelleVide(i,positionEtang));
+            assertEquals(listParcelleDisponible[i],gMP.creeParcelleDisponible(i,positionEtang));
         }
 
         try {
-            gMP.addParcelleVide(6,positionEtang);
+            gMP.creeParcelleDisponible(6,positionEtang);
             assert false: "Doit renvoyer une erreur";
         }
         catch (IllegalArgumentException iAE){
@@ -64,7 +63,7 @@ class GestionnaireModificationPlateauTest {
         }
 
         try {
-            gMP.addParcelleVide(-1,positionEtang);
+            gMP.creeParcelleDisponible(-1,positionEtang);
             assert false: "Doit renvoyer une erreur";
         }
         catch (IllegalArgumentException iAE){
@@ -78,7 +77,7 @@ class GestionnaireModificationPlateauTest {
     @Test
     void getParcelleVoisinSansExceptionUn() {
         try {
-            List<Parcelle> listVoisinParcelle = gMP.getParcelleVoisin(parcelleCouleurNonPose2);
+            List<Parcelle> listVoisinParcelle = gMP.chercheFuturesVoisines(parcelleCouleurNonPose2, plateau.getParcelles());
             assertEquals(1, listVoisinParcelle.size());
             assertEquals(etang,listVoisinParcelle.get(0));
         }
@@ -93,14 +92,14 @@ class GestionnaireModificationPlateauTest {
 
         try {
             plateau.addParcelle(parcelleCouleurNonPose2);
-            Set<Parcelle> listParcelle = plateau.getListParcelle();
+            plateau.getParcelles();
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisinException exception){
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
             assert false: "Ne doit pas renvoyer d'exception";
         }
 
         try {
-            List<Parcelle> listVoisinParcelle = gMP.getParcelleVoisin(parcelleCouleurNonPose3);
+            List<Parcelle> listVoisinParcelle = gMP.chercheFuturesVoisines(parcelleCouleurNonPose3, plateau.getParcelles());
             assertEquals(2, listVoisinParcelle.size());
             assertEquals(etang,listVoisinParcelle.get(0));
             assertEquals(parcelleCouleurNonPose2,listVoisinParcelle.get(1));
@@ -113,10 +112,10 @@ class GestionnaireModificationPlateauTest {
     @Test
     void getParcelleVoisinAvecExceptionUn(){
         try {
-            gMP.getParcelleVoisin(etang);
+            gMP.chercheFuturesVoisines(etang, plateau.getParcelles());
         }
         catch (ParcelleExistanteException pEE){
-            assertEquals("La parcelle de position "+etang.getPosition()+" est deja existante",pEE.getMessage());
+            assertEquals("La parcelle de position "+etang.getPosition()+" est déjà existante",pEE.getMessage());
         }
     }
 
@@ -127,24 +126,24 @@ class GestionnaireModificationPlateauTest {
         try {
             plateau.addParcelle(parcelleCouleurNonPose2);
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisinException exception){
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
             assert false: "Ne doit pas renvoyer d'exception";
         }
 
         try {
-            gMP.getParcelleVoisin(parcelleCouleurNonPose2bis);
+            gMP.chercheFuturesVoisines(parcelleCouleurNonPose2bis, plateau.getParcelles());
         }
         catch (ParcelleExistanteException pEE){
-            assertEquals("La parcelle de position "+parcelleCouleurNonPose2bis.getPosition()+" est deja existante",pEE.getMessage());
+            assertEquals("La parcelle de position "+parcelleCouleurNonPose2bis.getPosition()+" est déjà existante",pEE.getMessage());
         }
     }
 
     @Test
     void addVoisinParcelleSansException() {
         try {
-            List<Parcelle> parcellesVoisin = gMP.getParcelleVoisin(parcelleCouleurNonPose2);
-            Parcelle[] listVoisinPotentiel = gMP.addVoisinParcelle(parcelleCouleurNonPose2,parcellesVoisin);
-            assertTrue(listVoisinPotentiel.length == listParcelleDisponible.length);
+            List<Parcelle> parcellesVoisin = gMP.chercheFuturesVoisines(parcelleCouleurNonPose2, plateau.getParcelles());
+            Parcelle[] listVoisinPotentiel = gMP.addVoisinesParcelle(parcelleCouleurNonPose2,parcellesVoisin);
+            assertEquals(listVoisinPotentiel.length, listParcelleDisponible.length);
             assertEquals(listVoisinPotentiel[5],etang);
             assertEquals(listVoisinPotentiel[0],listParcelleDisponible[1]);
             assertEquals(listVoisinPotentiel[4],listParcelleDisponible[3]);
@@ -165,8 +164,8 @@ class GestionnaireModificationPlateauTest {
     void addVoisinParcelleException(){
         ParcelleCouleur parcelleAAdd = new ParcelleCouleur(new Position(4,0));
         try {
-            List<Parcelle>  listParcelleVoisin40 = gMP.getParcelleVoisin(parcelleAAdd);
-            gMP.addVoisinParcelle(parcelleAAdd,listParcelleVoisin40);
+            List<Parcelle>  listParcelleVoisin40 = gMP.chercheFuturesVoisines(parcelleAAdd, plateau.getParcelles());
+            gMP.addVoisinesParcelle(parcelleAAdd,listParcelleVoisin40);
         }
         catch (ParcelleExistanteException pEE){
             assert false: "Ne doit pas renvoyer d'exception";
