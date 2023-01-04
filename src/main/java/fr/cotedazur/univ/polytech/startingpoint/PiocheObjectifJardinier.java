@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Gère la pioche des cartes objectif de jardinier
+ * Classe permettant de gérer la pioche des cartes objectif de jardinier
  * @author équipe N
  */
 public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implements PiocheObjectifInterface {
     // Définition des attributs
-    private Random random;
+    private final Random random;
 
 
     // Définition des constructeurs
     /**
-     * Constructeur par défaut, crée la pioche des objectifs de jardinier
+     * Constructeur par défaut
      * @param random est un objet Random qui va permettre de créer une pioche aléatoire
      */
     public PiocheObjectifJardinier(Random random) {
@@ -22,6 +22,9 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
         this.random = random;
     }
 
+    /**
+     * Permet d'initialiser la pioche en lui ajoutant les objectifs de jardinier
+     */
     private void creePiocheObjectifsJardinier() {
         add(new ObjectifJardinier(5, 4));
         add(new ObjectifJardinier(6, 4));
@@ -49,7 +52,7 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
 
     @Override
     public boolean isEmpty() {
-        return super.isEmpty();
+        return size() == 0;
     }
 
     @Override
@@ -63,7 +66,7 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de jardinier est vide";
         int positionCarte = random.nextInt(size());
-        if (positionCarte < 0 || positionCarte >= size()) throw new RuntimeException();
+        if (positionCarte < 0 || positionCarte >= size()) throw new ArithmeticException("Erreur objet random");
         return remove(positionCarte);
     }
 }

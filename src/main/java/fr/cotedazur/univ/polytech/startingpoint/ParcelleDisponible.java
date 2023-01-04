@@ -3,41 +3,46 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.Objects;
 
 /**
- * Une classe qui permet de remplacer les valeur null a des parcelles vide mais avec une position
+ * Classe permettant d'avoir une parcelle vide à la place d'un objet null
  * @author N
- * @version 1.0
  */
-public class ParcelleDisponible implements Parcelle{
+public class ParcelleDisponible implements Parcelle {
+    // Définition des attributs
     private final Position position;
 
     /**
-     * Constructeur par default de la classe Parcelle Disponible
-     * @param p Position de la parcelle
+     * Constructeur par defaut
+     * @param position position finale de la parcelle
      */
-    public ParcelleDisponible(Position p){
-        if(p == null) throw new NullPointerException("La position ne doit pas etre vide");
-        position = p;
+    public ParcelleDisponible(Position position) {
+        if (position == null) throw new NullPointerException("La position ne doit pas être null");
+        this.position = position;
     }
 
     /**
-     * Getter de la Postion
-     * @return La position de la Parcelle
+     * Renvoie la position de la parcelle
+     * @return la position
      */
     @Override
-    public Position getPosition(){
+    public Position getPosition() {
         return position;
     }
 
     @Override
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(o == null || o.getClass() != this.getClass())return false;
-        ParcelleDisponible parcelleDisponible = (ParcelleDisponible) o;
-        return parcelleDisponible.getPosition().equals(this.getPosition());
+    public String toString() {
+        return "Parcelle disponible en " + position;
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(position);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ParcelleDisponible that = (ParcelleDisponible) o;
+        return Objects.equals(getPosition(), that.getPosition());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPosition());
     }
 }

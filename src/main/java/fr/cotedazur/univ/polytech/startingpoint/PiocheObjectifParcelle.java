@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Gère la pioche des cartes objectif de parcelles
+ * Classe permettant de gérer la pioche des cartes objectif de parcelles
  * @author équipe N
  */
 public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implements PiocheObjectifInterface {
     // Définition des attributs
-    private Random random;
+    private final Random random;
 
 
     // Définition des constructeurs
     /**
-     * Constructeur par défaut, crée la pioche des objectifs de parcelles
+     * Constructeur par défaut
      * @param random est un objet Random qui va permettre de créer une pioche aléatoire
      */
     public PiocheObjectifParcelle(Random random) {
@@ -22,6 +22,9 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
         this.random = random;
     }
 
+    /**
+     * Permet d'initialiser la pioche en lui ajoutant les objectifs de parcelles
+     */
     private void creePiocheObjectifsParcelle() {
         add(new ObjectifParcelle(2, 3));
         add(new ObjectifParcelle(3, 4));
@@ -49,7 +52,7 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
 
     @Override
     public boolean isEmpty() {
-        return super.isEmpty();
+        return size() == 0;
     }
 
     @Override
@@ -63,7 +66,7 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de parcelles est vide";
         int positionCarte = random.nextInt(size());
-        if (positionCarte < 0 || positionCarte >= size()) throw new RuntimeException();
+        if (positionCarte < 0 || positionCarte >= size()) throw new ArithmeticException("Erreur objet random");
         return remove(positionCarte);
     }
 }

@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 /**
- * Renvoie une exception si un joueur a déjà une pioche de parcelles en cours
+ * Exception dans le cas où il est demandé de piocher alors qu'une pioche n'a pas été terminée
  * @author equipe N
  */
 public class PiocheParcelleEnCoursException extends Exception {

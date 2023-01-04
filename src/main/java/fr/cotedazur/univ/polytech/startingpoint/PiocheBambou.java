@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.Random;
 
 /**
- * Gère les pioches de bambous
+ * Classe permettant de gérer les pioches de bambous
  * @author équipe N
  */
 public class PiocheBambou {
@@ -11,7 +11,7 @@ public class PiocheBambou {
     private int nombreBambousVerts;
     private int nombreBambousRoses;
     private int nombreBambousJaunes;
-    private Random random;
+    private final Random random;
 
 
     // Définition des constructeurs
@@ -20,6 +20,7 @@ public class PiocheBambou {
      * @param random est un objet Random qui va permettre de créer une pioche aléatoire
      */
     public PiocheBambou(Random random) {
+        if (random == null) throw new NullPointerException("L'object random ne doit pas être null");
         nombreBambousVerts = 36;
         nombreBambousRoses = 24;
         nombreBambousJaunes = 30;
@@ -54,7 +55,7 @@ public class PiocheBambou {
 
     /**
      * Renvoie si la pioche de bambous verts est vide
-     * @return true la pioche est vide, false sinon
+     * @return <code>true</code> si la pioche est vide, <code>false</code> sinon
      */
     public boolean isEmptyBambousVerts() {
         return nombreBambousVerts == 0;
@@ -62,7 +63,7 @@ public class PiocheBambou {
 
     /**
      * Renvoie si la pioche de bambous roses est vide
-     * @return true la pioche est vide, false sinon
+     * @return <code>true</code> si la pioche est vide, <code>false</code> sinon
      */
     public boolean isEmptyBambousRoses() {
         return nombreBambousRoses == 0;
@@ -70,7 +71,7 @@ public class PiocheBambou {
 
     /**
      * Renvoie si la pioche de bambous verts est vide
-     * @return true la pioche est vide, false sinon
+     * @return <code>true</code> si la pioche est vide, <code>false</code> sinon
      */
     public boolean isEmptyBambousJaunes() {
         return nombreBambousJaunes == 0;

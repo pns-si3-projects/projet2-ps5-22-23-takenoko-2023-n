@@ -8,14 +8,15 @@ import java.util.Objects;
  */
 public class ObjectifJardinier extends Objectif {
     // Définition des attributs
-    private int nombreBambousAFairePousser;
+    private final int nombreBambousAFairePousser;
 
 
     // Définition des constructeurs
     /**
      * Constructeur par défaut
-     * @param nbPoints > 0 est le nombre de points de l'objectif
-     * @param nbBambous > 0 est le nombre de bambous que le joueur faire pousser
+     * @param nbPoints est le nombre de points de l'objectif
+     * @param nbBambous est le nombre de bambous que le joueur faire pousser
+     * @implSpec <code>nbPoints > 0</code>, <code>nbBambous > 0</code>
      */
     public ObjectifJardinier(int nbPoints, int nbBambous) {
         nombrePoints = nbPoints;
@@ -43,7 +44,7 @@ public class ObjectifJardinier extends Objectif {
     /**
      * Compare 2 ObjectifJardinier par le nombre de points et le nombre de bambous à faire pousser
      * @param o est l'objet à comparer avec celui actuel
-     * @return si l'ObjectifJardinier en paramètre a le même nombre de points et de bambous à faire pousser
+     * @return <code>true</code> si l'ObjectifJardinier donné a le même nombre de points et de bambous à faire pousser, <code>false</code> sinon
      */
     @Override
     public boolean equals(Object o) {

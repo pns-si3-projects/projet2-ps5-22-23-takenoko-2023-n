@@ -1,7 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 /**
- * Répresente une parcelle dans la pioche -> parcelle sans position
+ * Classe représentant une parcelle dans la pioche -> parcelle sans position
+ * @author equipe N
  */
 public class ParcellePioche {
     // Définition des attributs
@@ -13,10 +14,10 @@ public class ParcellePioche {
      * Constructeur par défaut
      */
     public ParcellePioche() {
-
+        // A compléter quand on aura des parcelles de couleur ou des aménagements
     }
 
 
-    // Accesseurs et méthode toString et equals
+    // Accesseurs et méthodes toString et equals
 
 }

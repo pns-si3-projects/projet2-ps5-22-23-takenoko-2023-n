@@ -3,10 +3,10 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.Objects;
 
 /**
- * Classe qui est la piece centrale du jeu
+ * Classe qui représente la piece centrale du jeu
  * @author equipe N
  */
-public class Etang implements Parcelle{
+public class Etang implements Parcelle {
     // Définition des attributs
     private final Position position;
 
@@ -15,7 +15,7 @@ public class Etang implements Parcelle{
     /**
      * Constructeur par défaut
      */
-    public Etang(){
+    public Etang() {
         position = new Position();
     }
 
@@ -30,6 +30,7 @@ public class Etang implements Parcelle{
     public String toString() {
         return "Etang en " + position;
     }
+
 
     @Override
     public boolean equals(Object o) {

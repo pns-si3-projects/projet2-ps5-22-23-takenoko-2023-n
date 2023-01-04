@@ -2,136 +2,129 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.Iterator;
 
 /**
- * Permet de renvoyer les déplacements possibles sur le plateau
+ * Classe qui permet de renvoyer les déplacements possibles sur le plateau
  * @author equipe N
  */
 public class GestionnairePossibilitePlateau {
-    Plateau plateau;
-    public GestionnairePossibilitePlateau(Plateau plateau){
+    // Définition des attributs
+    private final Plateau plateau;
+
+
+    // Définition des constructeurs
+    /**
+     * Constructeur par défaut
+     * @param plateau est le plateau du jeu
+     */
+    public GestionnairePossibilitePlateau(Plateau plateau) {
         this.plateau = plateau;
+    }
+
+
+    // Méthodes d'utilisation
+    /**
+     * Renvoie la liste de position de déplacement possible en diagonale droite sur le plateau
+     * @param positionPersonnage la position du personnage
+     * @return la liste de position de déplacement possible
+     */
+    public List<Position> deplacementPossiblePersonnageDiagonaleDroite(Position positionPersonnage) {
+        Parcelle[] parcelles = plateau.getParcelles();
+        List<Position> listPositions = new ArrayList<>();
+
+        for (Parcelle parcelle : parcelles) {
+            Position positionParcelle = parcelle.getPosition();
+            if (possibleDeplacementDiagonaleDroite(positionPersonnage, positionParcelle)) {
+                listPositions.add(positionParcelle);
+            }
+        }
+        return listPositions;
     }
 
     /**
      * Renvoie si la position de la parcelle est dans la diagonale droite du personnage
-     * @param positionPersonnage La position du personnage
-     * @param positionParcelle La position de la parcelle à vérifier
-     * @return Renvoie vrai si la parcelle est dans la diagonale droite du personnage
+     * @param positionPersonnage la position du personnage
+     * @param positionParcelle la position de la parcelle à vérifier
+     * @return <code>true</code> si la parcelle est dans la diagonale droite du personnage, <code>false</code> sinon
      */
-    private boolean possibleDeplacementDiagonaleDroite(Position positionPersonnage, Position positionParcelle){
+    private boolean possibleDeplacementDiagonaleDroite(Position positionPersonnage, Position positionParcelle) {
         int xPerso = positionPersonnage.getX();
         int yPerso = positionPersonnage.getY();
         int xParcelle = positionParcelle.getX();
         int yParcelle = positionParcelle.getY();
 
-        if(Math.abs(xPerso-xParcelle) == Math.abs(yPerso-yParcelle)){
-            if((xParcelle > xPerso && yParcelle > yPerso) || (xParcelle < xPerso && yParcelle < yPerso)){
-                return true;
-            }
+        if (Math.abs(xPerso-xParcelle) == Math.abs(yPerso-yParcelle)) {
+            return (xParcelle > xPerso && yParcelle > yPerso) || (xParcelle < xPerso && yParcelle < yPerso);
         }
-
         return false;
     }
 
     /**
-     * Renvoie la liste de Position de déplacement possible en diagonale droite dans le plateau
-     * @param personnage Le panda ou le Jardinier
-     * @return Renvoie la liste de Position de déplacement possible
+     * Renvoie la liste de position de déplacement possible en diagonale gauche sur le plateau
+     * @param positionPersonnage la position du personnage
+     * @return la liste de position de déplacement possible
      */
-    public List<Position> deplacementPossiblePersonnageDiagonaleDroite(Personnage personnage){
-        List<Position> listPositionDeplacementPossible = new ArrayList<>();
-        Set<Parcelle> listParcelleMap = this.plateau.getListParcelle();
-        Iterator<Parcelle> iterateurMap = listParcelleMap.iterator();
-        Position positionPersonnage = personnage.getPosition();
+    public List<Position> deplacementPossiblePersonnageDiagonaleGauche(Position positionPersonnage) {
+        Parcelle[] parcelles = plateau.getParcelles();
+        List<Position> listPositions = new ArrayList<>();
 
-        while (iterateurMap.hasNext()){
-            Position positionParcelle = iterateurMap.next().getPosition();
-            if(possibleDeplacementDiagonaleDroite(positionPersonnage,positionParcelle)){
-                listPositionDeplacementPossible.add(positionParcelle);
+        for (Parcelle parcelle : parcelles) {
+            Position positionParcelle = parcelle.getPosition();
+            if (possibleDeplacementDiagonaleGauche(positionPersonnage, positionParcelle)) {
+                listPositions.add(positionParcelle);
             }
         }
-
-        return listPositionDeplacementPossible;
+        return listPositions;
     }
 
     /**
-     * Méthode privé qui renvoie vrai si la position de la parcelle est dans la diagonale gauche du personnage
-     * @param positionPersonnage La position du personnage
-     * @param positionParcelleACheck La position de la parcelle à vérifier
-     * @return Renvoie vrai si la parcelle est dans la diagonale gauche du personnage
+     * Renvoie si la position de la parcelle est dans la diagonale gauche du personnage
+     * @param positionPersonnage la position du personnage
+     * @param positionParcelle la position de la parcelle à vérifier
+     * @return <code>true</code> si la parcelle est dans la diagonale gauche du personnage, <code>false</code> sinon
      */
-    private boolean possibleDeplacementDiagonaleGauche(Position positionPersonnage, Position positionParcelleACheck){
+    private boolean possibleDeplacementDiagonaleGauche(Position positionPersonnage, Position positionParcelle) {
         int xPerso = positionPersonnage.getX();
         int yPerso = positionPersonnage.getY();
-        int xParcelle = positionParcelleACheck.getX();
-        int yParcelle = positionParcelleACheck.getY();
+        int xParcelle = positionParcelle.getX();
+        int yParcelle = positionParcelle.getY();
 
-        if(Math.abs(xPerso-xParcelle) == Math.abs(yPerso-yParcelle)){
-            if((xParcelle > xPerso && yParcelle < yPerso) || (xParcelle < xPerso && yParcelle > yPerso)){
-                return true;
-            }
+        if (Math.abs(xPerso-xParcelle) == Math.abs(yPerso-yParcelle)) {
+            return (xParcelle > xPerso && yParcelle < yPerso) || (xParcelle < xPerso && yParcelle > yPerso);
         }
-
         return false;
     }
 
     /**
-     * Renvoie la liste de Position de déplacement possible en diagonale gauche dans le plateau
-     * @param personnage Le panda ou le Jardinier
-     * @return Renvoie la liste de Position de déplacement possible
+     * Renvoie la liste de position de déplacement possible sur la même ligne du plateau
+     * @param positionPersonnage la position du personnage
+     * @return la liste de position de déplacement possible
      */
-    public List<Position> deplacementPossiblePersonnageDiagonaleGauche(Personnage personnage){
-        List<Position> listPositionDeplacementPossible = new ArrayList<>();
-        Set<Parcelle> listParcelleMap = this.plateau.getListParcelle();
-        Iterator<Parcelle> iterateurMap = listParcelleMap.iterator();
-        Position positionPersonnage = personnage.getPosition();
+    public List<Position> deplacementPossiblePersonnageHorizontal(Position positionPersonnage) {
+        Parcelle[] parcelles = plateau.getParcelles();
+        List<Position> listPositions = new ArrayList<>();
 
-        while (iterateurMap.hasNext()){
-            Position positionParcelle = iterateurMap.next().getPosition();
-            if(possibleDeplacementDiagonaleGauche(positionPersonnage,positionParcelle)){
-                listPositionDeplacementPossible.add(positionParcelle);
+        for (Parcelle parcelle : parcelles) {
+            Position positionParcelle = parcelle.getPosition();
+            if (possibleDeplacementHorizontal(positionPersonnage, positionParcelle)) {
+                listPositions.add(positionParcelle);
             }
         }
-
-        return listPositionDeplacementPossible;
+        return listPositions;
     }
 
     /**
-     * Méthode privé qui renvoie vrai si la position de la parcelle est dans la même ligne que celle du personnage
-     * @param positionPersonnage La position du personnage
-     * @param positionParcelleACheck La position de la parcelle à vérifier
-     * @return Renvoie vrai si la parcelle est dans la même ligne que le personnage
+     * Renvoie si la position de la parcelle est sur la même ligne que le personnage
+     * @param positionPersonnage la position du personnage
+     * @param positionParcelle la position de la parcelle à vérifier
+     * @return <code>true</code> si la parcelle est sur la même ligne que le personnage, <code>false</code> sinon
      */
-    private boolean possibleDeplacementHorizontal(Position positionPersonnage, Position positionParcelleACheck){
+    private boolean possibleDeplacementHorizontal(Position positionPersonnage, Position positionParcelle) {
         int xPerso = positionPersonnage.getX();
         int yPerso = positionPersonnage.getY();
-        int xParcelle = positionParcelleACheck.getX();
-        int yParcelle = positionParcelleACheck.getY();
+        int xParcelle = positionParcelle.getX();
+        int yParcelle = positionParcelle.getY();
 
         return (xPerso != xParcelle && yParcelle == yPerso && (xPerso - xParcelle)%2 == 0);
-    }
-
-    /**
-     * Renvoie la liste de Position de déplacement possible dans la même ligne dans le plateau
-     * @param personnage Le panda ou le Jardinier
-     * @return Renvoie la liste de Position de déplacement possible
-     */
-    public List<Position> deplacementPossiblePersonnageHorizontal(Personnage personnage){
-        List<Position> listPositionDeplacementPossible = new ArrayList<>();
-        Set<Parcelle> listParcelleMap = plateau.getListParcelle();
-        Iterator<Parcelle> iterateurMap = listParcelleMap.iterator();
-        Position positionPersonnage = personnage.getPosition();
-
-        while (iterateurMap.hasNext()){
-            Position positionParcelle = iterateurMap.next().getPosition();
-            if(possibleDeplacementHorizontal(positionPersonnage,positionParcelle)){
-                listPositionDeplacementPossible.add(positionParcelle);
-            }
-        }
-
-        return listPositionDeplacementPossible;
     }
 }

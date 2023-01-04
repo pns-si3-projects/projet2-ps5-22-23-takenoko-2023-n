@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.Objects;
 
 /**
- * Généralise les objectifs du jeu par le nombre de points qui est commun
+ * Class abstraite qui généralise les objectifs du jeu par le nombre de points
  * @author équipe N
  */
 public abstract class Objectif {
@@ -26,9 +26,9 @@ public abstract class Objectif {
     }
 
     /**
-     * Compare 2 Objectif par le nombre de points
-     * @param o est l'objet à comparer avec celui actuel
-     * @return si l'Objectif en paramètre a le même nombre de points
+     * Renvoie si les 2 objectifs sont égaux
+     * @param o est l'objet à comparer avec <code>this</code>
+     * @return <code>true</code> si l'Objectif donné a le même nombre de points, <code>false</code> sinon
      */
     @Override
     public boolean equals(Object o) {
