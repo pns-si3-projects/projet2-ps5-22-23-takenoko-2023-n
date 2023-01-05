@@ -25,7 +25,7 @@ public class Arbitre {
      */
     public boolean checkFinDeJeu(Joueur... joueurs){
         for(Joueur joueur : joueurs){
-            if(joueur.getPoint() >= 9){
+            if(joueur.getPoints() >= 9){
                 return true;
             }
         }
@@ -41,8 +41,8 @@ public class Arbitre {
         int occurenceMaxPoint = 1;
         int indiceJoueurMax = 0;
         for(int i = 0;i< joueurs.length;i++){
-            int pointJoueurAvecPlusDePoints = joueurs[indiceJoueurMax].getPoint();
-            int pointJoueurIndiceI = joueurs[i].getPoint();
+            int pointJoueurAvecPlusDePoints = joueurs[indiceJoueurMax].getPoints();
+            int pointJoueurIndiceI = joueurs[i].getPoints();
 
             if(pointJoueurAvecPlusDePoints < pointJoueurIndiceI){
                 indiceJoueurMax = i;
