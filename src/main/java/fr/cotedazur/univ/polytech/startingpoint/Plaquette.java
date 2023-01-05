@@ -186,7 +186,6 @@ public class Plaquette {
         if (objectifsARealiser.size() < NOMBRE_OBJECTIFS_MAX) objectifsARealiser.add(objectif);
         else throw new NombreObjectifsEnCoursException();
     }
-
     /**
      * Renvoie si l'objectif réalisé est supprimé de la Plaquette
      * @param objectif l'objectif à retirer
