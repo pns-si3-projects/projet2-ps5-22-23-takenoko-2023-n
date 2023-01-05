@@ -17,6 +17,9 @@ public class Plaquette {
     // Définition des constructeurs
     /**
      * Constructeur par défaut
+     * @param objPar est l'objectif de parcelle à ajouter
+     * @param objPan est l'objectif de panda à ajouter
+     * @param objJar est l'objectif de jardinier à ajouter
      */
     public Plaquette(ObjectifParcelle objPar, ObjectifPanda objPan, ObjectifJardinier objJar) {
         bambousManges = new ArrayList<>();
