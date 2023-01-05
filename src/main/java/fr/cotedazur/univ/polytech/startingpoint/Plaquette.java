@@ -109,7 +109,7 @@ public class Plaquette {
 
     /**
      * Renvoie tous les objectifs de parcelle à réaliser
-     * @return un tableau d'objectifs de parcelle
+     * @return un tableau d'objectifs de parcelle dans l'ordre inverse d'ajout
      */
     public ObjectifParcelle[] getObjectifsParcelle() {
         int nbObjPar = getNombreObjectifParcelle();
@@ -124,7 +124,7 @@ public class Plaquette {
 
     /**
      * Renvoie tous les objectifs de panda à réaliser
-     * @return un tableau d'objectifs de panda
+     * @return un tableau d'objectifs de panda dans l'ordre inverse d'ajout
      */
     public ObjectifPanda[] getObjectifsPanda() {
         int nbObjPan = getNombreObjectifPanda();
@@ -139,7 +139,7 @@ public class Plaquette {
 
     /**
      * Renvoie tous les objectifs de jardinier à réaliser
-     * @return un tableau d'objectifs de jardinier
+     * @return un tableau d'objectifs de jardinier dans l'ordre inverse d'ajout
      */
     public ObjectifJardinier[] getObjectifsJardinier() {
         int nbObjJar = getNombreObjectifJardinier();
@@ -154,12 +154,13 @@ public class Plaquette {
 
     /**
      * Renvoie tous les objectifs à réaliser
-     * @return un tableau d'objectifs
+     * @return un tableau d'objectifs dans l'ordre inverse d'ajout
      */
     public Objectif[] getObjectifs() {
-        Objectif[] objectifs = new Objectif[objectifsARealiser.size()];
-        for (int i=0; i<objectifsARealiser.size(); i++) {
-            objectifs[i] = objectifsARealiser.get(i);
+        int nbObjs = objectifsARealiser.size();
+        Objectif[] objectifs = new Objectif[nbObjs];
+        for (Objectif objectif : objectifsARealiser) {
+            objectifs[--nbObjs] = objectif;
         }
         return objectifs;
     }
@@ -175,8 +176,11 @@ public class Plaquette {
     /**
      * Ajoute un objectif donné à la plaquette
      * @param objectif est l'objectif à ajouter à la plaquette
+     * @throws NombreObjectifsEnCoursException dans le cas où on essaie d'ajouter un objectif
+     *      alors que le nombre maximum d'objectifs en cours est atteint
      */
-    public void ajouteObjectif(Objectif objectif) {
+    public void ajouteObjectif(Objectif objectif) throws NombreObjectifsEnCoursException {
         if (objectifsARealiser.size() < NOMBRE_OBJECTIFS_MAX) objectifsARealiser.add(objectif);
+        else throw new NombreObjectifsEnCoursException();
     }
 }
