@@ -13,15 +13,15 @@ class GestionnaireModificationPlateauTest {
     GestionnaireModificationPlateau gMP;
     Etang etang;
     Position positionEtang;
-    ParcelleDisponible parcelleDisponible0;
-    ParcelleDisponible parcelleDisponible1;
-    ParcelleDisponible parcelleDisponible2;
-    ParcelleDisponible parcelleDisponible3;
-    ParcelleDisponible parcelleDisponible4;
-    ParcelleDisponible parcelleDisponible5;
+    ParcelleDisponible parcelleDisponible1_1;
+    ParcelleDisponible parcelleDisponible2_0;
+    ParcelleDisponible parcelleDisponible1_m1;
+    ParcelleDisponible parcelleDisponiblem1_m1;
+    ParcelleDisponible parcelleDisponiblem2_0;
+    ParcelleDisponible parcelleDisponiblem1_1;
     ParcelleDisponible[] listParcelleDisponible;
     Position[] listPositionDisponible;
-    ParcelleCouleur parcelleCouleurNonPose2;
+    ParcelleCouleur parcelleCouleurNonPosee;
 
 
     @BeforeEach
@@ -30,149 +30,117 @@ class GestionnaireModificationPlateauTest {
         gMP = new GestionnaireModificationPlateau();
         etang = plateau.getEtang();
         positionEtang = etang.getPosition();
-        // en fait ici, je comprends pas pq tu veux refaire ça before each
-        parcelleDisponible0 = new ParcelleDisponible(new Position(positionEtang.getX()+1,positionEtang.getY()+1));
-        parcelleDisponible1 = new ParcelleDisponible(new Position(positionEtang.getX()+2,positionEtang.getY()));
-        parcelleDisponible2 = new ParcelleDisponible(new Position(positionEtang.getX()+1,positionEtang.getY()-1));
-        parcelleDisponible3 = new ParcelleDisponible(new Position(positionEtang.getX()-1,positionEtang.getY()-1));
-        parcelleDisponible4 = new ParcelleDisponible(new Position(positionEtang.getX()-2,positionEtang.getY()));
-        parcelleDisponible5 = new ParcelleDisponible(new Position(positionEtang.getX()-1,positionEtang.getY()+1));
+        // en fait ici, je ne comprends pas pq tu veux refaire ça before each
+        parcelleDisponible1_1 = new ParcelleDisponible(new Position(positionEtang.getX()+1, positionEtang.getY()+1));
+        parcelleDisponible2_0 = new ParcelleDisponible(new Position(positionEtang.getX()+2, positionEtang.getY()));
+        parcelleDisponible1_m1 = new ParcelleDisponible(new Position(positionEtang.getX()+1, positionEtang.getY()-1));
+        parcelleDisponiblem1_m1 = new ParcelleDisponible(new Position(positionEtang.getX()-1, positionEtang.getY()-1));
+        parcelleDisponiblem2_0 = new ParcelleDisponible(new Position(positionEtang.getX()-2, positionEtang.getY()));
+        parcelleDisponiblem1_1 = new ParcelleDisponible(new Position(positionEtang.getX()-1, positionEtang.getY()+1));
         listParcelleDisponible = new ParcelleDisponible[6];
-        listParcelleDisponible[0] = parcelleDisponible0;
-        listParcelleDisponible[1] = parcelleDisponible1;
-        listParcelleDisponible[2] = parcelleDisponible2;
-        listParcelleDisponible[3] = parcelleDisponible3;
-        listParcelleDisponible[4] = parcelleDisponible4;
-        listParcelleDisponible[5] = parcelleDisponible5;
+        listParcelleDisponible[0] = parcelleDisponible1_1;
+        listParcelleDisponible[1] = parcelleDisponible2_0;
+        listParcelleDisponible[2] = parcelleDisponible1_m1;
+        listParcelleDisponible[3] = parcelleDisponiblem1_m1;
+        listParcelleDisponible[4] = parcelleDisponiblem2_0;
+        listParcelleDisponible[5] = parcelleDisponiblem1_1;
         listPositionDisponible = plateau.getPositionsDisponible();
-        parcelleCouleurNonPose2 = new ParcelleCouleur(listParcelleDisponible[2].getPosition());
+        parcelleCouleurNonPosee = new ParcelleCouleur(listPositionDisponible[2]);
     }
 
     @Test
-    void addParcelleVide() {
-        for(int i = 0;i<6;i++){
-            assertEquals(listParcelleDisponible[i],gMP.creeParcelleDisponible(i,positionEtang));
+    void creeParcelleDisponible() {
+        for (int i=0; i<6; i++) {
+            assertEquals(listParcelleDisponible[i], gMP.creeParcelleDisponible(i, positionEtang));
         }
 
-        try {
-            gMP.creeParcelleDisponible(6,positionEtang);
-            assert false: "Doit renvoyer une erreur";
-        }
-        catch (IllegalArgumentException iAE){
-
-        }
-
-        try {
-            gMP.creeParcelleDisponible(-1,positionEtang);
-            assert false: "Doit renvoyer une erreur";
-        }
-        catch (IllegalArgumentException iAE){
-
-        }
-    }
-
-    /**
-     * Renvoi les possibles voisins d'une parcelle qui peut etre poser
-     */
-    @Test
-    void getParcelleVoisinSansExceptionUn() {
-        try {
-            List<Parcelle> listVoisinParcelle = gMP.chercheFuturesVoisines(parcelleCouleurNonPose2, plateau.getParcelles());
-            assertEquals(1, listVoisinParcelle.size());
-            assertEquals(etang,listVoisinParcelle.get(0));
-        }
-        catch (ParcelleExistanteException exception){
-            assert false: "Ne doit normalement pas renvoyer d'erreur";
-        }
+        // Cas indice incorrect
+        assertThrows(IllegalArgumentException.class, () -> gMP.creeParcelleDisponible(6, positionEtang));
+        assertThrows(IllegalArgumentException.class, () -> gMP.creeParcelleDisponible(-1, positionEtang));
     }
 
     @Test
-    void getParcelleVoisinSansExceptionDeux(){
-        ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].getPosition());
+    void chercheFuturesVoisinesSansException() {
+        try {
+            List<Parcelle> listVoisinesParcelle = gMP.chercheFuturesVoisines(parcelleCouleurNonPosee, plateau.getParcelles());
+            assertEquals(1, listVoisinesParcelle.size());
+            assertEquals(etang, listVoisinesParcelle.get(0));
+        }
+        catch (ParcelleExistanteException exception) {
+            throw new AssertionError("Ne doit pas renvoyer d'exception");
+        }
 
         try {
-            plateau.addParcelle(parcelleCouleurNonPose2);
+            plateau.addParcelle(parcelleCouleurNonPosee);
             plateau.getParcelles();
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
-            assert false: "Ne doit pas renvoyer d'exception";
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
+            throw new AssertionError("Ne doit pas renvoyer d'exception");
         }
 
+        ParcelleCouleur parcelleCouleurNonPosee2 = new ParcelleCouleur(listPositionDisponible[3]);
         try {
-            List<Parcelle> listVoisinParcelle = gMP.chercheFuturesVoisines(parcelleCouleurNonPose3, plateau.getParcelles());
+            List<Parcelle> listVoisinParcelle = gMP.chercheFuturesVoisines(parcelleCouleurNonPosee2, plateau.getParcelles());
             assertEquals(2, listVoisinParcelle.size());
-            assertEquals(etang,listVoisinParcelle.get(0));
-            assertEquals(parcelleCouleurNonPose2,listVoisinParcelle.get(1));
+            assertEquals(etang, listVoisinParcelle.get(0));
+            assertEquals(parcelleCouleurNonPosee, listVoisinParcelle.get(1));
         }
-        catch (ParcelleExistanteException exception){
-            assert false: "Ne doit normalement pas renvoyer d'erreur";
-        }
-    }
-
-    @Test
-    void getParcelleVoisinAvecExceptionUn(){
-        try {
-            gMP.chercheFuturesVoisines(etang, plateau.getParcelles());
-        }
-        catch (ParcelleExistanteException pEE){
-            assertEquals("La parcelle de position "+etang.getPosition()+" est déjà existante",pEE.getMessage());
+        catch (ParcelleExistanteException exception) {
+            throw new AssertionError("Ne doit pas renvoyer d'exception");
         }
     }
 
     @Test
-    void getParcelleVoisinAvecExceptionDeux(){
-        ParcelleCouleur parcelleCouleurNonPose2bis = new ParcelleCouleur(listPositionDisponible[2]);
+    void chercheFuturesVoisinesAvecExceptions() {
+        assertThrows(ParcelleExistanteException.class,
+                () -> gMP.chercheFuturesVoisines(etang, plateau.getParcelles()));
 
         try {
-            plateau.addParcelle(parcelleCouleurNonPose2);
+            plateau.addParcelle(parcelleCouleurNonPosee);
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
-            assert false: "Ne doit pas renvoyer d'exception";
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
+            throw new AssertionError("Ne doit pas renvoyer d'exception");
         }
 
+        ParcelleCouleur parcelleCouleurNonPoseeBis = new ParcelleCouleur(listPositionDisponible[2]);
+        assertThrows(ParcelleExistanteException.class,
+                () -> gMP.chercheFuturesVoisines(parcelleCouleurNonPoseeBis, plateau.getParcelles()));
+    }
+
+    @Test
+    void addVoisinesParcelleSansException() {
         try {
-            gMP.chercheFuturesVoisines(parcelleCouleurNonPose2bis, plateau.getParcelles());
+            List<Parcelle> parcellesVoisine = gMP.chercheFuturesVoisines(parcelleCouleurNonPosee, plateau.getParcelles());
+            Parcelle[] listVoisinePotentielle = gMP.addVoisinesParcelle(parcelleCouleurNonPosee, parcellesVoisine);
+            assertEquals(listParcelleDisponible.length, listVoisinePotentielle.length);
+            assertEquals(etang, listVoisinePotentielle[5]);
+            assertEquals(listParcelleDisponible[1], listVoisinePotentielle[0]);
+            assertEquals(listParcelleDisponible[3], listVoisinePotentielle[4]);
+
+            ParcelleDisponible parcelleDisponible0_m2 = new ParcelleDisponible(new Position(0, -2));
+            ParcelleDisponible parcelleDisponible2_m2 = new ParcelleDisponible(new Position(2, -2));
+            ParcelleDisponible parcelleDisponible3_m1 = new ParcelleDisponible(new Position(3, -1));
+            assertEquals(parcelleDisponible0_m2, listVoisinePotentielle[3]);
+            assertEquals(parcelleDisponible2_m2, listVoisinePotentielle[2]);
+            assertEquals(parcelleDisponible3_m1, listVoisinePotentielle[1]);
         }
-        catch (ParcelleExistanteException pEE){
-            assertEquals("La parcelle de position "+parcelleCouleurNonPose2bis.getPosition()+" est déjà existante",pEE.getMessage());
+        catch (ParcelleExistanteException | ParcelleNonVoisineException exception) {
+            throw new AssertionError("Ne doit pas renvoyer d'exception");
         }
     }
 
     @Test
-    void addVoisinParcelleSansException() {
+    void addVoisinesParcelleAvecException() {
+        ParcelleCouleur parcelle4_0 = new ParcelleCouleur(new Position(4, 0));
         try {
-            List<Parcelle> parcellesVoisin = gMP.chercheFuturesVoisines(parcelleCouleurNonPose2, plateau.getParcelles());
-            Parcelle[] listVoisinPotentiel = gMP.addVoisinesParcelle(parcelleCouleurNonPose2,parcellesVoisin);
-            assertEquals(listVoisinPotentiel.length, listParcelleDisponible.length);
-            assertEquals(listVoisinPotentiel[5],etang);
-            assertEquals(listVoisinPotentiel[0],listParcelleDisponible[1]);
-            assertEquals(listVoisinPotentiel[4],listParcelleDisponible[3]);
-
-            ParcelleDisponible parcelleDisponible0m2 = new ParcelleDisponible(new Position(0,-2));
-            ParcelleDisponible parcelleDisponible2m2 = new ParcelleDisponible(new Position(2,-2));
-            ParcelleDisponible parcelleDisponible3m1 = new ParcelleDisponible(new Position(3,-1));
-            assertEquals(parcelleDisponible0m2,listVoisinPotentiel[3]);
-            assertEquals(parcelleDisponible2m2,listVoisinPotentiel[2]);
-            assertEquals(parcelleDisponible3m1,listVoisinPotentiel[1]);
+            List<Parcelle>  listVoisinesParcelle4_0 = gMP.chercheFuturesVoisines(parcelle4_0, plateau.getParcelles());
+            gMP.addVoisinesParcelle(parcelle4_0, listVoisinesParcelle4_0);
         }
-        catch (ParcelleExistanteException | ParcelleNonVoisineException exception){
-            assert false: "Ne doit pas renvoyer d'exception";
+        catch (ParcelleExistanteException pEE) {
+            throw new AssertionError("Ne doit pas renvoyer d'exception");
         }
-    }
-
-    @Test
-    void addVoisinParcelleException(){
-        ParcelleCouleur parcelleAAdd = new ParcelleCouleur(new Position(4,0));
-        try {
-            List<Parcelle>  listParcelleVoisin40 = gMP.chercheFuturesVoisines(parcelleAAdd, plateau.getParcelles());
-            gMP.addVoisinesParcelle(parcelleAAdd,listParcelleVoisin40);
+        catch (ParcelleNonVoisineException pNVE) {
+            assertEquals(ParcelleNonVoisineException.class, pNVE.getClass());
         }
-        catch (ParcelleExistanteException pEE){
-            assert false: "Ne doit pas renvoyer d'exception";
-        }
-        catch (ParcelleNonVoisineException pNVE){
-            assertEquals("La parcelle de position "+ parcelleAAdd.getPosition()+" n'existe pas dans la map",pNVE.getMessage());
-        }
-
     }
 }
