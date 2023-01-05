@@ -45,11 +45,11 @@ public class Joueur {
     }
 
     /**
-     * Méthode permettant d'effectuer une action d'un tour
+     * Méthode privé permettant d'effectuer une action d'un tour
      * @param piocheObjectif La pioche d'objectif pour piocher les objectifs
      * @param plateau Le plateau pour ajouter les parcelles
      */
-    public void actionTour(PiocheObjectif piocheObjectif,Plateau plateau, Arbitre arbitre){
+    private void actionTour(PiocheObjectif piocheObjectif,Plateau plateau, Arbitre arbitre){
         if(plaquette.getNombreObjectifParcelle() == 0){
             Optional<ObjectifParcelle> objectifParcellePioche = piocheObjectifParcelle(piocheObjectif);
             if(objectifParcellePioche.isPresent()){
@@ -66,7 +66,7 @@ public class Joueur {
         else{
             boolean parcelleAjoute = false;
             while (!parcelleAjoute) {
-                ParcelleCouleur parcelleCouleurChoisi = choisiParcellePlateau(plateau);
+                ParcelleCouleur parcelleCouleurChoisi = choisiParcellePlateau(plateau.getPositionsDisponible());
                 parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisi);
             }
             gestionObjectif(plateau.getParcelles(),arbitre, plaquette.getObjectifsParcelle());
@@ -74,7 +74,7 @@ public class Joueur {
     }
 
     /**
-     * Méthode permettant de gerer les objectifs grâce à l'arbitre
+     * Méthode privé permettant de gerer les objectifs grâce à l'arbitre
      * @param listParcellesEtVoisines La liste de parcelle du plateau à donnée à l'arbitre pour vérifier si les parcelles ont été posé
      * @param arbitre L'arbitre qui doit vérifier si l'objectif est validé
      * @param objectifsParcelles La liste des objectifs parcelles
@@ -110,14 +110,13 @@ public class Joueur {
 
     /**
      * Méthode renvoyant le choix de la Parcelle que le joueur veut poser sur le Plateau
-     * @param plateau Le plateau de jeu, pour choisir la parcelle a poser parmis les liste de Position Disponible
+     * @param listPositionDisponible la liste de Position Disponible du plateau
      * @return La parcelle que le joueur veut poser
      */
-    public ParcelleCouleur choisiParcellePlateau(Plateau plateau){
-        Position[] listPositionDisponiblePlateau = plateau.getPositionsDisponible();
-        int nombreAleatoire = random.nextInt(listPositionDisponiblePlateau.length);
-        if(nombreAleatoire < 0 || nombreAleatoire >= listPositionDisponiblePlateau.length) throw new ArithmeticException("Erreur objet random");
-        Position positionChoisi = listPositionDisponiblePlateau[nombreAleatoire];
+    public ParcelleCouleur choisiParcellePlateau(Position[] listPositionDisponible){
+        int nombreAleatoire = random.nextInt(listPositionDisponible.length);
+        if(nombreAleatoire < 0 || nombreAleatoire >= listPositionDisponible.length) throw new ArithmeticException("Erreur objet random");
+        Position positionChoisi = listPositionDisponible[nombreAleatoire];
         return new ParcelleCouleur(positionChoisi);
     }
 
