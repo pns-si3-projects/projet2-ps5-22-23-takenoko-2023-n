@@ -10,7 +10,7 @@ public class Afficheur {
         }
         else {
             Joueur joueurGagnant = joueur.get();
-            System.out.println("Le joueur gagnant est le joueur "+joueurGagnant.getNom()+" avec "+joueurGagnant.getPoint()+" Points");
+            System.out.println("Le joueur gagnant est le joueur "+joueurGagnant.getNom()+" avec "+joueurGagnant.getPoints()+" Points");
         }
     }
 

@@ -15,8 +15,14 @@ public class Main {
     public static final Arbitre ARBITRE = new Arbitre();
 
     public static void main(String... args) {
-        Joueur joueur1 = new Joueur("Robot1",RANDOM,piocheObjectif.piocheObjectifParcelle());
-        Joueur joueur2 = new Joueur("Robot2",RANDOM,piocheObjectif.piocheObjectifParcelle());
+        ObjectifParcelle objParJ1 = piocheObjectif.piocheObjectifParcelle();
+        ObjectifPanda objPanJ1 = piocheObjectif.piocheObjectifPanda();
+        ObjectifJardinier objJarJ1 = piocheObjectif.piocheObjectifJardinier();
+        ObjectifParcelle objParJ2 = piocheObjectif.piocheObjectifParcelle();
+        ObjectifPanda objPanJ2 = piocheObjectif.piocheObjectifPanda();
+        ObjectifJardinier objJarJ2 = piocheObjectif.piocheObjectifJardinier();
+        Joueur joueur1 = new Joueur("Robot1", RANDOM, objParJ1, objPanJ1, objJarJ1);
+        Joueur joueur2 = new Joueur("Robot2", RANDOM, objParJ2, objPanJ2, objJarJ2);
         Jeu(joueur1,joueur2);
     }
 

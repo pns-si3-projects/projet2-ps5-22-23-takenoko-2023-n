@@ -20,8 +20,14 @@ class ArbitreTest {
         arbitre = new Arbitre();
         piocheObjectif = new PiocheObjectif(new PiocheObjectifParcelle(new Random()),new PiocheObjectifPanda(new Random()),new PiocheObjectifJardinier(new Random()));
         plateau = new Plateau();
-        joueur1 = new Joueur("Robot1",new Random(),piocheObjectif.piocheObjectifParcelle());
-        joueur2 = new Joueur("Robot2",new Random(),piocheObjectif.piocheObjectifParcelle());
+        ObjectifParcelle objParJ1 = piocheObjectif.piocheObjectifParcelle();
+        ObjectifPanda objPanJ1 = piocheObjectif.piocheObjectifPanda();
+        ObjectifJardinier objJarJ1 = piocheObjectif.piocheObjectifJardinier();
+        ObjectifParcelle objParJ2 = piocheObjectif.piocheObjectifParcelle();
+        ObjectifPanda objPanJ2 = piocheObjectif.piocheObjectifPanda();
+        ObjectifJardinier objJarJ2 = piocheObjectif.piocheObjectifJardinier();
+        joueur1 = new Joueur("Robot1", new Random(), objParJ1, objPanJ1, objJarJ1);
+        joueur2 = new Joueur("Robot2", new Random(), objParJ2, objPanJ2, objJarJ2);
     }
 
     @Test
@@ -41,10 +47,10 @@ class ArbitreTest {
             joueur1.tour(piocheObjectif,plateau,arbitre);
             joueur2.tour(piocheObjectif,plateau,arbitre);
         }
-        if(joueur1.getPoint() > joueur2.getPoint()){
+        if(joueur1.getPoints() > joueur2.getPoints()){
             assertEquals(Optional.of(joueur1),arbitre.joueurGagnant(joueur1,joueur2));
         }
-        else if(joueur1.getPoint() < joueur2.getPoint()){
+        else if(joueur1.getPoints() < joueur2.getPoints()){
             assertEquals(Optional.of(joueur2),arbitre.joueurGagnant(joueur1,joueur2));
         }
         else{
