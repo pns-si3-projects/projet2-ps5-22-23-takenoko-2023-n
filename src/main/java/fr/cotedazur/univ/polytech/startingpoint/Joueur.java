@@ -51,6 +51,14 @@ public class Joueur {
     }
 
     /**
+     * Renvoie la plaquette du joueur
+     * @return la plaquette du joueur
+     */
+    public Plaquette getPlaquette() {
+        return plaquette;
+    }
+
+    /**
      * Renvoie les points du Joueur
      * @return les points du Joueur
      */
@@ -87,8 +95,8 @@ public class Joueur {
      * @param plateau Le plateau pour ajouter les parcelles
      * @param arbitre permet de vérifier nos actions
      */
-    private void actionTour(PiocheObjectif piocheObjectif,Plateau plateau, Arbitre arbitre){
-        if(plaquette.getNombreObjectifParcelle() == 0){
+    private void actionTour(PiocheObjectif piocheObjectif,Plateau plateau, Arbitre arbitre) {
+        if (plaquette.getNombreObjectifParcelle() == 0) {
             Optional<ObjectifParcelle> objectifParcellePioche = piocheObjectifParcelle(piocheObjectif);
             if (objectifParcellePioche.isPresent()) {
                 ObjectifParcelle objectifParcelle = objectifParcellePioche.get();
@@ -96,7 +104,7 @@ public class Joueur {
                 try{
                     plaquette.ajouteObjectif(objectifParcelle);
                 }
-                catch (NombreObjectifsEnCoursException nOEE){
+                catch (NombreObjectifsEnCoursException nOECE) {
                     assert false : "Il ne doit pas y avoir d'objectif de parcelle";
                 }
             }
@@ -124,7 +132,7 @@ public class Joueur {
                 if (plaquette.supprimeObjectif(objectifParcelle)) {
                     objectifTermineList.add(objectifParcelle);
                 } else {
-                    assert false : "L'objectif doit normalement existe";
+                    assert false : "L'objectif devrait normalement exister";
                 }
             }
         }
@@ -135,13 +143,13 @@ public class Joueur {
      * @param piocheObjectif La pioche d'objectif
      * @return Renvoie un optionnal d'objectif (Optionnal empty si la pioche est vide
      */
-    public Optional<ObjectifParcelle> piocheObjectifParcelle(PiocheObjectif piocheObjectif){
-        if(piocheObjectif.isEmptyPiocheObjectifParcelle()) {
+    public Optional<ObjectifParcelle> piocheObjectifParcelle(PiocheObjectif piocheObjectif) {
+        if (piocheObjectif.isEmptyPiocheObjectifParcelle()) {
             return Optional.empty();
         }
         else {
             ObjectifParcelle objectifParcellePioche = piocheObjectif.piocheObjectifParcelle();
-            assert objectifParcellePioche != null : "L'objectif ne doit pas etre null";
+            assert objectifParcellePioche != null : "L'objectif ne doit pas être null";
             return Optional.of(objectifParcellePioche);
         }
     }
@@ -153,7 +161,7 @@ public class Joueur {
      */
     public ParcelleCouleur choisiParcellePlateau(Position[] listPositionDisponible) {
         int nombreAleatoire = random.nextInt(listPositionDisponible.length);
-        if(nombreAleatoire < 0 || nombreAleatoire >= listPositionDisponible.length) throw new ArithmeticException("Erreur objet random");
+        if (nombreAleatoire < 0 || nombreAleatoire >= listPositionDisponible.length) throw new ArithmeticException("Erreur objet random");
         Position positionChoisie = listPositionDisponible[nombreAleatoire];
         return new ParcelleCouleur(positionChoisie);
     }
