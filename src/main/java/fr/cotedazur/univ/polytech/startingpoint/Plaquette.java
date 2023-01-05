@@ -175,11 +175,13 @@ public class Plaquette {
     /**
      * Ajoute un objectif donné à la plaquette
      * @param objectif est l'objectif à ajouter à la plaquette
+     * @throws NombreObjectifsEnCoursException dans le cas où on essaie d'ajouter un objectif
+     *      alors que le nombre maximum d'objectifs en cours est atteint
      */
-    public void ajouteObjectif(Objectif objectif) {
+    public void ajouteObjectif(Objectif objectif) throws NombreObjectifsEnCoursException {
         if (objectifsARealiser.size() < NOMBRE_OBJECTIFS_MAX) objectifsARealiser.add(objectif);
+        else throw new NombreObjectifsEnCoursException();
     }
-
     /**
      * Suppression de la Plaquette si l'objectif a été réalisés et le place dans la liste d'objectif réalisés
      * @param objectifParcelle L'objectif parcelle a enlever

@@ -160,18 +160,18 @@ class PlaquetteTest {
     @Test
     void getObjectifs() {
         // Parce que pris dans l'ordre inverse d'ajout
-        assertEquals(objPar2_3, plaquette.getObjectifs()[2]);
+        assertEquals(objPar2_3, plaquette.getObjectifs()[0]);
         assertEquals(objPan3_2, plaquette.getObjectifs()[1]);
-        assertEquals(objJar3_2, plaquette.getObjectifs()[0]);
+        assertEquals(objJar3_2, plaquette.getObjectifs()[2]);
         try {
             plaquette.ajouteObjectif(objPan4_2);
             plaquette.ajouteObjectif(objJar6_4);
         } catch (NombreObjectifsEnCoursException nOECE) {
             throw new AssertionError(nOECE);
         }
-        assertEquals(objJar6_4, plaquette.getObjectifs()[0]);
-        assertEquals(objPan4_2, plaquette.getObjectifs()[1]);
-        assertEquals(objPar2_3, plaquette.getObjectifs()[4]);
+        assertEquals(objJar6_4, plaquette.getObjectifs()[4]);
+        assertEquals(objPan4_2, plaquette.getObjectifs()[3]);
+        assertEquals(objPar2_3, plaquette.getObjectifs()[0]);
     }
 
     @Test

@@ -26,7 +26,12 @@ public class Joueur {
         plaquette = new Plaquette();
         listObjectifTermine = new ArrayList<>();
         this.random = random;
-        plaquette.ajouteObjectif(objectifParcelle);
+        try {
+            plaquette.ajouteObjectif(objectifParcelle);
+        }
+        catch (NombreObjectifsEnCoursException nOEE){
+            assert false : "Doit avoir qu'un seul objectif";
+        }
     }
 
     /**
@@ -50,7 +55,12 @@ public class Joueur {
             if(objectifParcellePioche.isPresent()){
                 ObjectifParcelle objectifParcelle = objectifParcellePioche.get();
                 objectifParcelle.setNombreParcellePresenteEnJeu(plateau.getParcelles().length);
-                plaquette.ajouteObjectif(objectifParcelle);
+                try{
+                    plaquette.ajouteObjectif(objectifParcelle);
+                }
+                catch (NombreObjectifsEnCoursException nOEE){
+                    assert false : "Il doit avoir 0 Objectif";
+                }
             }
         }
         else{
