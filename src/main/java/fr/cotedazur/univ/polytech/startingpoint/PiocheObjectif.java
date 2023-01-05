@@ -87,9 +87,9 @@ public class PiocheObjectif {
      * @return la carte objectif piochée
      * @implNote la pioche ne doit pas être vide
      */
-    public Objectif piocheObjectifParcelle() {
+    public ObjectifParcelle piocheObjectifParcelle() {
         assert !isEmptyPiocheObjectifParcelle() : "La pioche d'objectifs de parcelles est vide";
-        return piochesObjectif[0].pioche();
+        return (ObjectifParcelle) piochesObjectif[0].pioche();
     }
 
     /**
@@ -97,9 +97,9 @@ public class PiocheObjectif {
      * @return la carte objectif piochée
      * @implNote la pioche ne doit pas être vide
      */
-    public Objectif piocheObjectifPanda() {
+    public ObjectifPanda piocheObjectifPanda() {
         assert !isEmptyPiocheObjectifPanda() : "La pioche d'objectifs de panda est vide";
-        return piochesObjectif[1].pioche();
+        return (ObjectifPanda) piochesObjectif[1].pioche();
     }
 
     /**
@@ -107,8 +107,8 @@ public class PiocheObjectif {
      * @return la carte objectif piochée
      * @implNote la pioche ne doit pas être vide
      */
-    public Objectif piocheObjectifJardinier() {
+    public ObjectifJardinier piocheObjectifJardinier() {
         assert !isEmptyPiocheObjectifJardinier() : "La pioche d'objectifs de jardinier est vide";
-        return piochesObjectif[2].pioche();
+        return (ObjectifJardinier) piochesObjectif[2].pioche();
     }
 }
