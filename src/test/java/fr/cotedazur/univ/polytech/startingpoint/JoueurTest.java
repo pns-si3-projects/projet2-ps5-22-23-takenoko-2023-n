@@ -21,6 +21,10 @@ class JoueurTest {
     PiocheObjectif piocheObjectif;
     ObjectifParcelle objectifParcellePiocheJoueur1;
     ObjectifParcelle objectifParcellePiocheJoueur2;
+    ObjectifPanda objectifPandaPiocheJoueur1;
+    ObjectifPanda objectifPandaPiocheJoueur2;
+    ObjectifJardinier objectifJardinierPiocheJoueur1;
+    ObjectifJardinier objectifJardinierPiocheJoueur2;
 
     Joueur joueur1;
     Joueur joueur2;
@@ -139,10 +143,10 @@ class JoueurTest {
             joueur1.tour(piocheObjectif,plateau,arbitre);
             joueur2.tour(piocheObjectif,plateau,arbitre);
         }
-        if(joueur1.getPoint() > joueur2.getPoint()){
+        if(joueur1.getPoints() > joueur2.getPoints()){
             assertEquals(Optional.of(joueur1),arbitre.joueurGagnant(joueur1,joueur2));
         }
-        else if(joueur2.getPoint() < joueur2.getPoint()){
+        else if(joueur2.getPoints() < joueur2.getPoints()){
             assertEquals(Optional.of(joueur2),arbitre.joueurGagnant(joueur1,joueur2));
         }
         else{
@@ -153,17 +157,17 @@ class JoueurTest {
     @Test
     void getPoint(){
         Arbitre arbitre = new Arbitre();
-        assertEquals(0,joueur1.getPoint());
+        assertEquals(0,joueur1.getPoints());
         ObjectifParcelle premierObjectifJoueur1 = joueur1.getPlaquette().getObjectifsParcelle()[0];
-        while(joueur1.getPoint() == 0){
+        while(joueur1.getPoints() == 0){
             joueur1.tour(piocheObjectif,plateau,arbitre);
         }
-        assertEquals(premierObjectifJoueur1.getNombrePoints(),joueur1.getPoint());
+        assertEquals(premierObjectifJoueur1.getNombrePoints(),joueur1.getPoints());
 
         ObjectifParcelle premierObjectifJoueur2 = joueur2.getPlaquette().getObjectifsParcelle()[0];
-        while(joueur2.getPoint() == 0){
+        while(joueur2.getPoints() == 0){
             joueur2.tour(piocheObjectif,plateau,arbitre);
         }
-        assertEquals(premierObjectifJoueur2.getNombrePoints(),joueur2.getPoint());
+        assertEquals(premierObjectifJoueur2.getNombrePoints(),joueur2.getPoints());
     }
 }
