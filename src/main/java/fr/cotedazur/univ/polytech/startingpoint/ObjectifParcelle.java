@@ -9,6 +9,7 @@ import java.util.Objects;
 public class ObjectifParcelle extends Objectif {
     // Définition des attributs
     private final int nombreParcelles;
+    private int nombreParcellePresenteEnJeu = 0;
 
 
     // Définition des constructeurs
@@ -31,6 +32,15 @@ public class ObjectifParcelle extends Objectif {
      */
     public int getNombreParcelles() {
         return nombreParcelles;
+    }
+
+    public void setNombreParcellePresenteEnJeu(int nombreParcellePresenteEnJeu){
+        if(nombreParcellePresenteEnJeu >= 0) {
+            this.nombreParcellePresenteEnJeu = nombreParcellePresenteEnJeu;
+        }
+    }
+    public int getNombreParcellePresenteEnJeu(){
+        return nombreParcellePresenteEnJeu;
     }
 
     @Override

@@ -63,7 +63,7 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
 
     // Méthodes d'utilisation
     @Override
-    public Objectif pioche() {
+    public ObjectifParcelle pioche() {
         assert !isEmpty() : "La pioche d'objectifs de parcelles est vide";
         int positionCarte = random.nextInt(size());
         if (positionCarte < 0 || positionCarte >= size()) throw new ArithmeticException("Erreur objet random");
