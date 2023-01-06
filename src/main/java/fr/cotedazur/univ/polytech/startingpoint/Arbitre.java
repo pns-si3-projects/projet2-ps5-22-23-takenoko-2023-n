@@ -40,7 +40,7 @@ public class Arbitre {
     public Optional<Joueur> joueurGagnant(Joueur... joueurs){
         int occurenceMaxPoint = 1;
         int indiceJoueurMax = 0;
-        for(int i = 0;i< joueurs.length;i++){
+        for(int i = 1;i< joueurs.length;i++){
             int pointJoueurAvecPlusDePoints = joueurs[indiceJoueurMax].getPoint();
             int pointJoueurIndiceI = joueurs[i].getPoint();
 
@@ -63,7 +63,7 @@ public class Arbitre {
      */
     public boolean checkObjectifParcelleTermine(Parcelle[] listParcellesEtVoisines, ObjectifParcelle objectifParcelle){
         int nombreParcellePlateau = listParcellesEtVoisines.length;
-        return objectifParcelle.getNombreParcelles() ==  nombreParcellePlateau - objectifParcelle.getNombreParcellePresenteEnJeu();
+        return objectifParcelle.getNombreParcelles() <=  nombreParcellePlateau - objectifParcelle.getNombreParcellePresenteEnJeu();
     }
 
     /**
