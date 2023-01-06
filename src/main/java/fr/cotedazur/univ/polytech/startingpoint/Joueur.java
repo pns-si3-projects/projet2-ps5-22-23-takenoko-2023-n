@@ -50,6 +50,7 @@ public class Joueur {
      * @param plateau Le plateau pour ajouter les parcelles
      */
     private void actionTour(PiocheObjectif piocheObjectif,Plateau plateau, Arbitre arbitre){
+        gestionObjectif(plateau.getParcelles(),arbitre, plaquette.getObjectifsParcelle());
         if(plaquette.getNombreObjectifParcelle() == 0){
             Optional<ObjectifParcelle> objectifParcellePioche = piocheObjectifParcelle(piocheObjectif);
             if(objectifParcellePioche.isPresent()){
@@ -57,6 +58,7 @@ public class Joueur {
                 objectifParcelle.setNombreParcellePresenteEnJeu(plateau.getParcelles().length);
                 try{
                     plaquette.ajouteObjectif(objectifParcelle);
+                    Main.AFFICHEUR.affichePiocheCarte(objectifParcelle);
                 }
                 catch (NombreObjectifsEnCoursException nOEE){
                     assert false : "Il doit avoir 0 Objectif";
@@ -68,6 +70,7 @@ public class Joueur {
             while (!parcelleAjoute) {
                 ParcelleCouleur parcelleCouleurChoisi = choisiParcellePlateau(plateau.getPositionsDisponible());
                 parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisi);
+                if(parcelleAjoute) Main.AFFICHEUR.afficheAjoutParcelle(parcelleCouleurChoisi);
             }
             gestionObjectif(plateau.getParcelles(),arbitre, plaquette.getObjectifsParcelle());
         }
@@ -85,6 +88,7 @@ public class Joueur {
             if (arbitre.checkObjectifParcelleTermine(listParcellesEtVoisines, objectifParcelle)) {
                 if (plaquette.deleteObjectifParcelle(objectifParcelle)) {
                     listObjectifTermine.add(objectifParcelle);
+                    Main.AFFICHEUR.afficheObjectifValidé(objectifParcelle);
                 } else {
                     assert false : "L'objectif doit normalement existe";
                 }
