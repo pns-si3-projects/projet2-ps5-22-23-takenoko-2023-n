@@ -3,29 +3,42 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.Optional;
 
 /**
- * Arbitre qui permet de donner le gagnant,valider un objectif, ainsi que le nombre de tour
+ * Classe qui permet de donner le gagnant, valider un objectif ainsi que le nombre de tours
  * @author équipe N
  */
 public class Arbitre {
     // Définition des attributs
     private int nombreTour;
 
-    // Définition de constructeur
+
+    // Définition des constructeurs
     /**
-     * Constructeur unique de l'Arbitre
+     * Constructeur par défaut
      */
     public Arbitre() {
         nombreTour = 1;
     }
 
+
+    // Accesseurs
     /**
-     * Verifie si un joueur à plus de 9 points, si oui, la partie est terminé
-     * @param joueurs liste de joueurs
-     * @return <code>true</code> si un des joueurs à plus de 9pts
+     * Renvoie le nombre de tours actuel
+     * @return le nombre de tours actuel
      */
-    public boolean checkFinDeJeu(Joueur... joueurs){
-        for(Joueur joueur : joueurs){
-            if(joueur.getPoint() >= 9){
+    public int getNombreTour() {
+        return nombreTour;
+    }
+
+
+    // Méthodes d'utilisation
+    /**
+     * Vérifie si la partie est terminée, soit si un joueur a plus de 9 points
+     * @param joueurs la liste des joueurs
+     * @return <code>true</code> si un des joueurs a plus de 9 points, <code>false</code> sinon
+     */
+    public boolean checkFinDeJeu(Joueur... joueurs) {
+        for (Joueur joueur : joueurs) {
+            if (joueur.getPoints() >= 9) {
                 return true;
             }
         }
@@ -33,53 +46,43 @@ public class Arbitre {
     }
 
     /**
-     * Renvoie le joueur Gagnant de la partie
-     * @param joueurs Liste de joueurs
-     * @return Le gagnant de la partie
+     * Renvoie le joueur gagnant de la partie
+     * @param joueurs la liste des joueurs
+     * @return le joueur gagnant de la partie
      */
-    public Optional<Joueur> joueurGagnant(Joueur... joueurs){
+    public Optional<Joueur> joueurGagnant(Joueur... joueurs) {
         int occurenceMaxPoint = 1;
         int indiceJoueurMax = 0;
         for(int i = 1;i< joueurs.length;i++){
             int pointJoueurAvecPlusDePoints = joueurs[indiceJoueurMax].getPoint();
             int pointJoueurIndiceI = joueurs[i].getPoint();
 
-            if(pointJoueurAvecPlusDePoints < pointJoueurIndiceI){
+            if (pointJoueurAvecPlusDePoints < pointJoueurIndiceI) {
                 indiceJoueurMax = i;
                 occurenceMaxPoint = 1;
             }
-            else if(pointJoueurAvecPlusDePoints == pointJoueurIndiceI){
+            else if (pointJoueurAvecPlusDePoints == pointJoueurIndiceI) {
                 occurenceMaxPoint++;
             }
         }
-        return (occurenceMaxPoint > 1)? Optional.empty() : Optional.of(joueurs[indiceJoueurMax]);
+        return (occurenceMaxPoint > 1) ? Optional.empty() : Optional.of(joueurs[indiceJoueurMax]);
     }
 
     /**
-     * Méthode qui vérifie si l'objectif a été terminé
-     * @param listParcellesEtVoisines Liste de parcelles et voisines
-     * @param objectifParcelle
-     * @return <code>true</code> si l'objectif est terminé sinon <code>false</code>
+     * Vérifie si l'objectif est terminé
+     * @param listParcellesEtVoisines la liste des parcelles et voisines
+     * @param objectifParcelle est l'objectif de parcelle à vérifier
+     * @return <code>true</code> si l'objectif est terminé, <code>false</code> sinon
      */
-    public boolean checkObjectifParcelleTermine(Parcelle[] listParcellesEtVoisines, ObjectifParcelle objectifParcelle){
+    public boolean checkObjectifParcelleTermine(Parcelle[] listParcellesEtVoisines, ObjectifParcelle objectifParcelle) {
         int nombreParcellePlateau = listParcellesEtVoisines.length;
         return objectifParcelle.getNombreParcelles() <=  nombreParcellePlateau - objectifParcelle.getNombreParcellePresenteEnJeu();
     }
 
     /**
-     * Méthode permettant d'évoluer le nombre de tour
+     * Augmente le nombre de tours
      */
-    public void addTour(){
+    public void addTour() {
         nombreTour++;
-    }
-
-    // Accesseurs
-
-    /**
-     * Permet de renvoyer à quelle tour on est
-     * @return le Nombre de tour
-     */
-    public int getNombreTour(){
-        return nombreTour;
     }
 }
