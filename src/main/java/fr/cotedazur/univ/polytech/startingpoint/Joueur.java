@@ -83,7 +83,7 @@ public class Joueur {
      * @param objectifsParcelles La liste des objectifs parcelles
      */
     private void gestionObjectif(Parcelle[] listParcellesEtVoisines, Arbitre arbitre, ObjectifParcelle[] objectifsParcelles){
-        assert objectifsParcelles != null && objectifsParcelles.length > 0 : "La plaquette contenant les objectifs parcelles ne doit pas être vide";
+        assert objectifsParcelles != null : "La plaquette contenant les objectifs parcelles ne doit pas être vide";
         for (ObjectifParcelle objectifParcelle : objectifsParcelles) {
             if (arbitre.checkObjectifParcelleTermine(listParcellesEtVoisines, objectifParcelle)) {
                 if (plaquette.deleteObjectifParcelle(objectifParcelle)) {
