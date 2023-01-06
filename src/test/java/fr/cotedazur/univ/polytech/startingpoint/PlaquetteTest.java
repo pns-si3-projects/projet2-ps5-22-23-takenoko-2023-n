@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlaquetteTest {
+    Plaquette plaquette;
     SectionBambou secBa;
     ObjectifParcelle objPar2_3;
     ObjectifParcelle objPar3_4;
@@ -13,10 +14,10 @@ class PlaquetteTest {
     ObjectifPanda objPan4_2;
     ObjectifJardinier objJar3_2;
     ObjectifJardinier objJar6_4;
-    Plaquette plaquette;
 
     @BeforeEach
     void setUp() {
+        plaquette = new Plaquette();
         secBa = new SectionBambou();
         objPar2_3 = new ObjectifParcelle(2, 3);
         objPar3_4 = new ObjectifParcelle(3, 4);
@@ -24,10 +25,16 @@ class PlaquetteTest {
         objPan4_2 = new ObjectifPanda(4, 2);
         objJar3_2 = new ObjectifJardinier(3, 2);
         objJar6_4 = new ObjectifJardinier(6, 4);
-        plaquette = new Plaquette(objPar2_3, objPan3_2, objJar3_2);
         plaquette.ajouteSectionBambou(new SectionBambou()); // modifier pour vert
         plaquette.ajouteSectionBambou(new SectionBambou()); // modifier pour rose
         plaquette.ajouteSectionBambou(new SectionBambou()); // modifier pour jaune
+        try {
+            plaquette.ajouteObjectif(objPar2_3);
+            plaquette.ajouteObjectif(objPan3_2);
+            plaquette.ajouteObjectif(objJar3_2);
+        } catch (NombreObjectifsEnCoursException nOECE) {
+            throw new AssertionError(nOECE);
+        }
     }
 
     @Test
