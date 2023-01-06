@@ -9,24 +9,21 @@ import java.util.List;
  */
 public class Plaquette {
     // Définition des attributs
+
+    // Ajouter les objectifs à réaliser et les bambous mangés
     private final List<SectionBambou> bambousManges;
     private final List<Objectif> objectifsARealiser;
     public static final int NOMBRE_OBJECTIFS_MAX = 5;
 
 
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut
-     * @param objPar est l'objectif de parcelle à ajouter
-     * @param objPan est l'objectif de panda à ajouter
-     * @param objJar est l'objectif de jardinier à ajouter
+     * Constructeur unique de la Plaquette
      */
-    public Plaquette(ObjectifParcelle objPar, ObjectifPanda objPan, ObjectifJardinier objJar) {
+    public Plaquette() {
         bambousManges = new ArrayList<>();
-        objectifsARealiser = new ArrayList<>(3);
-        objectifsARealiser.add(objPar);
-        objectifsARealiser.add(objPan);
-        objectifsARealiser.add(objJar);
+        objectifsARealiser = new ArrayList<>();
     }
 
 
@@ -112,7 +109,7 @@ public class Plaquette {
 
     /**
      * Renvoie tous les objectifs de parcelle à réaliser
-     * @return un tableau d'objectifs de parcelle dans l'ordre inverse d'ajout
+     * @return un tableau d'objectifs de parcelle
      */
     public ObjectifParcelle[] getObjectifsParcelle() {
         int nbObjPar = getNombreObjectifParcelle();
@@ -127,7 +124,7 @@ public class Plaquette {
 
     /**
      * Renvoie tous les objectifs de panda à réaliser
-     * @return un tableau d'objectifs de panda dans l'ordre inverse d'ajout
+     * @return un tableau d'objectifs de panda
      */
     public ObjectifPanda[] getObjectifsPanda() {
         int nbObjPan = getNombreObjectifPanda();
@@ -142,7 +139,7 @@ public class Plaquette {
 
     /**
      * Renvoie tous les objectifs de jardinier à réaliser
-     * @return un tableau d'objectifs de jardinier dans l'ordre inverse d'ajout
+     * @return un tableau d'objectifs de jardinier
      */
     public ObjectifJardinier[] getObjectifsJardinier() {
         int nbObjJar = getNombreObjectifJardinier();
@@ -157,13 +154,12 @@ public class Plaquette {
 
     /**
      * Renvoie tous les objectifs à réaliser
-     * @return un tableau d'objectifs dans l'ordre inverse d'ajout
+     * @return un tableau d'objectifs
      */
     public Objectif[] getObjectifs() {
-        int nbObjs = objectifsARealiser.size();
-        Objectif[] objectifs = new Objectif[nbObjs];
-        for (Objectif objectif : objectifsARealiser) {
-            objectifs[--nbObjs] = objectif;
+        Objectif[] objectifs = new Objectif[objectifsARealiser.size()];
+        for (int i=0; i<objectifsARealiser.size(); i++) {
+            objectifs[i] = objectifsARealiser.get(i);
         }
         return objectifs;
     }
@@ -179,7 +175,7 @@ public class Plaquette {
     /**
      * Ajoute un objectif donné à la plaquette
      * @param objectif est l'objectif à ajouter à la plaquette
-     * @throws NombreObjectifsEnCoursException si on essaie d'ajouter un objectif
+     * @throws NombreObjectifsEnCoursException dans le cas où on essaie d'ajouter un objectif
      *      alors que le nombre maximum d'objectifs en cours est atteint
      */
     public void ajouteObjectif(Objectif objectif) throws NombreObjectifsEnCoursException {
@@ -187,11 +183,11 @@ public class Plaquette {
         else throw new NombreObjectifsEnCoursException();
     }
     /**
-     * Renvoie si l'objectif réalisé est supprimé de la Plaquette
-     * @param objectif l'objectif à retirer
-     * @return <code>true</code> si l'objectif a été supprimé de la liste, <code>false</code> sinon
+     * Suppression de la Plaquette si l'objectif a été réalisés et le place dans la liste d'objectif réalisés
+     * @param objectifParcelle L'objectif parcelle a enlever
+     * @return <code>true</code> si la parcelle a été supprimé de la liste sinon l'objectif parcelle n'existe pas donc <code>false</code>
      */
-    public boolean supprimeObjectif(Objectif objectif) {
-        return objectifsARealiser.remove(objectif);
+    public boolean deleteObjectifParcelle(ObjectifParcelle objectifParcelle){
+        return objectifsARealiser.remove(objectifParcelle);
     }
 }
