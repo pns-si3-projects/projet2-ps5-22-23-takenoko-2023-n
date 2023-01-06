@@ -57,7 +57,7 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
      * @implSpec la position doit être comprise entre 0 et "le nombre de cartes de la pioche - 1"
      */
     private ObjectifPanda prendCarteObjectifPanda(int position) {
-        assert position>0 && position<getNombreObjectifsRestants() : "La position demandée dans la pioche est impossible";
+        assert position>=0 && position<getNombreObjectifsRestants() : "La position demandée dans la pioche est impossible";
         int somme = 0;
         for (int i=0; i<objectifPandaList.length; i++) {
             somme += objectifPandaList[i];
