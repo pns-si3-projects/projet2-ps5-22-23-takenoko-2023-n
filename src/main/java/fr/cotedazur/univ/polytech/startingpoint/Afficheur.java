@@ -51,7 +51,7 @@ public class Afficheur {
         System.out.println("Objectif "+messageAAffiche+" pioché");
     }
 
-    public void afficheObjectifValidé(Objectif objectif){
+    public void afficheObjectifValide(Objectif objectif){
         System.out.println(objectif+" terminé");
     }
 }

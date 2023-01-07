@@ -27,7 +27,7 @@ public class Main {
     }
 
     public static void Jeu(Joueur... joueurs){
-        while (!ARBITRE.checkFinDeJeu(joueurs)){
+        while (!ARBITRE.verifieFinDeJeu(joueurs)){
             AFFICHEUR.afficheDebutTour(ARBITRE.getNombreTour());
             for(Joueur joueur : joueurs){
                 AFFICHEUR.afficheJoueurDebutTour(joueur);

@@ -153,9 +153,9 @@ class PlaquetteTest {
     @Test
     void getObjectifs() {
         // Parce que pris dans l'ordre inverse d'ajout
-        assertEquals(objPar2_3, plaquette.getObjectifs()[2]);
-        assertEquals(objPan3_2, plaquette.getObjectifs()[1]);
         assertEquals(objJar3_2, plaquette.getObjectifs()[0]);
+        assertEquals(objPan3_2, plaquette.getObjectifs()[1]);
+        assertEquals(objPar2_3, plaquette.getObjectifs()[2]);
         try {
             plaquette.ajouteObjectif(objPan4_2);
             plaquette.ajouteObjectif(objJar6_4);

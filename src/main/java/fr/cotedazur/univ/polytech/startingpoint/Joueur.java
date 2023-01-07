@@ -82,7 +82,7 @@ public class Joueur {
      * Effectue le tour du joueur
      * @param piocheObjectif la pioche d'objectifs pour piocher les objectifs
      * @param plateau le plateau pour ajouter les parcelles
-     * @param arbitre permet de vérifier nos actions
+     * @param arbitre permet de vérifier les actions
      */
     public void tour(PiocheObjectif piocheObjectif, Plateau plateau, Arbitre arbitre) {
         actionTour(piocheObjectif, plateau, arbitre);
@@ -91,27 +91,27 @@ public class Joueur {
 
     /**
      * Permet d'effectuer une action d'un tour
-     * @param piocheObjectif La pioche d'objectif pour piocher les objectifs
-     * @param plateau Le plateau pour ajouter les parcelles
-     * @param arbitre permet de vérifier nos actions
+     * @param piocheObjectif la pioche d'objectif pour piocher les objectifs
+     * @param plateau le plateau pour ajouter les parcelles
+     * @param arbitre permet de vérifier les actions
      */
-    private void actionTour(PiocheObjectif piocheObjectif,Plateau plateau, Arbitre arbitre){
-        gestionObjectif(plateau.getParcelles(),arbitre, plaquette.getObjectifsParcelle());
-        if(plaquette.getNombreObjectifParcelle() == 0){
+    private void actionTour(PiocheObjectif piocheObjectif,Plateau plateau, Arbitre arbitre) {
+        gestionObjectif(plateau.getParcelles(), arbitre, plaquette.getObjectifsParcelle());
+        if (plaquette.getNombreObjectifParcelle() == 0) {
             Optional<ObjectifParcelle> objectifParcellePioche = piocheObjectifParcelle(piocheObjectif);
             if (objectifParcellePioche.isPresent()) {
                 ObjectifParcelle objectifParcelle = objectifParcellePioche.get();
                 objectifParcelle.setNombreParcellePresenteEnJeu(plateau.getParcelles().length);
-                try{
+                try {
                     plaquette.ajouteObjectif(objectifParcelle);
                     Main.AFFICHEUR.affichePiocheCarte(objectifParcelle);
                 }
-                catch (NombreObjectifsEnCoursException nOEE){
+                catch (NombreObjectifsEnCoursException nOEE) {
                     assert false : "Il doit avoir 0 Objectif";
                 }
             }
         }
-        else{
+        else {
             boolean parcelleAjoute = false;
             while (!parcelleAjoute) {
                 ParcelleCouleur parcelleCouleurChoisi = choisiParcellePlateau(plateau.getPositionsDisponible());
@@ -124,7 +124,7 @@ public class Joueur {
 
     /**
      * Gère les objectifs grâce à l'arbitre
-     * @param listParcellesEtVoisines La liste de parcelle du plateau à donnée à l'arbitre pour vérifier si les parcelles ont été posé
+     * @param listParcellesEtVoisines la liste de parcelle du plateau à donnée à l'arbitre pour vérifier si les parcelles ont été posé
      * @param arbitre L'arbitre qui doit vérifier si l'objectif est validé
      * @param objectifsParcelles La liste des objectifs parcelles
      */
@@ -134,7 +134,7 @@ public class Joueur {
             if (arbitre.checkObjectifParcelleTermine(listParcellesEtVoisines, objectifParcelle)) {
                 if (plaquette.supprimeObjectif(objectifParcelle)) {
                     objectifTermineList.add(objectifParcelle);
-                    Main.AFFICHEUR.afficheObjectifValidé(objectifParcelle);
+                    Main.AFFICHEUR.afficheObjectifValide(objectifParcelle);
                 } else {
                     assert false : "L'objectif doit normalement existe";
                 }
@@ -160,7 +160,7 @@ public class Joueur {
 
     /**
      * Renvoie le choix de parcelle que le joueur veut poser sur le plateau
-     * @param plateau le plateau de jeu, pour choisir la parcelle à poser parmis la liste des positions disponibles
+     * @param listPositionDisponible la liste des positions disponibles
      * @return la parcelle que le joueur veut poser
      */
     public ParcelleCouleur choisiParcellePlateau(Position[] listPositionDisponible){

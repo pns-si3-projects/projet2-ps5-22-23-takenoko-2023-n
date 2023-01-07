@@ -32,18 +32,18 @@ class ArbitreTest {
 
     @Test
     void checkFinDeJeu() {
-        while (!arbitre.checkFinDeJeu(joueur1,joueur2)){
-            assertFalse(arbitre.checkFinDeJeu(joueur1,joueur2));
+        while (!arbitre.verifieFinDeJeu(joueur1,joueur2)){
+            assertFalse(arbitre.verifieFinDeJeu(joueur1,joueur2));
             joueur1.tour(piocheObjectif,plateau,arbitre);
             joueur2.tour(piocheObjectif,plateau,arbitre);
         }
-        assertTrue(arbitre.checkFinDeJeu(joueur1,joueur2));
+        assertTrue(arbitre.verifieFinDeJeu(joueur1,joueur2));
     }
 
     @Test
     void joueurGagnant() {
         assertTrue(arbitre.joueurGagnant(joueur1,joueur2).isEmpty());
-        while (!arbitre.checkFinDeJeu(joueur1,joueur2)){
+        while (!arbitre.verifieFinDeJeu(joueur1,joueur2)){
             joueur1.tour(piocheObjectif,plateau,arbitre);
             joueur2.tour(piocheObjectif,plateau,arbitre);
         }
