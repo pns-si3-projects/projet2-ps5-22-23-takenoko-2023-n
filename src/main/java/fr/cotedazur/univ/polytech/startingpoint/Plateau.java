@@ -121,6 +121,10 @@ public class Plateau {
         throw new ParcelleNonExistanteException(parcelle);
     }
 
+    public Optional<Parcelle> getParcelle(Position position){
+        return GESTIONNAIRE_MODIFICATION_PLATEAU.getParcelle(getParcelles(),position);
+    }
+
     /**
      * Ajoute les positions disponibles grâce à la liste des voisines de la parcelle ajoutée
      * @param listVoisines la liste des voisines de la parcelle qu'on vient d'ajouter
@@ -150,25 +154,6 @@ public class Plateau {
             return false;
         }
         return false;
-    }
-
-    /**
-     * Méthode privé de la méthode addPosition qui permet de savoir à l'indice du tableau si elle a une Parcelle existante, si oui renvoie true sinon false
-     * @param indiceTab indice du tableau de voisin à regarder à côté
-     * @param listVoisins liste des voisins de la Parcelle ajouté
-     * @return Renvoie vrai si la parcelleDisponible possède à côté de lui une parcelle existante dans le plateau
-     */
-    private boolean checkVoisin(int indiceTab,Parcelle[] listVoisins){
-        int indiceAvantTab = indiceTab - 1;
-        int indiceApresTab = indiceTab + 1;
-        if(indiceTab == 0){
-            indiceAvantTab = 5;
-        }
-        else if(indiceTab == 5) {
-            indiceApresTab = 0;
-        }
-        return ((listVoisins[indiceAvantTab].getClass() == ParcelleCouleur.class || listVoisins[indiceAvantTab].getClass() == Etang.class)
-                || (listVoisins[indiceApresTab].getClass() == ParcelleCouleur.class || listVoisins[indiceApresTab].getClass() == Etang.class));
     }
 
     /**

@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Classe qui permet de renvoyer les déplacements possibles sur le plateau
@@ -24,39 +25,58 @@ public class GestionnairePossibilitePlateau {
 
     // Méthodes d'utilisation
     /**
+     * Renvoie la parcelle voisine à l'indiceTab dans le tableau de voisines
+     * @param parcelle la parcelle où on souhaite obtenir son voisin
+     * @param indiceTab la position dans le tableau des voisins
+     * @return la parcelle voisine à l'indiceTab dans le tableau de voisines
+     */
+    private Parcelle getSuivantParcelle(Parcelle parcelle,int indiceTab){
+        try {
+            return plateau.getTableauVoisines(parcelle)[indiceTab];
+        }
+        catch (ParcelleNonExistanteException pNEE){
+            assert false : "Les parcelles doivent être dans le plateau";
+            return null;
+        }
+    }
+
+    /**
+     * Renvoie la liste de positions des parcelles dans une des 6 orientations dans le tableau des voisins
+     * @param indiceTabVoisin l'indice dans le tableau des voisins pour choisir l'orientation de récupération des parcelles
+     * @param parcellePersonnage la parcelle où se situe le personnage
+     * @return la liste de positions des parcelles dans une des 6 orientations dans le tableau des voisins
+     */
+    private List<Position> getPossibleDeplacement(int indiceTabVoisin,Parcelle parcellePersonnage){
+        List<Position> listParcelleOrientation = new ArrayList<>();
+        Parcelle parcelleDeplace = getSuivantParcelle(parcellePersonnage,indiceTabVoisin);
+
+        while (parcelleDeplace.getClass() != ParcelleDisponible.class) {
+            listParcelleOrientation.add(parcelleDeplace.getPosition());
+            parcelleDeplace = getSuivantParcelle(parcelleDeplace,indiceTabVoisin);
+            assert parcelleDeplace != null: "La parcelle ne doit pas être vide (vu que c'est des parcelles dans le plateau et que le while verifie à chaque fois";
+        }
+
+        return listParcelleOrientation;
+    }
+
+    /**
      * Renvoie la liste de position de déplacement possible en diagonale droite sur le plateau
      * @param positionPersonnage la position du personnage
      * @return la liste de position de déplacement possible
      */
     public List<Position> deplacementPossiblePersonnageDiagonaleDroite(Position positionPersonnage) {
-        Parcelle[] parcelles = plateau.getParcelles();
-        List<Position> listPositions = new ArrayList<>();
+        Optional<Parcelle> optPositionParcellePersonnage = plateau.getParcelle(positionPersonnage);
+        List<Position> listPositionDiagonale = new ArrayList<>();
 
-        for (Parcelle parcelle : parcelles) {
-            Position positionParcelle = parcelle.getPosition();
-            if (possibleDeplacementDiagonaleDroite(positionPersonnage, positionParcelle)) {
-                listPositions.add(positionParcelle);
-            }
+        if ( optPositionParcellePersonnage.isPresent() ) {
+            listPositionDiagonale.addAll(getPossibleDeplacement(0,optPositionParcellePersonnage.get()));
+            listPositionDiagonale.addAll(getPossibleDeplacement(3, optPositionParcellePersonnage.get()));
         }
-        return listPositions;
-    }
 
-    /**
-     * Renvoie si la position de la parcelle est dans la diagonale droite du personnage
-     * @param positionPersonnage la position du personnage
-     * @param positionParcelle la position de la parcelle à vérifier
-     * @return <code>true</code> si la parcelle est dans la diagonale droite du personnage, <code>false</code> sinon
-     */
-    private boolean possibleDeplacementDiagonaleDroite(Position positionPersonnage, Position positionParcelle) {
-        int xPerso = positionPersonnage.getX();
-        int yPerso = positionPersonnage.getY();
-        int xParcelle = positionParcelle.getX();
-        int yParcelle = positionParcelle.getY();
-
-        if (Math.abs(xPerso-xParcelle) == Math.abs(yPerso-yParcelle)) {
-            return (xParcelle > xPerso && yParcelle > yPerso) || (xParcelle < xPerso && yParcelle < yPerso);
+        else {
+            assert false : "Le personnage doit pas être en dehors du plateau";
         }
-        return false;
+        return listPositionDiagonale;
     }
 
     /**
@@ -65,34 +85,18 @@ public class GestionnairePossibilitePlateau {
      * @return la liste de position de déplacement possible
      */
     public List<Position> deplacementPossiblePersonnageDiagonaleGauche(Position positionPersonnage) {
-        Parcelle[] parcelles = plateau.getParcelles();
-        List<Position> listPositions = new ArrayList<>();
+        Optional<Parcelle> optPositionParcellePersonnage = plateau.getParcelle(positionPersonnage);
+        List<Position> listPositionDiagonale = new ArrayList<>();
 
-        for (Parcelle parcelle : parcelles) {
-            Position positionParcelle = parcelle.getPosition();
-            if (possibleDeplacementDiagonaleGauche(positionPersonnage, positionParcelle)) {
-                listPositions.add(positionParcelle);
-            }
+        if ( optPositionParcellePersonnage.isPresent() ) {
+            listPositionDiagonale.addAll(getPossibleDeplacement(2,optPositionParcellePersonnage.get()));
+            listPositionDiagonale.addAll(getPossibleDeplacement(5, optPositionParcellePersonnage.get()));
         }
-        return listPositions;
-    }
 
-    /**
-     * Renvoie si la position de la parcelle est dans la diagonale gauche du personnage
-     * @param positionPersonnage la position du personnage
-     * @param positionParcelle la position de la parcelle à vérifier
-     * @return <code>true</code> si la parcelle est dans la diagonale gauche du personnage, <code>false</code> sinon
-     */
-    private boolean possibleDeplacementDiagonaleGauche(Position positionPersonnage, Position positionParcelle) {
-        int xPerso = positionPersonnage.getX();
-        int yPerso = positionPersonnage.getY();
-        int xParcelle = positionParcelle.getX();
-        int yParcelle = positionParcelle.getY();
-
-        if (Math.abs(xPerso-xParcelle) == Math.abs(yPerso-yParcelle)) {
-            return (xParcelle > xPerso && yParcelle < yPerso) || (xParcelle < xPerso && yParcelle > yPerso);
+        else {
+            assert false : "Le personnage doit pas être en dehors du plateau";
         }
-        return false;
+        return listPositionDiagonale;
     }
 
     /**
@@ -101,30 +105,17 @@ public class GestionnairePossibilitePlateau {
      * @return la liste de position de déplacement possible
      */
     public List<Position> deplacementPossiblePersonnageHorizontal(Position positionPersonnage) {
-        Parcelle[] parcelles = plateau.getParcelles();
-        List<Position> listPositions = new ArrayList<>();
+        Optional<Parcelle> optPositionParcellePersonnage = plateau.getParcelle(positionPersonnage);
+        List<Position> listPositionDiagonale = new ArrayList<>();
 
-        for (Parcelle parcelle : parcelles) {
-            Position positionParcelle = parcelle.getPosition();
-            if (possibleDeplacementHorizontal(positionPersonnage, positionParcelle)) {
-                listPositions.add(positionParcelle);
-            }
+        if ( optPositionParcellePersonnage.isPresent() ) {
+            listPositionDiagonale.addAll(getPossibleDeplacement(1,optPositionParcellePersonnage.get()));
+            listPositionDiagonale.addAll(getPossibleDeplacement(4, optPositionParcellePersonnage.get()));
         }
-        return listPositions;
-    }
 
-    /**
-     * Renvoie si la position de la parcelle est sur la même ligne que le personnage
-     * @param positionPersonnage la position du personnage
-     * @param positionParcelle la position de la parcelle à vérifier
-     * @return <code>true</code> si la parcelle est sur la même ligne que le personnage, <code>false</code> sinon
-     */
-    private boolean possibleDeplacementHorizontal(Position positionPersonnage, Position positionParcelle) {
-        int xPerso = positionPersonnage.getX();
-        int yPerso = positionPersonnage.getY();
-        int xParcelle = positionParcelle.getX();
-        int yParcelle = positionParcelle.getY();
-
-        return (xPerso != xParcelle && yParcelle == yPerso && (xPerso - xParcelle)%2 == 0);
+        else {
+            assert false : "Le personnage doit pas être en dehors du plateau";
+        }
+        return listPositionDiagonale;
     }
 }

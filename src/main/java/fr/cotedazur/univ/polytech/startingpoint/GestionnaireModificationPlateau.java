@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Classe qui permet de gérer l'ajout et la modification des parcelles du plateau
@@ -113,5 +114,16 @@ public class GestionnaireModificationPlateau {
             case 5 -> new ParcelleDisponible(new Position(x-1, y+1));
             default -> throw new IllegalArgumentException("Indice de direction incorrecte");
         };
+    }
+
+    public Optional<Parcelle> getParcelle(Parcelle[] listParcelle,Position position){
+        if(listParcelle == null || position == null) return Optional.empty();
+        for (int i = 0;i< listParcelle.length;i++){
+            Parcelle parcelleActuel = listParcelle[i];
+            if(position.equals(parcelleActuel.getPosition())){
+                return Optional.of(parcelleActuel);
+            }
+        }
+        return Optional.empty();
     }
 }
