@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BambouTest {
     Bambou bambou;
+    ParcelleCouleur parcelleCouleur;
     SectionBambou sectionBambou1;
     SectionBambou sectionBambou2;
     SectionBambou sectionBambou3;
@@ -14,7 +15,7 @@ class BambouTest {
 
     @BeforeEach
     void setUp() {
-        bambou = new Bambou(new Position(1, 2));
+        bambou = new Bambou(parcelleCouleur);
         sectionBambou1 = new SectionBambou();
         sectionBambou2 = new SectionBambou();
         sectionBambou3 = new SectionBambou();

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,6 +13,9 @@ class PlateauTest {
     Plateau plateau;
     ParcelleCouleur pC20;
     ParcelleCouleur pC11;
+    Bambou bambou2_0;
+    Bambou bambou1_1;
+
     @BeforeEach
     void setUp(){
         plateau = new Plateau();
@@ -19,7 +23,11 @@ class PlateauTest {
         pC11 = new ParcelleCouleur(new Position(1,1));
         try {
             plateau.addParcelle(pC20);
+            bambou2_0 = new Bambou(pC20);
+            bambou2_0.ajouteSectionBambou(new SectionBambou());
             plateau.addParcelle(pC11);
+            bambou1_1 = new Bambou(pC11);
+            bambou1_1.ajouteSectionBambou(new SectionBambou());
         }
         catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
             assert false : "Ne doit pas renvoyer d'exception";
@@ -61,6 +69,21 @@ class PlateauTest {
                 assertTrue(listParcelle.contains(parcelle));
             }
         }
+    }
+
+    @Test
+    void getBambous() {
+        Bambou[] plateauBambous = plateau.getBambous();
+        assertEquals(bambou1_1, plateauBambous[0]);
+        assertEquals(bambou2_0, plateauBambous[1]);
+    }
+
+    @Test
+    void getBambou() {
+        Optional<Bambou> optBambou2_0 = plateau.getBambou(new Position(2, 0));
+        Optional<Bambou> optBambou1_1 = plateau.getBambou(new Position(1, 1));
+        optBambou2_0.ifPresent(bambou -> assertEquals(bambou2_0, bambou)); // bambou est optBambou2_0.get()
+        optBambou1_1.ifPresent(bambou -> assertEquals(bambou1_1, bambou)); // bambou est optBambou1_1.get()
     }
 
     @Test
@@ -124,27 +147,45 @@ class PlateauTest {
     @Test
     void addParcelleSansException() {
         Parcelle[] parcelles = plateau.getParcelles();
+        Bambou[] bambous = plateau.getBambous();
         List<Parcelle> listParcelle = new ArrayList<>();
         listParcelle.add(new Etang());
         listParcelle.add(pC20);
         listParcelle.add(pC11);
+        List<Bambou> listBambou = new ArrayList<>();
+        listBambou.add(bambou2_0);
+        listBambou.add(bambou1_1);
         assertEquals(3, parcelles.length);
+        assertEquals(2, bambous.length);
 
         ParcelleCouleur pC31 = new ParcelleCouleur(new Position(3,1));
         ParcelleCouleur pCm1m1 = new ParcelleCouleur(new Position(-1,-1));
-        listParcelle.add(pC31);
-        listParcelle.add(pCm1m1);
+        Bambou bambou3_1 = new Bambou(pC31);
+        Bambou bamboum1_m1 = new Bambou(pCm1m1);
         try {
             plateau.addParcelle(pC31);
+            listParcelle.add(pC31);
+            bambou3_1.ajouteSectionBambou(new SectionBambou());
+            listBambou.add(bambou3_1);
+
             plateau.addParcelle(pCm1m1);
+            listParcelle.add(pCm1m1);
+            bamboum1_m1.ajouteSectionBambou(new SectionBambou());
+            listBambou.add(bamboum1_m1);
         }
         catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
             assert false : "Ne doit pas renvoyer d'exception";
         }
         parcelles = plateau.getParcelles();
+        bambous = plateau.getBambous();
+
         assertEquals(5, parcelles.length);
+        assertEquals(4, bambous.length);
         for(Parcelle parcelle : parcelles){
             assertTrue(listParcelle.contains(parcelle));
+        }
+        for (Bambou bambou : bambous) {
+            assertTrue(listBambou.contains(bambou));
         }
     }
 
