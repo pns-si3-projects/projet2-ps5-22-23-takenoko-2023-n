@@ -60,8 +60,8 @@ class GestionnairePossibilitePlateauTest {
         Jardinier jardinier = new Jardinier();
         List<Position> deplacementPossibleDiagonaleGauche = gPP.deplacementPossiblePersonnageDiagonaleGauche(jardinier.getPosition());
         assertEquals(2, deplacementPossibleDiagonaleGauche.size());
-        assertEquals(pCm11.getPosition(),deplacementPossibleDiagonaleGauche.get(0));
-        assertEquals(pC1m1.getPosition(),deplacementPossibleDiagonaleGauche.get(1));
+        assertEquals(pC1m1.getPosition(),deplacementPossibleDiagonaleGauche.get(0));
+        assertEquals(pCm11.getPosition(),deplacementPossibleDiagonaleGauche.get(1));
     }
 
     @Test
@@ -69,9 +69,9 @@ class GestionnairePossibilitePlateauTest {
         Panda panda = plateau.getPanda();
         List<Position> deplacementPossibleHorrizontal = gPP.deplacementPossiblePersonnageHorizontal(panda.getPosition());
         assertEquals(3, deplacementPossibleHorrizontal.size());
-        assertEquals(pC20.getPosition(),deplacementPossibleHorrizontal.get(2));
-        assertEquals(pCm20.getPosition(),deplacementPossibleHorrizontal.get(0));
+        assertEquals(pC20.getPosition(),deplacementPossibleHorrizontal.get(0));
         assertEquals(pC40.getPosition(),deplacementPossibleHorrizontal.get(1));
+        assertEquals(pCm20.getPosition(),deplacementPossibleHorrizontal.get(2));
     }
 
     @Test

@@ -54,7 +54,7 @@ class ArbitreTest {
             assertEquals(Optional.of(joueur2),arbitre.joueurGagnant(joueur1,joueur2));
         }
         else{
-            assertTrue(arbitre.joueurGagnant().isEmpty());
+            assertTrue(arbitre.joueurGagnant(joueur1,joueur2).isEmpty());
         }
     }
 
