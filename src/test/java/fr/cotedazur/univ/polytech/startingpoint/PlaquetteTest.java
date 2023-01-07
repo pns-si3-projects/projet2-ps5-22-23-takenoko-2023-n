@@ -162,9 +162,9 @@ class PlaquetteTest {
         } catch (NombreObjectifsEnCoursException nOECE) {
             throw new AssertionError(nOECE);
         }
-        assertEquals(objPar2_3, plaquette.getObjectifs()[4]);
-        assertEquals(objPan4_2, plaquette.getObjectifs()[1]);
         assertEquals(objJar6_4, plaquette.getObjectifs()[0]);
+        assertEquals(objPan4_2, plaquette.getObjectifs()[1]);
+        assertEquals(objPar2_3, plaquette.getObjectifs()[4]);
     }
 
     @Test

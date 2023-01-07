@@ -151,6 +151,10 @@ public class Plateau {
         throw new ParcelleNonExistanteException(parcelle);
     }
 
+    public Optional<Parcelle> getParcelle(Position position){
+        return GESTIONNAIRE_MODIFICATION_PLATEAU.getParcelle(getParcelles(),position);
+    }
+
     /**
      * Ajoute les positions disponibles grâce à la liste des voisines de la parcelle ajoutée
      * @param listVoisines la liste des voisines de la parcelle qu'on vient d'ajouter
