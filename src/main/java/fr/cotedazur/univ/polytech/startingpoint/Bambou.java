@@ -65,6 +65,11 @@ public class Bambou implements Positionable {
         return tailleBambou == TAILLE_MAXIMUM_BAMBOU;
     }
 
+    @Override
+    public String toString() {
+        return "Bambou de " + tailleBambou + " sections de bambou";
+    }
+
 
     // Méthodes d'utilisation
     /**
