@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import java.util.Objects;
+
 /**
  * Classe représentant l'ensemble des sections de bambou pouvant être placées sur une parcelle de couleur
  * @author equipe N
@@ -16,17 +18,14 @@ public class Bambou implements Positionable {
     /**
      * Constructeur par défaut
      */
-    public Bambou(Position position) {
-        if (position.equals(new Position())) {
-            throw new IllegalArgumentException("Il n'est pas possible de poser des bambous sur l'étang");
-        }
-        this.position = position;
+    public Bambou(ParcelleCouleur parcelleCouleur) {
+        this.position = parcelleCouleur.getPosition();
         sectionsBambou = new SectionBambou[TAILLE_MAXIMUM_BAMBOU];
         tailleBambou = 0;
     }
 
 
-    // Accesseur et méthode toString
+    // Accesseur et méthode toString et equals
     /**
      * Renvoie la position du Bambou
      * @return la position du Bambou
@@ -70,9 +69,21 @@ public class Bambou implements Positionable {
 
     @Override
     public String toString() {
-        return "Bambou de " + tailleBambou + " sections de bambou";
+        return "Bambou en " + position + " de " + tailleBambou + " sections de bambou";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bambou bambou = (Bambou) o;
+        return getTailleBambou() == bambou.getTailleBambou() && getPosition().equals(bambou.getPosition());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPosition(), getTailleBambou());
+    }
 
     // Méthodes d'utilisation
     /**

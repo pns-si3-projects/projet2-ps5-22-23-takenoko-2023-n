@@ -12,6 +12,7 @@ public class Main {
     private static final PiocheObjectifParcelle piocheObjectifParcelle = new PiocheObjectifParcelle(RANDOM);
     private static final PiocheObjectifJardinier piocheObjectifJardinier = new PiocheObjectifJardinier(RANDOM);
     public static final PiocheObjectif piocheObjectif = new PiocheObjectif(piocheObjectifParcelle,piocheObjectifPanda,piocheObjectifJardinier);
+    public static final PiocheBambou piocheBambou = new PiocheBambou(RANDOM);
     public static final Arbitre ARBITRE = new Arbitre();
 
     public static void main(String... args) {

@@ -10,6 +10,7 @@ import java.util.*;
 public class Plateau {
     // Définition des attributs
     private final Map<Parcelle,Parcelle[]> parcelleEtVoisinesList;
+    private final Set<Bambou> bambous;
     private final Panda panda;
     private final Jardinier jardinier;
     private final Etang etang;
@@ -24,6 +25,7 @@ public class Plateau {
     public Plateau() {
         // Initialisation des attributs
         parcelleEtVoisinesList = new HashMap<>();
+        bambous = new HashSet<>();
         panda = new Panda();
         jardinier = new Jardinier();
         etang = new Etang();
@@ -70,6 +72,34 @@ public class Plateau {
             parcelles[i] = iterateurParcelles.next();
         }
         return parcelles;
+    }
+
+    /**
+     * Renvoie un tableau des bambous du plateau
+     * @return un tableau des bambous du plateau
+     * @implNote il faut qu'au moins une parcelle de couleur soit posée sur le plateau
+     */
+    public Bambou[] getBambous() {
+        Bambou[] bambousTab = new Bambou[bambous.size()];
+        Iterator<Bambou> iterateurBambous = bambous.iterator();
+        for (int i=0; i<bambousTab.length; i++) {
+            bambousTab[i] = iterateurBambous.next();
+        }
+        return bambousTab;
+    }
+
+    /**
+     * Renvoie le bambou à la position donnée
+     * @return le bambou à la position donnée
+     */
+    public Optional<Bambou> getBambou(Position position) {
+        Bambou[] bambousTab = getBambous();
+        for (Bambou bambou : bambousTab) {
+            if (bambou.getPosition().equals(position)) {
+                return Optional.of(bambou);
+            }
+        }
+        return Optional.empty();
     }
 
     /**
@@ -153,25 +183,6 @@ public class Plateau {
     }
 
     /**
-     * Méthode privé de la méthode addPosition qui permet de savoir à l'indice du tableau si elle a une Parcelle existante, si oui renvoie true sinon false
-     * @param indiceTab indice du tableau de voisin à regarder à côté
-     * @param listVoisins liste des voisins de la Parcelle ajouté
-     * @return Renvoie vrai si la parcelleDisponible possède à côté de lui une parcelle existante dans le plateau
-     */
-    private boolean checkVoisin(int indiceTab,Parcelle[] listVoisins){
-        int indiceAvantTab = indiceTab - 1;
-        int indiceApresTab = indiceTab + 1;
-        if(indiceTab == 0){
-            indiceAvantTab = 5;
-        }
-        else if(indiceTab == 5) {
-            indiceApresTab = 0;
-        }
-        return ((listVoisins[indiceAvantTab].getClass() == ParcelleCouleur.class || listVoisins[indiceAvantTab].getClass() == Etang.class)
-                || (listVoisins[indiceApresTab].getClass() == ParcelleCouleur.class || listVoisins[indiceApresTab].getClass() == Etang.class));
-    }
-
-    /**
      * Permet d'ajouter une nouvelle parcelle au Plateau
      * @param parcelle la parcelle à ajouter
      * @throws ParcelleExistanteException si la parcelle est déjà sur le Plateau
@@ -193,6 +204,7 @@ public class Plateau {
             // On prend toutes les voisines (dont les espaces vide en ParcelleDisponible)
             Parcelle[] toutesVoisinesList = GESTIONNAIRE_MODIFICATION_PLATEAU.addVoisinesParcelle(parcelle, futuresVoisinesList);
             parcelleEtVoisinesList.put(parcelle, toutesVoisinesList);
+            addBambou(parcelle);
             addPositionsDisponibles(toutesVoisinesList);
             // On enlève la position de la parcelle ajoutée aux possibilités d'ajout de parcelle
             deletePositionList(parcelle.getPosition());
@@ -212,6 +224,22 @@ public class Plateau {
             Parcelle[] listVoisineParcelle = parcelleEtVoisinesList.get(voisineParcelle);
             int indiceDansTableauVoisines = GESTIONNAIRE_MODIFICATION_PLATEAU.positionTabVoisin(voisineParcelle.getPosition(), parcelle.getPosition());
             listVoisineParcelle[indiceDansTableauVoisines] = parcelle;
+        }
+    }
+
+    /**
+     * Permet d'ajouter une section de bambou à la position d'une parcelle de couleur donnée
+     * @param parcelleCouleur est la parcelle de couleur ciblée
+      */
+    public void addBambou(ParcelleCouleur parcelleCouleur) {
+        SectionBambou sectionBambou = Main.piocheBambou.piocheSectionBambouVert();
+        Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.getPosition());
+        if (optionalBambou.isPresent()) {
+            optionalBambou.get().ajouteSectionBambou(Main.piocheBambou.piocheSectionBambouVert());
+        } else {
+            Bambou bambou = new Bambou(parcelleCouleur);
+            bambou.ajouteSectionBambou(sectionBambou);
+            bambous.add(bambou);
         }
     }
 
