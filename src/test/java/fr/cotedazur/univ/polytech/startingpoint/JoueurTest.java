@@ -140,7 +140,7 @@ class JoueurTest {
     @Test
     void tourDeJeu(){
         Arbitre arbitre = new Arbitre();
-        while (arbitre.checkFinDeJeu(joueur1,joueur2)){
+        while (arbitre.verifieFinDeJeu(joueur1,joueur2)){
             joueur1.tour(piocheObjectif,plateau,arbitre);
             joueur2.tour(piocheObjectif,plateau,arbitre);
         }
