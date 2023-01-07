@@ -25,7 +25,7 @@ public class ParcelleCouleur implements Parcelle {
     // Accesseurs et méthodes toString et equals
     /**
      * Renvoie la position de la parcelle
-     * @return la position
+     * @return la position de la parcelle
      */
     @Override
     public Position getPosition() {
