@@ -17,6 +17,9 @@ public class Bambou implements Positionable {
      * Constructeur par défaut
      */
     public Bambou(Position position) {
+        if (position.equals(new Position())) {
+            throw new IllegalArgumentException("Il n'est pas possible de poser des bambous sur l'étang");
+        }
         this.position = position;
         sectionsBambou = new SectionBambou[TAILLE_MAXIMUM_BAMBOU];
         tailleBambou = 0;
