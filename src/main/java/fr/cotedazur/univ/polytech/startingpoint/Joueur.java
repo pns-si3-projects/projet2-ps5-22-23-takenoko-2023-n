@@ -188,6 +188,7 @@ public class Joueur {
             if(optBambou.isPresent()){
                 Bambou bambou = optBambou.get();
                 if(!bambou.isEmptyBambou()){
+                    plateau.getPanda().move(bambou.getPosition());
                     SectionBambou sectionBambou = bambou.prendSectionBambou();
                     plaquette.ajouteSectionBambou(sectionBambou);
                     return true;

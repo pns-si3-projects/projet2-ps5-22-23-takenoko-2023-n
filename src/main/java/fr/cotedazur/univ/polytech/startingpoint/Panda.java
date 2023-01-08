@@ -17,6 +17,11 @@ public class Panda implements Personnage {
         position = new Position();
     }
 
+    public void move(Position position){
+        this.position.setX(position.getX());
+        this.position.setY(position.getY());
+    }
+
 
     // Accesseurs et méthode toString
     /**
