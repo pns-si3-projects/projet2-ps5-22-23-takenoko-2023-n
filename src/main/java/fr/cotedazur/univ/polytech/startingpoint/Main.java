@@ -24,10 +24,14 @@ public class Main {
         ObjectifJardinier objJarJ2 = piocheObjectif.piocheObjectifJardinier();
         Joueur joueur1 = new Joueur("Robot1", RANDOM, objParJ1, objPanJ1, objJarJ1);
         Joueur joueur2 = new Joueur("Robot2", RANDOM, objParJ2, objPanJ2, objJarJ2);
-        Jeu(joueur1,joueur2);
+        jeu(joueur1,joueur2);
     }
 
-    public static void Jeu(Joueur... joueurs){
+    /**
+     * Permet de lancer la partie avec les affichages
+     * @param joueurs sont les joueurs automatiques qui participent à la partie
+     */
+    public static void jeu(Joueur... joueurs){
         while (!ARBITRE.verifieFinDeJeu(joueurs)){
             AFFICHEUR.afficheDebutTour(ARBITRE.getNombreTour());
             for(Joueur joueur : joueurs){

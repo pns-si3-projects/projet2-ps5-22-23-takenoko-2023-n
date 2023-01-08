@@ -151,6 +151,11 @@ public class Plateau {
         throw new ParcelleNonExistanteException(parcelle);
     }
 
+    /**
+     * Renvoie la parcelle désignée par la position
+     * @param position est la position de la parcelle demandée
+     * @return la parcelle à la position demandée
+     */
     public Optional<Parcelle> getParcelle(Position position){
         return GESTIONNAIRE_MODIFICATION_PLATEAU.getParcelle(getParcelles(),position);
     }
