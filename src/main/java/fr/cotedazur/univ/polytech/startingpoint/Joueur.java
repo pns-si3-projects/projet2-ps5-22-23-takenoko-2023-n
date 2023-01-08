@@ -84,9 +84,9 @@ public class Joueur {
      * @param plateau le plateau pour ajouter les parcelles
      * @param arbitre permet de vérifier les actions
      */
-    public void tour(PiocheObjectif piocheObjectif, Plateau plateau, Arbitre arbitre) {
-        actionTour(piocheObjectif, plateau, arbitre);
-        actionTour(piocheObjectif, plateau, arbitre);
+    public void tour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, Plateau plateau, Arbitre arbitre) {
+        actionTour(piocheObjectif, piocheBambou, plateau, arbitre);
+        actionTour(piocheObjectif, piocheBambou, plateau, arbitre);
     }
 
     /**
@@ -95,7 +95,7 @@ public class Joueur {
      * @param plateau le plateau pour ajouter les parcelles
      * @param arbitre permet de vérifier les actions
      */
-    private void actionTour(PiocheObjectif piocheObjectif,Plateau plateau, Arbitre arbitre) {
+    private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou,Plateau plateau, Arbitre arbitre) {
         gestionObjectif(plateau.getParcelles(), arbitre, plaquette.getObjectifsParcelle());
         if (plaquette.getNombreObjectifParcelle() == 0) {
             Optional<ObjectifParcelle> objectifParcellePioche = piocheObjectifParcelle(piocheObjectif);
@@ -115,7 +115,8 @@ public class Joueur {
             boolean parcelleAjoute = false;
             while (!parcelleAjoute) {
                 ParcelleCouleur parcelleCouleurChoisi = choisiParcellePlateau(plateau.getPositionsDisponible());
-                parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisi);
+                SectionBambou sectionBambou = piocheBambou.piocheSectionBambouVert();
+                parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisi, sectionBambou);
                 if(parcelleAjoute) Main.AFFICHEUR.afficheAjoutParcelle(parcelleCouleurChoisi);
             }
             gestionObjectif(plateau.getParcelles(), arbitre, plaquette.getObjectifsParcelle());
@@ -176,9 +177,9 @@ public class Joueur {
      * @param parcelleCouleur la parcelle de couleur à ajouter
      * @return <code>true</code> si la parcelle a bien été posée, <code>false</code> sinon
      */
-    public boolean addParcellePlateau(Plateau plateau, ParcelleCouleur parcelleCouleur) {
+    public boolean addParcellePlateau(Plateau plateau, ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou) {
         try {
-            plateau.addParcelle(parcelleCouleur);
+            plateau.addParcelle(parcelleCouleur, sectionBambou);
             return true;
         }
         catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {

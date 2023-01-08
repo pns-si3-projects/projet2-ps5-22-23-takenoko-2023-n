@@ -32,7 +32,7 @@ public class Main {
             AFFICHEUR.afficheDebutTour(ARBITRE.getNombreTour());
             for(Joueur joueur : joueurs){
                 AFFICHEUR.afficheJoueurDebutTour(joueur);
-                joueur.tour(piocheObjectif,PLATEAU,ARBITRE);
+                joueur.tour(piocheObjectif, piocheBambou, PLATEAU, ARBITRE);
                 AFFICHEUR.afficheJoueurFinTour(joueur);
             }
             AFFICHEUR.afficheFinTour(ARBITRE.getNombreTour());

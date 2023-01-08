@@ -192,7 +192,7 @@ public class Plateau {
      * @throws ParcelleExistanteException si la parcelle est déjà sur le Plateau
      * @throws NombreParcelleVoisineException si le nombre de voisines est inférieur à 2 ou supérieur à 6
      */
-    public void addParcelle(ParcelleCouleur parcelle) throws ParcelleExistanteException, NombreParcelleVoisineException {
+    public void addParcelle(ParcelleCouleur parcelle, SectionBambou sectionBambou) throws ParcelleExistanteException, NombreParcelleVoisineException {
         // On prend les voisines existantes sur le Plateau
         List<Parcelle> futuresVoisinesList = GESTIONNAIRE_MODIFICATION_PLATEAU.chercheFuturesVoisines(parcelle, getParcelles());
         int tailleListVoisines = futuresVoisinesList.size();
@@ -208,7 +208,9 @@ public class Plateau {
             // On prend toutes les voisines (dont les espaces vide en ParcelleDisponible)
             Parcelle[] toutesVoisinesList = GESTIONNAIRE_MODIFICATION_PLATEAU.addVoisinesParcelle(parcelle, futuresVoisinesList);
             parcelleEtVoisinesList.put(parcelle, toutesVoisinesList);
-            addBambou(parcelle);
+            System.out.println("\tLa pioche de bambous va être utilisée");
+            addBambou(parcelle, sectionBambou);
+            System.out.println("\tLa pioche de bambous a été utilisée (-1 bambou vert)");
             addPositionsDisponibles(toutesVoisinesList);
             // On enlève la position de la parcelle ajoutée aux possibilités d'ajout de parcelle
             deletePositionList(parcelle.getPosition());
@@ -235,11 +237,10 @@ public class Plateau {
      * Permet d'ajouter une section de bambou à la position d'une parcelle de couleur donnée
      * @param parcelleCouleur est la parcelle de couleur ciblée
       */
-    public void addBambou(ParcelleCouleur parcelleCouleur) {
-        SectionBambou sectionBambou = Main.piocheBambou.piocheSectionBambouVert();
+    public void addBambou(ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou) {
         Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.getPosition());
         if (optionalBambou.isPresent()) {
-            optionalBambou.get().ajouteSectionBambou(Main.piocheBambou.piocheSectionBambouVert());
+            optionalBambou.get().ajouteSectionBambou(sectionBambou);
         } else {
             Bambou bambou = new Bambou(parcelleCouleur);
             bambou.ajouteSectionBambou(sectionBambou);
