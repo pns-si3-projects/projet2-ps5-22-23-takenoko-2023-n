@@ -208,9 +208,7 @@ public class Plateau {
             // On prend toutes les voisines (dont les espaces vide en ParcelleDisponible)
             Parcelle[] toutesVoisinesList = GESTIONNAIRE_MODIFICATION_PLATEAU.addVoisinesParcelle(parcelle, futuresVoisinesList);
             parcelleEtVoisinesList.put(parcelle, toutesVoisinesList);
-            System.out.println("\tLa pioche de bambous va être utilisée");
             addBambou(parcelle, sectionBambou);
-            System.out.println("\tLa pioche de bambous a été utilisée (-1 bambou vert)");
             addPositionsDisponibles(toutesVoisinesList);
             // On enlève la position de la parcelle ajoutée aux possibilités d'ajout de parcelle
             deletePositionList(parcelle.getPosition());
