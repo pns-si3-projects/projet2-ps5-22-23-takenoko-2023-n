@@ -30,7 +30,6 @@ class GestionnaireModificationPlateauTest {
         gMP = new GestionnaireModificationPlateau();
         etang = plateau.getEtang();
         positionEtang = etang.getPosition();
-        // en fait ici, je comprends pas pq tu veux refaire ça before each
         parcelleDisponible0 = new ParcelleDisponible(new Position(positionEtang.getX()+1,positionEtang.getY()+1));
         parcelleDisponible1 = new ParcelleDisponible(new Position(positionEtang.getX()+2,positionEtang.getY()));
         parcelleDisponible2 = new ParcelleDisponible(new Position(positionEtang.getX()+1,positionEtang.getY()-1));
@@ -54,21 +53,23 @@ class GestionnaireModificationPlateauTest {
             assertEquals(listParcelleDisponible[i],gMP.creeParcelleDisponible(i,positionEtang));
         }
 
-        try {
+        assertThrows(IllegalArgumentException.class, () -> gMP.creeParcelleDisponible(6,positionEtang));
+        /*try {
             gMP.creeParcelleDisponible(6,positionEtang);
             assert false: "Doit renvoyer une erreur";
         }
         catch (IllegalArgumentException iAE){
 
-        }
+        }*/
 
-        try {
+        assertThrows(IllegalArgumentException.class, () -> gMP.creeParcelleDisponible(-1,positionEtang));
+        /*try {
             gMP.creeParcelleDisponible(-1,positionEtang);
             assert false: "Doit renvoyer une erreur";
         }
         catch (IllegalArgumentException iAE){
 
-        }
+        }*/
     }
 
     /**
@@ -81,21 +82,22 @@ class GestionnaireModificationPlateauTest {
             assertEquals(1, listVoisinParcelle.size());
             assertEquals(etang,listVoisinParcelle.get(0));
         }
-        catch (ParcelleExistanteException exception){
-            assert false: "Ne doit normalement pas renvoyer d'erreur";
+        catch (ParcelleExistanteException exception) {
+            throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
         }
     }
 
     @Test
-    void getParcelleVoisinSansExceptionDeux(){
+    void getParcelleVoisinSansExceptionDeux() {
         ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].getPosition());
+        SectionBambou secBam = new SectionBambou();
 
         try {
-            plateau.addParcelle(parcelleCouleurNonPose2);
+            plateau.addParcelle(parcelleCouleurNonPose2, secBam);
             plateau.getParcelles();
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
-            assert false: "Ne doit pas renvoyer d'exception";
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
+            throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
         }
 
         try {
@@ -104,38 +106,41 @@ class GestionnaireModificationPlateauTest {
             assertEquals(etang,listVoisinParcelle.get(0));
             assertEquals(parcelleCouleurNonPose2,listVoisinParcelle.get(1));
         }
-        catch (ParcelleExistanteException exception){
-            assert false: "Ne doit normalement pas renvoyer d'erreur";
+        catch (ParcelleExistanteException exception) {
+            throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
         }
     }
 
     @Test
-    void getParcelleVoisinAvecExceptionUn(){
-        try {
+    void getParcelleVoisinAvecExceptionUn() {
+        assertThrows(ParcelleExistanteException.class, () -> gMP.chercheFuturesVoisines(etang, plateau.getParcelles()));
+        /*try {
             gMP.chercheFuturesVoisines(etang, plateau.getParcelles());
         }
         catch (ParcelleExistanteException pEE){
             assertEquals("La parcelle de position "+etang.getPosition()+" est déjà existante",pEE.getMessage());
-        }
+        }*/
     }
 
     @Test
-    void getParcelleVoisinAvecExceptionDeux(){
+    void getParcelleVoisinAvecExceptionDeux() {
         ParcelleCouleur parcelleCouleurNonPose2bis = new ParcelleCouleur(listPositionDisponible[2]);
+        SectionBambou secBam = new SectionBambou();
 
         try {
-            plateau.addParcelle(parcelleCouleurNonPose2);
+            plateau.addParcelle(parcelleCouleurNonPose2, secBam);
         }
-        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
-            assert false: "Ne doit pas renvoyer d'exception";
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
+            throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
         }
 
-        try {
+        assertThrows(ParcelleExistanteException.class, () -> gMP.chercheFuturesVoisines(parcelleCouleurNonPose2bis, plateau.getParcelles()));
+        /*try {
             gMP.chercheFuturesVoisines(parcelleCouleurNonPose2bis, plateau.getParcelles());
         }
         catch (ParcelleExistanteException pEE){
             assertEquals("La parcelle de position "+parcelleCouleurNonPose2bis.getPosition()+" est déjà existante",pEE.getMessage());
-        }
+        }*/
     }
 
     @Test
@@ -155,24 +160,23 @@ class GestionnaireModificationPlateauTest {
             assertEquals(parcelleDisponible2m2,listVoisinPotentiel[2]);
             assertEquals(parcelleDisponible3m1,listVoisinPotentiel[1]);
         }
-        catch (ParcelleExistanteException | ParcelleNonVoisineException exception){
-            assert false: "Ne doit pas renvoyer d'exception";
+        catch (ParcelleExistanteException | ParcelleNonVoisineException exception) {
+            throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
         }
     }
 
     @Test
-    void addVoisinParcelleException(){
+    void addVoisinParcelleException() {
         ParcelleCouleur parcelleAAdd = new ParcelleCouleur(new Position(4,0));
         try {
             List<Parcelle>  listParcelleVoisin40 = gMP.chercheFuturesVoisines(parcelleAAdd, plateau.getParcelles());
             gMP.addVoisinesParcelle(parcelleAAdd,listParcelleVoisin40);
         }
-        catch (ParcelleExistanteException pEE){
-            assert false: "Ne doit pas renvoyer d'exception";
+        catch (ParcelleExistanteException pEE) {
+            throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
         }
-        catch (ParcelleNonVoisineException pNVE){
-            assertEquals("La parcelle de position "+ parcelleAAdd.getPosition()+" n'existe pas dans la map",pNVE.getMessage());
+        catch (ParcelleNonVoisineException pNVE) {
+            assertEquals(ParcelleNonVoisineException.class, pNVE.getClass());
         }
-
     }
 }

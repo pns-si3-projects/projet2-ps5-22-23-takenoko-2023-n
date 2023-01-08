@@ -25,6 +25,7 @@ class JoueurTest {
     ObjectifParcelle objParJ2;
     ObjectifPanda objPanJ2;
     ObjectifJardinier objJarJ2;
+    PiocheBambou piocheBambou;
 
     Joueur joueur1;
     Joueur joueur2;
@@ -33,19 +34,20 @@ class JoueurTest {
     Random mockRandom = mock(Random.class);
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         plateau = new Plateau();
         random = new Random();
         piocheObjectifParcelle = new PiocheObjectifParcelle(mockRandom);
         piocheObjectifPanda = new PiocheObjectifPanda(random);
         piocheObjectifJardinier = new PiocheObjectifJardinier(random);
-        piocheObjectif = new PiocheObjectif(piocheObjectifParcelle,piocheObjectifPanda,piocheObjectifJardinier);
+        piocheObjectif = new PiocheObjectif(piocheObjectifParcelle, piocheObjectifPanda, piocheObjectifJardinier);
         objParJ1 = piocheObjectif.piocheObjectifParcelle();
         objPanJ1 = piocheObjectif.piocheObjectifPanda();
         objJarJ1 = piocheObjectif.piocheObjectifJardinier();
         objParJ2 = piocheObjectif.piocheObjectifParcelle();
         objPanJ2 = piocheObjectif.piocheObjectifPanda();
         objJarJ2 = piocheObjectif.piocheObjectifJardinier();
+        piocheBambou = new PiocheBambou(new Random());
         joueur1 = new Joueur("Robot1", mockRandom, objParJ1, objPanJ1, objJarJ1);
         joueur2 = new Joueur("Robot2", mockRandom, objParJ2, objPanJ2, objJarJ2);
     }
@@ -57,118 +59,120 @@ class JoueurTest {
     }
 
     @Test
-    void getPlaquette(){
+    void getPlaquette() {
         Plaquette plaquetteJoueur1 = joueur1.getPlaquette();
-        assertEquals(objJarJ1,plaquetteJoueur1.getObjectifs()[0]);
+        assertEquals(objJarJ1, plaquetteJoueur1.getObjectifs()[0]);
 
         Plaquette plaquetteJoueur2 = joueur2.getPlaquette();
         assertEquals(objJarJ2, plaquetteJoueur2.getObjectifs()[0]);
     }
 
     @Test
-    void choisiParcellePlateauSansException(){
-        when(mockRandom.nextInt(anyInt())).thenReturn(2,2,4);
+    void choisiParcellePlateauSansException() {
+        when(mockRandom.nextInt(anyInt())).thenReturn(2, 2, 4);
         ParcelleCouleur[] listParcellesCouleursChoisis = new ParcelleCouleur[3];
-        ParcelleCouleur parcelleCouleur1m1 = new ParcelleCouleur(new Position(1,-1));
-        ParcelleCouleur parcelleCouleurm1m1 = new ParcelleCouleur(new Position(-1,-1));
-        ParcelleCouleur parcelle0m2 = new ParcelleCouleur(new Position(0,-2));
+        ParcelleCouleur parcelleCouleur1m1 = new ParcelleCouleur(new Position(1, -1));
+        ParcelleCouleur parcelleCouleurm1m1 = new ParcelleCouleur(new Position(-1, -1));
+        ParcelleCouleur parcelle0m2 = new ParcelleCouleur(new Position(0, -2));
         listParcellesCouleursChoisis[0] = parcelleCouleur1m1;
         listParcellesCouleursChoisis[1] = parcelleCouleurm1m1;
         listParcellesCouleursChoisis[2] = parcelle0m2;
 
-        for(int i = 0;i < listParcellesCouleursChoisis.length;i++){
+        for (ParcelleCouleur listParcellesCouleursChoisi : listParcellesCouleursChoisis) {
             ParcelleCouleur parcelleCouleurAAdd = joueur1.choisiParcellePlateau(plateau.getPositionsDisponible());
-            try{
-                assertEquals(listParcellesCouleursChoisis[i], parcelleCouleurAAdd);
-                plateau.addParcelle(parcelleCouleurAAdd);
-            }
-            catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
-                assert false: "Ne doit pas renvoyer d'erreur d'ajout au plateau";
+            SectionBambou secBamAAdd = new SectionBambou();
+            try {
+                assertEquals(listParcellesCouleursChoisi, parcelleCouleurAAdd);
+                plateau.addParcelle(parcelleCouleurAAdd, secBamAAdd);
+            } catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
+                throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
             }
         }
     }
 
     @Test
-    void choisiParcellePlateauAvecRandomTropGrand(){
+    void choisiParcellePlateauAvecRandomTropGrand() {
         Position[] listPositionDisponible = plateau.getPositionsDisponible();
         when(mockRandom.nextInt(anyInt())).thenReturn(listPositionDisponible.length);
-        assertThrows(ArithmeticException.class, () -> {joueur2.choisiParcellePlateau(listPositionDisponible);});
+        assertThrows(ArithmeticException.class, () -> joueur2.choisiParcellePlateau(listPositionDisponible));
     }
 
     @Test
-    void choisiParcellePlateauAvecRandomTropPetit(){
+    void choisiParcellePlateauAvecRandomTropPetit() {
         Position[] listPositionDisponible = plateau.getPositionsDisponible();
         when(mockRandom.nextInt(anyInt())).thenReturn(-1);
-        assertThrows(ArithmeticException.class, () -> {joueur2.choisiParcellePlateau(listPositionDisponible);});
+        assertThrows(ArithmeticException.class, () -> joueur2.choisiParcellePlateau(listPositionDisponible));
     }
 
     @Test
-    void addParcellePlateauTrue(){
+    void addParcellePlateauTrue() {
         ParcelleCouleur parcelleCouleurChoisiJoueur1 = joueur1.choisiParcellePlateau(plateau.getPositionsDisponible());
-        assertTrue(joueur1.addParcellePlateau(plateau,parcelleCouleurChoisiJoueur1));
+        SectionBambou secBam = new SectionBambou();
+        assertTrue(joueur1.addParcellePlateau(plateau, parcelleCouleurChoisiJoueur1, secBam));
 
         ParcelleCouleur parcelleCouleurChoisiJoueur2 = joueur2.choisiParcellePlateau(plateau.getPositionsDisponible());
-        assertTrue(joueur2.addParcellePlateau(plateau,parcelleCouleurChoisiJoueur2));
+        assertTrue(joueur2.addParcellePlateau(plateau, parcelleCouleurChoisiJoueur2, secBam));
     }
 
     @Test
-    void addParcellePlateauFalse(){
-        ParcelleCouleur parcelleCouleurNonPossibleAAdd = new ParcelleCouleur(new Position(10,10));
-        assertFalse(joueur1.addParcellePlateau(plateau,parcelleCouleurNonPossibleAAdd));
-        assertFalse(joueur2.addParcellePlateau(plateau,parcelleCouleurNonPossibleAAdd));
+    void addParcellePlateauFalse() {
+        ParcelleCouleur parcelleCouleurNonPossibleAAdd = new ParcelleCouleur(new Position(10, 10));
+        SectionBambou secBam = new SectionBambou();
+        assertFalse(joueur1.addParcellePlateau(plateau, parcelleCouleurNonPossibleAAdd, secBam));
+        assertFalse(joueur2.addParcellePlateau(plateau, parcelleCouleurNonPossibleAAdd, secBam));
     }
 
     @Test
-    void piocheObjectifParcelleRempli(){
-        when(mockRandom.nextInt(anyInt())).thenReturn(10,2);
+    void piocheObjectifParcelleRempli() {
+        when(mockRandom.nextInt(anyInt())).thenReturn(10, 2);
         ObjectifParcelle objectifParcelleAPiocher = piocheObjectifParcelle.get(10);
-        assertEquals(Optional.of(objectifParcelleAPiocher),joueur1.piocheObjectifParcelle(piocheObjectif));
+        assertEquals(Optional.of(objectifParcelleAPiocher), joueur1.piocheObjectifParcelle(piocheObjectif));
 
         ObjectifParcelle objectifParcelleAPiocher2 = piocheObjectifParcelle.get(2);
-        assertEquals(Optional.of(objectifParcelleAPiocher2),joueur2.piocheObjectifParcelle(piocheObjectif));
+        assertEquals(Optional.of(objectifParcelleAPiocher2), joueur2.piocheObjectifParcelle(piocheObjectif));
     }
 
     @Test
     void piocheObjectifParcelleVide(){
-        for(int i = 0;i < 13;i++){
+        for (int i=0; i<13; i++) {
             piocheObjectif.piocheObjectifParcelle();
         }
-        assertEquals(Optional.empty(),joueur1.piocheObjectifParcelle(piocheObjectif));
-        assertEquals(Optional.empty(),joueur2.piocheObjectifParcelle(piocheObjectif));
+        assertEquals(Optional.empty(), joueur1.piocheObjectifParcelle(piocheObjectif));
+        assertEquals(Optional.empty(), joueur2.piocheObjectifParcelle(piocheObjectif));
     }
 
     @Test
-    void tourDeJeu(){
+    void tourDeJeu() {
         Arbitre arbitre = new Arbitre();
-        while (arbitre.verifieFinDeJeu(joueur1,joueur2)){
-            joueur1.tour(piocheObjectif,plateau,arbitre);
-            joueur2.tour(piocheObjectif,plateau,arbitre);
+        while (arbitre.verifieFinDeJeu(joueur1, joueur2)){
+            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre);
+            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre);
         }
-        if(joueur1.getPoints() > joueur2.getPoints()){
-            assertEquals(Optional.of(joueur1),arbitre.joueurGagnant(joueur1,joueur2));
+        if (joueur1.getPoints() > joueur2.getPoints()) {
+            assertEquals(Optional.of(joueur1), arbitre.joueurGagnant(joueur1, joueur2));
         }
-        else if(joueur2.getPoints() < joueur2.getPoints()){
-            assertEquals(Optional.of(joueur2),arbitre.joueurGagnant(joueur1,joueur2));
+        else if (joueur2.getPoints() < joueur2.getPoints()) {
+            assertEquals(Optional.of(joueur2), arbitre.joueurGagnant(joueur1, joueur2));
         }
-        else{
-            assertEquals(Optional.empty(),arbitre.joueurGagnant(joueur1,joueur2));
+        else {
+            assertEquals(Optional.empty(), arbitre.joueurGagnant(joueur1, joueur2));
         }
     }
 
     @Test
-    void getPoints(){
+    void getPoints() {
         Arbitre arbitre = new Arbitre();
-        assertEquals(0,joueur1.getPoints());
+        assertEquals(0, joueur1.getPoints());
         ObjectifParcelle premierObjectifJoueur1 = joueur1.getPlaquette().getObjectifsParcelle()[0];
-        while(joueur1.getPoints() == 0){
-            joueur1.tour(piocheObjectif,plateau,arbitre);
+        while (joueur1.getPoints() == 0) {
+            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre);
         }
-        assertEquals(premierObjectifJoueur1.getNombrePoints(),joueur1.getPoints());
+        assertEquals(premierObjectifJoueur1.getNombrePoints(), joueur1.getPoints());
 
         ObjectifParcelle premierObjectifJoueur2 = joueur2.getPlaquette().getObjectifsParcelle()[0];
-        while(joueur2.getPoints() == 0){
-            joueur2.tour(piocheObjectif,plateau,arbitre);
+        while (joueur2.getPoints() == 0) {
+            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre);
         }
-        assertEquals(premierObjectifJoueur2.getNombrePoints(),joueur2.getPoints());
+        assertEquals(premierObjectifJoueur2.getNombrePoints(), joueur2.getPoints());
     }
 }

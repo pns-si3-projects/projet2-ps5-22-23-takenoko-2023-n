@@ -13,12 +13,14 @@ class ArbitreTest {
     Joueur joueur2;
     Arbitre arbitre;
     PiocheObjectif piocheObjectif;
+    PiocheBambou piocheBambou;
     Plateau plateau;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         arbitre = new Arbitre();
-        piocheObjectif = new PiocheObjectif(new PiocheObjectifParcelle(new Random()),new PiocheObjectifPanda(new Random()),new PiocheObjectifJardinier(new Random()));
+        piocheObjectif = new PiocheObjectif(new PiocheObjectifParcelle(new Random()), new PiocheObjectifPanda(new Random()), new PiocheObjectifJardinier(new Random()));
+        piocheBambou = new PiocheBambou(new Random());
         plateau = new Plateau();
         ObjectifParcelle objParJ1 = piocheObjectif.piocheObjectifParcelle();
         ObjectifPanda objPanJ1 = piocheObjectif.piocheObjectifPanda();
@@ -32,45 +34,46 @@ class ArbitreTest {
 
     @Test
     void checkFinDeJeu() {
-        while (!arbitre.verifieFinDeJeu(joueur1,joueur2)){
-            assertFalse(arbitre.verifieFinDeJeu(joueur1,joueur2));
-            joueur1.tour(piocheObjectif,plateau,arbitre);
-            joueur2.tour(piocheObjectif,plateau,arbitre);
+        while (!arbitre.verifieFinDeJeu(joueur1, joueur2)) {
+            assertFalse(arbitre.verifieFinDeJeu(joueur1, joueur2));
+            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre);
+            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre);
         }
-        assertTrue(arbitre.verifieFinDeJeu(joueur1,joueur2));
+        assertTrue(arbitre.verifieFinDeJeu(joueur1, joueur2));
     }
 
     @Test
     void joueurGagnant() {
-        assertTrue(arbitre.joueurGagnant(joueur1,joueur2).isEmpty());
-        while (!arbitre.verifieFinDeJeu(joueur1,joueur2)){
-            joueur1.tour(piocheObjectif,plateau,arbitre);
-            joueur2.tour(piocheObjectif,plateau,arbitre);
+        assertTrue(arbitre.joueurGagnant(joueur1, joueur2).isEmpty());
+        while (!arbitre.verifieFinDeJeu(joueur1, joueur2)) {
+            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre);
+            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre);
         }
-        if(joueur1.getPoints() > joueur2.getPoints()){
-            assertEquals(Optional.of(joueur1),arbitre.joueurGagnant(joueur1,joueur2));
+        if (joueur1.getPoints() > joueur2.getPoints()) {
+            assertEquals(Optional.of(joueur1), arbitre.joueurGagnant(joueur1, joueur2));
         }
-        else if(joueur1.getPoints() < joueur2.getPoints()){
-            assertEquals(Optional.of(joueur2),arbitre.joueurGagnant(joueur1,joueur2));
+        else if (joueur1.getPoints() < joueur2.getPoints()) {
+            assertEquals(Optional.of(joueur2), arbitre.joueurGagnant(joueur1, joueur2));
         }
-        else{
-            assertTrue(arbitre.joueurGagnant(joueur1,joueur2).isEmpty());
+        else {
+            assertTrue(arbitre.joueurGagnant(joueur1, joueur2).isEmpty());
         }
     }
 
     @Test
     void checkObjectifParcelleTermine() {
-        ObjectifParcelle objectifParcelleACheck = new ObjectifParcelle(5,4);
+        ObjectifParcelle objectifParcelleACheck = new ObjectifParcelle(5, 4);
         objectifParcelleACheck.setNombreParcellePresenteEnJeu(1);
         int i = 0;
-        while(i < 4){
+        while (i < 4) {
             assertFalse(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(), objectifParcelleACheck));
             try {
                 ParcelleCouleur parcelleCouleurAAdd = new ParcelleCouleur(plateau.getPositionsDisponible()[0]);
-                plateau.addParcelle(parcelleCouleurAAdd);
+                SectionBambou secBam = new SectionBambou();
+                plateau.addParcelle(parcelleCouleurAAdd, secBam);
             }
-            catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
-                assert false: "Ne doit pas renvoyer d'erreur normalement";
+            catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
+                throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
             }
             i++;
         }
@@ -79,9 +82,9 @@ class ArbitreTest {
 
     @Test
     void getNombreTour() {
-        assertEquals(arbitre.getNombreTour(),1);
+        assertEquals(arbitre.getNombreTour(), 1);
         arbitre.addTour();
         arbitre.addTour();
-        assertEquals(arbitre.getNombreTour(),3);
+        assertEquals(arbitre.getNombreTour(), 3);
     }
 }
