@@ -87,6 +87,7 @@ public class Joueur {
      * @param arbitre permet de vérifier les actions
      */
     public void tour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP) {
+        plaquette.reinitialiseActionsTour();
         actionTour(piocheObjectif, piocheBambou, plateau, arbitre, gPP);
         actionTour(piocheObjectif, piocheBambou, plateau, arbitre, gPP);
     }
@@ -102,22 +103,27 @@ public class Joueur {
     private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
         Plaquette.ActionPossible[] actionPossibles = plaquette.getActionsTourRealisees();
         if(plaquette.getNombreObjectifs() == 5){
-            if(plaquette.isActionRealisee(actionPossibles[Plaquette.ActionPossible.PANDA.ordinal()])){
+            if(actionPossibles.length == 0 || plaquette.isActionRealisee(actionPossibles[0])){
                 actionParcelle(piocheBambou,plateau,arbitre);
+                plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
             else {
                 actionPanda(plateau,arbitre,gPP);
+                plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
             }
         }
-        else if(!plaquette.isActionRealisee(actionPossibles[Plaquette.ActionPossible.OBJECTIF.ordinal()])){
+        else if(actionPossibles.length == 0 || !plaquette.isActionRealisee(actionPossibles[0])){
             actionPioche(piocheObjectif);
+            plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
         }
         else {
-            if(plaquette.isActionRealisee(actionPossibles[Plaquette.ActionPossible.PANDA.ordinal()])){
+            if(actionPossibles.length == 0 || plaquette.isActionRealisee(actionPossibles[0])){
                 actionParcelle(piocheBambou,plateau,arbitre);
+                plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
             else{
                 actionPanda(plateau,arbitre,gPP);
+                plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
             }
         }
     }
@@ -191,8 +197,7 @@ public class Joueur {
                 deplacementPanda(plateau,gPP.deplacementPossiblePersonnageHorizontal(positionPanda));
             }
         }
-        //gestionObjectif();
-
+        gestionObjectifPanda(arbitre, plaquette.getObjectifsPanda());
     }
 
     /**
@@ -242,8 +247,18 @@ public class Joueur {
      * @param objectifPandas La liste des objectifs panda
      */
     private void gestionObjectifPanda(Arbitre arbitre, ObjectifPanda[] objectifPandas){
+        SectionBambou[] listSectionBambou = plaquette.getSectionBambou();
         for(ObjectifPanda objectifPanda : objectifPandas){
-
+            if(arbitre.checkObjectifPandaTermine(listSectionBambou,objectifPanda)){
+                if(plaquette.supprimeObjectif(objectifPanda)){
+                    plaquette.deleteSectionBambou(objectifPanda.getNombreBambousAManger());
+                    objectifTermineList.add(objectifPanda);
+                    Main.AFFICHEUR.afficheObjectifValide(objectifPanda);
+                }
+                else {
+                    assert false : "L'objectif doit normalement existe";
+                }
+            }
         }
     }
 
