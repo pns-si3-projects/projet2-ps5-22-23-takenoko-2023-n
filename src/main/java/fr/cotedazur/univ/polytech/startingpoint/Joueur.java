@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -84,9 +85,9 @@ public class Joueur {
      * @param plateau le plateau pour ajouter les parcelles
      * @param arbitre permet de vérifier les actions
      */
-    public void tour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, Plateau plateau, Arbitre arbitre) {
-        actionTour(piocheObjectif, piocheBambou, plateau, arbitre);
-        actionTour(piocheObjectif, piocheBambou, plateau, arbitre);
+    public void tour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP) {
+        actionTour(piocheObjectif, piocheBambou, plateau, arbitre, gPP);
+        actionTour(piocheObjectif, piocheBambou, plateau, arbitre, gPP);
     }
 
     /**
@@ -95,32 +96,100 @@ public class Joueur {
      * @param plateau le plateau pour ajouter les parcelles
      * @param arbitre permet de vérifier les actions
      */
-    private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou,Plateau plateau, Arbitre arbitre) {
-        gestionObjectif(plateau.getParcelles(), arbitre, plaquette.getObjectifsParcelle());
-        if (plaquette.getNombreObjectifParcelle() == 0) {
-            Optional<ObjectifParcelle> objectifParcellePioche = piocheObjectifParcelle(piocheObjectif);
-            if (objectifParcellePioche.isPresent()) {
-                ObjectifParcelle objectifParcelle = objectifParcellePioche.get();
-                objectifParcelle.setNombreParcellePresenteEnJeu(plateau.getParcelles().length);
-                try {
-                    plaquette.ajouteObjectif(objectifParcelle);
-                    Main.AFFICHEUR.affichePiocheCarte(objectifParcelle);
-                }
-                catch (NombreObjectifsEnCoursException nOEE) {
-                    assert false : "Il doit avoir 0 Objectif";
-                }
+
+    private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
+        Plaquette.ActionPossible[] actionPossibles = plaquette.getActionsTourRealisees();
+        if(plaquette.getNombreObjectifs() == 5){
+            if(plaquette.isActionRealisee(actionPossibles[1])){
+                actionParcelle(piocheBambou,plateau,arbitre);
             }
+            else {
+                actionPanda(plateau,arbitre,gPP);
+            }
+        }
+        else if(!plaquette.isActionRealisee(actionPossibles[2])){
+            actionPioche(piocheObjectif,arbitre);
         }
         else {
-            boolean parcelleAjoute = false;
-            while (!parcelleAjoute) {
-                ParcelleCouleur parcelleCouleurChoisi = choisiParcellePlateau(plateau.getPositionsDisponible());
-                SectionBambou sectionBambou = piocheBambou.piocheSectionBambouVert();
-                parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisi, sectionBambou);
-                if(parcelleAjoute) Main.AFFICHEUR.afficheAjoutParcelle(parcelleCouleurChoisi);
+            if(plaquette.isActionRealisee(actionPossibles[1])){
+                actionParcelle(piocheBambou,plateau,arbitre);
             }
-            gestionObjectif(plateau.getParcelles(), arbitre, plaquette.getObjectifsParcelle());
+            else{
+                actionPanda(plateau,arbitre,gPP);
+            }
         }
+    }
+
+    public void actionPioche(PiocheObjectif piocheObjectif, Arbitre arbitre){
+        if(plaquette.getObjectifsParcelle().length < 2 && !piocheObjectif.isEmptyPiocheObjectifParcelle()){
+            ObjectifParcelle objectifParcelle = piocheObjectif.piocheObjectifParcelle();
+            try {
+                plaquette.ajouteObjectif(objectifParcelle);
+            }
+            catch (NombreObjectifsEnCoursException nOECE){
+                assert false : "Il doit avoir moins de 5 objectifs";
+            }
+            Main.AFFICHEUR.affichePiocheCarte(objectifParcelle);
+        }
+        else if(plaquette.getObjectifsPanda().length < 2 && !piocheObjectif.isEmptyPiocheObjectifPanda()){
+            ObjectifPanda objectifPanda = piocheObjectif.piocheObjectifPanda();
+            try {
+                plaquette.ajouteObjectif(objectifPanda);
+            }
+            catch (NombreObjectifsEnCoursException nOECE){
+                assert false : "Il doit avoir moins de 5 objectifs";
+            }
+            Main.AFFICHEUR.affichePiocheCarte(objectifPanda);
+        }
+        else{
+            ObjectifJardinier objectifJardinier = piocheObjectif.piocheObjectifJardinier();
+            try {
+                plaquette.ajouteObjectif(objectifJardinier);
+            }
+            catch (NombreObjectifsEnCoursException nOECE){
+                assert false : "Il doit avoir moins de 5 objectifs";
+            }
+            Main.AFFICHEUR.affichePiocheCarte(objectifJardinier);
+        }
+    }
+
+    public void actionParcelle(PiocheBambou piocheBambou,Plateau plateau,Arbitre arbitre){
+        boolean parcelleAjoute = false;
+        while (!parcelleAjoute) {
+            ParcelleCouleur parcelleCouleurChoisi = choisiParcellePlateau(plateau.getPositionsDisponible());
+            SectionBambou sectionBambou = piocheBambou.piocheSectionBambouVert();
+            parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisi, sectionBambou);
+            if(parcelleAjoute) Main.AFFICHEUR.afficheAjoutParcelle(parcelleCouleurChoisi);
+        }
+        gestionObjectifParcelle(plateau.getParcelles(),arbitre, plaquette.getObjectifsParcelle());
+    }
+
+    public void actionPanda(Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
+        Position positionPanda = plateau.getPanda().getPosition();
+        boolean deplacementReussi = deplacementPanda(plateau,gPP.deplacementPossiblePersonnageDiagonaleDroite(positionPanda));
+        if(!deplacementReussi){
+            deplacementReussi = deplacementPanda(plateau,gPP.deplacementPossiblePersonnageDiagonaleGauche(positionPanda));
+            if(!deplacementReussi){
+                deplacementPanda(plateau,gPP.deplacementPossiblePersonnageHorizontal(positionPanda));
+            }
+        }
+        //gestionObjectif();
+
+    }
+
+    private boolean deplacementPanda(Plateau plateau,List<Position> positionPossibleDeplacement){
+        for(Position possibleDeplacement : positionPossibleDeplacement){
+            Optional<Bambou> optBambou = plateau.getBambou(possibleDeplacement);
+            if(optBambou.isPresent()){
+                Bambou bambou = optBambou.get();
+                if(!bambou.isEmptyBambou()){
+                    SectionBambou sectionBambou = bambou.prendSectionBambou();
+                    plaquette.ajouteSectionBambou(sectionBambou);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -129,7 +198,7 @@ public class Joueur {
      * @param arbitre L'arbitre qui doit vérifier si l'objectif est validé
      * @param objectifsParcelles La liste des objectifs parcelles
      */
-    private void gestionObjectif(Parcelle[] listParcellesEtVoisines, Arbitre arbitre, ObjectifParcelle[] objectifsParcelles){
+    private void gestionObjectifParcelle(Parcelle[] listParcellesEtVoisines, Arbitre arbitre, ObjectifParcelle[] objectifsParcelles){
         assert objectifsParcelles != null : "La plaquette contenant les objectifs parcelles ne doit pas être vide";
         for (ObjectifParcelle objectifParcelle : objectifsParcelles) {
             if (arbitre.checkObjectifParcelleTermine(listParcellesEtVoisines, objectifParcelle)) {
@@ -140,6 +209,12 @@ public class Joueur {
                     assert false : "L'objectif doit normalement existe";
                 }
             }
+        }
+    }
+
+    private void gestionObjectifPanda(Arbitre arbitre, ObjectifPanda[] objectifPandas){
+        for(ObjectifPanda objectifPanda : objectifPandas){
+
         }
     }
 

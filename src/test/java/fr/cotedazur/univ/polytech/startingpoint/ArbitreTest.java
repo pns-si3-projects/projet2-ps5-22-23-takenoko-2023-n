@@ -15,6 +15,7 @@ class ArbitreTest {
     PiocheObjectif piocheObjectif;
     PiocheBambou piocheBambou;
     Plateau plateau;
+    GestionnairePossibilitePlateau gPP;
 
     @BeforeEach
     void setUp() {
@@ -22,6 +23,7 @@ class ArbitreTest {
         piocheObjectif = new PiocheObjectif(new PiocheObjectifParcelle(new Random()), new PiocheObjectifPanda(new Random()), new PiocheObjectifJardinier(new Random()));
         piocheBambou = new PiocheBambou(new Random());
         plateau = new Plateau();
+        gPP = new GestionnairePossibilitePlateau(plateau);
         ObjectifParcelle objParJ1 = piocheObjectif.piocheObjectifParcelle();
         ObjectifPanda objPanJ1 = piocheObjectif.piocheObjectifPanda();
         ObjectifJardinier objJarJ1 = piocheObjectif.piocheObjectifJardinier();
@@ -36,8 +38,8 @@ class ArbitreTest {
     void checkFinDeJeu() {
         while (!arbitre.verifieFinDeJeu(joueur1, joueur2)) {
             assertFalse(arbitre.verifieFinDeJeu(joueur1, joueur2));
-            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre);
-            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre);
+            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
+            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
         }
         assertTrue(arbitre.verifieFinDeJeu(joueur1, joueur2));
     }
@@ -46,8 +48,8 @@ class ArbitreTest {
     void joueurGagnant() {
         assertTrue(arbitre.joueurGagnant(joueur1, joueur2).isEmpty());
         while (!arbitre.verifieFinDeJeu(joueur1, joueur2)) {
-            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre);
-            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre);
+            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
+            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
         }
         if (joueur1.getPoints() > joueur2.getPoints()) {
             assertEquals(Optional.of(joueur1), arbitre.joueurGagnant(joueur1, joueur2));

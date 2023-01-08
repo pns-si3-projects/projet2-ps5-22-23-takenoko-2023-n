@@ -26,6 +26,7 @@ class JoueurTest {
     ObjectifPanda objPanJ2;
     ObjectifJardinier objJarJ2;
     PiocheBambou piocheBambou;
+    GestionnairePossibilitePlateau gPP;
 
     Joueur joueur1;
     Joueur joueur2;
@@ -41,6 +42,7 @@ class JoueurTest {
         piocheObjectifPanda = new PiocheObjectifPanda(random);
         piocheObjectifJardinier = new PiocheObjectifJardinier(random);
         piocheObjectif = new PiocheObjectif(piocheObjectifParcelle, piocheObjectifPanda, piocheObjectifJardinier);
+        GestionnairePossibilitePlateau gPP = new GestionnairePossibilitePlateau(plateau);
         objParJ1 = piocheObjectif.piocheObjectifParcelle();
         objPanJ1 = piocheObjectif.piocheObjectifPanda();
         objJarJ1 = piocheObjectif.piocheObjectifJardinier();
@@ -145,8 +147,8 @@ class JoueurTest {
     void tourDeJeu() {
         Arbitre arbitre = new Arbitre();
         while (arbitre.verifieFinDeJeu(joueur1, joueur2)){
-            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre);
-            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre);
+            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
+            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
         }
         if (joueur1.getPoints() > joueur2.getPoints()) {
             assertEquals(Optional.of(joueur1), arbitre.joueurGagnant(joueur1, joueur2));
@@ -165,13 +167,13 @@ class JoueurTest {
         assertEquals(0, joueur1.getPoints());
         ObjectifParcelle premierObjectifJoueur1 = joueur1.getPlaquette().getObjectifsParcelle()[0];
         while (joueur1.getPoints() == 0) {
-            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre);
+            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
         }
         assertEquals(premierObjectifJoueur1.getNombrePoints(), joueur1.getPoints());
 
         ObjectifParcelle premierObjectifJoueur2 = joueur2.getPlaquette().getObjectifsParcelle()[0];
         while (joueur2.getPoints() == 0) {
-            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre);
+            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
         }
         assertEquals(premierObjectifJoueur2.getNombrePoints(), joueur2.getPoints());
     }
