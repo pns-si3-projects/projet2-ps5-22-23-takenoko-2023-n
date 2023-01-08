@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,7 +12,10 @@ public class Plaquette {
     // Définition des attributs
     private final List<SectionBambou> bambousManges;
     private final List<Objectif> objectifsARealiser;
+    private final Integer[] actionsTour;
+    public enum ActionPossible {PARCELLE, PANDA, OBJECTIF}
     public static final int NOMBRE_OBJECTIFS_MAX = 5;
+
 
 
     // Définition des constructeurs
@@ -27,6 +31,7 @@ public class Plaquette {
         objectifsARealiser.add(objPar);
         objectifsARealiser.add(objPan);
         objectifsARealiser.add(objJar);
+        actionsTour = new Integer[]{0, 0, 0};
     }
 
 
@@ -111,6 +116,18 @@ public class Plaquette {
     }
 
     /**
+     * Renvoie le nombre d'actions réalisées dans le tour
+     * @return le nombre d'actions réalisées dans le tour
+     */
+    public int getNombreActionsTourRealisees() {
+        int res = 0;
+        for (Integer action : actionsTour) {
+            if (action > 0) res += action;
+        }
+        return res;
+    }
+
+    /**
      * Renvoie tous les objectifs de parcelle à réaliser
      * @return un tableau d'objectifs de parcelle dans l'ordre inverse d'ajout
      */
@@ -169,6 +186,32 @@ public class Plaquette {
     }
 
     /**
+     * Renvoie les actions réalisées dans le tour
+     * @return un tableau des actions réalisées
+     * @implSpec le nombre d'actions réalisées doit être supérieur à 0
+     */
+    public ActionPossible[] getActionsTourRealisees() {
+        int nbActions = getNombreActionsTourRealisees();
+
+        ActionPossible[] actionsRealisees = new ActionPossible[nbActions];
+        for (ActionPossible action : ActionPossible.values()) {
+            for (int i=actionsTour[action.ordinal()]; i>0; i--) {
+                actionsRealisees[--nbActions] = action;
+            }
+        }
+        return actionsRealisees;
+    }
+
+    /**
+     * Vérifie si l'action demandée a été réalisée dans le tour
+     * @param action est l'action à vérifier
+     * @return <code>true</code> si l'action a été réalisée dans le tour, <code>false</code> sinon
+     */
+    public boolean isActionRealisee(ActionPossible action) {
+        return actionsTour[action.ordinal()] > 0;
+    }
+
+    /**
      * Ajoute une section de bambou donnée à la plaquette
      * @param sectionBambou est la section de bambou à ajouter à la plaquette
      */
@@ -186,6 +229,18 @@ public class Plaquette {
         if (objectifsARealiser.size() < NOMBRE_OBJECTIFS_MAX) objectifsARealiser.add(objectif);
         else throw new NombreObjectifsEnCoursException();
     }
+
+    /**
+     * Met l'action demandée en tant que réalisée
+     * @param action est l'action à réaliser
+     * @return <code>true</code> si l'action est mise en tant que réalisée, <code>false</code> si l'action a déjà été réalisée
+     */
+    public boolean realiseAction(ActionPossible action) {
+        if (isActionRealisee(action)) return false;
+        actionsTour[action.ordinal()]++;
+        return true;
+    }
+
     /**
      * Renvoie si l'objectif réalisé est supprimé de la Plaquette
      * @param objectif l'objectif à retirer
@@ -193,5 +248,9 @@ public class Plaquette {
      */
     public boolean supprimeObjectif(Objectif objectif) {
         return objectifsARealiser.remove(objectif);
+    }
+
+    public void reinitialiseActionsTour() {
+        Arrays.fill(actionsTour, 0);
     }
 }
