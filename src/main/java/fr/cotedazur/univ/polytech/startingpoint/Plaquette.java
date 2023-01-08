@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -125,6 +126,24 @@ public class Plaquette {
             if (action > 0) res += action;
         }
         return res;
+    }
+
+    public SectionBambou[] getSectionBambou(){
+        SectionBambou[] listSectionBambous = new SectionBambou[bambousManges.size()];
+        for(int i = 0;i<listSectionBambous.length;i++){
+            listSectionBambous[i] = bambousManges.get(i);
+        }
+        return listSectionBambous;
+    }
+
+    public boolean deleteSectionBambou(int nombre){
+        int i = 0;
+        if(nombre > bambousManges.size()) return false;
+        while(i < nombre){
+            bambousManges.remove(0);
+            i++;
+        }
+        return true;
     }
 
     /**

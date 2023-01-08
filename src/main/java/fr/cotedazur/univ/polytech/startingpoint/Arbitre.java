@@ -77,6 +77,10 @@ public class Arbitre {
         return objectifParcelle.getNombreParcelles() <= nombreParcellePlateau - objectifParcelle.getNombreParcellePresenteEnJeu();
     }
 
+    public boolean checkObjectifPandaTermine(SectionBambou[] sectionBambous, ObjectifPanda objectifPanda){
+        return sectionBambous.length >= objectifPanda.getNombreBambousAManger();
+    }
+
     /**
      * Permet d'augmenter le nombre de tours
      */
