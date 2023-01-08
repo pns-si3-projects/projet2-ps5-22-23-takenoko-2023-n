@@ -9,7 +9,7 @@ import java.util.Optional;
 public class Afficheur {
 
     /**
-     * Affiche le gagnant du jeu si il y en a un
+     * Affiche le gagnant du jeu s'il y en a un
      * @param joueur le joueur gagnant
      */
     public void afficheGagnant(Optional<Joueur> joueur){
@@ -24,11 +24,11 @@ public class Afficheur {
 
     /**
      * Affiche l'ajout d'une parcelle sur le plateau ainsi que sa position
-     * @param parcelleCouleurAjoute la parcelle couleur ajouté
+     * @param parcelleCouleurAjoute la parcelle couleur ajoutée
      */
     public void afficheAjoutParcelle(ParcelleCouleur parcelleCouleurAjoute){
         if ( parcelleCouleurAjoute != null ) {
-            System.out.println("La " + parcelleCouleurAjoute + " est pose");
+            System.out.println("La " + parcelleCouleurAjoute + " est posee avec un bambou");
         }
     }
 
@@ -85,7 +85,7 @@ public class Afficheur {
 
     /**
      * Affiche l'objectif terminé
-     * @param objectif L'objectif qui vient de se terminé
+     * @param objectif L'objectif qui vient de se terminer
      */
     public void afficheObjectifValide(Objectif objectif){
         System.out.println(objectif + " terminé");

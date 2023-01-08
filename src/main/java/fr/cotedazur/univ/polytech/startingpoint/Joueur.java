@@ -15,6 +15,7 @@ public class Joueur {
     private final Random random;
     private final Plaquette plaquette;
     private final ArrayList<Objectif> objectifTermineList;
+    public static final String MOINS_DE_5_OBJECTIFS = "Il doit avoir moins de 5 objectifs";
 
 
     // Définition des constructeurs
@@ -93,25 +94,26 @@ public class Joueur {
     /**
      * Permet d'effectuer une action d'un tour
      * @param piocheObjectif la pioche d'objectif pour piocher les objectifs
+     * @param piocheBambou la pioche de bambou pour piocher une section de bambou
      * @param plateau le plateau pour ajouter les parcelles
-     * @param arbitre permet de vérifier les actions
+     * @param arbitre permet de vérifier les actions et les objectifs
+     * @param gPP est le gestionnaire de possibilité de déplacements sur le plateau pour savoir où on peut déplacer le panda
      */
-
     private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
         Plaquette.ActionPossible[] actionPossibles = plaquette.getActionsTourRealisees();
         if(plaquette.getNombreObjectifs() == 5){
-            if(plaquette.isActionRealisee(actionPossibles[1])){
+            if(plaquette.isActionRealisee(actionPossibles[Plaquette.ActionPossible.PANDA.ordinal()])){
                 actionParcelle(piocheBambou,plateau,arbitre);
             }
             else {
                 actionPanda(plateau,arbitre,gPP);
             }
         }
-        else if(!plaquette.isActionRealisee(actionPossibles[2])){
-            actionPioche(piocheObjectif,arbitre);
+        else if(!plaquette.isActionRealisee(actionPossibles[Plaquette.ActionPossible.OBJECTIF.ordinal()])){
+            actionPioche(piocheObjectif);
         }
         else {
-            if(plaquette.isActionRealisee(actionPossibles[1])){
+            if(plaquette.isActionRealisee(actionPossibles[Plaquette.ActionPossible.PANDA.ordinal()])){
                 actionParcelle(piocheBambou,plateau,arbitre);
             }
             else{
@@ -120,14 +122,18 @@ public class Joueur {
         }
     }
 
-    public void actionPioche(PiocheObjectif piocheObjectif, Arbitre arbitre){
+    /**
+     * Permet de piocher un objectif qui manque au joueur
+     * @param piocheObjectif la pioche d'objectif pour piocher l'objectif souhaité
+     */
+    public void actionPioche(PiocheObjectif piocheObjectif){
         if(plaquette.getObjectifsParcelle().length < 2 && !piocheObjectif.isEmptyPiocheObjectifParcelle()){
             ObjectifParcelle objectifParcelle = piocheObjectif.piocheObjectifParcelle();
             try {
                 plaquette.ajouteObjectif(objectifParcelle);
             }
             catch (NombreObjectifsEnCoursException nOECE){
-                assert false : "Il doit avoir moins de 5 objectifs";
+                assert false : MOINS_DE_5_OBJECTIFS;
             }
             Main.AFFICHEUR.affichePiocheCarte(objectifParcelle);
         }
@@ -137,7 +143,7 @@ public class Joueur {
                 plaquette.ajouteObjectif(objectifPanda);
             }
             catch (NombreObjectifsEnCoursException nOECE){
-                assert false : "Il doit avoir moins de 5 objectifs";
+                assert false : MOINS_DE_5_OBJECTIFS;
             }
             Main.AFFICHEUR.affichePiocheCarte(objectifPanda);
         }
@@ -147,23 +153,35 @@ public class Joueur {
                 plaquette.ajouteObjectif(objectifJardinier);
             }
             catch (NombreObjectifsEnCoursException nOECE){
-                assert false : "Il doit avoir moins de 5 objectifs";
+                assert false : MOINS_DE_5_OBJECTIFS;
             }
             Main.AFFICHEUR.affichePiocheCarte(objectifJardinier);
         }
     }
 
-    public void actionParcelle(PiocheBambou piocheBambou,Plateau plateau,Arbitre arbitre){
+    /**
+     * Permet d'ajouter une parcelle
+     * @param piocheBambou la pioche de bambou pour piocher un bambou et le poser sur la parcelle ajoutée
+     * @param plateau le plateau pour ajouter les parcelles
+     * @param arbitre permet de vérifier les actions et les objectifs
+     */
+    public void actionParcelle(PiocheBambou piocheBambou,Plateau plateau,Arbitre arbitre) {
         boolean parcelleAjoute = false;
         while (!parcelleAjoute) {
-            ParcelleCouleur parcelleCouleurChoisi = choisiParcellePlateau(plateau.getPositionsDisponible());
+            ParcelleCouleur parcelleCouleurChoisie = choisiParcellePlateau(plateau.getPositionsDisponible());
             SectionBambou sectionBambou = piocheBambou.piocheSectionBambouVert();
-            parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisi, sectionBambou);
-            if(parcelleAjoute) Main.AFFICHEUR.afficheAjoutParcelle(parcelleCouleurChoisi);
+            parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisie, sectionBambou);
+            if(parcelleAjoute) Main.AFFICHEUR.afficheAjoutParcelle(parcelleCouleurChoisie);
         }
-        gestionObjectifParcelle(plateau.getParcelles(),arbitre, plaquette.getObjectifsParcelle());
+        gestionObjectifParcelle(plateau.getParcelles(), arbitre, plaquette.getObjectifsParcelle());
     }
 
+    /**
+     * Permet de déplacer le panda
+     * @param plateau le plateau pour ajouter les parcelles
+     * @param arbitre permet de vérifier les actions et les objectifs
+     * @param gPP est le gestionnaire de possibilité de déplacements sur le plateau pour savoir où on peut déplacer le panda
+     */
     public void actionPanda(Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
         Position positionPanda = plateau.getPanda().getPosition();
         boolean deplacementReussi = deplacementPanda(plateau,gPP.deplacementPossiblePersonnageDiagonaleDroite(positionPanda));
@@ -177,12 +195,18 @@ public class Joueur {
 
     }
 
-    private boolean deplacementPanda(Plateau plateau,List<Position> positionPossibleDeplacement){
-        for(Position possibleDeplacement : positionPossibleDeplacement){
+    /**
+     * Déplace le panda en fonction de la liste de positions possibles
+     * @param plateau le plateau pour avoir la liste des bambous
+     * @param positionPossibleDeplacement est la liste des positions possibles pour déplacer le panda
+     * @return <code>true</code> si le déplacement du panda est possible et effectué, <code>false</code> sinon
+     */
+    private boolean deplacementPanda(Plateau plateau, List<Position> positionPossibleDeplacement) {
+        for (Position possibleDeplacement : positionPossibleDeplacement) {
             Optional<Bambou> optBambou = plateau.getBambou(possibleDeplacement);
-            if(optBambou.isPresent()){
+            if (optBambou.isPresent()) {
                 Bambou bambou = optBambou.get();
-                if(!bambou.isEmptyBambou()){
+                if (!bambou.isEmptyBambou()) {
                     SectionBambou sectionBambou = bambou.prendSectionBambou();
                     plaquette.ajouteSectionBambou(sectionBambou);
                     return true;
@@ -193,12 +217,12 @@ public class Joueur {
     }
 
     /**
-     * Gère les objectifs grâce à l'arbitre
-     * @param listParcellesEtVoisines la liste de parcelle du plateau à donnée à l'arbitre pour vérifier si les parcelles ont été posé
+     * Gère les objectifs de parcelle grâce à l'arbitre
+     * @param listParcellesEtVoisines la liste de parcelle du plateau à donner à l'arbitre pour vérifier si les parcelles ont été posées
      * @param arbitre L'arbitre qui doit vérifier si l'objectif est validé
      * @param objectifsParcelles La liste des objectifs parcelles
      */
-    private void gestionObjectifParcelle(Parcelle[] listParcellesEtVoisines, Arbitre arbitre, ObjectifParcelle[] objectifsParcelles){
+    private void gestionObjectifParcelle(Parcelle[] listParcellesEtVoisines, Arbitre arbitre, ObjectifParcelle[] objectifsParcelles) {
         assert objectifsParcelles != null : "La plaquette contenant les objectifs parcelles ne doit pas être vide";
         for (ObjectifParcelle objectifParcelle : objectifsParcelles) {
             if (arbitre.checkObjectifParcelleTermine(listParcellesEtVoisines, objectifParcelle)) {
@@ -212,6 +236,11 @@ public class Joueur {
         }
     }
 
+    /**
+     * Gère les objectifs de panda grâce à l'arbitre
+     * @param arbitre L'arbitre qui doit vérifier si l'objectif est validé
+     * @param objectifPandas La liste des objectifs panda
+     */
     private void gestionObjectifPanda(Arbitre arbitre, ObjectifPanda[] objectifPandas){
         for(ObjectifPanda objectifPanda : objectifPandas){
 
