@@ -109,6 +109,47 @@ class PlaquetteTest {
     }
 
     @Test
+    void getNombreActionsTourRealisees() {
+        assertEquals(0, plaquette.getNombreActionsTourRealisees());
+        plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
+        assertEquals(1, plaquette.getNombreActionsTourRealisees());
+        plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
+        plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
+        assertEquals(3, plaquette.getNombreActionsTourRealisees());
+    }
+
+    @Test
+    void getActionsTourRealisees() {
+        Plaquette.ActionPossible[] actions = plaquette.getActionsTourRealisees();
+        assertEquals(0, actions.length);
+        plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
+        actions = plaquette.getActionsTourRealisees();
+        assertEquals(1, actions.length);
+        assertEquals(Plaquette.ActionPossible.OBJECTIF, actions[0]);
+        plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
+        plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
+        actions = plaquette.getActionsTourRealisees();
+        assertEquals(3, actions.length);
+        assertEquals(Plaquette.ActionPossible.PANDA, actions[1]);
+        assertEquals(Plaquette.ActionPossible.PARCELLE, actions[2]); // rendu sens inverse des actions possibles
+    }
+
+    @Test
+    void isActionRealisee() {
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+        plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
+        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+        plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
+        plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
+        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
+        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+    }
+
+    @Test
     void getObjectifsParcelle() {
         assertEquals(objPar2_3, plaquette.getObjectifsParcelle()[0]);
         try {
@@ -190,6 +231,44 @@ class PlaquetteTest {
         } catch (NombreObjectifsEnCoursException nOECE) {
             throw new AssertionError(nOECE);
         }
-        assertThrows(NombreObjectifsEnCoursException.class, () -> {plaquette.ajouteObjectif(objJar6_4);});
+        assertThrows(NombreObjectifsEnCoursException.class, () -> plaquette.ajouteObjectif(objJar6_4));
+    }
+
+    @Test
+    void realiseAction() {
+        // Vérifie l'état de la plaquette
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+        // Réalise des actions
+        assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE));
+        assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.PANDA));
+        assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF));
+        assertFalse(plaquette.realiseAction(Plaquette.ActionPossible.PANDA));
+        // Vérifie l'état de la plaquette
+        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
+        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
+        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+    }
+
+    @Test
+    void supprimeObjectif() {
+        // Ajoute 2 objectifs
+        try {
+            plaquette.ajouteObjectif(objPar3_4);
+            plaquette.ajouteObjectif(objPan4_2);
+            assertEquals(5, plaquette.getNombreObjectifs());
+        } catch (NombreObjectifsEnCoursException nOECE) {
+            throw new AssertionError(nOECE);
+        }
+        // Supprime 3 objectifs de la plaquette
+        assertTrue(plaquette.supprimeObjectif(objPar2_3));
+        assertTrue(plaquette.supprimeObjectif(objPan3_2));
+        assertTrue(plaquette.supprimeObjectif(objJar3_2));
+        // Essaie de resupprimer un objectif déjà supprimé
+        assertFalse(plaquette.supprimeObjectif(objPar2_3));
+        // Supprime les 2 derniers objectifs
+        assertTrue(plaquette.supprimeObjectif(objPar3_4));
+        assertTrue(plaquette.supprimeObjectif(objPan4_2));
     }
 }
