@@ -1,5 +1,6 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheBambou;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

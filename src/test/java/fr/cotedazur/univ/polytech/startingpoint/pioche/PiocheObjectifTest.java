@@ -1,5 +1,8 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectif;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifPanda;

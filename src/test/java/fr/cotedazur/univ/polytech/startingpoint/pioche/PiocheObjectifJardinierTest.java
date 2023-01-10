@@ -1,6 +1,8 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifJardinier;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -42,7 +44,7 @@ class PiocheObjectifJardinierTest {
     void pioche() {
         when(mockRandom.nextInt(anyInt())).thenReturn(14, 10, 11, 0, 1);
         piocheObjectifJardinier = new PiocheObjectifJardinier(mockRandom);
-        assertEquals(new ObjectifJardinier(3, 4), piocheObjectifJardinier.pioche());
+        Assertions.assertEquals(new ObjectifJardinier(3, 4), piocheObjectifJardinier.pioche());
         assertEquals(new ObjectifJardinier(5, 4), piocheObjectifJardinier.pioche());
         // car en supprimant 10, les suivant sont décalés donc on prend ancien 12
         assertEquals(new ObjectifJardinier(6, 4), piocheObjectifJardinier.pioche());

@@ -1,6 +1,8 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifParcelle;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -44,7 +46,7 @@ class PiocheObjectifParcelleTest {
     void pioche() {
         when(mockRandom.nextInt(anyInt())).thenReturn(14, 10, 11, 0, 0);
         piocheObjectifParcelle = new PiocheObjectifParcelle(mockRandom);
-        assertEquals(new ObjectifParcelle(3, 3), piocheObjectifParcelle.pioche());
+        Assertions.assertEquals(new ObjectifParcelle(3, 3), piocheObjectifParcelle.pioche());
         assertEquals(new ObjectifParcelle(4, 3), piocheObjectifParcelle.pioche());
         // car en supprimant 10, les suivant sont décalés donc on prend ancien 12
         assertEquals(new ObjectifParcelle(5, 4), piocheObjectifParcelle.pioche());

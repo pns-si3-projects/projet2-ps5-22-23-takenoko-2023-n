@@ -1,6 +1,8 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifPanda;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -53,7 +55,7 @@ class PiocheObjectifPandaTest {
     void pioche() {
         when(mockRandom.nextInt(anyInt())).thenReturn(14, 1, 4, 9, 9);
         piocheObjectifPanda = new PiocheObjectifPanda(mockRandom);
-        assertEquals(new ObjectifPanda(6, 3), piocheObjectifPanda.pioche());
+        Assertions.assertEquals(new ObjectifPanda(6, 3), piocheObjectifPanda.pioche());
         assertEquals(new ObjectifPanda(3, 2), piocheObjectifPanda.pioche());
         // car en supprimant 1, les suivant sont décalés donc on prend ancien 5
         assertEquals(new ObjectifPanda(4, 2), piocheObjectifPanda.pioche());

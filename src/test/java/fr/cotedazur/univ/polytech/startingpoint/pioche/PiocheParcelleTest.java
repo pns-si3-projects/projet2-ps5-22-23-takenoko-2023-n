@@ -1,8 +1,11 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.ParcellePioche;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheParcelleEnCoursException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -76,7 +79,7 @@ class PiocheParcelleTest {
             parcelles = piocheParcelle.pioche();
             assertEquals(new ParcellePioche().getClass(), parcelles[0].getClass());
             Position position4_0 = new Position(4, 0);
-            assertEquals(new ParcelleCouleur(position4_0), piocheParcelle.choisiParcelle(parcelles[1], position4_0));
+            Assertions.assertEquals(new ParcelleCouleur(position4_0), piocheParcelle.choisiParcelle(parcelles[1], position4_0));
         } catch (PiocheParcelleEnCoursException e) {
             new AssertionError(e);
         }
