@@ -1,5 +1,6 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleNonExistanteException;
@@ -50,7 +51,7 @@ public class GestionnairePossibilitePlateau {
      * @param parcellePersonnage la parcelle où se situe le personnage
      * @return la liste de positions des parcelles dans une des 6 orientations dans le tableau des voisins
      */
-    private List<Position> getPossibleDeplacement(int indiceTabVoisin,Parcelle parcellePersonnage){
+    private List<Position> getPossibleDeplacement(int indiceTabVoisin, Parcelle parcellePersonnage){
         List<Position> listParcelleOrientation = new ArrayList<>();
         Parcelle parcelleDeplace = getSuivantParcelle(parcellePersonnage,indiceTabVoisin);
 

@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 
 import java.util.Random;
 

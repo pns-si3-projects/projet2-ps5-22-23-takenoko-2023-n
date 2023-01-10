@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 /**
  * Exception dans le cas où le nombre de voisines désigné est incorrecte

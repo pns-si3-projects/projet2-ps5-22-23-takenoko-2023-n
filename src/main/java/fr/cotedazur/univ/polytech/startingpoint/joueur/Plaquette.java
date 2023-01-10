@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 
 import java.util.ArrayList;
