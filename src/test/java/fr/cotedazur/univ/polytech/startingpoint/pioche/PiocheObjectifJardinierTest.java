@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

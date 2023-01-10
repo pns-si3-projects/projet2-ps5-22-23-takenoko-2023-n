@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

@@ -1,5 +1,6 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

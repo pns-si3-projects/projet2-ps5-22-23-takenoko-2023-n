@@ -1,5 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import fr.cotedazur.univ.polytech.startingpoint.objectif.NombreObjectifsEnCoursException;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifParcelle;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

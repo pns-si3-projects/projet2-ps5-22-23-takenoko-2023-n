@@ -1,12 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifParcelle;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectif;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
