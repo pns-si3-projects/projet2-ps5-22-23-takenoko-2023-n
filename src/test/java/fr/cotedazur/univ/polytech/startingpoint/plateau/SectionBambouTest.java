@@ -1,5 +1,6 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

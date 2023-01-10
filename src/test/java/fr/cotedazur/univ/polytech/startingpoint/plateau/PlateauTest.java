@@ -1,6 +1,11 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Bambou;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.NombreParcelleVoisineException;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

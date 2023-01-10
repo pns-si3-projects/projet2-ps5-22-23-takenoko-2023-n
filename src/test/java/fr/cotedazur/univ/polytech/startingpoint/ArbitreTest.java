@@ -7,6 +7,10 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionnairePossibilitePlateau;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.NombreParcelleVoisineException;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
