@@ -1,6 +1,6 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.parcelle;
 
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.Position;
 
 import java.util.Objects;
 
