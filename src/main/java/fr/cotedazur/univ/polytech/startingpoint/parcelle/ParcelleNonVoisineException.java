@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.parcelle;
 
 /**
  * Exception dans le cas où la parcelle donnée en tant que voisine n'est pas voisine de la parcelle ciblée

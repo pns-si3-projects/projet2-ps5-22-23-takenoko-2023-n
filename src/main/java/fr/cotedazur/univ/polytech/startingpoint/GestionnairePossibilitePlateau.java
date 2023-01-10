@@ -1,5 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleNonExistanteException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +34,7 @@ public class GestionnairePossibilitePlateau {
      * @param indiceTab la position dans le tableau des voisins
      * @return la parcelle voisine à l'indiceTab dans le tableau de voisines
      */
-    private Parcelle getSuivantParcelle(Parcelle parcelle,int indiceTab){
+    private Parcelle getSuivantParcelle(Parcelle parcelle, int indiceTab){
         try {
             return plateau.getTableauVoisines(parcelle)[indiceTab];
         }

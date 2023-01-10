@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+
 import java.util.Optional;
 
 /**

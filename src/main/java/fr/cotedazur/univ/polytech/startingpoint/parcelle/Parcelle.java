@@ -1,4 +1,6 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.parcelle;
+
+import fr.cotedazur.univ.polytech.startingpoint.Positionable;
 
 /**
  * Interface représentant une parcelle sur le plateau ou une ParcelleDisponible

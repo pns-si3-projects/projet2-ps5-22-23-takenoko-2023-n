@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.parcelle;
 
 /**
  * Exception dans le cas où la parcelle à ajouter au plateau existe déjà

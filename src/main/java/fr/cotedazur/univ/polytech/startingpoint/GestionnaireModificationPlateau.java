@@ -1,5 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleNonVoisineException;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;

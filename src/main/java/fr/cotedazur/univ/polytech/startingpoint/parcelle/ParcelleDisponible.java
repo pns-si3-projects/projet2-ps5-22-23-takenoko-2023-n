@@ -1,31 +1,29 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.parcelle;
+
+import fr.cotedazur.univ.polytech.startingpoint.Position;
 
 import java.util.Objects;
 
 /**
- * Classe représentant une parcelle posée sur le plateau
- * @author equipe N
+ * Classe permettant d'avoir une parcelle vide à la place d'un objet null
+ * @author N
  */
-public class ParcelleCouleur implements Parcelle {
+public class ParcelleDisponible implements Parcelle {
     // Définition des attributs
     private final Position position;
 
-
-    // Définition des constructeurs
     /**
-     * Constructeur par défaut
+     * Constructeur par defaut
      * @param position position finale de la parcelle
      */
-    public ParcelleCouleur(Position position) {
+    public ParcelleDisponible(Position position) {
         if (position == null) throw new NullPointerException("La position ne doit pas être null");
         this.position = position;
     }
 
-
-    // Accesseurs et méthodes toString et equals
     /**
      * Renvoie la position de la parcelle
-     * @return la position de la parcelle
+     * @return la position
      */
     @Override
     public Position getPosition() {
@@ -34,14 +32,14 @@ public class ParcelleCouleur implements Parcelle {
 
     @Override
     public String toString() {
-        return "Parcelle de couleur en " + position;
+        return "Parcelle disponible en " + position;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ParcelleCouleur that = (ParcelleCouleur) o;
+        ParcelleDisponible that = (ParcelleDisponible) o;
         return Objects.equals(getPosition(), that.getPosition());
     }
 
