@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ public abstract class Objectif {
      * Renvoie le nombre de points de l'Objectif
      * @return le nombre de points
      */
-    protected int getNombrePoints() {
+    public int getNombrePoints() {
         return nombrePoints;
     }
 

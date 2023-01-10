@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
 /**
  * Exception dans le cas où le nombre d'objectifs maximum en cours est déjà atteint

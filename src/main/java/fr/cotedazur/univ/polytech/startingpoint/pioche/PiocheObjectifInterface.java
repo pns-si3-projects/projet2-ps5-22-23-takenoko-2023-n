@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 
 /**
  * Interface représentant une pioche d'objectifs (parcelle, panda ou jardinier)

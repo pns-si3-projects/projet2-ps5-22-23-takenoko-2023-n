@@ -1,8 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 
 /**
  * Classe permettant de gérer les pioches d'objectifs (objectifs de parcelles, panda et jardinier)

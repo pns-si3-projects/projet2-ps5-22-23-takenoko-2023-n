@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.Objectif;
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 
 import java.util.Random;
 

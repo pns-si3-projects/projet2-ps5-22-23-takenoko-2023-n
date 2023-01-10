@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 
 import java.util.ArrayList;
 import java.util.Random;
