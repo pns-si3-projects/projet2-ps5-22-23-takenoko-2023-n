@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
-import fr.cotedazur.univ.polytech.startingpoint.Jardinier;
-import fr.cotedazur.univ.polytech.startingpoint.Panda;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 
