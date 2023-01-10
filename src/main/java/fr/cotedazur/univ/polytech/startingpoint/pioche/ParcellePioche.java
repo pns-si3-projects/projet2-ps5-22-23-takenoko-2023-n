@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
 /**
  * Classe représentant une parcelle dans la pioche -> parcelle sans position

@@ -1,4 +1,7 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.pioche;
+
+import fr.cotedazur.univ.polytech.startingpoint.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.Position;
 
 import java.util.ArrayList;
 import java.util.Optional;
