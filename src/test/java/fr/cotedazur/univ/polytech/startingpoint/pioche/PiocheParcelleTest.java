@@ -1,10 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.ParcellePioche;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheParcelle;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheParcelleEnCoursException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
