@@ -120,7 +120,8 @@ class PlaquetteTest {
         assertEquals(1, plaquette.getNombreActionsTourRealisees());
         plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
         plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
-        assertEquals(3, plaquette.getNombreActionsTourRealisees());
+        plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
+        assertEquals(4, plaquette.getNombreActionsTourRealisees());
     }
 
     @Test
@@ -133,10 +134,12 @@ class PlaquetteTest {
         assertEquals(Plaquette.ActionPossible.OBJECTIF, actions[0]);
         plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
         plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
+        plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
         actions = plaquette.getActionsTourRealisees();
-        assertEquals(3, actions.length);
-        assertEquals(Plaquette.ActionPossible.PANDA, actions[1]);
-        assertEquals(Plaquette.ActionPossible.PARCELLE, actions[2]); // rendu sens inverse des actions possibles
+        assertEquals(4, actions.length);
+        assertEquals(Plaquette.ActionPossible.PANDA, actions[2]);
+        assertEquals(Plaquette.ActionPossible.PARCELLE, actions[3]); // rendu sens inverse des actions possibles
+        assertEquals(Plaquette.ActionPossible.JARDINIER,actions[0]);
     }
 
     @Test
@@ -144,14 +147,27 @@ class PlaquetteTest {
         assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
         assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
         assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
+
         plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
+
         assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
         assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
         assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
+
         plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
         plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
+
         assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
         assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
+
+        plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
+
+        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
+        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
     }
 
     @Test
@@ -245,15 +261,18 @@ class PlaquetteTest {
         assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
         assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
         assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
         // Réalise des actions
         assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE));
         assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.PANDA));
         assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF));
+        assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER));
         assertFalse(plaquette.realiseAction(Plaquette.ActionPossible.PANDA));
         // Vérifie l'état de la plaquette
         assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
         assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
         assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
+        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
     }
 
     @Test

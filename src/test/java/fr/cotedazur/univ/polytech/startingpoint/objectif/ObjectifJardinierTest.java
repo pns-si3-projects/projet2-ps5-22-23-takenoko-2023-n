@@ -31,6 +31,14 @@ class ObjectifJardinierTest {
     }
 
     @Test
+    void getNombreBambousRestant(){
+        assertEquals(1,objJ1_1.getNombreBambousRestant());
+        assertEquals(2, objJ2_2.getNombreBambousRestant());
+        assertEquals(3, objJ2_3.getNombreBambousRestant());
+        assertNotEquals(3, objJ3_2.getNombreBambousRestant());
+    }
+
+    @Test
     void testEquals() {
         assertEquals(objJ2_2, objJ2_2_bis);
         assertNotEquals(objJ1_1, objJ2_2_bis);
