@@ -44,18 +44,35 @@ public enum Couleur {
 
 
     // Accesseurs
+
+    /**
+     * Renvoie si la couleur est verte
+     * @return <code>true</code> si la couleur est verte, <code>false</code> sinon
+     */
     public boolean isVert() {
         return false;
     }
 
+    /**
+     * Renvoie si la couleur est rose
+     * @return <code>true</code> si la couleur est rose, <code>false</code> sinon
+     */
     public boolean isRose() {
         return false;
     }
 
+    /**
+     * Renvoie si la couleur est jaune
+     * @return <code>true</code> si la couleur est jaune, <code>false</code> sinon
+     */
     public boolean isJaune() {
         return false;
     }
 
+    /**
+     * Renvoie la couleur
+     * @return la couleur
+     */
     public String getCouleur() {
         return couleur;
     }
