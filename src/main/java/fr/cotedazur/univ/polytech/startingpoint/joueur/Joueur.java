@@ -109,9 +109,8 @@ public class Joueur {
      * @param gPP est le gestionnaire de possibilité de déplacements sur le plateau pour savoir où on peut déplacer le panda
      */
     private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
-        Plaquette.ActionPossible[] actionPossibles = plaquette.getActionsTourRealisees();
         if(plaquette.getNombreObjectifs() == 5){
-            if(actionPossibles.length == 0 || plaquette.isActionRealisee(actionPossibles[0])){
+            if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
                 actionParcelle(piocheBambou,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
@@ -120,12 +119,12 @@ public class Joueur {
                 plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
             }
         }
-        else if(actionPossibles.length == 0 || !plaquette.isActionRealisee(actionPossibles[0])){
+        else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF)){
             actionPioche(piocheObjectif);
             plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
         }
         else {
-            if(plaquette.isActionRealisee(actionPossibles[0])){
+            if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
                 actionParcelle(piocheBambou,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
@@ -255,8 +254,8 @@ public class Joueur {
      * @param objectifPandas La liste des objectifs panda
      */
     private void gestionObjectifPanda(Arbitre arbitre, ObjectifPanda[] objectifPandas){
-        SectionBambou[] listSectionBambou = plaquette.getSectionBambou();
-        for(ObjectifPanda objectifPanda : objectifPandas){
+        SectionBambou[] listSectionBambou = plaquette.getSectionBambouVert();
+        for(ObjectifPanda objectifPanda : objectifPandas) {
             if(arbitre.checkObjectifPandaTermine(listSectionBambou,objectifPanda)){
                 if(plaquette.supprimeObjectif(objectifPanda)){
                     plaquette.deleteSectionBambou(objectifPanda.getNombreBambousAManger());
