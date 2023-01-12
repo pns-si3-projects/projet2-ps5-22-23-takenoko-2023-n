@@ -16,6 +16,7 @@ public class SectionBambou {
     // Définition des constructeurs
     /**
      * Constructeur par défaut
+     * @param couleur La couleur de la section du bambou
      */
     public SectionBambou(Couleur couleur) {
         if(couleur == null) throw new NullPointerException("La coulour ne dois pas être null");
@@ -23,6 +24,11 @@ public class SectionBambou {
     }
 
     // Accesseurs et méthode toString et equals
+
+    /**
+     * Renvoie la couleur du Bambou
+     * @return la couleur du Bambou
+     */
     public Couleur getCouleur(){
         return couleur;
     }
