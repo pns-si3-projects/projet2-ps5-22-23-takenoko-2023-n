@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +47,7 @@ class GestionnaireModificationPlateauTest {
         listParcelleDisponible[4] = parcelleDisponible4;
         listParcelleDisponible[5] = parcelleDisponible5;
         listPositionDisponible = plateau.getPositionsDisponible();
-        parcelleCouleurNonPose2 = new ParcelleCouleur(listParcelleDisponible[2].position());
+        parcelleCouleurNonPose2 = new ParcelleCouleur(listParcelleDisponible[2].position(), Couleur.ROSE);
     }
 
     @Test
@@ -91,7 +92,7 @@ class GestionnaireModificationPlateauTest {
 
     @Test
     void getParcelleVoisinSansExceptionDeux() {
-        ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].position());
+        ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].position(), Couleur.JAUNE);
         SectionBambou secBam = new SectionBambou();
 
         try {
@@ -126,7 +127,7 @@ class GestionnaireModificationPlateauTest {
 
     @Test
     void getParcelleVoisinAvecExceptionDeux() {
-        ParcelleCouleur parcelleCouleurNonPose2bis = new ParcelleCouleur(listPositionDisponible[2]);
+        ParcelleCouleur parcelleCouleurNonPose2bis = new ParcelleCouleur(listPositionDisponible[2], Couleur.ROSE);
         SectionBambou secBam = new SectionBambou();
 
         try {
@@ -169,7 +170,7 @@ class GestionnaireModificationPlateauTest {
 
     @Test
     void addVoisinParcelleException() {
-        ParcelleCouleur parcelleAAdd = new ParcelleCouleur(new Position(4,0));
+        ParcelleCouleur parcelleAAdd = new ParcelleCouleur(new Position(4,0), Couleur.JAUNE);
         try {
             List<Parcelle>  listParcelleVoisin40 = gMP.chercheFuturesVoisines(parcelleAAdd, plateau.getParcelles());
             gMP.addVoisinesParcelle(parcelleAAdd,listParcelleVoisin40);

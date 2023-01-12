@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
@@ -30,14 +31,14 @@ class GestionnairePossibilitePlateauTest {
     void setUp() {
         plateau = new Plateau();
         gPP = new GestionnairePossibilitePlateau(plateau);
-        pC11 = new ParcelleCouleur(new Position(1, 1));
-        pCm1m1 = new ParcelleCouleur(new Position(-1, -1));
-        pC20 = new ParcelleCouleur(new Position(2, 0));
-        pCm20 = new ParcelleCouleur(new Position(-2, 0));
-        pCm11 = new ParcelleCouleur(new Position(-1, 1));
-        pC1m1 = new ParcelleCouleur(new Position(1, -1));
-        pC3m1 = new ParcelleCouleur(new Position(3, -1));
-        pC40 = new ParcelleCouleur(new Position(4, 0));
+        pC11 = new ParcelleCouleur(new Position(1, 1), Couleur.JAUNE);
+        pCm1m1 = new ParcelleCouleur(new Position(-1, -1), Couleur.ROSE);
+        pC20 = new ParcelleCouleur(new Position(2, 0), Couleur.VERT);
+        pCm20 = new ParcelleCouleur(new Position(-2, 0), Couleur.ROSE);
+        pCm11 = new ParcelleCouleur(new Position(-1, 1), Couleur.ROSE);
+        pC1m1 = new ParcelleCouleur(new Position(1, -1), Couleur.JAUNE);
+        pC3m1 = new ParcelleCouleur(new Position(3, -1), Couleur.VERT);
+        pC40 = new ParcelleCouleur(new Position(4, 0), Couleur.VERT);
         try {
             plateau.addParcelle(pC11, secBam);
             plateau.addParcelle(pCm1m1, secBam);

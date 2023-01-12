@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +18,7 @@ class BambouTest {
 
     @BeforeEach
     void setUp() {
-        pC1_2 = new ParcelleCouleur(new Position(1, 2));
+        pC1_2 = new ParcelleCouleur(new Position(1, 2), Couleur.VERT);
         bambou = new Bambou(pC1_2);
         sectionBambou1 = new SectionBambou();
         sectionBambou2 = new SectionBambou();

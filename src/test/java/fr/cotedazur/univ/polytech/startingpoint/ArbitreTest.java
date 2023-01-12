@@ -81,7 +81,7 @@ class ArbitreTest {
         while (i < 4) {
             assertFalse(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(), objectifParcelleACheck));
             try {
-                ParcelleCouleur parcelleCouleurAAdd = new ParcelleCouleur(plateau.getPositionsDisponible()[0]);
+                ParcelleCouleur parcelleCouleurAAdd = new ParcelleCouleur(plateau.getPositionsDisponible()[0], Couleur.ROSE);
                 SectionBambou secBam = new SectionBambou();
                 plateau.addParcelle(parcelleCouleurAAdd, secBam);
             }

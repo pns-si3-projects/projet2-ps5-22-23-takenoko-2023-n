@@ -84,9 +84,9 @@ class JoueurTest {
     void choisiParcellePlateauSansException() {
         when(mockRandom.nextInt(anyInt())).thenReturn(2, 2, 4);
         ParcelleCouleur[] listParcellesCouleursChoisis = new ParcelleCouleur[3];
-        ParcelleCouleur parcelleCouleur1m1 = new ParcelleCouleur(new Position(1, -1));
-        ParcelleCouleur parcelleCouleurm1m1 = new ParcelleCouleur(new Position(-1, -1));
-        ParcelleCouleur parcelle0m2 = new ParcelleCouleur(new Position(0, -2));
+        ParcelleCouleur parcelleCouleur1m1 = new ParcelleCouleur(new Position(1, -1), Couleur.VERT);
+        ParcelleCouleur parcelleCouleurm1m1 = new ParcelleCouleur(new Position(-1, -1), Couleur.VERT);
+        ParcelleCouleur parcelle0m2 = new ParcelleCouleur(new Position(0, -2), Couleur.VERT);
         listParcellesCouleursChoisis[0] = parcelleCouleur1m1;
         listParcellesCouleursChoisis[1] = parcelleCouleurm1m1;
         listParcellesCouleursChoisis[2] = parcelle0m2;
@@ -129,7 +129,7 @@ class JoueurTest {
 
     @Test
     void addParcellePlateauFalse() {
-        ParcelleCouleur parcelleCouleurNonPossibleAAdd = new ParcelleCouleur(new Position(10, 10));
+        ParcelleCouleur parcelleCouleurNonPossibleAAdd = new ParcelleCouleur(new Position(10, 10), Couleur.ROSE);
         SectionBambou secBam = new SectionBambou();
         assertFalse(joueur1.addParcellePlateau(plateau, parcelleCouleurNonPossibleAAdd, secBam));
         assertFalse(joueur2.addParcellePlateau(plateau, parcelleCouleurNonPossibleAAdd, secBam));
