@@ -21,7 +21,7 @@ public class Jardinier implements Personnage {
 
     public void move(Position position){
         this.position.setX(position.getX());
-        this.position.setY(position.getX());
+        this.position.setY(position.getY());
     }
 
 
