@@ -255,7 +255,7 @@ public class Plateau {
                 assert false : "La couleur doit être la même que celle du bambou";
             }
         } else {
-            Bambou bambou = new Bambou(parcelleCouleur,sectionBambou.couleur());
+            Bambou bambou = new Bambou(parcelleCouleur);
             try {
                 bambou.ajouteSectionBambou(sectionBambou);
             }
