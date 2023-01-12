@@ -27,12 +27,13 @@ class BambouTest {
     }
 
     @Test
-    void couleur(){
-        assertNotEquals(Couleur.JAUNE,bambou.couleur());
-        assertEquals(Couleur.VERT,bambou.couleur());
+    void couleur() {
+        assertNotEquals(Couleur.JAUNE, bambou.couleur());
+        assertEquals(Couleur.VERT, bambou.couleur());
     }
+
     @Test
-    void cosition() {
+    void position() {
         assertEquals(new Position(1, 2), bambou.position());
     }
 
@@ -82,7 +83,7 @@ class BambouTest {
             bambou.ajouteSectionBambou(sectionBambou3);
             bambou.ajouteSectionBambou(sectionBambou4);
         }
-        catch (AjoutCouleurException aCE){
+        catch (AjoutCouleurException aCE) {
             assert false: "La section de Bambou devrait être de la même couleur";
         }
 
@@ -97,7 +98,7 @@ class BambouTest {
             bambou.ajouteSectionBambou(sectionBambou1);
             bambou.ajouteSectionBambou(sectionBambou2);
         }
-        catch (AjoutCouleurException aCE){
+        catch (AjoutCouleurException aCE) {
             assert false: "La section de Bambou devrait être de la même couleur";
         }
 
@@ -111,7 +112,7 @@ class BambouTest {
             bambou.ajouteSectionBambou(sectionBambou1);
             bambou.ajouteSectionBambou(sectionBambou2);
         }
-        catch (AjoutCouleurException aCE){
+        catch (AjoutCouleurException aCE) {
             assert false: "La section de Bambou devrait être de la même couleur";
         }
 
@@ -123,6 +124,6 @@ class BambouTest {
     @Test
     void ajouteSectionBambouAvecException() {
         SectionBambou sectionBambouRose = new SectionBambou(Couleur.ROSE);
-        assertThrows(AjoutCouleurException.class,() -> {bambou.ajouteSectionBambou(sectionBambouRose); } );
+        assertThrows(AjoutCouleurException.class,() -> bambou.ajouteSectionBambou(sectionBambouRose));
     }
 }
