@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 
 import java.util.Random;
@@ -97,7 +98,7 @@ public class PiocheBambou {
         int positionBambou = random.nextInt(nombreBambousVerts);
         if (positionBambou < 0 || positionBambou >= nombreBambousVerts) throw new RuntimeException();
         nombreBambousVerts--;
-        return new SectionBambou();
+        return new SectionBambou(Couleur.VERT);
     }
 
     /**
@@ -110,7 +111,7 @@ public class PiocheBambou {
         int positionBambou = random.nextInt(nombreBambousRoses);
         if (positionBambou < 0 || positionBambou >= nombreBambousRoses) throw new RuntimeException();
         nombreBambousRoses--;
-        return new SectionBambou();
+        return new SectionBambou(Couleur.ROSE);
     }
 
     /**
@@ -123,6 +124,6 @@ public class PiocheBambou {
         int positionBambou = random.nextInt(nombreBambousJaunes);
         if (positionBambou < 0 || positionBambou >= nombreBambousJaunes) throw new RuntimeException();
         nombreBambousJaunes--;
-        return new SectionBambou();
+        return new SectionBambou(Couleur.JAUNE);
     }
 }
