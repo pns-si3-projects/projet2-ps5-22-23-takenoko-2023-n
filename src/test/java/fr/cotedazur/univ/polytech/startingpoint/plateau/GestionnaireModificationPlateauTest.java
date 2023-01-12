@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionnaireModificationPlateau;
@@ -96,7 +97,7 @@ class GestionnaireModificationPlateauTest {
     @Test
     void getParcelleVoisinSansExceptionDeux() {
         ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].getPosition());
-        SectionBambou secBam = new SectionBambou();
+        SectionBambou secBam = new SectionBambou(Couleur.VERT);
 
         try {
             plateau.addParcelle(parcelleCouleurNonPose2, secBam);
@@ -131,7 +132,7 @@ class GestionnaireModificationPlateauTest {
     @Test
     void getParcelleVoisinAvecExceptionDeux() {
         ParcelleCouleur parcelleCouleurNonPose2bis = new ParcelleCouleur(listPositionDisponible[2]);
-        SectionBambou secBam = new SectionBambou();
+        SectionBambou secBam = new SectionBambou(Couleur.VERT);
 
         try {
             plateau.addParcelle(parcelleCouleurNonPose2, secBam);

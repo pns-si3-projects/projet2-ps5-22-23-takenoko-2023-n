@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Bambou;
@@ -21,10 +22,10 @@ class BambouTest {
     void setUp() {
         pC1_2 = new ParcelleCouleur(new Position(1, 2));
         bambou = new Bambou(pC1_2);
-        sectionBambou1 = new SectionBambou();
-        sectionBambou2 = new SectionBambou();
-        sectionBambou3 = new SectionBambou();
-        sectionBambou4 = new SectionBambou();
+        sectionBambou1 = new SectionBambou(Couleur.VERT);
+        sectionBambou2 = new SectionBambou(Couleur.VERT);
+        sectionBambou3 = new SectionBambou(Couleur.VERT);
+        sectionBambou4 = new SectionBambou(Couleur.VERT);
     }
 
     @Test

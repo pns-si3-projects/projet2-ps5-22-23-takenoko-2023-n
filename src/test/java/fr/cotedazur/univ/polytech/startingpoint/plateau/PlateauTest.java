@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Bambou;
@@ -30,8 +31,8 @@ class PlateauTest {
         plateau = new Plateau();
         pC20 = new ParcelleCouleur(new Position(2,0));
         pC11 = new ParcelleCouleur(new Position(1,1));
-        secBam2_0 = new SectionBambou();
-        secBam1_1 = new SectionBambou();
+        secBam2_0 = new SectionBambou(Couleur.VERT);
+        secBam1_1 = new SectionBambou(Couleur.VERT);
         try {
             plateau.addParcelle(pC20, secBam2_0);
             bambou2_0 = new Bambou(pC20);
@@ -62,7 +63,7 @@ class PlateauTest {
     @Test
     void getListParcelleDeux() {
         ParcelleCouleur pC31 = new ParcelleCouleur(new Position(3,1));
-        SectionBambou secBam3_1 = new SectionBambou();
+        SectionBambou secBam3_1 = new SectionBambou(Couleur.VERT);
         List<Parcelle> listParcelle = new ArrayList<>();
         listParcelle.add(pC20);
         listParcelle.add(pC11);
@@ -140,7 +141,7 @@ class PlateauTest {
         assertEquals(new Position(-1,1),listPosition[3]);
 
         try {
-            plateau.addParcelle(new ParcelleCouleur(new Position(3,1)), new SectionBambou());
+            plateau.addParcelle(new ParcelleCouleur(new Position(3,1)), new SectionBambou(Couleur.VERT));
         }
         catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
             assert false : "Ne doit pas renvoyer d'exception";
@@ -172,8 +173,8 @@ class PlateauTest {
 
         ParcelleCouleur pC31 = new ParcelleCouleur(new Position(3,1));
         ParcelleCouleur pCm1m1 = new ParcelleCouleur(new Position(-1,-1));
-        SectionBambou secBam3_1 = new SectionBambou();
-        SectionBambou secBamm1_m1 = new SectionBambou();
+        SectionBambou secBam3_1 = new SectionBambou(Couleur.VERT);
+        SectionBambou secBamm1_m1 = new SectionBambou(Couleur.VERT);
         Bambou bambou3_1 = new Bambou(pC31);
         Bambou bamboum1_m1 = new Bambou(pCm1m1);
         try {
@@ -206,7 +207,7 @@ class PlateauTest {
     @Test
     void addParcelleParcelleExistanteException(){
         ParcelleCouleur pC20bis = new ParcelleCouleur(new Position(2,0));
-        SectionBambou secBam2_0_bis = new SectionBambou();
+        SectionBambou secBam2_0_bis = new SectionBambou(Couleur.VERT);
         try {
             plateau.addParcelle(pC20bis, secBam2_0_bis);
         }
@@ -218,7 +219,7 @@ class PlateauTest {
     @Test
     void addParcelleNombreVoisinException(){
         ParcelleCouleur pC40 = new ParcelleCouleur(new Position(4,0));
-        SectionBambou secBam4_0 = new SectionBambou();
+        SectionBambou secBam4_0 = new SectionBambou(Couleur.VERT);
         try {
             plateau.addParcelle(pC40, secBam4_0);
         }

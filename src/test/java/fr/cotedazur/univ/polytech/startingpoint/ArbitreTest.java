@@ -82,7 +82,7 @@ class ArbitreTest {
             assertFalse(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(), objectifParcelleACheck));
             try {
                 ParcelleCouleur parcelleCouleurAAdd = new ParcelleCouleur(plateau.getPositionsDisponible()[0]);
-                SectionBambou secBam = new SectionBambou();
+                SectionBambou secBam = new SectionBambou(Couleur.VERT);
                 plateau.addParcelle(parcelleCouleurAAdd, secBam);
             }
             catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {

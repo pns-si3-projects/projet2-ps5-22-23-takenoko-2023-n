@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
@@ -24,7 +25,7 @@ class GestionnairePossibilitePlateauTest {
     ParcelleCouleur pC1m1;
     ParcelleCouleur pC3m1;
     ParcelleCouleur pC40;
-    SectionBambou secBam = new SectionBambou();
+    SectionBambou secBam = new SectionBambou(Couleur.VERT);
 
     @BeforeEach
     void setUp() {

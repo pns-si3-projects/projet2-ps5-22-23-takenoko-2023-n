@@ -93,7 +93,7 @@ class JoueurTest {
 
         for (ParcelleCouleur listParcellesCouleursChoisi : listParcellesCouleursChoisis) {
             ParcelleCouleur parcelleCouleurAAdd = joueur1.choisiParcellePlateau(plateau.getPositionsDisponible());
-            SectionBambou secBamAAdd = new SectionBambou();
+            SectionBambou secBamAAdd = new SectionBambou(Couleur.VERT);
             try {
                 assertEquals(listParcellesCouleursChoisi, parcelleCouleurAAdd);
                 plateau.addParcelle(parcelleCouleurAAdd, secBamAAdd);
@@ -120,7 +120,7 @@ class JoueurTest {
     @Test
     void addParcellePlateauTrue() {
         ParcelleCouleur parcelleCouleurChoisiJoueur1 = joueur1.choisiParcellePlateau(plateau.getPositionsDisponible());
-        SectionBambou secBam = new SectionBambou();
+        SectionBambou secBam = new SectionBambou(Couleur.VERT);
         assertTrue(joueur1.addParcellePlateau(plateau, parcelleCouleurChoisiJoueur1, secBam));
 
         ParcelleCouleur parcelleCouleurChoisiJoueur2 = joueur2.choisiParcellePlateau(plateau.getPositionsDisponible());
@@ -130,7 +130,7 @@ class JoueurTest {
     @Test
     void addParcellePlateauFalse() {
         ParcelleCouleur parcelleCouleurNonPossibleAAdd = new ParcelleCouleur(new Position(10, 10));
-        SectionBambou secBam = new SectionBambou();
+        SectionBambou secBam = new SectionBambou(Couleur.VERT);
         assertFalse(joueur1.addParcellePlateau(plateau, parcelleCouleurNonPossibleAAdd, secBam));
         assertFalse(joueur2.addParcellePlateau(plateau, parcelleCouleurNonPossibleAAdd, secBam));
     }

@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.NombreObjectifsEnCoursException;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
@@ -22,7 +23,7 @@ class PlaquetteTest {
 
     @BeforeEach
     void setUp() {
-        secBa = new SectionBambou();
+        secBa = new SectionBambou(Couleur.VERT);
         objPar2_3 = new ObjectifParcelle(2, 3);
         objPar3_4 = new ObjectifParcelle(3, 4);
         objPan3_2 = new ObjectifPanda(3, 2);
@@ -30,32 +31,32 @@ class PlaquetteTest {
         objJar3_2 = new ObjectifJardinier(3, 2);
         objJar6_4 = new ObjectifJardinier(6, 4);
         plaquette = new Plaquette(objPar2_3, objPan3_2, objJar3_2);
-        plaquette.ajouteSectionBambou(new SectionBambou()); // modifier pour vert
-        plaquette.ajouteSectionBambou(new SectionBambou()); // modifier pour rose
-        plaquette.ajouteSectionBambou(new SectionBambou()); // modifier pour jaune
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // modifier pour vert
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // modifier pour rose
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // modifier pour jaune
     }
 
     @Test
     void getNombreBambousVerts() {
         assertEquals(3, plaquette.getNombreBambousVerts());
-        plaquette.ajouteSectionBambou(new SectionBambou());
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT));
         assertEquals(4, plaquette.getNombreBambousVerts());
     }
 
     @Test
     void getNombreBambousRoses() {
-        assertEquals(3, plaquette.getNombreBambousRoses());
-        plaquette.ajouteSectionBambou(new SectionBambou());
-        plaquette.ajouteSectionBambou(new SectionBambou());
+        assertEquals(3, plaquette.getNombreBambousRoses()); // A modifier
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.ROSE));
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.ROSE));
         assertEquals(5, plaquette.getNombreBambousRoses());
     }
 
     @Test
     void getNombreBambousJaunes() {
-        assertEquals(3, plaquette.getNombreBambousJaunes());
-        plaquette.ajouteSectionBambou(new SectionBambou());
-        plaquette.ajouteSectionBambou(new SectionBambou());
-        plaquette.ajouteSectionBambou(new SectionBambou());
+        assertEquals(3, plaquette.getNombreBambousJaunes()); // A modifier
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
         assertEquals(6, plaquette.getNombreBambousJaunes());
     }
 
@@ -216,12 +217,12 @@ class PlaquetteTest {
     @Test
     void ajouteSectionBambou() {
         assertEquals(3, plaquette.getNombreBambousVerts());
-        plaquette.ajouteSectionBambou(new SectionBambou()); // Modifier pour ajout bambou vert
-        plaquette.ajouteSectionBambou(new SectionBambou()); // Modifier pour ajout bambou jaune
-        plaquette.ajouteSectionBambou(new SectionBambou()); // Modifier pour ajout bambou rose
-        plaquette.ajouteSectionBambou(new SectionBambou()); // Modifier pour ajout bambou vert
-        plaquette.ajouteSectionBambou(new SectionBambou()); // Modifier pour ajout bambou vert
-        plaquette.ajouteSectionBambou(new SectionBambou()); // Modifier pour ajout bambou jaune
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // Modifier pour ajout bambou vert
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE)); // Modifier pour ajout bambou jaune
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.ROSE)); // Modifier pour ajout bambou rose
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // Modifier pour ajout bambou vert
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // Modifier pour ajout bambou vert
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE)); // Modifier pour ajout bambou jaune
         assertEquals(9, plaquette.getNombreBambousVerts()); // Modifier pour 6 verts
         assertEquals(9, plaquette.getNombreBambousRoses()); // Modifier pour 4 roses
         assertEquals(9, plaquette.getNombreBambousJaunes()); // Modifier pour 5 jaunes
