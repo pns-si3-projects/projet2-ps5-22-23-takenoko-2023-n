@@ -1,9 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
-import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
-import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 
 import java.util.*;
 
@@ -14,7 +15,7 @@ import java.util.*;
  */
 public class Plateau {
     // Définition des attributs
-    private final Map<Parcelle,Parcelle[]> parcelleEtVoisinesList;
+    private final Map<Parcelle, Parcelle[]> parcelleEtVoisinesList;
     private final Set<Bambou> bambous;
     private final Panda panda;
     private final Jardinier jardinier;
@@ -163,6 +164,37 @@ public class Plateau {
      */
     public Optional<Parcelle> getParcelle(Position position){
         return GESTIONNAIRE_MODIFICATION_PLATEAU.getParcelle(getParcelles(),position);
+    }
+
+    /**
+     * Renvoie la liste des parcelles de la couleur demandée
+     * @param couleur est la couleur demandée
+     * @return la liste des parcelles de la couleur demandée
+     */
+    public List<ParcelleCouleur> getParcellesCouleur(Couleur couleur) {
+        List<ParcelleCouleur> parcellesCouleur = new ArrayList<>();
+        for (Parcelle parcelle : getParcelles()) {
+            if (!parcelle.getClass().equals(Etang.class)) {
+                ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelle;
+                if (parcelleCouleur.couleur() == couleur) parcellesCouleur.add(parcelleCouleur);
+            }
+        }
+        return parcellesCouleur;
+    }
+
+    /**
+     * Renvoie la liste des positions où se trouvent des bambous de la couleur demandée
+     * @param couleur est la couleur demandée
+     * @return la liste des positions où se trouvent des bambous de la couleur demandée
+     */
+    public List<Position> getBambousCouleur(Couleur couleur) {
+        List<Position> positionsBambousCouleur = new ArrayList<>();
+        for (Bambou bambou : getBambous()) {
+            if (bambou.couleur() == couleur && !bambou.isEmptyBambou()) {
+                positionsBambousCouleur.add(bambou.position());
+            }
+        }
+        return positionsBambousCouleur;
     }
 
     /**

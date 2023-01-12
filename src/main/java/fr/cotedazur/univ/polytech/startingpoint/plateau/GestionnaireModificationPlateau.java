@@ -122,14 +122,21 @@ public class GestionnaireModificationPlateau {
         };
     }
 
-    public Optional<Parcelle> getParcelle(Parcelle[] listParcelle,Position position){
+    /**
+     * Renvoie la parcelle à la position demandée
+     * @param listParcelle est la liste des parcelles positionnées sur le plateau
+     * @param position est la position de la parcelle demandée
+     * @return la parcelle à la position demandée
+     */
+    public Optional<Parcelle> getParcelle(Parcelle[] listParcelle, Position position) {
         if(listParcelle == null || position == null) return Optional.empty();
-        for (int i = 0;i< listParcelle.length;i++){
-            Parcelle parcelleActuel = listParcelle[i];
-            if(position.equals(parcelleActuel.position())){
+        for (Parcelle parcelleActuel : listParcelle) {
+            if (position.equals(parcelleActuel.position())) {
                 return Optional.of(parcelleActuel);
             }
         }
         return Optional.empty();
     }
+
+
 }
