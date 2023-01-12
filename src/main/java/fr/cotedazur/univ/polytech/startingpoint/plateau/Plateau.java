@@ -248,10 +248,20 @@ public class Plateau {
     public void addBambou(ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou) {
         Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.getPosition());
         if (optionalBambou.isPresent()) {
-            optionalBambou.get().ajouteSectionBambou(sectionBambou);
+            try {
+                optionalBambou.get().ajouteSectionBambou(sectionBambou);
+            }
+            catch (AjoutCouleurException aCE){
+                assert false : "La couleur doit être la même que celle du bambou";
+            }
         } else {
-            Bambou bambou = new Bambou(parcelleCouleur);
-            bambou.ajouteSectionBambou(sectionBambou);
+            Bambou bambou = new Bambou(parcelleCouleur,sectionBambou.getCouleur());
+            try {
+                bambou.ajouteSectionBambou(sectionBambou);
+            }
+            catch (AjoutCouleurException aCE){
+                assert false : "La couleur doit être la même que celle du bambou";
+            }
             bambous.add(bambou);
         }
     }
