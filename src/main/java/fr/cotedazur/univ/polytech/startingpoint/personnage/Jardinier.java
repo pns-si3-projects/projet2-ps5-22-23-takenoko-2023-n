@@ -19,6 +19,11 @@ public class Jardinier implements Personnage {
         position = new Position();
     }
 
+    public void move(Position position){
+        this.position.setX(position.getX());
+        this.position.setY(position.getX());
+    }
+
 
     // Accesseurs et méthode toString
     /**
