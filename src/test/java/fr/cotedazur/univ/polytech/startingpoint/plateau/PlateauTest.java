@@ -2,10 +2,6 @@ package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Bambou;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.NombreParcelleVoisineException;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -125,7 +121,7 @@ class PlateauTest {
             plateau.getTableauVoisines(pC40);
         }
         catch (ParcelleNonExistanteException pNEE){
-            assertEquals("La parcelle de position "+ pC40.getPosition()+" n'existe pas sur le plateau",pNEE.getMessage());
+            assertEquals("La parcelle de position "+ pC40.position()+" n'existe pas sur le plateau",pNEE.getMessage());
         }
     }
 
@@ -211,7 +207,7 @@ class PlateauTest {
             plateau.addParcelle(pC20bis, secBam2_0_bis);
         }
         catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
-            assertEquals("La parcelle de position "+pC20bis.getPosition()+" est déjà existante",exception.getMessage());
+            assertEquals("La parcelle de position "+pC20bis.position()+" est déjà existante",exception.getMessage());
         }
     }
 

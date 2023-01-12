@@ -2,10 +2,6 @@ package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionnaireModificationPlateau;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.NombreParcelleVoisineException;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +31,7 @@ class GestionnaireModificationPlateauTest {
         plateau = new Plateau();
         gMP = new GestionnaireModificationPlateau();
         etang = plateau.getEtang();
-        positionEtang = etang.getPosition();
+        positionEtang = etang.position();
         parcelleDisponible0 = new ParcelleDisponible(new Position(positionEtang.getX()+1,positionEtang.getY()+1));
         parcelleDisponible1 = new ParcelleDisponible(new Position(positionEtang.getX()+2,positionEtang.getY()));
         parcelleDisponible2 = new ParcelleDisponible(new Position(positionEtang.getX()+1,positionEtang.getY()-1));
@@ -50,7 +46,7 @@ class GestionnaireModificationPlateauTest {
         listParcelleDisponible[4] = parcelleDisponible4;
         listParcelleDisponible[5] = parcelleDisponible5;
         listPositionDisponible = plateau.getPositionsDisponible();
-        parcelleCouleurNonPose2 = new ParcelleCouleur(listParcelleDisponible[2].getPosition());
+        parcelleCouleurNonPose2 = new ParcelleCouleur(listParcelleDisponible[2].position());
     }
 
     @Test
@@ -95,7 +91,7 @@ class GestionnaireModificationPlateauTest {
 
     @Test
     void getParcelleVoisinSansExceptionDeux() {
-        ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].getPosition());
+        ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].position());
         SectionBambou secBam = new SectionBambou();
 
         try {

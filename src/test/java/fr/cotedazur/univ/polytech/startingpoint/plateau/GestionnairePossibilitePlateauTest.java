@@ -56,42 +56,42 @@ class GestionnairePossibilitePlateauTest {
     @Test
     void deplacementPossiblePersonnageDiagonaleDroite() {
         Panda panda = plateau.getPanda();
-        List<Position> deplacementPossibleDiagonaleDroite = gPP.deplacementPossiblePersonnageDiagonaleDroite(panda.getPosition());
+        List<Position> deplacementPossibleDiagonaleDroite = gPP.deplacementPossiblePersonnageDiagonaleDroite(panda.position());
         assertEquals(2, deplacementPossibleDiagonaleDroite.size());
-        assertEquals(pC11.getPosition(), deplacementPossibleDiagonaleDroite.get(0));
-        assertEquals(pCm1m1.getPosition(), deplacementPossibleDiagonaleDroite.get(1));
+        assertEquals(pC11.position(), deplacementPossibleDiagonaleDroite.get(0));
+        assertEquals(pCm1m1.position(), deplacementPossibleDiagonaleDroite.get(1));
     }
 
     @Test
     void deplacementPossiblePersonnageDiagonaleGauche() {
         Jardinier jardinier = new Jardinier();
-        List<Position> deplacementPossibleDiagonaleGauche = gPP.deplacementPossiblePersonnageDiagonaleGauche(jardinier.getPosition());
+        List<Position> deplacementPossibleDiagonaleGauche = gPP.deplacementPossiblePersonnageDiagonaleGauche(jardinier.position());
         assertEquals(2, deplacementPossibleDiagonaleGauche.size());
-        assertEquals(pC1m1.getPosition(), deplacementPossibleDiagonaleGauche.get(0));
-        assertEquals(pCm11.getPosition(), deplacementPossibleDiagonaleGauche.get(1));
+        assertEquals(pC1m1.position(), deplacementPossibleDiagonaleGauche.get(0));
+        assertEquals(pCm11.position(), deplacementPossibleDiagonaleGauche.get(1));
     }
 
     @Test
     void deplacementPossiblePersonnageHorizontal() {
         Panda panda = plateau.getPanda();
-        List<Position> deplacementPossibleHorrizontal = gPP.deplacementPossiblePersonnageHorizontal(panda.getPosition());
+        List<Position> deplacementPossibleHorrizontal = gPP.deplacementPossiblePersonnageHorizontal(panda.position());
         assertEquals(3, deplacementPossibleHorrizontal.size());
-        assertEquals(pC20.getPosition(), deplacementPossibleHorrizontal.get(0));
-        assertEquals(pC40.getPosition(), deplacementPossibleHorrizontal.get(1));
-        assertEquals(pCm20.getPosition(), deplacementPossibleHorrizontal.get(2));
+        assertEquals(pC20.position(), deplacementPossibleHorrizontal.get(0));
+        assertEquals(pC40.position(), deplacementPossibleHorrizontal.get(1));
+        assertEquals(pCm20.position(), deplacementPossibleHorrizontal.get(2));
     }
 
     @Test
     void allDeplacement() {
         Jardinier jardinier = new Jardinier();
-        List<Position> deplacementPossible = gPP.deplacementPossiblePersonnageDiagonaleGauche(jardinier.getPosition());
-        deplacementPossible.addAll(gPP.deplacementPossiblePersonnageHorizontal(jardinier.getPosition()));
-        deplacementPossible.addAll(gPP.deplacementPossiblePersonnageDiagonaleDroite(jardinier.getPosition()));
+        List<Position> deplacementPossible = gPP.deplacementPossiblePersonnageDiagonaleGauche(jardinier.position());
+        deplacementPossible.addAll(gPP.deplacementPossiblePersonnageHorizontal(jardinier.position()));
+        deplacementPossible.addAll(gPP.deplacementPossiblePersonnageDiagonaleDroite(jardinier.position()));
         Parcelle[] parcelles = plateau.getParcelles();
         assertNotEquals(parcelles.length, deplacementPossible.size());
         for (Parcelle parcelle : parcelles) {
             if (!parcelle.equals(pC3m1) && !parcelle.equals(plateau.getEtang())) {
-                assertTrue(deplacementPossible.contains(parcelle.getPosition()));
+                assertTrue(deplacementPossible.contains(parcelle.position()));
             }
         }
     }

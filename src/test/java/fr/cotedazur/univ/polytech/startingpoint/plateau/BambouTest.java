@@ -2,8 +2,6 @@ package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Bambou;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +27,7 @@ class BambouTest {
 
     @Test
     void getPosition() {
-        assertEquals(new Position(1, 2), bambou.getPosition());
+        assertEquals(new Position(1, 2), bambou.position());
     }
 
     @Test
