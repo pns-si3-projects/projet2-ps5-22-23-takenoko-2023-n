@@ -256,6 +256,16 @@ public class Plateau {
         }
     }
 
+    public void jardinierAddBambous(ParcelleCouleur parcelle) throws ParcelleNonExistanteException {
+        Parcelle[] parcellesVoisine = getTableauVoisines(parcelle);
+        addBambou(parcelle, new SectionBambou() );
+        for(Parcelle p : parcellesVoisine){
+            if(p.getClass() != ParcelleDisponible.class && p.getClass().equals(etang.getClass())){
+                addBambou((ParcelleCouleur) p,new SectionBambou());
+            }
+        }
+    }
+
     /**
      * Supprime une position disponible
      * @param position est la position précédemment disponible à retirer
