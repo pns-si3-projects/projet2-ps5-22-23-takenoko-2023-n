@@ -59,7 +59,7 @@ class PlateauTest {
 
     @Test
     void getListParcelleDeux() {
-        ParcelleCouleur pC31 = new ParcelleCouleur(new Position(3,1), Couleur.JAUNE);
+        ParcelleCouleur pC31 = new ParcelleCouleur(new Position(3,1), couleurBambouDefault);
         SectionBambou secBam3_1 = new SectionBambou(couleurBambouDefault);
         List<Parcelle> listParcelle = new ArrayList<>();
         listParcelle.add(pC20);

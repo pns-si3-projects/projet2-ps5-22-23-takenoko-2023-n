@@ -17,37 +17,39 @@ import static org.junit.jupiter.api.Assertions.*;
 class GestionnairePossibilitePlateauTest {
     Plateau plateau;
     GestionnairePossibilitePlateau gPP;
-    ParcelleCouleur pC11;
-    ParcelleCouleur pCm1m1;
-    ParcelleCouleur pC20;
-    ParcelleCouleur pCm20;
-    ParcelleCouleur pCm11;
-    ParcelleCouleur pC1m1;
-    ParcelleCouleur pC3m1;
-    ParcelleCouleur pC40;
-    SectionBambou secBam = new SectionBambou(Couleur.VERT);
+    ParcelleCouleur pC11J;
+    ParcelleCouleur pCm1m1R;
+    ParcelleCouleur pC20V;
+    ParcelleCouleur pCm20R;
+    ParcelleCouleur pCm11R;
+    ParcelleCouleur pC1m1J;
+    ParcelleCouleur pC3m1V;
+    ParcelleCouleur pC40V;
+    SectionBambou secBamV = new SectionBambou(Couleur.VERT);
+    SectionBambou secBamR = new SectionBambou(Couleur.ROSE);
+    SectionBambou secBamJ = new SectionBambou(Couleur.JAUNE);
 
     @BeforeEach
     void setUp() {
         plateau = new Plateau();
         gPP = new GestionnairePossibilitePlateau(plateau);
-        pC11 = new ParcelleCouleur(new Position(1, 1), Couleur.JAUNE);
-        pCm1m1 = new ParcelleCouleur(new Position(-1, -1), Couleur.ROSE);
-        pC20 = new ParcelleCouleur(new Position(2, 0), Couleur.VERT);
-        pCm20 = new ParcelleCouleur(new Position(-2, 0), Couleur.ROSE);
-        pCm11 = new ParcelleCouleur(new Position(-1, 1), Couleur.ROSE);
-        pC1m1 = new ParcelleCouleur(new Position(1, -1), Couleur.JAUNE);
-        pC3m1 = new ParcelleCouleur(new Position(3, -1), Couleur.VERT);
-        pC40 = new ParcelleCouleur(new Position(4, 0), Couleur.VERT);
+        pC11J = new ParcelleCouleur(new Position(1, 1), Couleur.JAUNE);
+        pCm1m1R = new ParcelleCouleur(new Position(-1, -1), Couleur.ROSE);
+        pC20V = new ParcelleCouleur(new Position(2, 0), Couleur.VERT);
+        pCm20R = new ParcelleCouleur(new Position(-2, 0), Couleur.ROSE);
+        pCm11R = new ParcelleCouleur(new Position(-1, 1), Couleur.ROSE);
+        pC1m1J = new ParcelleCouleur(new Position(1, -1), Couleur.JAUNE);
+        pC3m1V = new ParcelleCouleur(new Position(3, -1), Couleur.VERT);
+        pC40V = new ParcelleCouleur(new Position(4, 0), Couleur.VERT);
         try {
-            plateau.addParcelle(pC11, secBam);
-            plateau.addParcelle(pCm1m1, secBam);
-            plateau.addParcelle(pC20, secBam);
-            plateau.addParcelle(pCm20, secBam);
-            plateau.addParcelle(pCm11, secBam);
-            plateau.addParcelle(pC1m1, secBam);
-            plateau.addParcelle(pC3m1, secBam);
-            plateau.addParcelle(pC40, secBam);
+            plateau.addParcelle(pC11J, secBamJ);
+            plateau.addParcelle(pCm1m1R, secBamR);
+            plateau.addParcelle(pC20V, secBamV);
+            plateau.addParcelle(pCm20R, secBamR);
+            plateau.addParcelle(pCm11R, secBamR);
+            plateau.addParcelle(pC1m1J, secBamJ);
+            plateau.addParcelle(pC3m1V, secBamV);
+            plateau.addParcelle(pC40V, secBamV);
         }
         catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
             throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
@@ -59,8 +61,8 @@ class GestionnairePossibilitePlateauTest {
         Panda panda = plateau.getPanda();
         List<Position> deplacementPossibleDiagonaleDroite = gPP.deplacementPossiblePersonnageDiagonaleDroite(panda.position());
         assertEquals(2, deplacementPossibleDiagonaleDroite.size());
-        assertEquals(pC11.position(), deplacementPossibleDiagonaleDroite.get(0));
-        assertEquals(pCm1m1.position(), deplacementPossibleDiagonaleDroite.get(1));
+        assertEquals(pC11J.position(), deplacementPossibleDiagonaleDroite.get(0));
+        assertEquals(pCm1m1R.position(), deplacementPossibleDiagonaleDroite.get(1));
     }
 
     @Test
@@ -68,8 +70,8 @@ class GestionnairePossibilitePlateauTest {
         Jardinier jardinier = new Jardinier();
         List<Position> deplacementPossibleDiagonaleGauche = gPP.deplacementPossiblePersonnageDiagonaleGauche(jardinier.position());
         assertEquals(2, deplacementPossibleDiagonaleGauche.size());
-        assertEquals(pC1m1.position(), deplacementPossibleDiagonaleGauche.get(0));
-        assertEquals(pCm11.position(), deplacementPossibleDiagonaleGauche.get(1));
+        assertEquals(pC1m1J.position(), deplacementPossibleDiagonaleGauche.get(0));
+        assertEquals(pCm11R.position(), deplacementPossibleDiagonaleGauche.get(1));
     }
 
     @Test
@@ -77,9 +79,9 @@ class GestionnairePossibilitePlateauTest {
         Panda panda = plateau.getPanda();
         List<Position> deplacementPossibleHorrizontal = gPP.deplacementPossiblePersonnageHorizontal(panda.position());
         assertEquals(3, deplacementPossibleHorrizontal.size());
-        assertEquals(pC20.position(), deplacementPossibleHorrizontal.get(0));
-        assertEquals(pC40.position(), deplacementPossibleHorrizontal.get(1));
-        assertEquals(pCm20.position(), deplacementPossibleHorrizontal.get(2));
+        assertEquals(pC20V.position(), deplacementPossibleHorrizontal.get(0));
+        assertEquals(pC40V.position(), deplacementPossibleHorrizontal.get(1));
+        assertEquals(pCm20R.position(), deplacementPossibleHorrizontal.get(2));
     }
 
     @Test
@@ -91,7 +93,7 @@ class GestionnairePossibilitePlateauTest {
         Parcelle[] parcelles = plateau.getParcelles();
         assertNotEquals(parcelles.length, deplacementPossible.size());
         for (Parcelle parcelle : parcelles) {
-            if (!parcelle.equals(pC3m1) && !parcelle.equals(plateau.getEtang())) {
+            if (!parcelle.equals(pC3m1V) && !parcelle.equals(plateau.getEtang())) {
                 assertTrue(deplacementPossible.contains(parcelle.position()));
             }
         }

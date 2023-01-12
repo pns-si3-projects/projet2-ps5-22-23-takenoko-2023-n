@@ -36,6 +36,6 @@ class SectionBambouTest {
         assertEquals(bambouVert,bambouVertBis);
         assertNotEquals(bambouVert,bambouJaune);
         assertNotEquals(bambouVert,bambouRose);
-        assertThrows(NullPointerException.class, () -> {new SectionBambou(null);});
+        assertThrows(IllegalArgumentException.class, () -> {new SectionBambou(null);});
     }
 }

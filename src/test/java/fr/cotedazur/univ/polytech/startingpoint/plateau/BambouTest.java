@@ -27,12 +27,12 @@ class BambouTest {
     }
 
     @Test
-    void getCouleur(){
-        assertNotEquals(Couleur.JAUNE,bambou.getCouleur());
-        assertEquals(Couleur.VERT,bambou.getCouleur());
+    void couleur(){
+        assertNotEquals(Couleur.JAUNE,bambou.couleur());
+        assertEquals(Couleur.VERT,bambou.couleur());
     }
     @Test
-    void getPosition() {
+    void cosition() {
         assertEquals(new Position(1, 2), bambou.position());
     }
 
