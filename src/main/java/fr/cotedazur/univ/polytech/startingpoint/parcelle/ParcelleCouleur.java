@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.parcelle;
 
+import fr.cotedazur.univ.polytech.startingpoint.Colorable;
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
  * @param couleur est la couleur de la parcelle
  * @author equipe N
  */
-public record ParcelleCouleur(Position position, Couleur couleur) implements Parcelle {
+public record ParcelleCouleur(Position position, Couleur couleur) implements Parcelle, Colorable {
     // Définition des constructeurs
     /**
      * Constructeur par défaut

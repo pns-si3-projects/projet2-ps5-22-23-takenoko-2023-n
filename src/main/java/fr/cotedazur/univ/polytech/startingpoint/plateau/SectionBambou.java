@@ -14,13 +14,13 @@ public record SectionBambou(Couleur couleur) implements Colorable {
     // Définition des constructeurs
     /**
      * Constructeur par défaut
-     * @param couleur la couleur de la section du bambou
+     * @param couleur est la couleur de la section du bambou
      */
     public SectionBambou {
         if (couleur == null) throw new IllegalArgumentException("La couleur ne doit pas être null");
     }
 
-    
+
     // Méthodes toString et equals
     @Override
     public String toString() {
