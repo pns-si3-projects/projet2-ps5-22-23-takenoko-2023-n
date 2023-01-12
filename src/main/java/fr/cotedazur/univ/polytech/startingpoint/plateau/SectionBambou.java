@@ -1,55 +1,42 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Colorable;
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 
 import java.util.Objects;
 
 /**
- * Classe représentant une section de bambou
+ * Record représentant une section de bambou
+ * @param couleur est la couleur de la section de bambou
  * @author equipe N
  */
-public class SectionBambou {
-    // Définition des attributs
-    private final Couleur couleur;
-
-
+public record SectionBambou(Couleur couleur) implements Colorable {
     // Définition des constructeurs
     /**
      * Constructeur par défaut
-     * @param couleur La couleur de la section du bambou
+     * @param couleur la couleur de la section du bambou
      */
-    public SectionBambou(Couleur couleur) {
+    public SectionBambou {
         if (couleur == null) throw new IllegalArgumentException("La couleur ne doit pas être null");
-        this.couleur = couleur;
     }
 
-    // Accesseurs et méthode toString et equals
-
-    /**
-     * Renvoie la couleur du Bambou
-     * @return la couleur du Bambou
-     */
-    public Couleur couleur(){
-        return couleur;
+    
+    // Méthodes toString et equals
+    @Override
+    public String toString() {
+        return "Section de bambou de couleur " + couleur;
     }
 
     @Override
-    public String toString(){
-        return "La couleur de cette section de Bambou est " + couleur();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SectionBambou that = (SectionBambou) o;
+        return couleur == that.couleur();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(this == obj) return true;
-        else if (obj == null || obj.getClass() != this.getClass()) return false;
-        else{
-            SectionBambou sectionBambou = (SectionBambou) obj;
-            return sectionBambou.couleur().equals(this.couleur());
-        }
-    }
-
-    @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(couleur);
     }
 }
