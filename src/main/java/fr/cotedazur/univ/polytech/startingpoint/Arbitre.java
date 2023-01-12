@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -85,6 +86,10 @@ public class Arbitre {
 
     public boolean checkObjectifPandaTermine(SectionBambou[] sectionBambous, ObjectifPanda objectifPanda){
         return sectionBambous.length >= objectifPanda.getNombreBambousAManger();
+    }
+
+    public boolean checkObjectifJardinierTermine(ObjectifJardinier objectifJardinier){
+        return objectifJardinier.getNombreBambousRestant()<=0;
     }
 
     /**

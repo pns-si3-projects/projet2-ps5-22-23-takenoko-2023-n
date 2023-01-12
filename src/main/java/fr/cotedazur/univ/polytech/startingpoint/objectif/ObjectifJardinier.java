@@ -9,6 +9,7 @@ import java.util.Objects;
 public class ObjectifJardinier extends Objectif {
     // Définition des attributs
     private final int nombreBambousAFairePousser;
+    private int nombreBambousRestant;
 
 
     // Définition des constructeurs
@@ -21,6 +22,7 @@ public class ObjectifJardinier extends Objectif {
     public ObjectifJardinier(int nbPoints, int nbBambous) {
         nombrePoints = nbPoints;
         nombreBambousAFairePousser = nbBambous;
+        nombreBambousRestant = nombreBambousAFairePousser;
     }
 
 
@@ -31,6 +33,12 @@ public class ObjectifJardinier extends Objectif {
      */
     public int getNombreBambousAFairePousser() {
         return nombreBambousAFairePousser;
+    }
+
+    public int getNombreBambousRestant(){return nombreBambousRestant;}
+
+    public void soustraitNombreBambousPoses(int nombreBambousPoses){
+        nombreBambousRestant -= nombreBambousPoses;
     }
 
     @Override

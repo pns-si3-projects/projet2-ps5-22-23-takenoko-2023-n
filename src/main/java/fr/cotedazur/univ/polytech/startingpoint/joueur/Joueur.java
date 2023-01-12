@@ -2,9 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.*;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 
@@ -230,6 +228,51 @@ public class Joueur {
     }
 
     /**
+     * Permet de déplacer le jardinier
+     * @param plateau le plateau pour ajouter les parcelles
+     * @param arbitre permet de vérifier les actions et les objectifs
+     * @param gPP est le gestionnaire de possibilité de déplacements sur le plateau pour savoir où on peut déplacer le jardinier
+     */
+    public void actionJardinier(Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
+        Position positionJardinier = plateau.getJardinier().getPosition();
+        int deplacementReussi = deplacementJardinier(plateau,gPP.deplacementPossiblePersonnageDiagonaleDroite(positionJardinier));
+        if(deplacementReussi == -1){
+            deplacementReussi = deplacementJardinier(plateau,gPP.deplacementPossiblePersonnageDiagonaleGauche(positionJardinier));
+            if(deplacementReussi == -1){
+                deplacementJardinier(plateau,gPP.deplacementPossiblePersonnageHorizontal(positionJardinier));
+            }
+        }
+        gestionObjectifJardinier(arbitre, plaquette.getObjectifsJardinier(), deplacementReussi);
+    }
+
+    /**
+     * Déplace le jardinier en fonction de la liste de positions possibles
+     * @param plateau le plateau pour ajouter les bambous
+     * @param positionPossibleDeplacement est la liste des positions possibles pour déplacer le jardinier
+     * @return <code>true</code> si le déplacement du jardinier est possible et effectué, <code>false</code> sinon
+     */
+    private int deplacementJardinier(Plateau plateau, List<Position> positionPossibleDeplacement) {
+        int indexParcelleChoisie = random.nextInt(positionPossibleDeplacement.size());
+        Position positionParcelle = positionPossibleDeplacement.get(indexParcelleChoisie);
+        if(indexParcelleChoisie < 0 || indexParcelleChoisie >= positionPossibleDeplacement.size()) throw new ArithmeticException("Erreur objet random");
+        plateau.getJardinier().move(positionParcelle);
+        Optional<Parcelle> parcelleJardinier = plateau.getParcelle(positionParcelle);
+        if (parcelleJardinier.isPresent()) {
+            try {
+                int nombreBambousPoses = plateau.jardinierAddBambous((ParcelleCouleur) parcelleJardinier.get());
+                return nombreBambousPoses;
+            }
+            catch (ParcelleNonExistanteException pnee){
+                System.err.println(pnee);
+            }
+        }
+        else {
+            assert false : "La parcelle choisie doit être sur le plateau";
+        }
+        return -1;
+    }
+
+    /**
      * Gère les objectifs de parcelle grâce à l'arbitre
      * @param listParcellesEtVoisines la liste de parcelle du plateau à donner à l'arbitre pour vérifier si les parcelles ont été posées
      * @param arbitre L'arbitre qui doit vérifier si l'objectif est validé
@@ -269,6 +312,28 @@ public class Joueur {
             }
         }
     }
+
+    /**
+     * Gère les objectifs de jardinier grâce à l'arbitre
+     * @param arbitre L'arbitre qui doit vérifier si l'objectif est validé
+     * @param objectifJardiniers La liste des objectifs jardinier
+     */
+    private void gestionObjectifJardinier(Arbitre arbitre, ObjectifJardinier[] objectifJardiniers, int nombreBambousPoses){
+        for(ObjectifJardinier objectifJardinier : objectifJardiniers){
+            objectifJardinier.soustraitNombreBambousPoses(nombreBambousPoses);
+            if(arbitre.checkObjectifJardinierTermine(objectifJardinier)){
+                if(plaquette.supprimeObjectif(objectifJardinier)){
+                    objectifTermineList.add(objectifJardinier);
+                    Main.AFFICHEUR.afficheObjectifValide(objectifJardinier);
+                }
+                else {
+                    assert false : "L'objectif doit normalement existe";
+                }
+            }
+        }
+    }
+
+
 
     /**
      * Méthode qui pioche un objectifParcelle dans la pioche
