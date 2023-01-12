@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 
@@ -41,47 +42,50 @@ public class PiocheParcelle extends ArrayList<ParcellePioche> {
      * Permet d'ajouter les parcelles vertes à la pioche
      */
     private void creeParcellesVertesPioche() {
+        Couleur vert = Couleur.VERT;
         for (int i=0; i<6; i++) {
-            add(new ParcellePioche());
+            add(new ParcellePioche(vert));
         }
         // avec aménagement bassin
-        add(new ParcellePioche());
-        add(new ParcellePioche());
+        add(new ParcellePioche(vert));
+        add(new ParcellePioche(vert));
         // avec aménagement enclos
-        add(new ParcellePioche());
-        add(new ParcellePioche());
+        add(new ParcellePioche(vert));
+        add(new ParcellePioche(vert));
         // avec aménagement engrais
-        add(new ParcellePioche());
+        add(new ParcellePioche(vert));
     }
 
     /**
      * Permet d'ajouter les parcelles roses à la pioche
      */
     private void creeParcellesRosesPioche() {
+        Couleur rose = Couleur.ROSE;
         for (int i=0; i<4; i++) {
-            add(new ParcellePioche());
+            add(new ParcellePioche(rose));
         }
         // avec aménagement bassin
-        add(new ParcellePioche());
+        add(new ParcellePioche(rose));
         // avec aménagement enclos
-        add(new ParcellePioche());
+        add(new ParcellePioche(rose));
         // avec aménagement engrais
-        add(new ParcellePioche());
+        add(new ParcellePioche(rose));
     }
 
     /**
      * Permet d'ajouter les parcelles jaunes à la pioche
      */
     private void creeParcellesJaunesPioche() {
+        Couleur jaune = Couleur.JAUNE;
         for (int i=0; i<6; i++) {
-            add(new ParcellePioche());
+            add(new ParcellePioche(jaune));
         }
         // avec aménagement bassin
-        add(new ParcellePioche());
+        add(new ParcellePioche(jaune));
         // avec aménagement enclos
-        add(new ParcellePioche());
+        add(new ParcellePioche(jaune));
         // avec aménagement engrais
-        add(new ParcellePioche());
+        add(new ParcellePioche(jaune));
     }
 
 
@@ -136,8 +140,8 @@ public class PiocheParcelle extends ArrayList<ParcellePioche> {
     }
 
     /**
-     * Renvoie un tableau de 3 parcelles différentes, choisies aléatoirement dans la pioche
-     * @return un tableau de 3 parcelles piochées
+     * Renvoie un tableau de 3 positions de parcelle différentes, choisies aléatoirement dans la pioche
+     * @return un tableau de 3 positions de parcelle piochées
      */
     private int[] random3Parcelles() {
         int size = getNombreParcellesRestantes();
@@ -163,14 +167,17 @@ public class PiocheParcelle extends ArrayList<ParcellePioche> {
 
     /**
      * Renvoie une ParcelleCouleur créée en fonction de la parcelle choisie
+     * @throws PiocheParcelleVideException quand aucune pioche n'a été effectuée, mais une parcelle est choisie
      * @return la parcelle piochée avec la position demandée (ParcelleCouleur)
      */
-    public ParcelleCouleur choisiParcelle(ParcellePioche parcelleChoisie, Position position) {
-
-        // Vérifier si parcelleChoisie est bien dans la liste des parcellesPiochees avec equals
-
-        parcellesPiochees = Optional.empty();
-        remove(parcelleChoisie);
-        return new ParcelleCouleur(position);
+    public ParcelleCouleur choisiParcelle(ParcellePioche parcelleChoisie, Position position) throws PiocheParcelleVideException {
+        if (parcellesPiochees.isEmpty()) throw new PiocheParcelleVideException();
+        ParcellePioche[] piochees = parcellesPiochees.get();
+        if (piochees[0].equals(parcelleChoisie) || piochees[1].equals(parcelleChoisie) || piochees[2].equals(parcelleChoisie)) {
+            parcellesPiochees = Optional.empty();
+            remove(parcelleChoisie);
+            return new ParcelleCouleur(position, parcelleChoisie.couleur());
+        }
+        throw new IllegalArgumentException("La parcelle donnée ne correspond à aucune donnée lors de la pioche");
     }
 }

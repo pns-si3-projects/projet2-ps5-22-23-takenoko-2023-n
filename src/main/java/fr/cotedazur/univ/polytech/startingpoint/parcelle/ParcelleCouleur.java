@@ -7,7 +7,7 @@ import java.util.Objects;
 
 /**
  * Record représentant une parcelle posée sur le plateau
- * @param position est la position de la parcelle de couleur
+ * @param position est la position de la parcelle
  * @param couleur est la couleur de la parcelle
  * @author equipe N
  */
@@ -15,7 +15,8 @@ public record ParcelleCouleur(Position position, Couleur couleur) implements Par
     // Définition des constructeurs
     /**
      * Constructeur par défaut
-     * @param position position finale de la parcelle de couleur
+     * @param position position finale de la parcelle
+     * @param couleur est la couleur de la parcelle
      */
     public ParcelleCouleur {
         if (position == null) throw new IllegalArgumentException("La position ne doit pas être null");
@@ -23,7 +24,7 @@ public record ParcelleCouleur(Position position, Couleur couleur) implements Par
     }
 
 
-    // Accesseurs et méthodes toString et equals
+    // Méthodes toString et equals
     @Override
     public String toString() {
         return "Parcelle de couleur " + couleur + " en " + position;

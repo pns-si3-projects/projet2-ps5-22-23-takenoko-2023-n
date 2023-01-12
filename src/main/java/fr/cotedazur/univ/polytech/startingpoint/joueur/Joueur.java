@@ -125,7 +125,7 @@ public class Joueur {
             plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
         }
         else {
-            if(actionPossibles.length == 0 || plaquette.isActionRealisee(actionPossibles[0])){
+            if(plaquette.isActionRealisee(actionPossibles[0])){
                 actionParcelle(piocheBambou,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
@@ -295,7 +295,7 @@ public class Joueur {
         int nombreAleatoire = random.nextInt(listPositionDisponible.length);
         if(nombreAleatoire < 0 || nombreAleatoire >= listPositionDisponible.length) throw new ArithmeticException("Erreur objet random");
         Position positionChoisie = listPositionDisponible[nombreAleatoire];
-        return new ParcelleCouleur(positionChoisie);
+        return new ParcelleCouleur(positionChoisie, Couleur.VERT);
     }
 
     /**
