@@ -106,19 +106,23 @@ public class Joueur {
      * @param arbitre permet de vérifier les actions et les objectifs
      * @param gPP est le gestionnaire de possibilité de déplacements sur le plateau pour savoir où on peut déplacer le panda
      */
-    private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
+    private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
         Plaquette.ActionPossible[] actionPossibles = plaquette.getActionsTourRealisees();
         if(plaquette.getNombreObjectifs() == 5){
             if(actionPossibles.length == 0 || plaquette.isActionRealisee(actionPossibles[0])){
                 actionParcelle(piocheBambou,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
-            else {
+            else if(actionPossibles.length==0 || plaquette.isActionRealisee(actionPossibles[1])){
                 actionPanda(plateau,arbitre,gPP);
                 plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
             }
+            else {
+                actionJardinier(plateau,arbitre,gPP);
+                plaquette.realiseAction((Plaquette.ActionPossible.JARDINIER));
+            }
         }
-        else if(actionPossibles.length == 0 || !plaquette.isActionRealisee(actionPossibles[0])){
+        else if(actionPossibles.length == 0 || (!plaquette.isActionRealisee(actionPossibles[0])&&!plaquette.isActionRealisee(actionPossibles[1])&&!plaquette.isActionRealisee(actionPossibles[3]))){
             actionPioche(piocheObjectif);
             plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
         }
@@ -127,9 +131,13 @@ public class Joueur {
                 actionParcelle(piocheBambou,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
-            else{
+            else if(actionPossibles.length == 0 || plaquette.isActionRealisee(actionPossibles[1])){
                 actionPanda(plateau,arbitre,gPP);
                 plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
+            }
+            else{
+                actionJardinier(plateau,arbitre,gPP);
+                plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
             }
         }
     }

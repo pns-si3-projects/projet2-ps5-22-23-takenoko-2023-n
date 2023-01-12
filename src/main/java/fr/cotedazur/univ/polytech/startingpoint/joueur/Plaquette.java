@@ -16,7 +16,7 @@ public class Plaquette {
     private final List<SectionBambou> bambousManges;
     private final List<Objectif> objectifsARealiser;
     private final Integer[] actionsTour;
-    public enum ActionPossible {PARCELLE, PANDA, OBJECTIF}
+    public enum ActionPossible {PARCELLE, PANDA, OBJECTIF,JARDINIER}
     public static final int NOMBRE_OBJECTIFS_MAX = 5;
 
 
@@ -34,7 +34,7 @@ public class Plaquette {
         objectifsARealiser.add(objPar);
         objectifsARealiser.add(objPan);
         objectifsARealiser.add(objJar);
-        actionsTour = new Integer[]{0, 0, 0};
+        actionsTour = new Integer[]{0, 0, 0,0};
     }
 
 
