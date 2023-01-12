@@ -25,7 +25,7 @@ class GestionnairePossibilitePlateauTest {
     ParcelleCouleur pC1m1;
     ParcelleCouleur pC3m1;
     ParcelleCouleur pC40;
-    SectionBambou secBam = new SectionBambou();
+    SectionBambou secBam = new SectionBambou(Couleur.VERT);
 
     @BeforeEach
     void setUp() {

@@ -92,8 +92,8 @@ class GestionnaireModificationPlateauTest {
 
     @Test
     void getParcelleVoisinSansExceptionDeux() {
-        ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].position(), Couleur.JAUNE);
-        SectionBambou secBam = new SectionBambou();
+        ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].getPosition(), Couleur.JAUNE);
+        SectionBambou secBam = new SectionBambou(Couleur.VERT);
 
         try {
             plateau.addParcelle(parcelleCouleurNonPose2, secBam);
@@ -128,7 +128,7 @@ class GestionnaireModificationPlateauTest {
     @Test
     void getParcelleVoisinAvecExceptionDeux() {
         ParcelleCouleur parcelleCouleurNonPose2bis = new ParcelleCouleur(listPositionDisponible[2], Couleur.ROSE);
-        SectionBambou secBam = new SectionBambou();
+        SectionBambou secBam = new SectionBambou(Couleur.VERT);
 
         try {
             plateau.addParcelle(parcelleCouleurNonPose2, secBam);
