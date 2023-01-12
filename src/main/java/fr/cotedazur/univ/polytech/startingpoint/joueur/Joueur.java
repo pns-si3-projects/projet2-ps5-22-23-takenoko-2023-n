@@ -197,7 +197,7 @@ public class Joueur {
      * @param gPP est le gestionnaire de possibilité de déplacements sur le plateau pour savoir où on peut déplacer le panda
      */
     public void actionPanda(Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
-        Position positionPanda = plateau.getPanda().getPosition();
+        Position positionPanda = plateau.getPanda().position();
         boolean deplacementReussi = deplacementPanda(plateau,gPP.deplacementPossiblePersonnageDiagonaleDroite(positionPanda));
         if(!deplacementReussi){
             deplacementReussi = deplacementPanda(plateau,gPP.deplacementPossiblePersonnageDiagonaleGauche(positionPanda));

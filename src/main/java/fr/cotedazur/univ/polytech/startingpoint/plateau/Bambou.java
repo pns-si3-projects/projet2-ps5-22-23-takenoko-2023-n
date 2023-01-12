@@ -23,7 +23,7 @@ public class Bambou implements Positionable {
      * Constructeur par défaut
      */
     public Bambou(ParcelleCouleur parcelleCouleur) {
-        this.position = parcelleCouleur.getPosition();
+        this.position = parcelleCouleur.position();
         sectionsBambou = new SectionBambou[TAILLE_MAXIMUM_BAMBOU];
         tailleBambou = 0;
     }
@@ -35,7 +35,7 @@ public class Bambou implements Positionable {
      * @return la position du Bambou
      */
     @Override
-    public Position getPosition() {
+    public Position position() {
         return position;
     }
 
@@ -81,12 +81,12 @@ public class Bambou implements Positionable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bambou bambou = (Bambou) o;
-        return getTailleBambou() == bambou.getTailleBambou() && getPosition().equals(bambou.getPosition());
+        return getTailleBambou() == bambou.getTailleBambou() && position().equals(bambou.position());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPosition(), getTailleBambou());
+        return Objects.hash(position(), getTailleBambou());
     }
 
     // Méthodes d'utilisation

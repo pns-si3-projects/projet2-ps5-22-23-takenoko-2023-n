@@ -42,10 +42,10 @@ public class GestionnaireModificationPlateau {
      * @return <code>true</code> si la parcelle donnée est voisine de la parcelle ciblée, <code>false</code> sinon
      */
     private boolean peutEtreVoisine(Parcelle parcelleCible, Parcelle parcellePossibleVoisine) {
-        int xV = parcellePossibleVoisine.getPosition().getX();
-        int yV = parcellePossibleVoisine.getPosition().getY();
-        int xC = parcelleCible.getPosition().getX();
-        int yC = parcelleCible.getPosition().getY();
+        int xV = parcellePossibleVoisine.position().getX();
+        int yV = parcellePossibleVoisine.position().getY();
+        int xC = parcelleCible.position().getX();
+        int yC = parcelleCible.position().getY();
 
         if (yV == yC && (xV-2 == xC || xV+2 == xC)) return true; // Si proche et sur la même ligne
         return (yV - 1 == yC || yV + 1 == yC) && (xV - 1 == xC || xV + 1 == xC); // Si proche au-dessus ou en-dessous
@@ -62,14 +62,14 @@ public class GestionnaireModificationPlateau {
         Parcelle[] parcellesVoisines = new Parcelle[6];
 
         for (Parcelle parcelleVoisine : parcelleVoisineList) {
-            int positionTabVoisin = positionTabVoisin(parcelleAAjouter.getPosition(), parcelleVoisine.getPosition());
+            int positionTabVoisin = positionTabVoisin(parcelleAAjouter.position(), parcelleVoisine.position());
             if (positionTabVoisin == -1) throw new ParcelleNonVoisineException(parcelleAAjouter, parcelleVoisine);
             parcellesVoisines[positionTabVoisin] = parcelleVoisine;
         }
 
         for (int i=0; i<6; i++) {
             if (parcellesVoisines[i] == null) {
-                parcellesVoisines[i] = creeParcelleDisponible(i, parcelleAAjouter.getPosition());
+                parcellesVoisines[i] = creeParcelleDisponible(i, parcelleAAjouter.position());
             }
         }
         return parcellesVoisines;
@@ -126,7 +126,7 @@ public class GestionnaireModificationPlateau {
         if(listParcelle == null || position == null) return Optional.empty();
         for (int i = 0;i< listParcelle.length;i++){
             Parcelle parcelleActuel = listParcelle[i];
-            if(position.equals(parcelleActuel.getPosition())){
+            if(position.equals(parcelleActuel.position())){
                 return Optional.of(parcelleActuel);
             }
         }

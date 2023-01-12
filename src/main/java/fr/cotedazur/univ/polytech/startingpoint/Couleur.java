@@ -43,8 +43,7 @@ public enum Couleur {
     }
 
 
-    // Accesseurs
-
+    // Accesseurs et méthode toString
     /**
      * Renvoie si la couleur est verte
      * @return <code>true</code> si la couleur est verte, <code>false</code> sinon
@@ -74,6 +73,11 @@ public enum Couleur {
      * @return la couleur
      */
     public String getCouleur() {
+        return couleur;
+    }
+
+    @Override
+    public String toString() {
         return couleur;
     }
 }

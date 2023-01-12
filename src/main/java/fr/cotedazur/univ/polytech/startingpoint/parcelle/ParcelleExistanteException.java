@@ -6,6 +6,6 @@ package fr.cotedazur.univ.polytech.startingpoint.parcelle;
  */
 public class ParcelleExistanteException extends Exception {
     public ParcelleExistanteException(Parcelle parcelle) {
-        super("La parcelle de position " + parcelle.getPosition() + " est déjà existante");
+        super("La parcelle de position " + parcelle.position() + " est déjà existante");
     }
 }

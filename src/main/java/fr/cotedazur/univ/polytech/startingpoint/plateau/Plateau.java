@@ -44,7 +44,7 @@ public class Plateau {
      * Ajoute les voisines de l'étang ainsi que les premières ParcelleDisponible
      */
     private void addVoisinesEtangEtDisponibles() {
-       Position positionEtang = etang.getPosition();
+       Position positionEtang = etang.position();
        Parcelle[] listParcelle = new Parcelle[6];
        for (int i=0; i<6; i++) {
            listParcelle[i] = GESTIONNAIRE_MODIFICATION_PLATEAU.creeParcelleDisponible(i, positionEtang);
@@ -60,7 +60,7 @@ public class Plateau {
         Parcelle[] listParcelleDisponibleEtang = parcelleEtVoisinesList.get(etang);
         for (Parcelle parcelle : listParcelleDisponibleEtang) {
             assert (parcelle.getClass() == ParcelleDisponible.class) : "Voisine de l'étang pas disponible à l'initialisation";
-            positionsDisponibles.add(parcelle.getPosition());
+            positionsDisponibles.add(parcelle.position());
         }
     }
 
@@ -100,7 +100,7 @@ public class Plateau {
     public Optional<Bambou> getBambou(Position position) {
         Bambou[] bambousTab = getBambous();
         for (Bambou bambou : bambousTab) {
-            if (bambou.getPosition().equals(position)) {
+            if (bambou.position().equals(position)) {
                 return Optional.of(bambou);
             }
         }
@@ -172,7 +172,7 @@ public class Plateau {
     private void addPositionsDisponibles(Parcelle[] listVoisines){
         for (Parcelle parcelle : listVoisines) {
             if (parcelle.getClass().equals(ParcelleDisponible.class) && estPositionDisponible((ParcelleDisponible) parcelle)) {
-                Position positionVoisin = parcelle.getPosition();
+                Position positionVoisin = parcelle.position();
                 if (!positionsDisponibles.contains(positionVoisin)){
                     positionsDisponibles.add(positionVoisin);
                 }
@@ -221,7 +221,7 @@ public class Plateau {
             addBambou(parcelle, sectionBambou);
             addPositionsDisponibles(toutesVoisinesList);
             // On enlève la position de la parcelle ajoutée aux possibilités d'ajout de parcelle
-            deletePositionList(parcelle.getPosition());
+            deletePositionList(parcelle.position());
         }
         catch (ParcelleNonVoisineException pNVE) {
             System.out.println(pNVE);
@@ -236,7 +236,7 @@ public class Plateau {
     private void addParcelleVoisine(List<Parcelle> voisines, Parcelle parcelle) {
         for (Parcelle voisineParcelle : voisines) {
             Parcelle[] listVoisineParcelle = parcelleEtVoisinesList.get(voisineParcelle);
-            int indiceDansTableauVoisines = GESTIONNAIRE_MODIFICATION_PLATEAU.positionTabVoisin(voisineParcelle.getPosition(), parcelle.getPosition());
+            int indiceDansTableauVoisines = GESTIONNAIRE_MODIFICATION_PLATEAU.positionTabVoisin(voisineParcelle.position(), parcelle.position());
             listVoisineParcelle[indiceDansTableauVoisines] = parcelle;
         }
     }
@@ -246,7 +246,7 @@ public class Plateau {
      * @param parcelleCouleur est la parcelle de couleur ciblée
       */
     public void addBambou(ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou) {
-        Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.getPosition());
+        Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.position());
         if (optionalBambou.isPresent()) {
             optionalBambou.get().ajouteSectionBambou(sectionBambou);
         } else {

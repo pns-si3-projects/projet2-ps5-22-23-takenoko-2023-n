@@ -9,5 +9,5 @@ public interface Positionable {
      * Renvoie la position de l'objet
      * @return la position de l'objet
      */
-    Position getPosition();
+    Position position();
 }

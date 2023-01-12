@@ -6,6 +6,6 @@ package fr.cotedazur.univ.polytech.startingpoint.parcelle;
  */
 public class ParcelleNonExistanteException extends Exception {
     public ParcelleNonExistanteException(Parcelle parcelle) {
-        super("La parcelle de position " + parcelle.getPosition() + " n'existe pas sur le plateau");
+        super("La parcelle de position " + parcelle.position() + " n'existe pas sur le plateau");
     }
 }

@@ -56,7 +56,7 @@ public class GestionnairePossibilitePlateau {
         Parcelle parcelleDeplace = getSuivantParcelle(parcellePersonnage,indiceTabVoisin);
 
         while (parcelleDeplace.getClass() != ParcelleDisponible.class) {
-            listParcelleOrientation.add(parcelleDeplace.getPosition());
+            listParcelleOrientation.add(parcelleDeplace.position());
             parcelleDeplace = getSuivantParcelle(parcelleDeplace,indiceTabVoisin);
             assert parcelleDeplace != null: "La parcelle ne doit pas être vide (vu que c'est des parcelles dans le plateau et que le while verifie à chaque fois";
         }
