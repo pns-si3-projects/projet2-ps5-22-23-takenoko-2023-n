@@ -1,6 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.*;
+import fr.cotedazur.univ.polytech.startingpoint.Arbitre;
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.Main;
+import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
@@ -213,8 +216,7 @@ public class Joueur {
      * @return Renvoie la Parcelle Couleur si la pioche n'est pas vide
      */
     public Optional<ParcelleCouleur> choisiParcellePioche(PiocheParcelle piocheParcelle, Position positionParcelle){
-        if (piocheParcelle.getNombreParcellesRestantes() <= 0) return Optional.empty();
-        else{
+        if (piocheParcelle.getNombreParcellesRestantes() > 0) {
             try {
                 ParcellePioche[] parcellesAChoisir = piocheParcelle.pioche();
                 int nombreAleatoire = random.nextInt(3);
@@ -227,8 +229,8 @@ public class Joueur {
             catch (PiocheParcelleVideException pPVE){
                 assert false: "Condition de pioches impossibles à être vide";
             }
-            return Optional.empty();
         }
+        return Optional.empty();
     }
 
     /**
@@ -323,13 +325,18 @@ public class Joueur {
      */
     private SectionBambou[] getTableauSectionBambouPourObjectifPanda(ObjectifPanda objectifPanda){
         Couleur couleurBambouPourObjectif = objectifPanda.getCouleurBambousAManger();
-        if (couleurBambouPourObjectif == Couleur.VERT) return plaquette.getSectionBambouVert();
-        else if (couleurBambouPourObjectif == Couleur.JAUNE) return plaquette.getSectionBambouJaune();
-        else if (couleurBambouPourObjectif == Couleur.ROSE) return plaquette.getSectionBambouRose();
-        else {
-            assert false : "Doit forcément être une des 3 autres couleurs";
-            return null;
+        switch (couleurBambouPourObjectif) {
+            case VERT:
+                return plaquette.getSectionBambouVert();
+            case JAUNE:
+                return plaquette.getSectionBambouJaune();
+            case ROSE:
+                return plaquette.getSectionBambouRose();
+            default:
+                assert false : "Doit forcément être une des 3 autres couleurs";
+                break;
         }
+        return new SectionBambou[0];
     }
 
     /**
@@ -341,13 +348,18 @@ public class Joueur {
         int nombreBambouObjectif = objectifPanda.getNombreBambousAManger();
         Couleur couleurBambouPourObjectif = objectifPanda.getCouleurBambousAManger();
 
-        if (couleurBambouPourObjectif == Couleur.VERT) return plaquette.deleteSectionBambouVert(nombreBambouObjectif);
-        else if (couleurBambouPourObjectif == Couleur.JAUNE) return plaquette.deleteSectionBambouJaune(nombreBambouObjectif);
-        else if (couleurBambouPourObjectif == Couleur.ROSE) return plaquette.deleteSectionBambouJaune(nombreBambouObjectif);
-        else {
-            assert false : "Doit forcément être une des 3 autres couleurs";
-            return false;
+        switch (couleurBambouPourObjectif) {
+            case VERT:
+                return plaquette.deleteSectionBambouVert(nombreBambouObjectif);
+            case JAUNE:
+                return plaquette.deleteSectionBambouJaune(nombreBambouObjectif);
+            case ROSE:
+                return plaquette.deleteSectionBambouRose(nombreBambouObjectif);
+            default:
+                assert false : "Doit forcément être une des 3 autres couleurs";
+                break;
         }
+        return false;
     }
 
     /**
@@ -374,8 +386,7 @@ public class Joueur {
     public Position choisiParcellePlateau(Position[] listPositionDisponible){
         int nombreAleatoire = random.nextInt(listPositionDisponible.length);
         if(nombreAleatoire < 0 || nombreAleatoire >= listPositionDisponible.length) throw new ArithmeticException("Erreur objet random");
-        Position positionChoisie = listPositionDisponible[nombreAleatoire];
-        return positionChoisie;
+        return listPositionDisponible[nombreAleatoire];
     }
 
     /**
