@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
@@ -14,6 +15,7 @@ import static org.mockito.Mockito.when;
 
 class PiocheObjectifTest {
     PiocheObjectif piocheObjectif;
+    Couleur couleurParDefaut = Couleur.VERT;
 
     @BeforeEach
     void setUp() {
@@ -96,15 +98,15 @@ class PiocheObjectifTest {
     void piocheObjectifPanda() {
         PiocheObjectifPanda mockPOPan = mock(PiocheObjectifPanda.class);
         when(mockPOPan.pioche())
-                .thenReturn(new ObjectifPanda(4, 2))
-                .thenReturn(new ObjectifPanda(6, 3))
-                .thenReturn(new ObjectifPanda(3, 2))
-                .thenReturn(new ObjectifPanda(5, 2));
+                .thenReturn(new ObjectifPanda(4, 2,couleurParDefaut))
+                .thenReturn(new ObjectifPanda(6, 3,couleurParDefaut))
+                .thenReturn(new ObjectifPanda(3, 2,couleurParDefaut))
+                .thenReturn(new ObjectifPanda(5, 2,couleurParDefaut));
         PiocheObjectif pO = new PiocheObjectif(new PiocheObjectifParcelle(new Random()), mockPOPan, new PiocheObjectifJardinier(new Random()));
-        assertEquals(new ObjectifPanda(4, 2), pO.piocheObjectifPanda());
-        assertEquals(new ObjectifPanda(6, 3), pO.piocheObjectifPanda());
-        assertEquals(new ObjectifPanda(3, 2), pO.piocheObjectifPanda());
-        assertEquals(new ObjectifPanda(5, 2), pO.piocheObjectifPanda());
+        assertEquals(new ObjectifPanda(4, 2,couleurParDefaut), pO.piocheObjectifPanda());
+        assertEquals(new ObjectifPanda(6, 3,couleurParDefaut), pO.piocheObjectifPanda());
+        assertEquals(new ObjectifPanda(3, 2,couleurParDefaut), pO.piocheObjectifPanda());
+        assertEquals(new ObjectifPanda(5, 2,couleurParDefaut), pO.piocheObjectifPanda());
     }
 
     @Test

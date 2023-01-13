@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
@@ -21,8 +22,8 @@ class ObjectifTest {
         objPar2_2 = new ObjectifParcelle(2, 2);
         objPar3_2 = new ObjectifParcelle(3, 2);
         objPar2_3 = new ObjectifParcelle(2, 3);
-        objPan2_3 = new ObjectifPanda(2, 3);
-        objPan1_2 = new ObjectifPanda(1, 2);
+        objPan2_3 = new ObjectifPanda(2, 3, Couleur.VERT);
+        objPan1_2 = new ObjectifPanda(1, 2,Couleur.VERT);
         objJar2_1 = new ObjectifParcelle(2, 1);
     }
 

@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -54,11 +55,11 @@ class PiocheObjectifPandaTest {
     void pioche() {
         when(mockRandom.nextInt(anyInt())).thenReturn(14, 1, 4, 9, 9);
         piocheObjectifPanda = new PiocheObjectifPanda(mockRandom);
-        Assertions.assertEquals(new ObjectifPanda(6, 3), piocheObjectifPanda.pioche());
-        assertEquals(new ObjectifPanda(3, 2), piocheObjectifPanda.pioche());
+        Assertions.assertEquals(new ObjectifPanda(6, 3,Couleur.JAUNE), piocheObjectifPanda.pioche());
+        assertEquals(new ObjectifPanda(3, 2,Couleur.VERT), piocheObjectifPanda.pioche());
         // car en supprimant 1, les suivant sont décalés donc on prend ancien 5
-        assertEquals(new ObjectifPanda(4, 2), piocheObjectifPanda.pioche());
-        assertEquals(new ObjectifPanda(5, 2), piocheObjectifPanda.pioche());
-        assertEquals(new ObjectifPanda(6, 3), piocheObjectifPanda.pioche());
+        assertEquals(new ObjectifPanda(4, 2,Couleur.VERT), piocheObjectifPanda.pioche());
+        assertEquals(new ObjectifPanda(5, 2,Couleur.ROSE), piocheObjectifPanda.pioche());
+        assertEquals(new ObjectifPanda(6, 3,Couleur.JAUNE), piocheObjectifPanda.pioche());
     }
 }
