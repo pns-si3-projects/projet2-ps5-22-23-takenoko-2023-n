@@ -26,8 +26,8 @@ class PlaquetteTest {
         secBa = new SectionBambou(Couleur.VERT);
         objPar2_3 = new ObjectifParcelle(2, 3);
         objPar3_4 = new ObjectifParcelle(3, 4);
-        objPan3_2 = new ObjectifPanda(3, 2);
-        objPan4_2 = new ObjectifPanda(4, 2);
+        objPan3_2 = new ObjectifPanda(3, 2,Couleur.VERT);
+        objPan4_2 = new ObjectifPanda(4, 2,Couleur.VERT);
         objJar3_2 = new ObjectifJardinier(3, 2);
         objJar6_4 = new ObjectifJardinier(6, 4);
         plaquette = new Plaquette(objPar2_3, objPan3_2, objJar3_2);
@@ -45,19 +45,19 @@ class PlaquetteTest {
 
     @Test
     void getNombreBambousRoses() {
-        assertEquals(3, plaquette.getNombreBambousRoses()); // A modifier
+        assertEquals(0, plaquette.getNombreBambousRoses()); // A modifier
         plaquette.ajouteSectionBambou(new SectionBambou(Couleur.ROSE));
         plaquette.ajouteSectionBambou(new SectionBambou(Couleur.ROSE));
-        assertEquals(5, plaquette.getNombreBambousRoses());
+        assertEquals(2, plaquette.getNombreBambousRoses());
     }
 
     @Test
     void getNombreBambousJaunes() {
-        assertEquals(3, plaquette.getNombreBambousJaunes()); // A modifier
+        assertEquals(0, plaquette.getNombreBambousJaunes());
         plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
         plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
         plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
-        assertEquals(6, plaquette.getNombreBambousJaunes());
+        assertEquals(3, plaquette.getNombreBambousJaunes());
     }
 
     @Test
@@ -217,15 +217,15 @@ class PlaquetteTest {
     @Test
     void ajouteSectionBambou() {
         assertEquals(3, plaquette.getNombreBambousVerts());
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // Modifier pour ajout bambou vert
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE)); // Modifier pour ajout bambou jaune
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.ROSE)); // Modifier pour ajout bambou rose
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // Modifier pour ajout bambou vert
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // Modifier pour ajout bambou vert
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE)); // Modifier pour ajout bambou jaune
-        assertEquals(9, plaquette.getNombreBambousVerts()); // Modifier pour 6 verts
-        assertEquals(9, plaquette.getNombreBambousRoses()); // Modifier pour 4 roses
-        assertEquals(9, plaquette.getNombreBambousJaunes()); // Modifier pour 5 jaunes
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT));
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.ROSE));
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT));
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT));
+        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
+        assertEquals(6, plaquette.getNombreBambousVerts());
+        assertEquals(1, plaquette.getNombreBambousRoses());
+        assertEquals(2, plaquette.getNombreBambousJaunes());
     }
 
     @Test
