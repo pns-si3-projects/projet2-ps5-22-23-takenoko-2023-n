@@ -188,7 +188,7 @@ public class Joueur {
             if (optParcelleCouleurChoisie.isPresent()) {
 
                 ParcelleCouleur parcelleCouleurChoisie = optParcelleCouleurChoisie.get();
-                SectionBambou sectionBambou = piocheBambou.piocheSectionBambouVert();
+                SectionBambou sectionBambou = choisiSectionBambou(piocheBambou,parcelleCouleurChoisie.couleur());
                 parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisie, sectionBambou);
 
                 if (parcelleAjoute) Main.AFFICHEUR.afficheAjoutParcelle(parcelleCouleurChoisie);
@@ -196,6 +196,14 @@ public class Joueur {
 
         }
         gestionObjectifParcelle(plateau.getParcelles(), arbitre, plaquette.getObjectifsParcelle());
+    }
+
+    private SectionBambou choisiSectionBambou(PiocheBambou piocheBambou, Couleur couleurParcelle){
+        if(couleurParcelle.isVert()) return piocheBambou.piocheSectionBambouVert();
+        else if(couleurParcelle.isJaune()) return piocheBambou.piocheSectionBambouJaune();
+        else{
+            return piocheBambou.piocheSectionBambouRose();
+        }
     }
 
     /**
