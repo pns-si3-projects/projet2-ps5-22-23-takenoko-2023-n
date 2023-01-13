@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PlateauTest {
     Plateau plateau;
@@ -79,6 +78,39 @@ class PlateauTest {
                 assertTrue(listParcelle.contains(parcelle));
             }
         }
+    }
+
+    @Test
+    void getParcellesCouleur() {
+        ParcelleCouleur pCm1_m1R = new ParcelleCouleur(new Position(-1, -1), Couleur.ROSE);
+        ParcelleCouleur pCm2_0J = new ParcelleCouleur(new Position(-2, 0), Couleur.JAUNE);
+        ParcelleCouleur pCm1_1J = new ParcelleCouleur(new Position(-1, 1), Couleur.JAUNE);
+        try {
+            plateau.addParcelle(pCm1_m1R, new SectionBambou(Couleur.ROSE));
+        } catch (ParcelleExistanteException | NombreParcelleVoisineException e) {
+            throw new AssertionError(e);
+        }
+        List<ParcelleCouleur> parcellesCouleurDefaut = plateau.getParcellesCouleur(couleurBambouDefault);
+        assertFalse(parcellesCouleurDefaut.isEmpty());
+        assertTrue(parcellesCouleurDefaut.contains(pC11));
+        assertTrue(parcellesCouleurDefaut.contains(pC20));
+
+        List<ParcelleCouleur> parcellesRoses = plateau.getParcellesCouleur(Couleur.ROSE);
+        assertFalse(parcellesRoses.isEmpty());
+        assertTrue(parcellesRoses.contains(pCm1_m1R));
+
+        List<ParcelleCouleur> parcellesJaunes = plateau.getParcellesCouleur(Couleur.JAUNE);
+        assertTrue(parcellesJaunes.isEmpty());
+        try {
+            plateau.addParcelle(pCm2_0J, new SectionBambou(Couleur.JAUNE));
+            plateau.addParcelle(pCm1_1J, new SectionBambou(Couleur.JAUNE));
+        } catch (ParcelleExistanteException | NombreParcelleVoisineException e) {
+            throw new AssertionError(e);
+        }
+        parcellesJaunes = plateau.getParcellesCouleur(Couleur.JAUNE);
+        assertFalse(parcellesJaunes.isEmpty());
+        assertTrue(parcellesJaunes.contains(pCm2_0J));
+        assertTrue(parcellesJaunes.contains(pCm1_1J));
     }
 
     @Test

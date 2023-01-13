@@ -55,24 +55,8 @@ class GestionnaireModificationPlateauTest {
         for(int i = 0;i<6;i++){
             assertEquals(listParcelleDisponible[i],gMP.creeParcelleDisponible(i,positionEtang));
         }
-
         assertThrows(IllegalArgumentException.class, () -> gMP.creeParcelleDisponible(6,positionEtang));
-        /*try {
-            gMP.creeParcelleDisponible(6,positionEtang);
-            assert false: "Doit renvoyer une erreur";
-        }
-        catch (IllegalArgumentException iAE){
-
-        }*/
-
         assertThrows(IllegalArgumentException.class, () -> gMP.creeParcelleDisponible(-1,positionEtang));
-        /*try {
-            gMP.creeParcelleDisponible(-1,positionEtang);
-            assert false: "Doit renvoyer une erreur";
-        }
-        catch (IllegalArgumentException iAE){
-
-        }*/
     }
 
     /**
@@ -117,12 +101,6 @@ class GestionnaireModificationPlateauTest {
     @Test
     void getParcelleVoisinAvecExceptionUn() {
         assertThrows(ParcelleExistanteException.class, () -> gMP.chercheFuturesVoisines(etang, plateau.getParcelles()));
-        /*try {
-            gMP.chercheFuturesVoisines(etang, plateau.getParcelles());
-        }
-        catch (ParcelleExistanteException pEE){
-            assertEquals("La parcelle de position "+etang.getPosition()+" est déjà existante",pEE.getMessage());
-        }*/
     }
 
     @Test
@@ -138,12 +116,6 @@ class GestionnaireModificationPlateauTest {
         }
 
         assertThrows(ParcelleExistanteException.class, () -> gMP.chercheFuturesVoisines(parcelleCouleurNonPose2bis, plateau.getParcelles()));
-        /*try {
-            gMP.chercheFuturesVoisines(parcelleCouleurNonPose2bis, plateau.getParcelles());
-        }
-        catch (ParcelleExistanteException pEE){
-            assertEquals("La parcelle de position "+parcelleCouleurNonPose2bis.getPosition()+" est déjà existante",pEE.getMessage());
-        }*/
     }
 
     @Test
