@@ -1,7 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleNonExistanteException;
 
@@ -122,5 +124,40 @@ public class GestionnairePossibilitePlateau {
             assert false : "Le personnage doit pas être en dehors du plateau";
         }
         return listPositionDiagonale;
+    }
+
+    /**
+     * Renvoie la liste des positions de déplacement filtrée par la couleur demandée de la parcelle
+     * @param positionsDeplacement est la liste des positions de déplacement possibles
+     * @param couleur est la couleur demandée
+     * @return la liste des positions de déplacement filtrée
+     */
+    public List<Position> filtrePositionsParcelleCouleur(List<Position> positionsDeplacement, Couleur couleur) {
+        List<Position> positionsFiltrees = new ArrayList<>();
+        List<ParcelleCouleur> parcellesCouleur = plateau.getParcellesCouleur(couleur);
+        for (ParcelleCouleur parcelleCouleur : parcellesCouleur) {
+            Position positionParcelleCouleur = parcelleCouleur.position();
+            if (positionsDeplacement.contains(positionParcelleCouleur)) {
+                positionsFiltrees.add(positionParcelleCouleur);
+            }
+        }
+        return positionsFiltrees;
+    }
+
+    /**
+     * Renvoie la liste des positions de déplacement filtrée par la couleur demandée des bambous
+     * @param positionsDeplacement est la liste des positions de déplacement possibles
+     * @param couleur est la couleur demandée
+     * @return la liste des positions de déplacement filtrée
+     */
+    public List<Position> filtrePositionsBambouCouleur(List<Position> positionsDeplacement, Couleur couleur) {
+        List<Position> positionsFiltrees = new ArrayList<>();
+        List<Position> positionsBambouCouleur = plateau.getBambousCouleur(couleur);
+        for (Position position : positionsBambouCouleur) {
+            if (positionsDeplacement.contains(position)) {
+                positionsFiltrees.add(position);
+            }
+        }
+        return positionsFiltrees;
     }
 }
