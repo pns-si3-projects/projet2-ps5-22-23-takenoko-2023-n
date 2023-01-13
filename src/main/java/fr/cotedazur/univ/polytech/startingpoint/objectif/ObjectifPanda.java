@@ -64,11 +64,11 @@ public class ObjectifPanda extends Objectif {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ObjectifPanda that = (ObjectifPanda) o;
-        return getNombreBambousAManger() == that.getNombreBambousAManger();
+        return getNombreBambousAManger() == that.getNombreBambousAManger() && getCouleurBambousAManger() == that.getCouleurBambousAManger();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getNombreBambousAManger());
+        return Objects.hash(super.hashCode(), getNombreBambousAManger(), getCouleurBambousAManger());
     }
 }
