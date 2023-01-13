@@ -254,18 +254,57 @@ public class Joueur {
      * @param objectifPandas La liste des objectifs panda
      */
     private void gestionObjectifPanda(Arbitre arbitre, ObjectifPanda[] objectifPandas){
-        SectionBambou[] listSectionBambou = plaquette.getSectionBambouVert();
         for(ObjectifPanda objectifPanda : objectifPandas) {
-            if(arbitre.checkObjectifPandaTermine(listSectionBambou,objectifPanda)){
-                if(plaquette.supprimeObjectif(objectifPanda)){
-                    plaquette.deleteSectionBambou(objectifPanda.getNombreBambousAManger());
-                    objectifTermineList.add(objectifPanda);
-                    Main.AFFICHEUR.afficheObjectifValide(objectifPanda);
+            SectionBambou[] sectionBambousCouleur = getTableauSectionBambouPourObjectifPanda(objectifPanda);
+
+            if ( arbitre.checkObjectifPandaTermine(sectionBambousCouleur,objectifPanda) ) {
+                if ( plaquette.supprimeObjectif(objectifPanda) ) {
+                    if ( deleteSectionBambou(objectifPanda) ) {
+                        objectifTermineList.add(objectifPanda);
+                        Main.AFFICHEUR.afficheObjectifValide(objectifPanda);
+                    }
+                    else {
+                        assert false : "Devrait supprimer toutes les sections car l'arbitre à vérifier";
+                    }
                 }
                 else {
                     assert false : "L'objectif doit normalement existe";
                 }
             }
+        }
+    }
+
+    /**
+     * Renvoie le tableau de Sections de Bambous de couleur correspondant à l'objectif donnée en paramètre
+     * @param objectifPanda L'objectif panda qu'on veut vérifier pour arbitre
+     * @return le tableau de Sections de Bambous
+     */
+    private SectionBambou[] getTableauSectionBambouPourObjectifPanda(ObjectifPanda objectifPanda){
+        Couleur couleurBambouPourObjectif = objectifPanda.getCouleurBambousAManger();
+        if (couleurBambouPourObjectif == Couleur.VERT) return plaquette.getSectionBambouVert();
+        else if (couleurBambouPourObjectif == Couleur.JAUNE) return plaquette.getSectionBambouJaune();
+        else if (couleurBambouPourObjectif == Couleur.ROSE) return plaquette.getSectionBambouRose();
+        else {
+            assert false : "Doit forcément être une des 3 autres couleurs";
+            return null;
+        }
+    }
+
+    /**
+     * Supprime le nombre de Sections de Bambous en fonction du nombre de bambous demandé dans Objectif Panda et de sa couleur
+     * @param objectifPanda objectif Panda qui vient de se terminé
+     * @return <code> true </code> si les sections ont été bien enlevé sinon <code> false </code>
+     */
+    private boolean deleteSectionBambou(ObjectifPanda objectifPanda){
+        int nombreBambouObjectif = objectifPanda.getNombreBambousAManger();
+        Couleur couleurBambouPourObjectif = objectifPanda.getCouleurBambousAManger();
+
+        if (couleurBambouPourObjectif == Couleur.VERT) return plaquette.deleteSectionBambouVert(nombreBambouObjectif);
+        else if (couleurBambouPourObjectif == Couleur.JAUNE) return plaquette.deleteSectionBambouJaune(nombreBambouObjectif);
+        else if (couleurBambouPourObjectif == Couleur.ROSE) return plaquette.deleteSectionBambouJaune(nombreBambouObjectif);
+        else {
+            assert false : "Doit forcément être une des 3 autres couleurs";
+            return false;
         }
     }
 
