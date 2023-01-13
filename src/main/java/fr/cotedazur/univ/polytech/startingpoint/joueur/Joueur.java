@@ -94,10 +94,10 @@ public class Joueur {
      * @param plateau le plateau pour ajouter les parcelles
      * @param arbitre permet de vérifier les actions
      */
-    public void tour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP) {
+    public void tour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, PiocheParcelle piocheParcelle, Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP) {
         plaquette.reinitialiseActionsTour();
-        actionTour(piocheObjectif, piocheBambou, plateau, arbitre, gPP);
-        actionTour(piocheObjectif, piocheBambou, plateau, arbitre, gPP);
+        actionTour(piocheObjectif, piocheBambou, piocheParcelle, plateau, arbitre, gPP);
+        actionTour(piocheObjectif, piocheBambou, piocheParcelle, plateau, arbitre, gPP);
     }
 
     /**
@@ -108,10 +108,10 @@ public class Joueur {
      * @param arbitre permet de vérifier les actions et les objectifs
      * @param gPP est le gestionnaire de possibilité de déplacements sur le plateau pour savoir où on peut déplacer le panda
      */
-    private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
+    private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, PiocheParcelle piocheParcelle,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
         if(plaquette.getNombreObjectifs() == 5){
             if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
-                actionParcelle(piocheBambou,plateau,arbitre);
+                actionParcelle(piocheBambou,piocheParcelle,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
             else {
@@ -125,7 +125,7 @@ public class Joueur {
         }
         else {
             if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
-                actionParcelle(piocheBambou,plateau,arbitre);
+                actionParcelle(piocheBambou,piocheParcelle,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
             else{
@@ -178,15 +178,49 @@ public class Joueur {
      * @param plateau le plateau pour ajouter les parcelles
      * @param arbitre permet de vérifier les actions et les objectifs
      */
-    public void actionParcelle(PiocheBambou piocheBambou,Plateau plateau,Arbitre arbitre) {
+    public void actionParcelle(PiocheBambou piocheBambou,PiocheParcelle piocheParcelle, Plateau plateau,Arbitre arbitre) {
         boolean parcelleAjoute = false;
         while (!parcelleAjoute) {
-            ParcelleCouleur parcelleCouleurChoisie = choisiParcellePlateau(plateau.getPositionsDisponible());
-            SectionBambou sectionBambou = piocheBambou.piocheSectionBambouVert();
-            parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisie, sectionBambou);
-            if(parcelleAjoute) Main.AFFICHEUR.afficheAjoutParcelle(parcelleCouleurChoisie);
+
+            Position positionParcelleChoisie = choisiParcellePlateau(plateau.getPositionsDisponible());
+            Optional<ParcelleCouleur> optParcelleCouleurChoisie = choisiParcellePioche(piocheParcelle, positionParcelleChoisie);
+
+            if (optParcelleCouleurChoisie.isPresent()) {
+
+                ParcelleCouleur parcelleCouleurChoisie = optParcelleCouleurChoisie.get();
+                SectionBambou sectionBambou = piocheBambou.piocheSectionBambouVert();
+                parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisie, sectionBambou);
+
+                if (parcelleAjoute) Main.AFFICHEUR.afficheAjoutParcelle(parcelleCouleurChoisie);
+            }
+
         }
         gestionObjectifParcelle(plateau.getParcelles(), arbitre, plaquette.getObjectifsParcelle());
+    }
+
+    /**
+     * Choisi une Parcelle dans la Pioche Parcelle
+     * @param piocheParcelle La pioche de Parcelle
+     * @param positionParcelle La position de la parcelle qu'on veut ajouter
+     * @return Renvoie la Parcelle Couleur si la pioche n'est pas vide
+     */
+    public Optional<ParcelleCouleur> choisiParcellePioche(PiocheParcelle piocheParcelle, Position positionParcelle){
+        if (piocheParcelle.getNombreParcellesRestantes() <= 0) return Optional.empty();
+        else{
+            try {
+                ParcellePioche[] parcellesAChoisir = piocheParcelle.pioche();
+                int nombreAleatoire = random.nextInt(3);
+                ParcelleCouleur parcelleChoisi = piocheParcelle.choisiParcelle(parcellesAChoisir[nombreAleatoire],positionParcelle);
+                return Optional.of(parcelleChoisi);
+            }
+            catch (PiocheParcelleEnCoursException pPECE){
+                assert false : "Ne doit pas être en cours d'exécution";
+            }
+            catch (PiocheParcelleVideException pPVE){
+                assert false: "Condition de pioches impossibles à être vide";
+            }
+            return Optional.empty();
+        }
     }
 
     /**
@@ -329,11 +363,11 @@ public class Joueur {
      * @param listPositionDisponible la liste des positions disponibles
      * @return la parcelle que le joueur veut poser
      */
-    public ParcelleCouleur choisiParcellePlateau(Position[] listPositionDisponible){
+    public Position choisiParcellePlateau(Position[] listPositionDisponible){
         int nombreAleatoire = random.nextInt(listPositionDisponible.length);
         if(nombreAleatoire < 0 || nombreAleatoire >= listPositionDisponible.length) throw new ArithmeticException("Erreur objet random");
         Position positionChoisie = listPositionDisponible[nombreAleatoire];
-        return new ParcelleCouleur(positionChoisie, Couleur.VERT);
+        return positionChoisie;
     }
 
     /**
