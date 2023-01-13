@@ -84,7 +84,15 @@ public class Arbitre {
     }
 
     public boolean checkObjectifPandaTermine(SectionBambou[] sectionBambous, ObjectifPanda objectifPanda){
+        if ( !verifieCouleurBambou(sectionBambous,objectifPanda.getCouleurBambousAManger()) ) return false;
         return sectionBambous.length >= objectifPanda.getNombreBambousAManger();
+    }
+
+    private boolean verifieCouleurBambou(SectionBambou[] sectionBambous, Couleur couleur){
+        for(SectionBambou sectionBambou : sectionBambous){
+            if (sectionBambou.couleur() != couleur) return false;
+        }
+        return true;
     }
 
     /**
