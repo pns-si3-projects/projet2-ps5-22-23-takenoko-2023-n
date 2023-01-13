@@ -62,7 +62,7 @@ public class Plaquette {
     public int getNombreBambousRoses() {
         int nombreBambouRoses = 0;
         for(SectionBambou sectionBambou: bambousManges){
-            if(sectionBambou.couleur() == Couleur.VERT){
+            if(sectionBambou.couleur() == Couleur.ROSE){
                 nombreBambouRoses++;
             }
         }
@@ -76,7 +76,7 @@ public class Plaquette {
     public int getNombreBambousJaunes() {
         int nombreBambouJaunes = 0;
         for(SectionBambou sectionBambou: bambousManges){
-            if(sectionBambou.couleur() == Couleur.VERT){
+            if(sectionBambou.couleur() == Couleur.JAUNE){
                 nombreBambouJaunes++;
             }
         }
@@ -168,7 +168,7 @@ public class Plaquette {
     public SectionBambou[] getSectionBambouRose(){
         SectionBambou[] listSectionBambous = new SectionBambou[getNombreBambousRoses()];
         for (int i = 0;i<bambousManges.size();i++) {
-            if(bambousManges.get(i).couleur() == Couleur.VERT) {
+            if(bambousManges.get(i).couleur() == Couleur.ROSE) {
                 listSectionBambous[i] = bambousManges.get(i);
             }
         }
@@ -182,7 +182,7 @@ public class Plaquette {
     public SectionBambou[] getSectionBambouJaune(){
         SectionBambou[] listSectionBambousJaune = new SectionBambou[getNombreBambousJaunes()];
         for (int i = 0;i<bambousManges.size();i++) {
-            if ( bambousManges.get(i).couleur() == Couleur.VERT ) {
+            if ( bambousManges.get(i).couleur() == Couleur.JAUNE ) {
                 listSectionBambousJaune[i] = bambousManges.get(i);
             }
         }
