@@ -42,7 +42,7 @@ public class Arbitre {
      */
     public boolean verifieFinDeJeu(Joueur... joueurs) {
         for (Joueur joueur : joueurs) {
-            if (joueur.getPoints() >= 9) { // À modifier par le nombre d'objectifs
+            if (joueur.getNombreObjectifsTermines() >=7) {
                 return true;
             }
         }
