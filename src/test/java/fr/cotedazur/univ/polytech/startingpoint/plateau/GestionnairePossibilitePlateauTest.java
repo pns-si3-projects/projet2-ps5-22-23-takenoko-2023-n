@@ -98,4 +98,32 @@ class GestionnairePossibilitePlateauTest {
             }
         }
     }
+
+    @Test
+    void filtrePositionsParcelleCouleur() {
+        List<Position> positionsDep = gPP.deplacementPossiblePersonnageDiagonaleDroite(new Position());
+        assertTrue(positionsDep.contains(pC11J.position()));
+        assertEquals(2, positionsDep.size());
+        positionsDep = gPP.filtrePositionsParcelleCouleur(positionsDep, Couleur.JAUNE);
+        assertEquals(1, positionsDep.size());
+        assertTrue(positionsDep.contains(pC11J.position()));
+    }
+
+
+
+    @Test
+    void filtrePositionsBambouCouleur() {
+        List<Position> positionsDep = gPP.deplacementPossiblePersonnageHorizontal(new Position());
+        assertTrue(positionsDep.contains(pCm20R.position()));
+        assertEquals(3, positionsDep.size());
+
+        List<Position> positionsDepRose = gPP.filtrePositionsParcelleCouleur(positionsDep, Couleur.ROSE);
+        assertEquals(1, positionsDepRose.size());
+        assertTrue(positionsDepRose.contains(pCm20R.position()));
+
+        List<Position> positionsDepVert = gPP.filtrePositionsParcelleCouleur(positionsDep, Couleur.VERT);
+        assertEquals(2, positionsDepVert.size());
+        assertTrue(positionsDepVert.contains(pC20V.position()));
+        assertTrue(positionsDepVert.contains(pC40V.position()));
+    }
 }
