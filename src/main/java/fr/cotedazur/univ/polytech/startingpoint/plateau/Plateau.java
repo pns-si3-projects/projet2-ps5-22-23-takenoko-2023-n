@@ -1,9 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
-import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
-import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 
 import java.util.*;
 
@@ -14,7 +15,7 @@ import java.util.*;
  */
 public class Plateau {
     // Définition des attributs
-    private final Map<Parcelle,Parcelle[]> parcelleEtVoisinesList;
+    private final Map<Parcelle, Parcelle[]> parcelleEtVoisinesList;
     private final Set<Bambou> bambous;
     private final Panda panda;
     private final Jardinier jardinier;
@@ -44,7 +45,7 @@ public class Plateau {
      * Ajoute les voisines de l'étang ainsi que les premières ParcelleDisponible
      */
     private void addVoisinesEtangEtDisponibles() {
-       Position positionEtang = etang.getPosition();
+       Position positionEtang = etang.position();
        Parcelle[] listParcelle = new Parcelle[6];
        for (int i=0; i<6; i++) {
            listParcelle[i] = GESTIONNAIRE_MODIFICATION_PLATEAU.creeParcelleDisponible(i, positionEtang);
@@ -60,7 +61,7 @@ public class Plateau {
         Parcelle[] listParcelleDisponibleEtang = parcelleEtVoisinesList.get(etang);
         for (Parcelle parcelle : listParcelleDisponibleEtang) {
             assert (parcelle.getClass() == ParcelleDisponible.class) : "Voisine de l'étang pas disponible à l'initialisation";
-            positionsDisponibles.add(parcelle.getPosition());
+            positionsDisponibles.add(parcelle.position());
         }
     }
 
@@ -100,7 +101,7 @@ public class Plateau {
     public Optional<Bambou> getBambou(Position position) {
         Bambou[] bambousTab = getBambous();
         for (Bambou bambou : bambousTab) {
-            if (bambou.getPosition().equals(position)) {
+            if (bambou.position().equals(position)) {
                 return Optional.of(bambou);
             }
         }
@@ -166,13 +167,44 @@ public class Plateau {
     }
 
     /**
+     * Renvoie la liste des parcelles de la couleur demandée
+     * @param couleur est la couleur demandée
+     * @return la liste des parcelles de la couleur demandée
+     */
+    public List<ParcelleCouleur> getParcellesCouleur(Couleur couleur) {
+        List<ParcelleCouleur> parcellesCouleur = new ArrayList<>();
+        for (Parcelle parcelle : getParcelles()) {
+            if (!parcelle.getClass().equals(Etang.class)) {
+                ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelle;
+                if (parcelleCouleur.couleur() == couleur) parcellesCouleur.add(parcelleCouleur);
+            }
+        }
+        return parcellesCouleur;
+    }
+
+    /**
+     * Renvoie la liste des positions où se trouvent des bambous de la couleur demandée
+     * @param couleur est la couleur demandée
+     * @return la liste des positions où se trouvent des bambous de la couleur demandée
+     */
+    public List<Position> getBambousCouleur(Couleur couleur) {
+        List<Position> positionsBambousCouleur = new ArrayList<>();
+        for (Bambou bambou : getBambous()) {
+            if (bambou.couleur() == couleur && !bambou.isEmptyBambou()) {
+                positionsBambousCouleur.add(bambou.position());
+            }
+        }
+        return positionsBambousCouleur;
+    }
+
+    /**
      * Ajoute les positions disponibles grâce à la liste des voisines de la parcelle ajoutée
      * @param listVoisines la liste des voisines de la parcelle qu'on vient d'ajouter
      */
     private void addPositionsDisponibles(Parcelle[] listVoisines){
         for (Parcelle parcelle : listVoisines) {
             if (parcelle.getClass().equals(ParcelleDisponible.class) && estPositionDisponible((ParcelleDisponible) parcelle)) {
-                Position positionVoisin = parcelle.getPosition();
+                Position positionVoisin = parcelle.position();
                 if (!positionsDisponibles.contains(positionVoisin)){
                     positionsDisponibles.add(positionVoisin);
                 }
@@ -221,7 +253,7 @@ public class Plateau {
             addBambou(parcelle, sectionBambou);
             addPositionsDisponibles(toutesVoisinesList);
             // On enlève la position de la parcelle ajoutée aux possibilités d'ajout de parcelle
-            deletePositionList(parcelle.getPosition());
+            deletePositionList(parcelle.position());
         }
         catch (ParcelleNonVoisineException pNVE) {
             System.out.println(pNVE);
@@ -236,7 +268,7 @@ public class Plateau {
     private void addParcelleVoisine(List<Parcelle> voisines, Parcelle parcelle) {
         for (Parcelle voisineParcelle : voisines) {
             Parcelle[] listVoisineParcelle = parcelleEtVoisinesList.get(voisineParcelle);
-            int indiceDansTableauVoisines = GESTIONNAIRE_MODIFICATION_PLATEAU.positionTabVoisin(voisineParcelle.getPosition(), parcelle.getPosition());
+            int indiceDansTableauVoisines = GESTIONNAIRE_MODIFICATION_PLATEAU.positionTabVoisin(voisineParcelle.position(), parcelle.position());
             listVoisineParcelle[indiceDansTableauVoisines] = parcelle;
         }
     }
@@ -246,12 +278,22 @@ public class Plateau {
      * @param parcelleCouleur est la parcelle de couleur ciblée
       */
     public void addBambou(ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou) {
-        Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.getPosition());
+        Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.position());
         if (optionalBambou.isPresent()) {
-            optionalBambou.get().ajouteSectionBambou(sectionBambou);
+            try {
+                optionalBambou.get().ajouteSectionBambou(sectionBambou);
+            }
+            catch (AjoutCouleurException aCE){
+                assert false : "La couleur doit être la même que celle du bambou";
+            }
         } else {
             Bambou bambou = new Bambou(parcelleCouleur);
-            bambou.ajouteSectionBambou(sectionBambou);
+            try {
+                bambou.ajouteSectionBambou(sectionBambou);
+            }
+            catch (AjoutCouleurException aCE){
+                assert false : "La couleur doit être la même que celle du bambou";
+            }
             bambous.add(bambou);
         }
     }
@@ -259,11 +301,11 @@ public class Plateau {
     public int jardinierAddBambous(ParcelleCouleur parcelle) throws ParcelleNonExistanteException {
         Parcelle[] parcellesVoisine = getTableauVoisines(parcelle);
         int nombreBambousPoses = 0;
-        addBambou(parcelle, new SectionBambou());
+        addBambou(parcelle, new SectionBambou(parcelle.couleur()));
         nombreBambousPoses++;
         for(Parcelle p : parcellesVoisine){
             if(p.getClass() != ParcelleDisponible.class && p.getClass().equals(etang.getClass())){
-                addBambou((ParcelleCouleur) p,new SectionBambou());
+                addBambou((ParcelleCouleur) p,new SectionBambou(parcelle.couleur()));
                 nombreBambousPoses++;
             }
         }

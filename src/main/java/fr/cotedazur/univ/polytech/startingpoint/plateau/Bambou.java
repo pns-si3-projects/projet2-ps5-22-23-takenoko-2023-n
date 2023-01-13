@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.Positionable;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
@@ -15,6 +16,7 @@ public class Bambou implements Positionable {
     private final Position position;
     private final SectionBambou[] sectionsBambou;
     private int tailleBambou;
+    private final Couleur couleur;
     public static final int TAILLE_MAXIMUM_BAMBOU = 4;
 
 
@@ -23,9 +25,11 @@ public class Bambou implements Positionable {
      * Constructeur par défaut
      */
     public Bambou(ParcelleCouleur parcelleCouleur) {
-        this.position = parcelleCouleur.getPosition();
+        if (parcelleCouleur == null)  throw new IllegalArgumentException("La parcelle de couleur ne doit pas être null");
         sectionsBambou = new SectionBambou[TAILLE_MAXIMUM_BAMBOU];
         tailleBambou = 0;
+        this.position = parcelleCouleur.position();
+        this.couleur = parcelleCouleur.couleur();
     }
 
 
@@ -35,7 +39,7 @@ public class Bambou implements Positionable {
      * @return la position du Bambou
      */
     @Override
-    public Position getPosition() {
+    public Position position() {
         return position;
     }
 
@@ -45,6 +49,14 @@ public class Bambou implements Positionable {
      */
     public int getTailleBambou() {
         return tailleBambou;
+    }
+
+    /**
+     * Renvoie la couleur du Bambou
+     * @return la couleur du Bambou
+     */
+    public Couleur couleur() {
+        return couleur;
     }
 
     /**
@@ -73,7 +85,7 @@ public class Bambou implements Positionable {
 
     @Override
     public String toString() {
-        return "Bambou en " + position + " de " + tailleBambou + " sections de bambou";
+        return "Bambou " + couleur + " en " + position + " de " + tailleBambou + " sections de bambou";
     }
 
     @Override
@@ -81,12 +93,12 @@ public class Bambou implements Positionable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bambou bambou = (Bambou) o;
-        return getTailleBambou() == bambou.getTailleBambou() && getPosition().equals(bambou.getPosition());
+        return getTailleBambou() == bambou.getTailleBambou() && position().equals(bambou.position()) && couleur() == bambou.couleur();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPosition(), getTailleBambou());
+        return Objects.hash(position(), getTailleBambou(), couleur());
     }
 
     // Méthodes d'utilisation
@@ -104,8 +116,9 @@ public class Bambou implements Positionable {
      * Ajoute une section de bambou
      * @implNote le Bambou ne doit pas être à sa taille maximum
      */
-    public void ajouteSectionBambou(SectionBambou sectionBambou) {
+    public void ajouteSectionBambou(SectionBambou sectionBambou) throws AjoutCouleurException{
         assert !isTailleMaximum() : "Le Bambou a atteint sa taille maximum";
+        if (sectionBambou.couleur() != couleur()) throw new AjoutCouleurException(couleur(), sectionBambou.couleur());
         sectionsBambou[tailleBambou++] = sectionBambou;
     }
 }

@@ -25,6 +25,7 @@ class ArbitreTest {
     Arbitre arbitre;
     PiocheObjectif piocheObjectif;
     PiocheBambou piocheBambou;
+    PiocheParcelle piocheParcelle;
     Plateau plateau;
     GestionnairePossibilitePlateau gPP;
 
@@ -33,6 +34,7 @@ class ArbitreTest {
         arbitre = new Arbitre();
         piocheObjectif = new PiocheObjectif(new PiocheObjectifParcelle(new Random()), new PiocheObjectifPanda(new Random()), new PiocheObjectifJardinier(new Random()));
         piocheBambou = new PiocheBambou(new Random());
+        piocheParcelle = new PiocheParcelle(new Random());
         plateau = new Plateau();
         gPP = new GestionnairePossibilitePlateau(plateau);
         ObjectifParcelle objParJ1 = piocheObjectif.piocheObjectifParcelle();
@@ -49,8 +51,8 @@ class ArbitreTest {
     void checkFinDeJeu() {
         while (!arbitre.verifieFinDeJeu(joueur1, joueur2)) {
             assertFalse(arbitre.verifieFinDeJeu(joueur1, joueur2));
-            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
-            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
+            joueur1.tour(piocheObjectif, piocheBambou, piocheParcelle,plateau, arbitre,gPP);
+            joueur2.tour(piocheObjectif, piocheBambou, piocheParcelle,plateau, arbitre,gPP);
         }
         assertTrue(arbitre.verifieFinDeJeu(joueur1, joueur2));
     }
@@ -59,8 +61,8 @@ class ArbitreTest {
     void joueurGagnant() {
         assertTrue(arbitre.joueurGagnant(joueur1, joueur2).isEmpty());
         while (!arbitre.verifieFinDeJeu(joueur1, joueur2)) {
-            joueur1.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
-            joueur2.tour(piocheObjectif, piocheBambou, plateau, arbitre,gPP);
+            joueur1.tour(piocheObjectif, piocheBambou, piocheParcelle,plateau, arbitre,gPP);
+            joueur2.tour(piocheObjectif, piocheBambou, piocheParcelle,plateau, arbitre,gPP);
         }
         if (joueur1.getPoints() > joueur2.getPoints()) {
             assertEquals(Optional.of(joueur1), arbitre.joueurGagnant(joueur1, joueur2));
@@ -81,8 +83,8 @@ class ArbitreTest {
         while (i < 4) {
             assertFalse(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(), objectifParcelleACheck));
             try {
-                ParcelleCouleur parcelleCouleurAAdd = new ParcelleCouleur(plateau.getPositionsDisponible()[0]);
-                SectionBambou secBam = new SectionBambou();
+                ParcelleCouleur parcelleCouleurAAdd = new ParcelleCouleur(plateau.getPositionsDisponible()[0], Couleur.ROSE);
+                SectionBambou secBam = new SectionBambou(Couleur.ROSE);
                 plateau.addParcelle(parcelleCouleurAAdd, secBam);
             }
             catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {

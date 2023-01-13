@@ -31,7 +31,7 @@ public class Jardinier implements Personnage {
      * @return la position
      */
     @Override
-    public Position getPosition() {
+    public Position position() {
         return position;
     }
 

@@ -26,7 +26,7 @@ public class ParcelleDisponible implements Parcelle {
      * @return la position
      */
     @Override
-    public Position getPosition() {
+    public Position position() {
         return position;
     }
 
@@ -40,11 +40,11 @@ public class ParcelleDisponible implements Parcelle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParcelleDisponible that = (ParcelleDisponible) o;
-        return Objects.equals(getPosition(), that.getPosition());
+        return Objects.equals(position(), that.position());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPosition());
+        return Objects.hash(position());
     }
 }

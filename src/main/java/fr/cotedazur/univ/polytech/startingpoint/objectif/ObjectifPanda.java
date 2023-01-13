@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
+
 import java.util.Objects;
 
 /**
@@ -9,6 +11,7 @@ import java.util.Objects;
 public class ObjectifPanda extends Objectif {
     // Définition des attributs
     private final int nombreBambousAManger;
+    private final Couleur couleur;
 
 
     // Définition des constructeurs
@@ -18,9 +21,10 @@ public class ObjectifPanda extends Objectif {
      * @param nbBambous est le nombre de bambous que le joueur doit posséder
      * @implSpec <code>nbPoints > 0</code>, <code>nbBambous > 0</code>
      */
-    public ObjectifPanda(int nbPoints, int nbBambous) {
+    public ObjectifPanda(int nbPoints, int nbBambous, Couleur couleur) {
         nombrePoints = nbPoints;
         nombreBambousAManger = nbBambous;
+        this.couleur = couleur;
     }
 
 
@@ -31,6 +35,14 @@ public class ObjectifPanda extends Objectif {
      */
     public int getNombreBambousAManger() {
         return nombreBambousAManger;
+    }
+
+    /**
+     * Renvoie la couleur du bambous que le joueur doit faire manger au Panda
+     * @return la couleur du bambous à faire manger au panda
+     */
+    public Couleur getCouleurBambousAManger() {
+        return couleur;
     }
 
     @Override
@@ -52,11 +64,11 @@ public class ObjectifPanda extends Objectif {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ObjectifPanda that = (ObjectifPanda) o;
-        return getNombreBambousAManger() == that.getNombreBambousAManger();
+        return getNombreBambousAManger() == that.getNombreBambousAManger() && getCouleurBambousAManger() == that.getCouleurBambousAManger();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getNombreBambousAManger());
+        return Objects.hash(super.hashCode(), getNombreBambousAManger(), getCouleurBambousAManger());
     }
 }

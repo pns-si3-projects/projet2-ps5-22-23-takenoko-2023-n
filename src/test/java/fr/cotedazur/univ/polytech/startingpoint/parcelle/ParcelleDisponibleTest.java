@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.parcelle;
 
 import fr.cotedazur.univ.polytech.startingpoint.Position;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,9 +23,9 @@ class ParcelleDisponibleTest {
 
     @Test
     void getPosition(){
-        assertEquals(parD10.getPosition(),position10);
-        assertNotEquals(parD01.getPosition(),position10);
-        assertEquals(parD01.getPosition(),position01);
+        assertEquals(parD10.position(),position10);
+        assertNotEquals(parD01.position(),position10);
+        assertEquals(parD01.position(),position01);
     }
 
     @Test

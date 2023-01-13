@@ -43,7 +43,7 @@ public class Arbitre {
      */
     public boolean verifieFinDeJeu(Joueur... joueurs) {
         for (Joueur joueur : joueurs) {
-            if (joueur.getPoints() >= 9) { // À modifier par le nombre d'objectifs
+            if (joueur.getNombreObjectifsTermines() >=7) {
                 return true;
             }
         }
@@ -85,11 +85,19 @@ public class Arbitre {
     }
 
     public boolean checkObjectifPandaTermine(SectionBambou[] sectionBambous, ObjectifPanda objectifPanda){
+        if ( !verifieCouleurBambou(sectionBambous,objectifPanda.getCouleurBambousAManger()) ) return false;
         return sectionBambous.length >= objectifPanda.getNombreBambousAManger();
     }
 
     public boolean checkObjectifJardinierTermine(ObjectifJardinier objectifJardinier){
-        return objectifJardinier.getNombreBambousRestant()<=0;
+        return objectifJardinier.getNombreBambousRestant() <= 0;
+    }
+
+    private boolean verifieCouleurBambou(SectionBambou[] sectionBambous, Couleur couleur){
+        for (SectionBambou sectionBambou : sectionBambous) {
+            if (sectionBambou.couleur() != couleur) return false;
+        }
+        return true;
     }
 
     /**

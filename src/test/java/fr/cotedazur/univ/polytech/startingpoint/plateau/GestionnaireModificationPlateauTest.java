@@ -1,11 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionnaireModificationPlateau;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.NombreParcelleVoisineException;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +32,7 @@ class GestionnaireModificationPlateauTest {
         plateau = new Plateau();
         gMP = new GestionnaireModificationPlateau();
         etang = plateau.getEtang();
-        positionEtang = etang.getPosition();
+        positionEtang = etang.position();
         parcelleDisponible0 = new ParcelleDisponible(new Position(positionEtang.getX()+1,positionEtang.getY()+1));
         parcelleDisponible1 = new ParcelleDisponible(new Position(positionEtang.getX()+2,positionEtang.getY()));
         parcelleDisponible2 = new ParcelleDisponible(new Position(positionEtang.getX()+1,positionEtang.getY()-1));
@@ -50,7 +47,7 @@ class GestionnaireModificationPlateauTest {
         listParcelleDisponible[4] = parcelleDisponible4;
         listParcelleDisponible[5] = parcelleDisponible5;
         listPositionDisponible = plateau.getPositionsDisponible();
-        parcelleCouleurNonPose2 = new ParcelleCouleur(listParcelleDisponible[2].getPosition());
+        parcelleCouleurNonPose2 = new ParcelleCouleur(listParcelleDisponible[2].position(), Couleur.ROSE);
     }
 
     @Test
@@ -58,24 +55,8 @@ class GestionnaireModificationPlateauTest {
         for(int i = 0;i<6;i++){
             assertEquals(listParcelleDisponible[i],gMP.creeParcelleDisponible(i,positionEtang));
         }
-
         assertThrows(IllegalArgumentException.class, () -> gMP.creeParcelleDisponible(6,positionEtang));
-        /*try {
-            gMP.creeParcelleDisponible(6,positionEtang);
-            assert false: "Doit renvoyer une erreur";
-        }
-        catch (IllegalArgumentException iAE){
-
-        }*/
-
         assertThrows(IllegalArgumentException.class, () -> gMP.creeParcelleDisponible(-1,positionEtang));
-        /*try {
-            gMP.creeParcelleDisponible(-1,positionEtang);
-            assert false: "Doit renvoyer une erreur";
-        }
-        catch (IllegalArgumentException iAE){
-
-        }*/
     }
 
     /**
@@ -95,8 +76,8 @@ class GestionnaireModificationPlateauTest {
 
     @Test
     void getParcelleVoisinSansExceptionDeux() {
-        ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].getPosition());
-        SectionBambou secBam = new SectionBambou();
+        ParcelleCouleur parcelleCouleurNonPose3 = new ParcelleCouleur(listParcelleDisponible[3].position(), Couleur.ROSE);
+        SectionBambou secBam = new SectionBambou(Couleur.ROSE);
 
         try {
             plateau.addParcelle(parcelleCouleurNonPose2, secBam);
@@ -120,18 +101,12 @@ class GestionnaireModificationPlateauTest {
     @Test
     void getParcelleVoisinAvecExceptionUn() {
         assertThrows(ParcelleExistanteException.class, () -> gMP.chercheFuturesVoisines(etang, plateau.getParcelles()));
-        /*try {
-            gMP.chercheFuturesVoisines(etang, plateau.getParcelles());
-        }
-        catch (ParcelleExistanteException pEE){
-            assertEquals("La parcelle de position "+etang.getPosition()+" est déjà existante",pEE.getMessage());
-        }*/
     }
 
     @Test
     void getParcelleVoisinAvecExceptionDeux() {
-        ParcelleCouleur parcelleCouleurNonPose2bis = new ParcelleCouleur(listPositionDisponible[2]);
-        SectionBambou secBam = new SectionBambou();
+        ParcelleCouleur parcelleCouleurNonPose2bis = new ParcelleCouleur(listPositionDisponible[2], Couleur.ROSE);
+        SectionBambou secBam = new SectionBambou(Couleur.ROSE);
 
         try {
             plateau.addParcelle(parcelleCouleurNonPose2, secBam);
@@ -141,12 +116,6 @@ class GestionnaireModificationPlateauTest {
         }
 
         assertThrows(ParcelleExistanteException.class, () -> gMP.chercheFuturesVoisines(parcelleCouleurNonPose2bis, plateau.getParcelles()));
-        /*try {
-            gMP.chercheFuturesVoisines(parcelleCouleurNonPose2bis, plateau.getParcelles());
-        }
-        catch (ParcelleExistanteException pEE){
-            assertEquals("La parcelle de position "+parcelleCouleurNonPose2bis.getPosition()+" est déjà existante",pEE.getMessage());
-        }*/
     }
 
     @Test
@@ -173,7 +142,7 @@ class GestionnaireModificationPlateauTest {
 
     @Test
     void addVoisinParcelleException() {
-        ParcelleCouleur parcelleAAdd = new ParcelleCouleur(new Position(4,0));
+        ParcelleCouleur parcelleAAdd = new ParcelleCouleur(new Position(4,0), Couleur.JAUNE);
         try {
             List<Parcelle>  listParcelleVoisin40 = gMP.chercheFuturesVoisines(parcelleAAdd, plateau.getParcelles());
             gMP.addVoisinesParcelle(parcelleAAdd,listParcelleVoisin40);

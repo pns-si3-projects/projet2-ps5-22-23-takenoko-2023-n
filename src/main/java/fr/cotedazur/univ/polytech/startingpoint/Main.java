@@ -20,6 +20,7 @@ public class Main {
     private static final PiocheObjectifParcelle piocheObjectifParcelle = new PiocheObjectifParcelle(RANDOM);
     private static final PiocheObjectifJardinier piocheObjectifJardinier = new PiocheObjectifJardinier(RANDOM);
     public static final PiocheObjectif piocheObjectif = new PiocheObjectif(piocheObjectifParcelle,piocheObjectifPanda,piocheObjectifJardinier);
+    public static final  PiocheParcelle piocheParcelle = new PiocheParcelle(RANDOM);
     public static final PiocheBambou piocheBambou = new PiocheBambou(RANDOM);
     public static final Arbitre ARBITRE = new Arbitre();
 
@@ -44,7 +45,7 @@ public class Main {
             AFFICHEUR.afficheDebutTour(ARBITRE.getNombreTour());
             for(Joueur joueur : joueurs){
                 AFFICHEUR.afficheJoueurDebutTour(joueur);
-                joueur.tour(piocheObjectif, piocheBambou, PLATEAU, ARBITRE,GESTIONNAIRE_PLATEAU);
+                joueur.tour(piocheObjectif, piocheBambou, piocheParcelle, PLATEAU,ARBITRE,GESTIONNAIRE_PLATEAU);
                 AFFICHEUR.afficheJoueurFinTour(joueur);
             }
             AFFICHEUR.afficheFinTour(ARBITRE.getNombreTour());

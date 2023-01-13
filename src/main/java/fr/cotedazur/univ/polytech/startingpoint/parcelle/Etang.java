@@ -24,7 +24,7 @@ public class Etang implements Parcelle {
 
     // Accesseurs et méthodes toString et equals
     @Override
-    public Position getPosition() {
+    public Position position() {
         return position;
     }
 
@@ -39,11 +39,11 @@ public class Etang implements Parcelle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Etang etang = (Etang) o;
-        return getPosition().equals(etang.getPosition());
+        return position().equals(etang.position());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPosition());
+        return Objects.hash(position());
     }
 }

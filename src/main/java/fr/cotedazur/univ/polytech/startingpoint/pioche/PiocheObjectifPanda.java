@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 
@@ -80,10 +81,10 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
      */
     private ObjectifPanda creeCarteObjectifPanda(int indice) {
         return switch (indice) {
-            case 0 -> new ObjectifPanda(3, 2);
-            case 1 -> new ObjectifPanda(4, 2);
-            case 2 -> new ObjectifPanda(5, 2);
-            case 3 -> new ObjectifPanda(6, 3);
+            case 0 -> new ObjectifPanda(3, 2, Couleur.VERT);
+            case 1 -> new ObjectifPanda(4, 2, Couleur.VERT);
+            case 2 -> new ObjectifPanda(5, 2, Couleur.ROSE);
+            case 3 -> new ObjectifPanda(6, 3,Couleur.JAUNE);
             default -> throw new IndexOutOfBoundsException("La carte ObjectifPanda demandée est introuvable");
         };
     }

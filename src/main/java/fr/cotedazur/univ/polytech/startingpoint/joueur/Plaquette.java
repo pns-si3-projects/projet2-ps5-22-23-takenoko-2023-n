@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 
 import java.util.ArrayList;
@@ -44,8 +45,13 @@ public class Plaquette {
      * @return le nombre de bambous verts récupérés
      */
     public int getNombreBambousVerts() {
-        // Modifier la méthode pour renvoyer le nombre de bambous verts
-        return bambousManges.size();
+        int nombreBambouVerts = 0;
+        for(SectionBambou sectionBambou: bambousManges){
+            if(sectionBambou.couleur() == Couleur.VERT){
+                nombreBambouVerts++;
+            }
+        }
+        return nombreBambouVerts;
     }
 
     /**
@@ -53,8 +59,13 @@ public class Plaquette {
      * @return le nombre de bambous roses récupérés
      */
     public int getNombreBambousRoses() {
-        // Modifier la méthode pour renvoyer le nombre de bambous roses
-        return bambousManges.size();
+        int nombreBambouRoses = 0;
+        for(SectionBambou sectionBambou: bambousManges){
+            if(sectionBambou.couleur() == Couleur.ROSE){
+                nombreBambouRoses++;
+            }
+        }
+        return nombreBambouRoses;
     }
 
     /**
@@ -62,8 +73,13 @@ public class Plaquette {
      * @return le nombre de bambous jaunes récupérés
      */
     public int getNombreBambousJaunes() {
-        // Modifier la méthode pour renvoyer le nombre de bambous jaunes
-        return bambousManges.size();
+        int nombreBambouJaunes = 0;
+        for(SectionBambou sectionBambou: bambousManges){
+            if(sectionBambou.couleur() == Couleur.JAUNE){
+                nombreBambouJaunes++;
+            }
+        }
+        return nombreBambouJaunes;
     }
 
     /**
@@ -130,23 +146,111 @@ public class Plaquette {
         return res;
     }
 
-    public SectionBambou[] getSectionBambou(){
-        SectionBambou[] listSectionBambous = new SectionBambou[bambousManges.size()];
-        for(int i = 0;i<listSectionBambous.length;i++){
-            listSectionBambous[i] = bambousManges.get(i);
+    /**
+     * Renvoie le tableau des sections de Bambous Verts mangés par le Panda
+     * @return le tableau des sections de Bambous Verts
+     */
+    public SectionBambou[] getSectionBambouVert(){
+        SectionBambou[] listSectionBambous = new SectionBambou[getNombreBambousVerts()];
+        for ( int i = 0;i<bambousManges.size();i++ ) {
+            if(bambousManges.get(i).couleur() == Couleur.VERT){
+                listSectionBambous[i] = bambousManges.get(i);
+            }
         }
         return listSectionBambous;
     }
 
-    public boolean deleteSectionBambou(int nombre){
-        int i = 0;
-        if(nombre > bambousManges.size()) return false;
-        while(i < nombre){
-            bambousManges.remove(0);
-            i++;
+    /**
+     * Renvoie le tableau des sections de Bambous Rose mangés par le Panda
+     * @return le tableau des sections de Bambous Rose
+     */
+    public SectionBambou[] getSectionBambouRose(){
+        SectionBambou[] listSectionBambous = new SectionBambou[getNombreBambousRoses()];
+        for (int i = 0;i<bambousManges.size();i++) {
+            if(bambousManges.get(i).couleur() == Couleur.ROSE) {
+                listSectionBambous[i] = bambousManges.get(i);
+            }
         }
+        return listSectionBambous;
+    }
+
+    /**
+     * Renvoie le tableau des sections de Bambous Jaune mangés par le Panda
+     * @return le tableau des sections de Bambous Jaune
+     */
+    public SectionBambou[] getSectionBambouJaune(){
+        SectionBambou[] listSectionBambousJaune = new SectionBambou[getNombreBambousJaunes()];
+        for (int i = 0;i<bambousManges.size();i++) {
+            if ( bambousManges.get(i).couleur() == Couleur.JAUNE ) {
+                listSectionBambousJaune[i] = bambousManges.get(i);
+            }
+        }
+        return listSectionBambousJaune;
+    }
+
+    /**
+     * Supprime les sections Vertes de bambousManges
+     * @param nombre Nombre de Section Vertes à supprimer
+     * @return <code> true </code> si on peut supprimer toutes les sections BambouVertes donné en paramètre sinon <code> false </code>
+     */
+    public boolean deleteSectionBambouVert(int nombre){
+        List<SectionBambou> sectionBambousCopy = new ArrayList<>();
+        int j = 0;
+        for (int i = 0; i < bambousManges.size();i++) {
+            SectionBambou sectionBambouAVerifier = bambousManges.get(i);
+            if (j >= nombre || sectionBambouAVerifier.couleur() != Couleur.VERT) {
+                sectionBambousCopy.add(sectionBambouAVerifier);
+            }
+            else j++;
+        }
+        if (j < nombre) return false;
+        bambousManges.clear();
+        bambousManges.addAll(sectionBambousCopy);
         return true;
     }
+
+    /**
+     * Supprime les sections Roses de bambousManges
+     * @param nombre Nombre de Section Roses à supprimer
+     * @return <code> true </code> si on peut supprimer toutes les sections BambouRoses donné en paramètre sinon <code> false </code>
+     */
+    public boolean deleteSectionBambouRose(int nombre){
+        List<SectionBambou> sectionBambousCopy = new ArrayList<>();
+        int j = 0;
+        for (int i = 0; i < bambousManges.size();i++) {
+            SectionBambou sectionBambouAVerifier = bambousManges.get(i);
+            if (j >= nombre || sectionBambouAVerifier.couleur() != Couleur.ROSE) {
+                sectionBambousCopy.add(sectionBambouAVerifier);
+            }
+            else j++;
+        }
+        if (j < nombre) return false;
+        bambousManges.clear();
+        bambousManges.addAll(sectionBambousCopy);
+        return true;
+    }
+
+    /**
+     * Supprime les sections Jaune de bambousManges
+     * @param nombre Nombre de Section Jaune à supprimer
+     * @return <code> true </code> si on peut supprimer toutes les sections BambouJaune donné en paramètre sinon <code> false </code>
+     */
+    public boolean deleteSectionBambouJaune(int nombre){
+        List<SectionBambou> sectionBambousCopy = new ArrayList<>();
+        int j = 0;
+        for (int i = 0; i < bambousManges.size();i++) {
+            SectionBambou sectionBambouAVerifier = bambousManges.get(i);
+            if (j >= nombre || sectionBambouAVerifier.couleur() != Couleur.JAUNE) {
+                sectionBambousCopy.add(sectionBambouAVerifier);
+            }
+            else j++;
+        }
+        if (j < nombre) return false;
+        bambousManges.clear();
+        bambousManges.addAll(sectionBambousCopy);
+        return true;
+    }
+
 
     /**
      * Renvoie tous les objectifs de parcelle à réaliser
