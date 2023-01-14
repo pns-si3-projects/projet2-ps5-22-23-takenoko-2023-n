@@ -18,7 +18,8 @@ mvn exec:java
 Le jeu est joué par 2 joueurs automatisés avec affichage de leurs actions effectuées
 * Initialisation du jeu avec l'Etang, le Jardinier et le Panda
 * Les robots peuvent faire 2 actions différentes maximum par tour  
-    (poser une parcelle, piocher un objectif de son choix, déplacer le Panda<!--, déplacer le Jardinier-->)
+    (poser une parcelle, piocher un objectif de son choix, déplacer le Panda, déplacer le Jardinier)
 * Les robots sont capables de poser plusieurs parcelles sur le plateau
-Il est possible de déplacer le Panda pour manger du bambou
-<!--* Le Jardinier est utilisé pour faire pousser du bambou-->
+* Il est possible de déplacer le Panda pour manger du bambou
+* Le Jardinier est utilisé pour faire pousser du bambou
+* Pour poser une parcelle de couleur, il faut piocher et choisir une des trois parcelles proposées et un bambou de la même couleur est posé
