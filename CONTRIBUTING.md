@@ -3,9 +3,9 @@ Ce guide vous donne un aperçu des contrubutions faites sur ce jeu ainsi que ses
 
 
 ## Guide des nouvelles contributions
-Pour obtenir un aperçu de ce projet, lisez le [README](README.md)
-Pour comprendre les règles du jeu, lisez le [résumé](Resume_Takenoko.pdf) pour les grandes lignes et la [règle](Regles_Takenoko.pdf) pour tous les détails
-Et au besoin la [liste](http://jeuxstrategieter.free.fr/Takenoko_complet.php) des pièces du takenoko
+Pour obtenir un aperçu de ce projet, lisez le [README](README.md)  
+Pour comprendre les règles du jeu, lisez le [résumé](Resume_Takenoko.pdf) pour les grandes lignes et la [règle](Regles_Takenoko.pdf) pour tous les détails  
+Et au besoin la [liste](http://jeuxstrategieter.free.fr/Takenoko_complet.php) des pièces du takenoko  
 
 ## Stratégie de branching à respecter
 * La branche master doit être stable
