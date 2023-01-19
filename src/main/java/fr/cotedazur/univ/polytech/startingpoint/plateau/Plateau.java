@@ -263,11 +263,11 @@ public class Plateau {
     public int jardinierAddBambous(ParcelleCouleur parcelle) throws ParcelleNonExistanteException {
         Parcelle[] parcellesVoisine = getTableauVoisines(parcelle);
         int nombreBambousPoses = 0;
-        addBambou(parcelle, new SectionBambou());
+        addBambou(parcelle, new SectionBambou(parcelle.getCouleur()));
         nombreBambousPoses++;
         for(Parcelle p : parcellesVoisine){
             if(p.getClass() != ParcelleDisponible.class && !p.getClass().equals(etang.getClass())){
-                addBambou((ParcelleCouleur) p,new SectionBambou());
+                addBambou((ParcelleCouleur) p,new SectionBambou(((ParcelleCouleur) p).getCouleur()));
                 nombreBambousPoses++;
             }
         }

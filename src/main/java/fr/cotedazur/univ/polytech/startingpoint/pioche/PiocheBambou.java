@@ -97,7 +97,7 @@ public class PiocheBambou {
         int positionBambou = random.nextInt(nombreBambousVerts);
         if (positionBambou < 0 || positionBambou >= nombreBambousVerts) throw new RuntimeException();
         nombreBambousVerts--;
-        return new SectionBambou();
+        return new SectionBambou("vert");
     }
 
     /**
@@ -110,7 +110,7 @@ public class PiocheBambou {
         int positionBambou = random.nextInt(nombreBambousRoses);
         if (positionBambou < 0 || positionBambou >= nombreBambousRoses) throw new RuntimeException();
         nombreBambousRoses--;
-        return new SectionBambou();
+        return new SectionBambou("rose");
     }
 
     /**
@@ -123,6 +123,6 @@ public class PiocheBambou {
         int positionBambou = random.nextInt(nombreBambousJaunes);
         if (positionBambou < 0 || positionBambou >= nombreBambousJaunes) throw new RuntimeException();
         nombreBambousJaunes--;
-        return new SectionBambou();
+        return new SectionBambou("jaune");
     }
 }

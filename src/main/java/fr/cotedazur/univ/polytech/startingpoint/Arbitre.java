@@ -87,16 +87,28 @@ public class Arbitre {
         return objectifParcelle.getNombreParcelles() <= nombreParcellePlateau - objectifParcelle.getNombreParcellePresenteEnJeu();
     }
 
+    /**
+     * Méthode qui vérifie si l'objectif a été terminé
+     * @param sectionBambous les sections de Bambous presente
+     * @param objectifPanda l'objectif à vérifier
+     * @return <code>true</code> si l'objectif est terminé, <code>false</code> sinon
+     */
     public boolean checkObjectifPandaTermine(SectionBambou[] sectionBambous, ObjectifPanda objectifPanda){
         return sectionBambous.length >= objectifPanda.getNombreBambousAManger();
     }
 
+    /**
+     * Méthode qui vérifie si l'objectif a été terminé
+     * @param objectifJardinier l'objectif a verifier
+     * @param plateau la plateau
+     * @return <code>true</code> si l'objectif est terminé, <code>false</code> sinon
+     */
     public boolean checkObjectifJardinierTermine(ObjectifJardinier objectifJardinier, Plateau plateau){
         Parcelle[] parcelles = plateau.getParcelles();
         for (int i=0; i<parcelles.length; i++){
             if (parcelles[i].getClass() == ParcelleCouleur.class){
                 ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelles[i];
-                if (parcelleCouleur.getNombreBambou() == objectifJardinier.getNombreBambousAFairePousser()) return true;
+                if (parcelleCouleur.getNombreBambou() == objectifJardinier.getNombreBambousAFairePousser() && parcelleCouleur.getCouleur()==objectifJardinier.getCouleur()) return true;
             }
         }
         return false;

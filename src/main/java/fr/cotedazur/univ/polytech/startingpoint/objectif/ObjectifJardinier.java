@@ -9,7 +9,7 @@ import java.util.Objects;
 public class ObjectifJardinier extends Objectif {
     // Définition des attributs
     private final int nombreBambousAFairePousser;
-    private String couleur;
+    private final String couleur;
 
 
     // Définition des constructeurs
@@ -35,14 +35,18 @@ public class ObjectifJardinier extends Objectif {
         return nombreBambousAFairePousser;
     }
 
-    private String getCouleur(){
+    /**
+     * Renvoie la couleur de bambous que le joueur doit faire pousser
+     * @return la couleur de bambous que le joueur doit faire pousser
+     */
+    public String getCouleur(){
         return couleur;
     }
 
     @Override
     public String toString() {
         String s = "Objectif de ";
-        s += nombreBambousAFairePousser + " bambous à faire pousser et vaut ";
+        s += nombreBambousAFairePousser + " bambous à faire pousser de couleur"+couleur+" et vaut ";
         s += nombrePoints + " points";
         return s;
     }
