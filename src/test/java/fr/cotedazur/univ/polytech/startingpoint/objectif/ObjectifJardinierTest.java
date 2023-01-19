@@ -15,11 +15,11 @@ class ObjectifJardinierTest {
 
     @BeforeEach
     void setUp() {
-        objJ1_1 = new ObjectifJardinier(1, 1, "VERT");
-        objJ2_2 = new ObjectifJardinier(2, 2, "VERT");
-        objJ2_2_bis = new ObjectifJardinier(2, 2, "VERT");
-        objJ3_2 = new ObjectifJardinier(3, 2, "VERT");
-        objJ2_3 = new ObjectifJardinier(2, 3, "VERT");
+        objJ1_1 = new ObjectifJardinier(1, 1, "VERT",1);
+        objJ2_2 = new ObjectifJardinier(2, 2, "VERT",2);
+        objJ2_2_bis = new ObjectifJardinier(2, 2, "VERT",3);
+        objJ3_2 = new ObjectifJardinier(3, 2, "VERT",1);
+        objJ2_3 = new ObjectifJardinier(2, 3, "VERT",2);
     }
 
     @Test
@@ -28,6 +28,14 @@ class ObjectifJardinierTest {
         assertEquals(2, objJ2_2.getNombreBambousAFairePousser());
         assertEquals(3, objJ2_3.getNombreBambousAFairePousser());
         assertNotEquals(3, objJ3_2.getNombreBambousAFairePousser());
+    }
+
+    @Test
+    void getNombreDeParcelle(){
+        assertEquals(1,objJ1_1.getNombreDeParcelle());
+        assertEquals(2, objJ2_2.getNombreDeParcelle());
+        assertEquals(2, objJ2_3.getNombreDeParcelle());
+        assertNotEquals(2, objJ3_2.getNombreDeParcelle());
     }
 
     @Test

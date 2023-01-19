@@ -111,12 +111,12 @@ class PiocheObjectifTest {
     void piocheObjectifJardinier() {
         PiocheObjectifJardinier mockPOJar = mock(PiocheObjectifJardinier.class);
         when(mockPOJar.pioche())
-                .thenReturn(new ObjectifJardinier(8, 12, "VERT"))
-                .thenReturn(new ObjectifJardinier(5, 4, "VERT"))
-                .thenReturn(new ObjectifJardinier(7, 9, "VERT"));
+                .thenReturn(new ObjectifJardinier(8, 12, "VERT",4))
+                .thenReturn(new ObjectifJardinier(5, 4, "VERT",1))
+                .thenReturn(new ObjectifJardinier(7, 9, "VERT",3));
         PiocheObjectif pO = new PiocheObjectif(new PiocheObjectifParcelle(new Random()), new PiocheObjectifPanda(new Random()), mockPOJar);
-        assertEquals(new ObjectifJardinier(8, 12, "VERT"), pO.piocheObjectifJardinier());
-        assertEquals(new ObjectifJardinier(5, 4, "VERT"), pO.piocheObjectifJardinier());
-        assertEquals(new ObjectifJardinier(7, 9, "VERT"), pO.piocheObjectifJardinier());
+        assertEquals(new ObjectifJardinier(8, 12, "VERT",4), pO.piocheObjectifJardinier());
+        assertEquals(new ObjectifJardinier(5, 4, "VERT",1), pO.piocheObjectifJardinier());
+        assertEquals(new ObjectifJardinier(7, 9, "VERT",3), pO.piocheObjectifJardinier());
     }
 }

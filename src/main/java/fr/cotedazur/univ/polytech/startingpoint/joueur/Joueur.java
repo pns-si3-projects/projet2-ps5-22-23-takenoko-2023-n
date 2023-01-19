@@ -119,7 +119,7 @@ public class Joueur {
             }
             else {
                 actionJardinier(plateau,arbitre,gPP);
-                plaquette.realiseAction((Plaquette.ActionPossible.JARDINIER));
+                plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
             }
         }
         else if(actionPossibles.length == 0 || (!plaquette.isActionRealisee(actionPossibles[0])&&!plaquette.isActionRealisee(actionPossibles[1])&&!plaquette.isActionRealisee(actionPossibles[3]))){

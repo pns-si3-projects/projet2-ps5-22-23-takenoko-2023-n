@@ -103,7 +103,7 @@ class ArbitreTest {
 
     @Test
     void checkOjectifJardinierTermine(){
-        ObjectifJardinier objectifJardinier = new ObjectifJardinier(2, 1, "VERT");
+        ObjectifJardinier objectifJardinier = new ObjectifJardinier(2, 1, "VERT",1);
         joueur1.actionParcelle(piocheBambou,plateau,arbitre);
         joueur2.actionParcelle(piocheBambou,plateau,arbitre);
         joueur1.actionParcelle(piocheBambou,plateau,arbitre);

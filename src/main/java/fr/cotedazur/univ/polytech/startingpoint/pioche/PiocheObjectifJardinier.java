@@ -29,21 +29,21 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
      * Permet d'initialiser la pioche en lui ajoutant les objectifs de jardinier
      */
     private void creePiocheObjectifsJardinier() {
-        add(new ObjectifJardinier(5, 4, "JAUNE"));
-        add(new ObjectifJardinier(6, 4, "JAUNE"));
-        add(new ObjectifJardinier(6, 6, "ROSE"));
-        add(new ObjectifJardinier(7, 9, "JAUNE"));
-        add(new ObjectifJardinier(8, 12, "VERT"));
-        add(new ObjectifJardinier(4, 4, "VERT"));
-        add(new ObjectifJardinier(4, 4, "VERT"));
-        add(new ObjectifJardinier(5, 4, "VERT"));
-        add(new ObjectifJardinier(4, 4, "JAUNE"));
-        add(new ObjectifJardinier(5, 4, "JAUNE"));
-        add(new ObjectifJardinier(5, 4, "ROSE"));
-        add(new ObjectifJardinier(6, 4, "ROSE"));
-        add(new ObjectifJardinier(6, 4, "ROSE"));
-        add(new ObjectifJardinier(7, 4, "ROSE"));
-        add(new ObjectifJardinier(3, 4, "VERT"));
+        add(new ObjectifJardinier(5, 4, "JAUNE",1));
+        add(new ObjectifJardinier(6, 4, "JAUNE",1));
+        add(new ObjectifJardinier(6, 6, "ROSE",2));
+        add(new ObjectifJardinier(7, 9, "JAUNE",3));
+        add(new ObjectifJardinier(8, 12, "VERT",4));
+        add(new ObjectifJardinier(4, 4, "VERT",1));
+        add(new ObjectifJardinier(4, 4, "VERT",1));
+        add(new ObjectifJardinier(5, 4, "VERT",1));
+        add(new ObjectifJardinier(4, 4, "JAUNE",1));
+        add(new ObjectifJardinier(5, 4, "JAUNE",1));
+        add(new ObjectifJardinier(5, 4, "ROSE",1));
+        add(new ObjectifJardinier(6, 4, "ROSE",1));
+        add(new ObjectifJardinier(6, 4, "ROSE",1));
+        add(new ObjectifJardinier(7, 4, "ROSE",1));
+        add(new ObjectifJardinier(3, 4, "VERT",1));
     }
 
 

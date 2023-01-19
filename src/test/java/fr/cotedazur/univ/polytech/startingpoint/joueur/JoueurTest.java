@@ -177,7 +177,7 @@ class JoueurTest {
 
     @Test
     void gestionObjectifJardinier() {
-        ObjectifJardinier objectifJardinier = new ObjectifJardinier(2, 1, "VERT");
+        ObjectifJardinier objectifJardinier = new ObjectifJardinier(2, 1, "VERT",1);
         try {
             joueur1.getPlaquette().ajouteObjectif(objectifJardinier);
         } catch (NombreObjectifsEnCoursException e) {

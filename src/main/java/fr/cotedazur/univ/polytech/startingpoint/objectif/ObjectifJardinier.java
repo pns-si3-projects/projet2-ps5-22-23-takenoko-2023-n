@@ -12,6 +12,10 @@ public class ObjectifJardinier extends Objectif {
     private final String couleur;
 
 
+
+    private final int nombreDeParcelle;
+
+
     // Définition des constructeurs
     /**
      * Constructeur par défaut
@@ -19,10 +23,11 @@ public class ObjectifJardinier extends Objectif {
      * @param nbBambous est le nombre de bambous que le joueur faire pousser
      * @implSpec <code>nbPoints > 0</code>, <code>nbBambous > 0</code>
      */
-    public ObjectifJardinier(int nbPoints, int nbBambous, String couleur) {
+    public ObjectifJardinier(int nbPoints, int nbBambous, String couleur,int nombreDeParcelle) {
         nombrePoints = nbPoints;
         nombreBambousAFairePousser = nbBambous;
         this.couleur = couleur;
+        this.nombreDeParcelle=nombreDeParcelle;
     }
 
 
@@ -43,10 +48,18 @@ public class ObjectifJardinier extends Objectif {
         return couleur;
     }
 
+    /**
+     * Renvoie le nombre de parcelle ou le joueur doit faire pousser du bambous
+     * @return le nombre de parcelle ou le joueur doit faire pousser du bambous
+     */
+    public int getNombreDeParcelle() {
+        return nombreDeParcelle;
+    }
+
     @Override
     public String toString() {
         String s = "Objectif de ";
-        s += nombreBambousAFairePousser + " bambous à faire pousser de couleur"+couleur+" et vaut ";
+        s += nombreBambousAFairePousser + " bambous à faire pousser de couleur"+couleur+" sur "+nombreDeParcelle+"parcelle et vaut ";
         s += nombrePoints + " points";
         return s;
     }
