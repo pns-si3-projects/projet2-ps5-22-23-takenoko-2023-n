@@ -12,6 +12,7 @@ public class ParcelleCouleur implements Parcelle {
     // Définition des attributs
     private final Position position;
     private int nombreBambou;
+    private String couleur;
 
 
 
@@ -21,12 +22,12 @@ public class ParcelleCouleur implements Parcelle {
      * Constructeur par défaut
      * @param position position finale de la parcelle
      */
-    public ParcelleCouleur(Position position) {
+    public ParcelleCouleur(Position position, String couleur) {
         if (position == null) throw new NullPointerException("La position ne doit pas être null");
         this.position = position;
         this.nombreBambou=0;
+        this.couleur = couleur;
     }
-
 
     // Accesseurs et méthodes toString et equals
     /**
@@ -39,6 +40,10 @@ public class ParcelleCouleur implements Parcelle {
     }
     public int getNombreBambou() {
         return nombreBambou;
+    }
+
+    public String getCouleur(){
+        return couleur;
     }
 
     public void setNombreBambou(int nombreBambou) {

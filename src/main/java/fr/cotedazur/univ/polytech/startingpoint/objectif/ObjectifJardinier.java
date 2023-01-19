@@ -9,6 +9,7 @@ import java.util.Objects;
 public class ObjectifJardinier extends Objectif {
     // Définition des attributs
     private final int nombreBambousAFairePousser;
+    private String couleur;
 
 
     // Définition des constructeurs
@@ -18,9 +19,10 @@ public class ObjectifJardinier extends Objectif {
      * @param nbBambous est le nombre de bambous que le joueur faire pousser
      * @implSpec <code>nbPoints > 0</code>, <code>nbBambous > 0</code>
      */
-    public ObjectifJardinier(int nbPoints, int nbBambous) {
+    public ObjectifJardinier(int nbPoints, int nbBambous, String couleur) {
         nombrePoints = nbPoints;
         nombreBambousAFairePousser = nbBambous;
+        this.couleur = couleur;
     }
 
 
@@ -31,6 +33,10 @@ public class ObjectifJardinier extends Objectif {
      */
     public int getNombreBambousAFairePousser() {
         return nombreBambousAFairePousser;
+    }
+
+    private String getCouleur(){
+        return couleur;
     }
 
     @Override
