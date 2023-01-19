@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.personnage;
 
-import fr.cotedazur.univ.polytech.startingpoint.Positionable;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Positionable;
 
 /**
  * Interface représentant un personnage sur le plateau (Panda ou Jardinier)

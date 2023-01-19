@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.personnage;
 
-import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

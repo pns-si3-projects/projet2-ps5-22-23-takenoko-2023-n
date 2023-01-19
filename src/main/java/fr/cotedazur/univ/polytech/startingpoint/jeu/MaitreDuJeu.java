@@ -1,5 +1,6 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
+import fr.cotedazur.univ.polytech.startingpoint.Afficheur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectif;
@@ -36,5 +37,6 @@ public class MaitreDuJeu {
         piocheBambou = new PiocheBambou(random);
         joueurs = new Joueur[]{new Joueur(nomJoueur1), new Joueur(nomJoueur2)};
         nombreTour = 1;
+        Afficheur.initialisation();
     }
 }

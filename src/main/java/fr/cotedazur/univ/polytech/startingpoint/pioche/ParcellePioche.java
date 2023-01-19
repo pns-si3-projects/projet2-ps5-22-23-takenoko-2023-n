@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 
 import java.util.Objects;
 

@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
-import fr.cotedazur.univ.polytech.startingpoint.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 
 public class AjoutCouleurException extends Exception{
     public AjoutCouleurException(Couleur couleurBambou, Couleur couleurSectionBambouAAdd){

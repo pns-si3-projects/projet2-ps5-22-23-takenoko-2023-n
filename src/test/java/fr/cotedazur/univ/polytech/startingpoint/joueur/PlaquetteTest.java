@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

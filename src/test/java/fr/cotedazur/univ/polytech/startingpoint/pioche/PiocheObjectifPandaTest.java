@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

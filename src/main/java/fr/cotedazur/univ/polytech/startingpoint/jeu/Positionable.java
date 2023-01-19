@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 /**
  * Interface qui permet aux objets de renvoyer leur position

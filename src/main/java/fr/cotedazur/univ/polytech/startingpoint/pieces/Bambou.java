@@ -1,9 +1,10 @@
-package fr.cotedazur.univ.polytech.startingpoint.plateau;
+package fr.cotedazur.univ.polytech.startingpoint.pieces;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Positionable;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.AjoutCouleurException;
 
 import java.util.Objects;
 
@@ -116,7 +117,7 @@ public class Bambou implements Positionable {
      * Ajoute une section de bambou
      * @implNote le Bambou ne doit pas être à sa taille maximum
      */
-    public void ajouteSectionBambou(SectionBambou sectionBambou) throws AjoutCouleurException{
+    public void ajouteSectionBambou(SectionBambou sectionBambou) throws AjoutCouleurException {
         assert !isTailleMaximum() : "Le Bambou a atteint sa taille maximum";
         if (sectionBambou.couleur() != couleur()) throw new AjoutCouleurException(couleur(), sectionBambou.couleur());
         sectionsBambou[tailleBambou++] = sectionBambou;
