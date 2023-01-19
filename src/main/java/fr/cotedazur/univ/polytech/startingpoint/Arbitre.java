@@ -105,12 +105,14 @@ public class Arbitre {
      */
     public boolean checkObjectifJardinierTermine(ObjectifJardinier objectifJardinier, Plateau plateau){
         Parcelle[] parcelles = plateau.getParcelles();
+        int nombreParcellesOk = 0;
         for (int i=0; i<parcelles.length; i++){
             if (parcelles[i].getClass() == ParcelleCouleur.class){
                 ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelles[i];
-                if (parcelleCouleur.getNombreBambou() == objectifJardinier.getNombreBambousAFairePousser() && parcelleCouleur.getCouleur()==objectifJardinier.getCouleur()) return true;
+                if (parcelleCouleur.getNombreBambou() == objectifJardinier.getNombreBambousAFairePousser() && parcelleCouleur.getCouleur()==objectifJardinier.getCouleur()) nombreParcellesOk++;
             }
         }
+        if (nombreParcellesOk >= objectifJardinier.getNombreDeParcelle()) return true;
         return false;
     }
 
