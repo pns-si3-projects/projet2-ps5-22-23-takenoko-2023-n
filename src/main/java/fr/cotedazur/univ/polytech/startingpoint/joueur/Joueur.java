@@ -55,19 +55,29 @@ public class Joueur {
     }
 
     /**
-     * Renvoie la liste des objectifs à réaliser
-     * @return la liste des objectifs à réaliser
+     * Renvoie les objectifs en main (non terminés)
+     * @return un tableau des objectifs en main
      */
-    public List<Objectif> getObjectifEnMainList() {
-        return objectifEnMainList;
+    public Objectif[] getObjectifsEnMain() {
+        int nbObjectifs = objectifEnMainList.size();
+        Objectif[] objectifs = new Objectif[nbObjectifs];
+        for (int i=0; i < nbObjectifs; i++) {
+            objectifs[i] = objectifEnMainList.get(i);
+        }
+        return objectifs;
     }
 
     /**
-     * Renvoie la liste des objectifs terminés
-     * @return la liste des objectifs terminés
+     * Renvoie les objectifs terminés
+     * @return un tableau des objectifs terminés
      */
-    public List<Objectif> getObjectifTermineList() {
-        return objectifTermineList;
+    public Objectif[] getObjectifsTermines() {
+        int nbObjectifs = objectifTermineList.size();
+        Objectif[] objectifs = new Objectif[nbObjectifs];
+        for (int i=0; i < nbObjectifs; i++) {
+            objectifs[i] = objectifTermineList.get(i);
+        }
+        return objectifs;
     }
 
 
