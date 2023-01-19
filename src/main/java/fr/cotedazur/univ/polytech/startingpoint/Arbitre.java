@@ -4,7 +4,10 @@ import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 
 import java.util.Optional;
@@ -88,8 +91,15 @@ public class Arbitre {
         return sectionBambous.length >= objectifPanda.getNombreBambousAManger();
     }
 
-    public boolean checkObjectifJardinierTermine(ObjectifJardinier objectifJardinier){
-        return objectifJardinier.getNombreBambousRestant()<=0;
+    public boolean checkObjectifJardinierTermine(ObjectifJardinier objectifJardinier, Plateau plateau){
+        Parcelle[] parcelles = plateau.getParcelles();
+        for (int i=0; i<parcelles.length; i++){
+            if (parcelles[i].getClass() == ParcelleCouleur.class){
+                ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelles[i];
+                if (parcelleCouleur.getNombreBambou() == objectifJardinier.getNombreBambousAFairePousser()) return true;
+            }
+        }
+        return false;
     }
 
     /**

@@ -254,7 +254,9 @@ public class Plateau {
             Bambou bambou = new Bambou(parcelleCouleur);
             bambou.ajouteSectionBambou(sectionBambou);
             bambous.add(bambou);
-            parcelleCouleur.setNombreBambou(parcelleCouleur.getNombreBambou()+1);
+            if (parcelleCouleur.getNombreBambou() < 4) {
+                parcelleCouleur.setNombreBambou(parcelleCouleur.getNombreBambou() + 1);
+            }
         }
     }
 

@@ -243,14 +243,14 @@ public class Joueur {
      */
     public void actionJardinier(Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
         Position positionJardinier = plateau.getJardinier().getPosition();
-        int deplacementReussi = deplacementJardinier(plateau,gPP.deplacementPossiblePersonnageDiagonaleDroite(positionJardinier));
-        if(deplacementReussi == -1){
+        boolean deplacementReussi = deplacementJardinier(plateau,gPP.deplacementPossiblePersonnageDiagonaleDroite(positionJardinier));
+        if(!deplacementReussi){
             deplacementReussi = deplacementJardinier(plateau,gPP.deplacementPossiblePersonnageDiagonaleGauche(positionJardinier));
-            if(deplacementReussi == -1){
+            if(!deplacementReussi){
                 deplacementJardinier(plateau,gPP.deplacementPossiblePersonnageHorizontal(positionJardinier));
             }
         }
-        gestionObjectifJardinier(arbitre, plaquette.getObjectifsJardinier(), deplacementReussi);
+        gestionObjectifJardinier(arbitre, plaquette.getObjectifsJardinier(), plateau);
     }
 
     /**
@@ -259,7 +259,7 @@ public class Joueur {
      * @param positionPossibleDeplacement est la liste des positions possibles pour déplacer le jardinier
      * @return <code>true</code> si le déplacement du jardinier est possible et effectué, <code>false</code> sinon
      */
-    private int deplacementJardinier(Plateau plateau, List<Position> positionPossibleDeplacement) {
+    private boolean deplacementJardinier(Plateau plateau, List<Position> positionPossibleDeplacement) {
         int indexParcelleChoisie = random.nextInt(positionPossibleDeplacement.size());
         Position positionParcelle = positionPossibleDeplacement.get(indexParcelleChoisie);
         if(indexParcelleChoisie < 0 || indexParcelleChoisie >= positionPossibleDeplacement.size()) throw new ArithmeticException("Erreur objet random");
@@ -267,8 +267,8 @@ public class Joueur {
         Optional<Parcelle> parcelleJardinier = plateau.getParcelle(positionParcelle);
         if (parcelleJardinier.isPresent()) {
             try {
-                int nombreBambousPoses = plateau.jardinierAddBambous((ParcelleCouleur) parcelleJardinier.get());
-                return nombreBambousPoses;
+                plateau.jardinierAddBambous((ParcelleCouleur) parcelleJardinier.get());
+                return true;
             }
             catch (ParcelleNonExistanteException pnee){
                 System.err.println(pnee);
@@ -277,7 +277,7 @@ public class Joueur {
         else {
             assert false : "La parcelle choisie doit être sur le plateau";
         }
-        return -1;
+        return false;
     }
 
     /**
@@ -326,10 +326,9 @@ public class Joueur {
      * @param arbitre L'arbitre qui doit vérifier si l'objectif est validé
      * @param objectifJardiniers La liste des objectifs jardinier
      */
-    private void gestionObjectifJardinier(Arbitre arbitre, ObjectifJardinier[] objectifJardiniers, int nombreBambousPoses){
+    private void gestionObjectifJardinier(Arbitre arbitre, ObjectifJardinier[] objectifJardiniers, Plateau plateau){
         for(ObjectifJardinier objectifJardinier : objectifJardiniers){
-            objectifJardinier.soustraitNombreBambousPoses(nombreBambousPoses);
-            if(arbitre.checkObjectifJardinierTermine(objectifJardinier)){
+            if(arbitre.checkObjectifJardinierTermine(objectifJardinier, plateau)){
                 if(plaquette.supprimeObjectif(objectifJardinier)){
                     objectifTermineList.add(objectifJardinier);
                     Main.AFFICHEUR.afficheObjectifValide(objectifJardinier);
