@@ -1,12 +1,13 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
  * Classe permettant d'avoir une position
  * @author equipe N
  */
-public class Position {
+public class Position  implements Comparable<Position> {
     // Définition des attributs
     private int x;
     private int y;
@@ -53,6 +54,15 @@ public class Position {
      */
     public int getY() {
         return y;
+    }
+
+    @Override
+    public int compareTo(Position position){
+        if(x > position.x) return 1;
+        else if(x < position.x) return -1;
+        else if(y > position.y) return 1;
+        else if(y < position.y) return -1;
+        else return 0;
     }
 
     @Override
