@@ -1,11 +1,14 @@
-package fr.cotedazur.univ.polytech.startingpoint.parcelle;
+package fr.cotedazur.univ.polytech.startingpoint.plateau;
+
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Exception dans le cas où la parcelle recherchée n'a pas été crée ou pas ajoutée au plateau
+ * Exception si la parcelle donnée ne se trouve par sur le plateau
  * @author equipe N
  */
-public class ParcelleNonExistanteException extends Exception {
-    public ParcelleNonExistanteException(Parcelle parcelle) {
-        super("La parcelle de position " + parcelle.position() + " n'existe pas sur le plateau");
+public class ParcelleNonPoseeException extends Exception {
+    public ParcelleNonPoseeException(@NotNull Parcelle parcelle) {
+        super("\"" + parcelle + "\"" + " ne se trouve pas sur le plateau");
     }
 }
