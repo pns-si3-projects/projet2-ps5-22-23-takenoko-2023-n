@@ -1,9 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 class PiocheObjectifTest {
     PiocheObjectif piocheObjectif;
     Couleur couleurParDefaut = Couleur.VERT;
+    Motif motifParDefaut = null;
 
     @BeforeEach
     void setUp() {
@@ -23,24 +24,26 @@ class PiocheObjectifTest {
         PiocheObjectifPanda pOPan= new PiocheObjectifPanda(new Random());
         PiocheObjectifJardinier pOJar= new PiocheObjectifJardinier(new Random());
         piocheObjectif = new PiocheObjectif(pOPar, pOPan, pOJar);
-        /*
-        when(pOPar.pioche())
-                .thenReturn(new ObjectifParcelle(4, 3))
-                .thenReturn(new ObjectifParcelle(3, 4))
-                .thenReturn(new ObjectifParcelle(2, 3));
+        try {
+            motifParDefaut = new Motif(new ParcelleCouleur(new Position(0,0),Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT));
+        }
+        catch (MotifNonValideException motifNonValideException){
+            assert false : "les Parcelles sont voisines";
+        }
+
+/*        when(pOPar.pioche())
+                .thenReturn(new ObjectifParcelle(4, motifParDefaut))
+                .thenReturn(new ObjectifParcelle(3, motifParDefaut))
+                .thenReturn(new ObjectifParcelle(2, motifParDefaut));
         when(pOPan.pioche())
-                .thenReturn(new ObjectifPanda(4, 2))
-                .thenReturn(new ObjectifPanda(6, 3))
-                .thenReturn(new ObjectifPanda(3, 2))
-                .thenReturn(new ObjectifPanda(5, 2));
+                .thenReturn(new ObjectifPanda(4, 2,Couleur.VERT))
+                .thenReturn(new ObjectifPanda(6, 3,Couleur.VERT))
+                .thenReturn(new ObjectifPanda(3, 2,Couleur.VERT))
+                .thenReturn(new ObjectifPanda(5, 2,Couleur.VERT));
         when(pOJar.pioche())
                 .thenReturn(new ObjectifJardinier(8, 12))
                 .thenReturn(new ObjectifJardinier(5, 4))
-                .thenReturn(new ObjectifJardinier(7, 9));
-        piocheObjectifPar = new PiocheObjectif(pOPar, new PiocheObjectifPanda(new Random()), new PiocheObjectifJardinier(new Random()));
-        piocheObjectifPan = new PiocheObjectif(new PiocheObjectifParcelle(new Random()), pOPan, new PiocheObjectifJardinier(new Random()));
-        piocheObjectifPar = new PiocheObjectif(new PiocheObjectifParcelle(new Random()), new PiocheObjectifPanda(new Random()), pOJar);
-        */
+                .thenReturn(new ObjectifJardinier(7, 9));*/
     }
 
     @Test
@@ -84,14 +87,15 @@ class PiocheObjectifTest {
     @Test
     void piocheObjectifParcelle() {
         PiocheObjectifParcelle mockPOPar = mock(PiocheObjectifParcelle.class);
+
         when(mockPOPar.pioche())
-                .thenReturn(new ObjectifParcelle(4, 3))
-                .thenReturn(new ObjectifParcelle(3, 4))
-                .thenReturn(new ObjectifParcelle(2, 3));
+                .thenReturn(new ObjectifParcelle(4, motifParDefaut))
+                .thenReturn(new ObjectifParcelle(3, motifParDefaut))
+                .thenReturn(new ObjectifParcelle(2, motifParDefaut));
         PiocheObjectif pO = new PiocheObjectif(mockPOPar, new PiocheObjectifPanda(new Random()), new PiocheObjectifJardinier(new Random()));
-        assertEquals(new ObjectifParcelle(4, 3), pO.piocheObjectifParcelle());
-        assertEquals(new ObjectifParcelle(3, 4), pO.piocheObjectifParcelle());
-        assertEquals(new ObjectifParcelle(2, 3), pO.piocheObjectifParcelle());
+        assertEquals(new ObjectifParcelle(4, motifParDefaut), pO.piocheObjectifParcelle());
+        assertEquals(new ObjectifParcelle(3, motifParDefaut), pO.piocheObjectifParcelle());
+        assertEquals(new ObjectifParcelle(2, motifParDefaut), pO.piocheObjectifParcelle());
     }
 
     @Test

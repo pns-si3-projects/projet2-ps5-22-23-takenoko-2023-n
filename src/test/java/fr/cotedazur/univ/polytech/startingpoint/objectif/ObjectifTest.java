@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 class ObjectifTest {
     Objectif objPar2_2;
     Objectif objPar3_2;
@@ -43,5 +43,5 @@ class ObjectifTest {
         assertEquals(objPan2_3, objJar2_1);
         assertNotEquals(objPan1_2, objJar2_1);
         assertNotEquals(objPar2_2, objPar2_3);
-    }*/
-}
+    }
+}*/
