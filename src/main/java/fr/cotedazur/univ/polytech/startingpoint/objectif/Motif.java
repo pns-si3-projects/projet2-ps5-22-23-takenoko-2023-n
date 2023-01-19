@@ -114,7 +114,7 @@ public class Motif {
 
         ParcelleCouleur[] motifActuel = tabParcelles;
         ParcelleCouleur[] motifOther = otherMotif.tabParcelles;
-        int differencePositionX = Math.abs(motifActuel[0].position().getX() - motifOther[0].position().getY());
+        int differencePositionX = Math.abs(motifActuel[0].position().getX() - motifOther[0].position().getX());
         int differencePositionY = Math.abs(motifActuel[0].position().getY() - motifOther[0].position().getY());
 
         for(int i = 1; i< motifActuel.length;i++){
@@ -149,7 +149,7 @@ public class Motif {
 
     @Override
     public int hashCode(){
-        return Objects.hash(tabParcelles);
+        return Objects.hash((Object) tabParcelles);
     }
 
     @Override
