@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
-import fr.cotedazur.univ.polytech.startingpoint.Colorable;
-import fr.cotedazur.univ.polytech.startingpoint.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Colorable;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 
 import java.util.Objects;
 
