@@ -1,14 +1,15 @@
 package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 /**
- * Enum représentant les couleurs possibles
+ * Représente les couleurs possibles.
  * @author équipe N
  */
 public enum Couleur {
     // Définition des attributs
-    VERT("vert") {
+
+    VERT("verte") {
         @Override
-        public boolean isVert() {
+        public boolean isVerte() {
             return true;
         }
     },
@@ -28,9 +29,10 @@ public enum Couleur {
 
 
     // Définition des contructeurs
+
     /**
-     * Contructeur par défaut
-     * @param couleur est la couleur demandée
+     * Construit la couleur demandée
+     * @param couleur la couleur demandée
      */
     Couleur(String couleur) {
         if (couleur.equalsIgnoreCase("vert")
@@ -38,35 +40,13 @@ public enum Couleur {
                 || couleur.equalsIgnoreCase("jaune")) {
             this.couleur = couleur;
         } else {
-            throw new IllegalArgumentException("La couleur donnée ne correspond pas aux possibilités de couleur (vert, rose, jaune)");
+            throw new IllegalArgumentException(
+                    "La couleur demandée ne correspond pas aux possibilités de couleur (vert, rose, jaune)");
         }
     }
 
 
-    // Accesseurs et méthode toString
-    /**
-     * Renvoie si la couleur est verte
-     * @return <code>true</code> si la couleur est verte, <code>false</code> sinon
-     */
-    public boolean isVert() {
-        return false;
-    }
-
-    /**
-     * Renvoie si la couleur est rose
-     * @return <code>true</code> si la couleur est rose, <code>false</code> sinon
-     */
-    public boolean isRose() {
-        return false;
-    }
-
-    /**
-     * Renvoie si la couleur est jaune
-     * @return <code>true</code> si la couleur est jaune, <code>false</code> sinon
-     */
-    public boolean isJaune() {
-        return false;
-    }
+    // Accesseurs
 
     /**
      * Renvoie la couleur
@@ -74,6 +54,30 @@ public enum Couleur {
      */
     public String getCouleur() {
         return couleur;
+    }
+
+    /**
+     * Renvoie si la couleur est verte
+     * @return {@code true} si la couleur est verte, {@code false} sinon
+     */
+    public boolean isVerte() {
+        return false;
+    }
+
+    /**
+     * Renvoie si la couleur est rose
+     * @return {@code true} si la couleur est rose, {@code false} sinon
+     */
+    public boolean isRose() {
+        return false;
+    }
+
+    /**
+     * Renvoie si la couleur est jaune
+     * @return {@code true} si la couleur est jaune, {@code false} sinon
+     */
+    public boolean isJaune() {
+        return false;
     }
 
     @Override

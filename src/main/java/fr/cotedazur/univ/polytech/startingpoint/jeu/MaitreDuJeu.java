@@ -32,12 +32,14 @@ public class MaitreDuJeu {
         PiocheObjectifInterface pOPar = new PiocheObjectifParcelle(random);
         PiocheObjectifInterface pOPan = new PiocheObjectifPanda(random);
         PiocheObjectifInterface pOJar = new PiocheObjectifJardinier(random);
+
         plateau = new Plateau();
         piocheParcelle = new PiocheParcelle(random);
         piocheObjectif = new PiocheObjectif(pOPar, pOPan, pOJar);
         piocheBambou = new PiocheBambou(random);
         joueurs = new Joueur[]{new Joueur(nomJoueur1), new Joueur(nomJoueur2)};
         nombreTour = 1;
+
         Afficheur.initialisation();
     }
 }

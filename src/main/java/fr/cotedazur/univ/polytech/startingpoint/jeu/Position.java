@@ -1,44 +1,41 @@
 package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 /**
- * Classe permettant d'avoir une position
+ * Représente la position d'une pièce du jeu.
  * @author equipe N
  */
 public class Position {
     // Définition des attributs
-    private int x;
-    private int y;
+
+    private final int x;
+    private final int y;
 
 
     // Définition des constructeurs
+
     /**
-     * Contructeur pour l'etang
+     * Construit la position désignée pour l'étang (0,0)
      */
     public Position() {
         this(0, 0);
     }
 
     /**
-     * Constructeur par défaut
-     * @param x coordonnée horizontale
-     * @param y coordonnée verticale
+     * Construit une position en prenant 2 coordonnées
+     * @param x la coordonnée horizontale
+     * @param y la coordonnée verticale
      */
-    public Position(int x, int y) {
+    public Position(@NotNull int x, @NotNull int y) {
         this.x = x;
         this.y = y;
     }
 
-    public void setX(int x){
-        this.x = x;
-    }
+    // Accesseurs
 
-    public void setY(int y){
-        this.y = y;
-    }
-
-    // Accesseurs et méthode toString et equals
     /**
      * Renvoie la valeur de l'attribut x
      * @return la valeur de x
@@ -55,9 +52,12 @@ public class Position {
         return y;
     }
 
+
+    // Méthodes toString et equals
+
     @Override
     public String toString() {
-        return "("+x+","+y+")";
+        return "(" + x + "," + y + ")";
     }
 
     @Override
@@ -67,6 +67,7 @@ public class Position {
         Position position = (Position) o;
         return getX() == position.getX() && getY() == position.getY();
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(getX(), getY());
