@@ -11,6 +11,9 @@ import java.util.Objects;
 public class ParcelleCouleur implements Parcelle {
     // Définition des attributs
     private final Position position;
+    private int nombreBambou;
+
+
 
 
     // Définition des constructeurs
@@ -21,6 +24,7 @@ public class ParcelleCouleur implements Parcelle {
     public ParcelleCouleur(Position position) {
         if (position == null) throw new NullPointerException("La position ne doit pas être null");
         this.position = position;
+        this.nombreBambou=0;
     }
 
 
@@ -33,7 +37,13 @@ public class ParcelleCouleur implements Parcelle {
     public Position getPosition() {
         return position;
     }
+    public int getNombreBambou() {
+        return nombreBambou;
+    }
 
+    public void setNombreBambou(int nombreBambou) {
+        this.nombreBambou = nombreBambou;
+    }
     @Override
     public String toString() {
         return "Parcelle de couleur en " + position;

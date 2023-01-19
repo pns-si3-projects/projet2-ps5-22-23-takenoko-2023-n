@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PlateauTest {
     Plateau plateau;
@@ -226,43 +225,18 @@ class PlateauTest {
             assertEquals("Il manque des voisines",exception.getMessage());
         }
     }
-/*
-    @Test
-    void jardinierAddBambousParcelleExistante() throws ParcelleExistanteException, NombreParcelleVoisineException {
-        ParcelleCouleur pc40=new ParcelleCouleur(new Position(4,0));
-        ParcelleCouleur pc3_1=new ParcelleCouleur(new Position(3,-1));
-        ParcelleCouleur pc5_1=new ParcelleCouleur(new Position(5,-1));
-        ParcelleCouleur pc60=new ParcelleCouleur(new Position(6,0));
-        ParcelleCouleur pc51=new ParcelleCouleur(new Position(5,1));
-        ParcelleCouleur pc31=new ParcelleCouleur(new Position(3,1));
-
-        SectionBambou secBam4_0=new SectionBambou();
-        SectionBambou secBam3__1=new SectionBambou();
-        SectionBambou secBam5__1=new SectionBambou();
-        SectionBambou secBam6_0=new SectionBambou();
-        SectionBambou secBam5_1=new SectionBambou();
-        SectionBambou secBam3_1=new SectionBambou();
-
-            plateau.addParcelle(pc40,secBam4_0);
-            plateau.addParcelle(pc3_1,secBam3__1);
-            plateau.addParcelle(pc5_1,secBam5__1);
-            plateau.addParcelle(pc60,secBam6_0);
-            plateau.addParcelle(pc51,secBam5_1);
-            plateau.addParcelle(pc31,secBam3_1);
-
-
-        try {
-            plateau.jardinierAddBambous(pc40);
-            assertEquals(plateau.jardinierAddBambous(pc40),7);
-        } catch (ParcelleNonExistanteException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Test
-    void jardinierAddBambousParcelleNonExistante(){
+    void addBambouTest() throws ParcelleNonExistanteException {
+
+        assertEquals(pC11.getNombreBambou(), 1);
+        plateau.addBambou(pC11,new SectionBambou());
+        assertNotEquals(pC11.getNombreBambou(), 1);
+        assertEquals(pC11.getNombreBambou(),2);
+        plateau.jardinierAddBambous(pC11);
+        assertEquals(pC11.getNombreBambou(),3);
+        assertNotEquals(pC20.getNombreBambou(), 1);
+        assertEquals(pC20.getNombreBambou(), 2);
 
     }
-
- */
 }

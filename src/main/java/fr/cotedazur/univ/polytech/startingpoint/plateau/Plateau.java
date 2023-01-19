@@ -249,10 +249,12 @@ public class Plateau {
         Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.getPosition());
         if (optionalBambou.isPresent()) {
             optionalBambou.get().ajouteSectionBambou(sectionBambou);
+            parcelleCouleur.setNombreBambou(parcelleCouleur.getNombreBambou()+1);
         } else {
             Bambou bambou = new Bambou(parcelleCouleur);
             bambou.ajouteSectionBambou(sectionBambou);
             bambous.add(bambou);
+            parcelleCouleur.setNombreBambou(parcelleCouleur.getNombreBambou()+1);
         }
     }
 
@@ -262,7 +264,7 @@ public class Plateau {
         addBambou(parcelle, new SectionBambou());
         nombreBambousPoses++;
         for(Parcelle p : parcellesVoisine){
-            if(p.getClass() != ParcelleDisponible.class && p.getClass().equals(etang.getClass())){
+            if(p.getClass() != ParcelleDisponible.class && !p.getClass().equals(etang.getClass())){
                 addBambou((ParcelleCouleur) p,new SectionBambou());
                 nombreBambousPoses++;
             }

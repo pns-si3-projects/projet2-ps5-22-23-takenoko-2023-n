@@ -36,4 +36,12 @@ class ParcelleCouleurTest {
         assertNotEquals(pC1_1,pC2_1);
         assertNotEquals(pC1_1bis,pC2_1);
     }
+
+    @Test
+    void getNombreBambouParParcelleTest(){
+        assertEquals(pC1_1.getNombreBambou(),0);
+        pC2_1.setNombreBambou(2);
+        assertEquals(pC2_1.getNombreBambou(), 2);
+        assertNotEquals(pC2_1.getNombreBambou(), 0);
+    }
 }
