@@ -1,11 +1,11 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class JoueurTest {
     // Attributs
@@ -37,14 +37,15 @@ class JoueurTest {
 
     @Test
     void getObjectifARealiserList() {
-        assertEquals(new ArrayList<>(), joueur1.getObjectifEnMainList());
-        assertEquals(new ArrayList<>(), joueur2.getObjectifEnMainList());
+        assertEquals(0, joueur1.nombreObjectifsEnMain());
+        assertEquals(new Objectif[0], joueur1.getObjectifsEnMain());
+        assertEquals(new Objectif[0], joueur2.getObjectifsEnMain());
     }
 
     @Test
     void getObjectifTermineList() {
-        assertEquals(new ArrayList<>(), joueur1.getObjectifTermineList());
-        assertEquals(new ArrayList<>(), joueur2.getObjectifTermineList());
+        assertEquals(new Objectif[0], joueur1.getObjectifsTermines());
+        assertEquals(new Objectif[0], joueur2.getObjectifsTermines());
     }
 
 
