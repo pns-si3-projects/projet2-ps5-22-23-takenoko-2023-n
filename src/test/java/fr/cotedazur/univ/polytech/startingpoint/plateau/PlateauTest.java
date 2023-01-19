@@ -1,10 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +24,7 @@ class PlateauTest {
     // Accesseurs
     @Test
     void getParcelles() {
-        assertEquals(new Parcelle[0], plateau.getParcelles());
+        assertEquals(0, plateau.getParcelles().length);
     }
 
     @Test
@@ -36,7 +34,7 @@ class PlateauTest {
 
     @Test
     void getBambous() {
-        assertEquals(new Bambou[0], plateau.getBambous());
+        assertEquals(0, plateau.getBambous().length);
     }
 
     @Test

@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,14 +36,14 @@ class JoueurTest {
     @Test
     void getObjectifARealiserList() {
         assertEquals(0, joueur1.nombreObjectifsEnMain());
-        assertEquals(new Objectif[0], joueur1.getObjectifsEnMain());
-        assertEquals(new Objectif[0], joueur2.getObjectifsEnMain());
+        assertEquals(0, joueur1.getObjectifsEnMain().length);
+        assertEquals(0, joueur2.getObjectifsEnMain().length);
     }
 
     @Test
     void getObjectifTermineList() {
-        assertEquals(new Objectif[0], joueur1.getObjectifsTermines());
-        assertEquals(new Objectif[0], joueur2.getObjectifsTermines());
+        assertEquals(0, joueur1.getObjectifsTermines().length);
+        assertEquals(0, joueur2.getObjectifsTermines().length);
     }
 
 

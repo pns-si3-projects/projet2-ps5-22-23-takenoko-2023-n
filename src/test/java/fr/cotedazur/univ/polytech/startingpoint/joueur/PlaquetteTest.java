@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +20,7 @@ class PlaquetteTest {
     // Accesseurs
     @Test
     void getReserveBambousManges() {
-        assertEquals(new SectionBambou[0], plaquette.getReserveBambousManges());
+        assertEquals(0, plaquette.getReserveBambousManges().length);
     }
 
     @Test
