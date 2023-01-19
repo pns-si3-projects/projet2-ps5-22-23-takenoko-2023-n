@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
@@ -35,6 +36,7 @@ public class Plateau {
         jardinier = new Jardinier();
 
         // Ajout de l'étang dans la liste des parcelles
+        Etang etang = new Etang();
         // ----------------------------------------------------------------------------------------------
     }
 
@@ -61,7 +63,7 @@ public class Plateau {
      * @return un tableau des parcelles voisines demandées
      * @throws ParcelleNonPoseeException si la parcelle donnée ne se trouve pas sur le plateau
      */
-    public Parcelle[] getTableauVoisines(@NotNull Parcelle parcelle) throws ParcelleNonPoseeException {
+    public Parcelle[] getParcellesVoisines(@NotNull Parcelle parcelle) throws ParcelleNonPoseeException {
         if (parcelleEtVoisinesList.containsKey(parcelle)) {
             return parcelleEtVoisinesList.get(parcelle);
         }
