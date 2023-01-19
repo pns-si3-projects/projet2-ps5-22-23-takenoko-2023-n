@@ -30,9 +30,8 @@ class JoueurTest {
 
     @Test
     void getPlaquette() {
-        // À faire avec la plaquette
-        //assertEquals(..., joueur1.getPlaquette());
-        //assertNotEquals(..., joueur2.getPlaquette());
+        assertEquals(Plaquette.class, joueur1.getPlaquette().getClass());
+        assertEquals(Plaquette.class, joueur2.getPlaquette().getClass());
     }
 
     @Test
