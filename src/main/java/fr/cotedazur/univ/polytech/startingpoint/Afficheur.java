@@ -6,6 +6,6 @@ package fr.cotedazur.univ.polytech.startingpoint;
  */
 public class Afficheur {
     public static void initialisation() {
-        System.out.println("Initialisation du jeu : étang, panda et jardinier en (0,0)");
+        System.out.println("Initialisation du jeu : étang, panda et jardinier en (0,0).");
     }
 }

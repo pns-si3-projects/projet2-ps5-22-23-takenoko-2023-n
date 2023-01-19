@@ -4,8 +4,6 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 
-import java.util.Random;
-
 /**
  * Classe permettant de gérer les pioches d'objectifs (objectifs de parcelles, panda et jardinier)
  * @author équipe N
@@ -19,10 +17,10 @@ public class PiocheObjectif {
     /**
      * Constructeur par défaut
      */
-    public PiocheObjectif(Random random) {
-        PiocheObjectifInterface pOPar = new PiocheObjectifParcelle(random);
-        PiocheObjectifInterface pOPan = new PiocheObjectifPanda(random);
-        PiocheObjectifInterface pOJar = new PiocheObjectifJardinier(random);
+    public PiocheObjectif(PiocheObjectifInterface pOPar, PiocheObjectifInterface pOPan, PiocheObjectifInterface pOJar) {
+        if (pOPar == null || pOPan == null || pOJar == null) {
+            throw new IllegalArgumentException("Les pioches ne doivent pas être null");
+        }
         piochesObjectif = new PiocheObjectifInterface[]{pOPar, pOPan, pOJar};
     }
 
