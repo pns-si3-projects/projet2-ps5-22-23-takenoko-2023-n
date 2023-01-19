@@ -15,11 +15,11 @@ class ObjectifJardinierTest {
 
     @BeforeEach
     void setUp() {
-        objJ1_1 = new ObjectifJardinier(1, 1);
-        objJ2_2 = new ObjectifJardinier(2, 2);
-        objJ2_2_bis = new ObjectifJardinier(2, 2);
-        objJ3_2 = new ObjectifJardinier(3, 2);
-        objJ2_3 = new ObjectifJardinier(2, 3);
+        objJ1_1 = new ObjectifJardinier(1, 1, "VERT");
+        objJ2_2 = new ObjectifJardinier(2, 2, "VERT");
+        objJ2_2_bis = new ObjectifJardinier(2, 2, "VERT");
+        objJ3_2 = new ObjectifJardinier(3, 2, "VERT");
+        objJ2_3 = new ObjectifJardinier(2, 3, "VERT");
     }
 
     @Test

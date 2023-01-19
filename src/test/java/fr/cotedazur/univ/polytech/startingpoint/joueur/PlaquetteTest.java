@@ -27,8 +27,8 @@ class PlaquetteTest {
         objPar3_4 = new ObjectifParcelle(3, 4);
         objPan3_2 = new ObjectifPanda(3, 2);
         objPan4_2 = new ObjectifPanda(4, 2);
-        objJar3_2 = new ObjectifJardinier(3, 2);
-        objJar6_4 = new ObjectifJardinier(6, 4);
+        objJar3_2 = new ObjectifJardinier(3, 2, "VERT");
+        objJar6_4 = new ObjectifJardinier(6, 4, "VERT");
         plaquette = new Plaquette(objPar2_3, objPan3_2, objJar3_2);
         plaquette.ajouteSectionBambou(new SectionBambou()); // modifier pour vert
         plaquette.ajouteSectionBambou(new SectionBambou()); // modifier pour rose

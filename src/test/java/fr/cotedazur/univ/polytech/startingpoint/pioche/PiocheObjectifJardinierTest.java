@@ -43,12 +43,12 @@ class PiocheObjectifJardinierTest {
     void pioche() {
         when(mockRandom.nextInt(anyInt())).thenReturn(14, 10, 11, 0, 1);
         piocheObjectifJardinier = new PiocheObjectifJardinier(mockRandom);
-        Assertions.assertEquals(new ObjectifJardinier(3, 4), piocheObjectifJardinier.pioche());
-        assertEquals(new ObjectifJardinier(5, 4), piocheObjectifJardinier.pioche());
+        Assertions.assertEquals(new ObjectifJardinier(3, 4, "VERT"), piocheObjectifJardinier.pioche());
+        assertEquals(new ObjectifJardinier(5, 4, "VERT"), piocheObjectifJardinier.pioche());
         // car en supprimant 10, les suivant sont décalés donc on prend ancien 12
-        assertEquals(new ObjectifJardinier(6, 4), piocheObjectifJardinier.pioche());
-        assertEquals(new ObjectifJardinier(5, 4), piocheObjectifJardinier.pioche());
+        assertEquals(new ObjectifJardinier(6, 4, "VERT"), piocheObjectifJardinier.pioche());
+        assertEquals(new ObjectifJardinier(5, 4, "VERT"), piocheObjectifJardinier.pioche());
         // car en supprimant 0, les suivant sont décalés donc on prend ancien 2
-        assertEquals(new ObjectifJardinier(6, 6), piocheObjectifJardinier.pioche());
+        assertEquals(new ObjectifJardinier(6, 6, "VERT"), piocheObjectifJardinier.pioche());
     }
 }

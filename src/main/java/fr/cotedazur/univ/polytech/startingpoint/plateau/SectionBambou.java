@@ -21,6 +21,10 @@ public class SectionBambou {
         this.couleur = couleur;
     }
 
+    public SectionBambou(){
+
+    }
+
 
     // Accesseurs et méthode toString et equals
 

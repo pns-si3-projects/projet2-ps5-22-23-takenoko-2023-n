@@ -22,6 +22,12 @@ public class ParcelleCouleur implements Parcelle {
      * Constructeur par défaut
      * @param position position finale de la parcelle
      */
+    public ParcelleCouleur(Position position) {
+        if (position == null) throw new NullPointerException("La position ne doit pas être null");
+        this.position = position;
+        this.nombreBambou=0;
+    }
+
     public ParcelleCouleur(Position position, String couleur) {
         if (position == null) throw new NullPointerException("La position ne doit pas être null");
         this.position = position;
