@@ -1,10 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 
 import java.util.Optional;
@@ -74,14 +73,78 @@ public class Arbitre {
     }
 
     /**
+     * Cherche la Parcelle dans le plateau si elle existe
+     * @param listParcelleEtVoisine Les parcelles du plateau
+     * @param positionAChercher La position de la parcelle A chercher
+     * @return la parcelle si elle existe dans le plateau
+     */
+    private Optional<Parcelle> getParcelleATrouver(Parcelle[] listParcelleEtVoisine, Position positionAChercher){
+        if(positionAChercher.equals(new Position())) return Optional.empty(); // Si la position est l'étang
+
+        for (Parcelle parcelle : listParcelleEtVoisine) {
+            if (parcelle.position().equals(positionAChercher)) {
+                return Optional.of(parcelle);
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Méthode permettant de créer un motif si c'est possible via une Parcelle et la liste de ParcelleEtVoisine
+     * @param listParcelleEtVoisine la liste de ParcelleEtVoisine
+     * @param parcelleCible La parcelle avec laquelle on cherche a faire un motif
+     * @param motifAFaire Le motif qu'on cherche a faire
+     * @return un motif si il est possible d'en faire un
+     */
+    public Optional<Motif> creeMotif(Parcelle[] listParcelleEtVoisine, Parcelle parcelleCible, Motif motifAFaire){
+        ParcelleCouleur[] tableauParcelleMotif = motifAFaire.getTableauParcelles();
+        ParcelleCouleur[] motifACreer = new ParcelleCouleur[tableauParcelleMotif.length];
+        motifACreer[0] = (ParcelleCouleur) parcelleCible;
+
+        for (int i = 1; i < tableauParcelleMotif.length; i++ ) {
+            int differenceX = tableauParcelleMotif[0].position().getX() - tableauParcelleMotif[i].position().getX();
+            int differenceY = tableauParcelleMotif[0].position().getY() - tableauParcelleMotif[i].position().getY();
+            Position positionParcelleCible = parcelleCible.position();
+            Position positionAChercher = new Position(positionParcelleCible.getX() + differenceX,positionParcelleCible.getY() + differenceY);
+
+            Optional<Parcelle> optParcelleTrouver = getParcelleATrouver(listParcelleEtVoisine,positionAChercher);
+            if(optParcelleTrouver.isPresent()) {
+                motifACreer[i] = (ParcelleCouleur) optParcelleTrouver.get();
+            }
+            else {
+                return Optional.empty();
+            }
+        }
+
+        try {
+            Motif motifCree = new Motif(motifACreer);
+            return Optional.of(motifCree);
+        }
+        catch (MotifNonValideException mNVE){
+            assert false: "Ne dois pas renvoyer d'erreur normalement";
+            return Optional.empty();
+        }
+    }
+
+    /**
      * Méthode qui vérifie si l'objectif a été terminé
      * @param listParcellesEtVoisines la liste de parcelles et voisines
      * @param objectifParcelle l'objectif à vérifier
      * @return <code>true</code> si l'objectif est terminé, <code>false</code> sinon
      */
     public boolean checkObjectifParcelleTermine(Parcelle[] listParcellesEtVoisines, ObjectifParcelle objectifParcelle) {
-        int nombreParcellePlateau = listParcellesEtVoisines.length;
-        return objectifParcelle.getNombreParcelles() <= nombreParcellePlateau - objectifParcelle.getNombreParcellePresenteEnJeu();
+        Motif motifATrouver = objectifParcelle.getMotif();
+
+        for (Parcelle parcelle : listParcellesEtVoisines) {
+            Optional<Motif> optMotif = creeMotif(listParcellesEtVoisines,parcelle,motifATrouver);
+
+            if (optMotif.isPresent()){
+                if(optMotif.get().equals(motifATrouver)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean checkObjectifPandaTermine(SectionBambou[] sectionBambous, ObjectifPanda objectifPanda){
