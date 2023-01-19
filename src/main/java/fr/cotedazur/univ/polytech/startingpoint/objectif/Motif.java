@@ -22,6 +22,7 @@ public class Motif {
         if(parcellesCouleurs.length < 2 || parcellesCouleurs.length > 4) throw new IllegalArgumentException("Trop d'arguments en paramètres");
         tabParcelles = parcellesCouleurs;
         if(!checkMotifsParcelle()) throw new MotifNonValideException();
+        sortMotif();
     }
 
     /**
@@ -59,8 +60,7 @@ public class Motif {
 
         if ((yV == yC) &&  (xV - 2 == xC || xV+2 == xC)) return true;
         else if ((yV - 1 == yC) && (xV - 1 == xC || xV + 1 == xC)) return true;
-        else if ((yV + 1 == yC) && (xV - 1 == xC || xV + 1 == xC)) return true;
-        return false;
+        else return (yV + 1 == yC) && (xV - 1 == xC || xV + 1 == xC);
     }
 
     /**
@@ -82,25 +82,26 @@ public class Motif {
 
     /**
      * Trie le motifs pour pouvoir le comparer
-     * @return renvoie une copie du motif trie
      */
-    private ParcelleCouleur[] sortMotif(){
-        ParcelleCouleur[] motifParcelle = new ParcelleCouleur[tabParcelles.length];
+    private void sortMotif(){
         for(int i = 0 ; i < tabParcelles.length - 1 ; i++) {
-            ParcelleCouleur parcelleMin = tabParcelles[i];
+            int positionTableauParcelleMin = i;
 
-            for(int j = i + 1; j < tabParcelles.length ;j++) {
-                Position positionParcelleMin = parcelleMin.position();
+            for (int j = i + 1; j < tabParcelles.length; j++) {
+                Position positionParcelleMin = tabParcelles[positionTableauParcelleMin].position();
                 Position positionParcelleJ = tabParcelles[j].position();
 
-                if(positionParcelleMin.compareTo(positionParcelleJ) > 0){
-                    parcelleMin = tabParcelles[j];
+                if (positionParcelleMin.compareTo(positionParcelleJ) > 0) {
+                    positionTableauParcelleMin = j;
                 }
             }
 
-            motifParcelle[i] = parcelleMin;
+            if (positionTableauParcelleMin != i){
+                ParcelleCouleur parcelleCouleurTemp = tabParcelles[i];
+                tabParcelles[i] = tabParcelles[positionTableauParcelleMin];
+                tabParcelles[positionTableauParcelleMin] = parcelleCouleurTemp;
+            }
         }
-        return motifParcelle;
     }
 
     /**
@@ -111,8 +112,8 @@ public class Motif {
     public boolean compareMotif(Motif otherMotif){
         if(otherMotif.tabParcelles.length != tabParcelles.length) return false;
 
-        ParcelleCouleur[] motifActuel = sortMotif();
-        ParcelleCouleur[] motifOther = otherMotif.sortMotif();
+        ParcelleCouleur[] motifActuel = tabParcelles;
+        ParcelleCouleur[] motifOther = otherMotif.tabParcelles;
         int differencePositionX = Math.abs(motifActuel[0].position().getX() - motifOther[0].position().getY());
         int differencePositionY = Math.abs(motifActuel[0].position().getY() - motifOther[0].position().getY());
 
@@ -132,9 +133,7 @@ public class Motif {
      */
     public ParcelleCouleur[] getTableauParcelles() {
         ParcelleCouleur[] copyParcelleCouleur = new ParcelleCouleur[tabParcelles.length];
-        for(int i = 0; i < tabParcelles.length; i++) {
-            copyParcelleCouleur[i] = tabParcelles[i];
-        }
+        System.arraycopy(tabParcelles, 0, copyParcelleCouleur, 0, tabParcelles.length);
         return tabParcelles;
     }
 
@@ -151,5 +150,14 @@ public class Motif {
     @Override
     public int hashCode(){
         return Objects.hash(tabParcelles);
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder("Motif : ");
+        for(ParcelleCouleur parcelleCouleur : tabParcelles){
+            stringBuilder.append(parcelleCouleur);
+        }
+        return stringBuilder.toString();
     }
 }

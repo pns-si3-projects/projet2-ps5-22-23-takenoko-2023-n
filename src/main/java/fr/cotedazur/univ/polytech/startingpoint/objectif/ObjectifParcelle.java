@@ -8,20 +8,19 @@ import java.util.Objects;
  */
 public class ObjectifParcelle extends Objectif {
     // Définition des attributs
-    private final int nombreParcelles;
-    private int nombreParcellePresenteEnJeu = 1;
+    private Motif motifParcelle;
 
 
     // Définition des constructeurs
     /**
      * Constructeur par défaut
      * @param nbPoints est le nombre de points de l'objectif
-     * @param nbParcelles est le nombre de parcelles à poser
+     * @param motifParcelle est le motif a effectuer
      * @implSpec <code>nbPoints > 0</code>, <code>nbParcelles > 0</code>
      */
-    public ObjectifParcelle(int nbPoints, int nbParcelles) {
+    public ObjectifParcelle(int nbPoints, Motif motifParcelle) {
         nombrePoints = nbPoints;
-        nombreParcelles = nbParcelles;
+        this.motifParcelle = motifParcelle;
     }
 
 
@@ -30,23 +29,15 @@ public class ObjectifParcelle extends Objectif {
      * Renvoie le nombre de parcelles irriguées qui doivent se retrouver sur le plateau
      * @return le nombre de parcelles irriguées qui doivent être sur le plateau
      */
-    public int getNombreParcelles() {
-        return nombreParcelles;
+    public Motif getMotif() {
+        return motifParcelle;
     }
 
-    public void setNombreParcellePresenteEnJeu(int nombreParcellePresenteEnJeu){
-        if(nombreParcellePresenteEnJeu >= 0) {
-            this.nombreParcellePresenteEnJeu = nombreParcellePresenteEnJeu;
-        }
-    }
-    public int getNombreParcellePresenteEnJeu(){
-        return nombreParcellePresenteEnJeu;
-    }
 
     @Override
     public String toString() {
-        String s = "Objectif de ";
-        s += nombreParcelles + " parcelles et vaut ";
+        String s = "Objectif de faire le ";
+        s += motifParcelle + " et vaut ";
         s += nombrePoints + " points";
         return s;
     }
@@ -62,11 +53,11 @@ public class ObjectifParcelle extends Objectif {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ObjectifParcelle that = (ObjectifParcelle) o;
-        return getNombreParcelles() == that.getNombreParcelles();
+        return motifParcelle.equals(that.motifParcelle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getNombreParcelles());
+        return Objects.hash(super.hashCode(), motifParcelle);
     }
 }
