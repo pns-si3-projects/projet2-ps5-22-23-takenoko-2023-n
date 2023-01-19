@@ -1,9 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
@@ -76,21 +74,63 @@ class ArbitreTest {
     }
 
     @Test
-    void checkObjectifParcelleTermine() {
-        ObjectifParcelle objectifParcelleACheck = new ObjectifParcelle(5, 4);
-        objectifParcelleACheck.setNombreParcellePresenteEnJeu(1);
-        int i = 0;
-        while (i < 4) {
-            assertFalse(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(), objectifParcelleACheck));
-            try {
-                ParcelleCouleur parcelleCouleurAAdd = new ParcelleCouleur(plateau.getPositionsDisponible()[0], Couleur.ROSE);
-                SectionBambou secBam = new SectionBambou(Couleur.ROSE);
-                plateau.addParcelle(parcelleCouleurAAdd, secBam);
-            }
-            catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
-                throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
-            }
-            i++;
+    void checkObjectifParcelleTermineSimple() {
+        Motif motifParDefaut = null;
+        try {
+            motifParDefaut = new Motif(new ParcelleCouleur(new Position(0, 0), Couleur.VERT), new ParcelleCouleur(new Position(1, 1), Couleur.VERT));
+        }
+        catch (MotifNonValideException mNVE){
+            assert false: "Ce sont des parcelles voisines donc ne dois pas renvoyer d'erreur";
+        }
+        ObjectifParcelle objectifParcelleACheck = new ObjectifParcelle(5, motifParDefaut);
+        try {
+            ParcelleCouleur parcelleCouleurAAdd20 = new ParcelleCouleur(plateau.getPositionsDisponible()[1], Couleur.ROSE);
+            SectionBambou secBam = new SectionBambou(Couleur.ROSE);
+            plateau.addParcelle(parcelleCouleurAAdd20, secBam);
+            assertFalse(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(),objectifParcelleACheck));
+
+            ParcelleCouleur parcelleCouleurAAdd1m1 = new ParcelleCouleur(plateau.getPositionsDisponible()[1], Couleur.ROSE);
+            plateau.addParcelle(parcelleCouleurAAdd1m1, secBam);
+        }
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
+            throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
+        }
+        assertTrue(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(), objectifParcelleACheck));
+    }
+
+    @Test
+    void checkObjectifParcelleTermine3Parcelle(){
+        Motif motifParDefaut = null;
+        try {
+            motifParDefaut = new Motif(new ParcelleCouleur(new Position(0, 0), Couleur.VERT), new ParcelleCouleur(new Position(1, 1), Couleur.VERT), new ParcelleCouleur(new Position(2,2),Couleur.VERT));
+        }
+        catch (MotifNonValideException mNVE){
+            assert false: "Ce sont des parcelles voisines donc ne dois pas renvoyer d'erreur";
+        }
+        ObjectifParcelle objectifParcelleACheck = new ObjectifParcelle(5, motifParDefaut);
+        try {
+            ParcelleCouleur parcelleCouleurAAdd20 = new ParcelleCouleur(plateau.getPositionsDisponible()[1], Couleur.ROSE);
+            SectionBambou secBam = new SectionBambou(Couleur.ROSE);
+            plateau.addParcelle(parcelleCouleurAAdd20, secBam);
+            assertFalse(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(),objectifParcelleACheck));
+
+            ParcelleCouleur parcelleCouleurAAdd1m1 = new ParcelleCouleur(plateau.getPositionsDisponible()[1], Couleur.ROSE);
+            plateau.addParcelle(parcelleCouleurAAdd1m1, secBam);
+            assertFalse(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(),objectifParcelleACheck));
+
+            ParcelleCouleur parcelleCouleurAAdd11 = new ParcelleCouleur(plateau.getPositionsDisponible()[0], Couleur.ROSE);
+            plateau.addParcelle(parcelleCouleurAAdd11, secBam);
+            assertFalse(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(),objectifParcelleACheck));
+
+            ParcelleCouleur parcelleCouleurAAddm1m1 = new ParcelleCouleur(plateau.getPositionsDisponible()[0], Couleur.ROSE);
+            plateau.addParcelle(parcelleCouleurAAddm1m1, secBam);
+            assertFalse(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(),objectifParcelleACheck)); // Impossible de le faire même si il y a l'étang au milieu
+
+            ParcelleCouleur parcelleCouleurAAdd31 = new ParcelleCouleur(plateau.getPositionsDisponible()[4], Couleur.ROSE);
+            plateau.addParcelle(parcelleCouleurAAdd31, secBam);
+        }
+        catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
+            throw new AssertionError("Ne doit normalement pas renvoyer d'erreur");
         }
         assertTrue(arbitre.checkObjectifParcelleTermine(plateau.getParcelles(), objectifParcelleACheck));
     }
