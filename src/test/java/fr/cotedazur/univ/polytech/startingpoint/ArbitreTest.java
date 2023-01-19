@@ -100,4 +100,16 @@ class ArbitreTest {
         arbitre.addTour();
         assertEquals(arbitre.getNombreTour(), 3);
     }
+
+    @Test
+    void checkOjectifJardinierTermine(){
+        ObjectifJardinier objectifJardinier = new ObjectifJardinier(2, 1);
+        joueur1.actionParcelle(piocheBambou,plateau,arbitre);
+        joueur2.actionParcelle(piocheBambou,plateau,arbitre);
+        joueur1.actionParcelle(piocheBambou,plateau,arbitre);
+        joueur2.actionParcelle(piocheBambou,plateau,arbitre);
+
+        joueur1.actionJardinier(plateau,arbitre,gPP);
+        assertTrue(arbitre.checkObjectifJardinierTermine(objectifJardinier,plateau));
+    }
 }

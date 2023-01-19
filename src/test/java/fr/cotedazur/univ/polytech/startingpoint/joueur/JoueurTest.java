@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.*;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.NombreObjectifsEnCoursException;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
@@ -38,6 +39,7 @@ class JoueurTest {
     ObjectifJardinier objJarJ2;
     PiocheBambou piocheBambou;
     GestionnairePossibilitePlateau gPP;
+    Arbitre arbitre;
 
     Joueur joueur1;
     Joueur joueur2;
@@ -53,7 +55,7 @@ class JoueurTest {
         piocheObjectifPanda = new PiocheObjectifPanda(random);
         piocheObjectifJardinier = new PiocheObjectifJardinier(random);
         piocheObjectif = new PiocheObjectif(piocheObjectifParcelle, piocheObjectifPanda, piocheObjectifJardinier);
-        GestionnairePossibilitePlateau gPP = new GestionnairePossibilitePlateau(plateau);
+        gPP = new GestionnairePossibilitePlateau(plateau);
         objParJ1 = piocheObjectif.piocheObjectifParcelle();
         objPanJ1 = piocheObjectif.piocheObjectifPanda();
         objJarJ1 = piocheObjectif.piocheObjectifJardinier();
@@ -63,6 +65,7 @@ class JoueurTest {
         piocheBambou = new PiocheBambou(new Random());
         joueur1 = new Joueur("Robot1", mockRandom, objParJ1, objPanJ1, objJarJ1);
         joueur2 = new Joueur("Robot2", mockRandom, objParJ2, objPanJ2, objJarJ2);
+        arbitre  = new Arbitre();
     }
 
     @Test
@@ -172,4 +175,20 @@ class JoueurTest {
         }
     }
 
+    @Test
+    void gestionObjectifJardinier() {
+        ObjectifJardinier objectifJardinier = new ObjectifJardinier(2, 2);
+        try {
+            joueur1.getPlaquette().ajouteObjectif(objectifJardinier);
+        } catch (NombreObjectifsEnCoursException e) {
+            throw new RuntimeException(e);
+        }
+
+        joueur1.actionParcelle(piocheBambou,plateau,arbitre);
+        joueur2.actionParcelle(piocheBambou,plateau,arbitre);
+        joueur1.actionParcelle(piocheBambou,plateau,arbitre);
+        joueur2.actionParcelle(piocheBambou,plateau,arbitre);
+
+        joueur1.actionJardinier(plateau,arbitre,gPP);
+    }
 }
