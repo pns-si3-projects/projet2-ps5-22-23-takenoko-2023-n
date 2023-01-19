@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Représente la plaquette individuelle d'un joueur
- * Contient les actions du tour et la liste des bambous mangés
+ * Représente la plaquette individuelle d'un joueur.
+ * Contient les actions du tour et la liste des bambous mangés.
  * @author équipe N
  */
 public class Plaquette {
@@ -40,9 +40,11 @@ public class Plaquette {
     public SectionBambou[] getReserveBambousManges() {
         int nbBambous = reserveBambousManges.size();
         SectionBambou[] bambous = new SectionBambou[nbBambous];
+
         for (int i=0; i<nbBambous; i++) {
             bambous[i] = reserveBambousManges.get(i);
         }
+
         return bambous;
     }
 
@@ -59,17 +61,19 @@ public class Plaquette {
     // Autres méthodes
 
     /**
-     * Renvoie le nombre sections de bambou mangées de la couleur demandée
+     * Renvoie le nombre de sections de bambou mangées de la couleur demandée
      * @param couleurBambou la couleur demandée pour le bambou
-     * @return le nombre sections de bambou mangées de la couleur demandée
+     * @return le nombre de sections de bambou mangées de la couleur demandée
      */
     public int nombreBambouCouleur(Couleur couleurBambou) {
         int somme = 0;
+
         for (SectionBambou sectionBambou : reserveBambousManges) {
             if (sectionBambou.couleur() == couleurBambou) {
                 somme++;
             }
         }
+
         return somme;
     }
 

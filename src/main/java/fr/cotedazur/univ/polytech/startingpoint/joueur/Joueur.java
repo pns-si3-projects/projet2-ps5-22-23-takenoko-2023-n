@@ -60,9 +60,11 @@ public class Joueur {
     public Objectif[] getObjectifsEnMain() {
         int nbObjectifs = objectifEnMainList.size();
         Objectif[] objectifs = new Objectif[nbObjectifs];
+
         for (int i=0; i < nbObjectifs; i++) {
             objectifs[i] = objectifEnMainList.get(i);
         }
+
         return objectifs;
     }
 
@@ -73,9 +75,11 @@ public class Joueur {
     public Objectif[] getObjectifsTermines() {
         int nbObjectifs = objectifTermineList.size();
         Objectif[] objectifs = new Objectif[nbObjectifs];
+
         for (int i=0; i < nbObjectifs; i++) {
             objectifs[i] = objectifTermineList.get(i);
         }
+
         return objectifs;
     }
 
@@ -96,9 +100,11 @@ public class Joueur {
      */
     public int nombrePoints() {
         int somme = 0;
+
         for (Objectif objectif : objectifTermineList) {
             somme += objectif.getNombrePoints();
         }
+
         return somme;
     }
 
