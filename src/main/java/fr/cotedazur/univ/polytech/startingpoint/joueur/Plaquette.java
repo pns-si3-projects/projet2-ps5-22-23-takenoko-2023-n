@@ -2,10 +2,10 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Représente la plaquette individuelle d'un joueur
@@ -51,7 +51,7 @@ public class Plaquette {
      * @param actionPossible l'action à vérifier si jouée dans le tour
      * @return {@code true} si l'action est jouée dans le tour
      */
-    public boolean isActionTour(ActionPossible actionPossible) {
+    public boolean isActionTour(@NotNull ActionPossible actionPossible) {
         return actionsTour[actionPossible.ordinal()];
     }
 
@@ -78,8 +78,7 @@ public class Plaquette {
      * @param sectionBambou la section de bambou à ajouter à réserve de la plaquette
      * @return {@code true} si la section de bambou est ajoutée
      */
-    public boolean mangeSectionBambou(SectionBambou sectionBambou) {
-        Objects.requireNonNull(sectionBambou);
+    public boolean mangeSectionBambou(@NotNull SectionBambou sectionBambou) {
         return reserveBambousManges.add(sectionBambou);
     }
 }

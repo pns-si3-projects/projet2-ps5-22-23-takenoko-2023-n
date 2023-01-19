@@ -1,10 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Applique la stratégie de jeu demandée.
@@ -27,8 +27,7 @@ public class Joueur {
      * Construit un joueur par son nom
      * @param nom le nom du joueur
      */
-    public Joueur(String nom) {
-        Objects.requireNonNull(nom);
+    public Joueur(@NotNull String nom) {
         this.nom = nom;
         plaquette = new Plaquette();
         objectifEnMainList = new ArrayList<>(3);
