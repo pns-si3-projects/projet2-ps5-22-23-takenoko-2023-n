@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.*;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Personnage;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 
@@ -107,38 +108,38 @@ public class Joueur {
      * @param gPP est le gestionnaire de possibilité de déplacements sur le plateau pour savoir où on peut déplacer le panda
      */
     private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
-        Plaquette.ActionPossible[] actionPossibles = plaquette.getActionsTourRealisees();
         if(plaquette.getNombreObjectifs() == 5){
-            if(actionPossibles.length == 0 || plaquette.isActionRealisee(actionPossibles[0])){
-                actionParcelle(piocheBambou,plateau,arbitre);
-                plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
-            }
-            else if(actionPossibles.length==0 || plaquette.isActionRealisee(actionPossibles[1])){
-                actionPanda(plateau,arbitre,gPP);
-                plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
-            }
-            else {
+            if (!plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER)){
                 actionJardinier(plateau,arbitre,gPP);
                 plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
             }
+            else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
+                actionParcelle(piocheBambou,plateau,arbitre);
+                plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
+            }
+            else {
+                actionPanda(plateau,arbitre,gPP);
+                plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
+            }
         }
-        else if(actionPossibles.length == 0 || (!plaquette.isActionRealisee(actionPossibles[0])&&!plaquette.isActionRealisee(actionPossibles[1])&&!plaquette.isActionRealisee(actionPossibles[3]))){
+        else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF)){
             actionPioche(piocheObjectif);
             plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
         }
         else {
-            if(actionPossibles.length == 0 || plaquette.isActionRealisee(actionPossibles[0])){
+            if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
                 actionParcelle(piocheBambou,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
-            else if(actionPossibles.length == 0 || plaquette.isActionRealisee(actionPossibles[1])){
-                actionPanda(plateau,arbitre,gPP);
-                plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
-            }
-            else{
+            else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER)){
                 actionJardinier(plateau,arbitre,gPP);
                 plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
             }
+            else {
+                actionPanda(plateau,arbitre,gPP);
+                plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
+            }
+
         }
     }
 
@@ -157,17 +158,7 @@ public class Joueur {
             }
             Main.AFFICHEUR.affichePiocheCarte(objectifParcelle);
         }
-        else if(plaquette.getObjectifsPanda().length < 2 && !piocheObjectif.isEmptyPiocheObjectifPanda()){
-            ObjectifPanda objectifPanda = piocheObjectif.piocheObjectifPanda();
-            try {
-                plaquette.ajouteObjectif(objectifPanda);
-            }
-            catch (NombreObjectifsEnCoursException nOECE){
-                assert false : MOINS_DE_5_OBJECTIFS;
-            }
-            Main.AFFICHEUR.affichePiocheCarte(objectifPanda);
-        }
-        else{
+        else if (plaquette.getObjectifsJardinier().length < 2 && !piocheObjectif.isEmptyPiocheObjectifParcelle()){
             ObjectifJardinier objectifJardinier = piocheObjectif.piocheObjectifJardinier();
             try {
                 plaquette.ajouteObjectif(objectifJardinier);
@@ -176,6 +167,16 @@ public class Joueur {
                 assert false : MOINS_DE_5_OBJECTIFS;
             }
             Main.AFFICHEUR.affichePiocheCarte(objectifJardinier);
+        }
+        else if (plaquette.getObjectifsPanda().length < 2 && !piocheObjectif.isEmptyPiocheObjectifPanda()){
+            ObjectifPanda objectifPanda = piocheObjectif.piocheObjectifPanda();
+            try {
+                plaquette.ajouteObjectif(objectifPanda);
+            }
+            catch (NombreObjectifsEnCoursException nOECE){
+                assert false : MOINS_DE_5_OBJECTIFS;
+            }
+            Main.AFFICHEUR.affichePiocheCarte(objectifPanda);
         }
     }
 
@@ -260,12 +261,14 @@ public class Joueur {
      * @return <code>true</code> si le déplacement du jardinier est possible et effectué, <code>false</code> sinon
      */
     private boolean deplacementJardinier(Plateau plateau, List<Position> positionPossibleDeplacement) {
+        if(positionPossibleDeplacement.size() == 0) return false;
         int indexParcelleChoisie = random.nextInt(positionPossibleDeplacement.size());
-        Position positionParcelle = positionPossibleDeplacement.get(indexParcelleChoisie);
         if(indexParcelleChoisie < 0 || indexParcelleChoisie >= positionPossibleDeplacement.size()) throw new ArithmeticException("Erreur objet random");
+        Position positionParcelle = positionPossibleDeplacement.get(indexParcelleChoisie);
         plateau.getJardinier().move(positionParcelle);
+        /*Main.AFFICHEUR.afficheDeplacement();*/
         Optional<Parcelle> parcelleJardinier = plateau.getParcelle(positionParcelle);
-        if (parcelleJardinier.isPresent()) {
+        if (parcelleJardinier.isPresent() && parcelleJardinier.get().getClass() != Etang.class) {
             try {
                 plateau.jardinierAddBambous((ParcelleCouleur) parcelleJardinier.get());
                 return true;

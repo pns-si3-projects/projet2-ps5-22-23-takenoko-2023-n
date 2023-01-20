@@ -248,8 +248,10 @@ public class Plateau {
     public void addBambou(ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou) {
         Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.getPosition());
         if (optionalBambou.isPresent()) {
-            optionalBambou.get().ajouteSectionBambou(sectionBambou);
-            parcelleCouleur.setNombreBambou(parcelleCouleur.getNombreBambou()+1);
+            if(!optionalBambou.get().isTailleMaximum()) {
+                optionalBambou.get().ajouteSectionBambou(sectionBambou);
+                parcelleCouleur.setNombreBambou(parcelleCouleur.getNombreBambou() + 1);
+            }
         } else {
             Bambou bambou = new Bambou(parcelleCouleur);
             bambou.ajouteSectionBambou(sectionBambou);

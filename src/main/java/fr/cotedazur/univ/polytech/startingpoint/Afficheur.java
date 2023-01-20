@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Personnage;
 
 import java.util.Optional;
 
@@ -96,4 +97,6 @@ public class Afficheur {
     public void afficheObjectifValide(Objectif objectif){
         System.out.println(objectif + " terminé");
     }
+
+    public void afficheDeplacement(Personnage personnage, Position position){System.out.println("Le " + personnage + " est deplacé en " + position);}
 }

@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 
@@ -46,7 +47,7 @@ public class Arbitre {
      */
     public boolean verifieFinDeJeu(Joueur... joueurs) {
         for (Joueur joueur : joueurs) {
-            if (joueur.getPoints() >= 9) { // À modifier par le nombre d'objectifs
+            if (joueur.getNombreObjectifsTermines()>=6) { // À modifier par le nombre d'objectifs
                 return true;
             }
         }
@@ -104,12 +105,11 @@ public class Arbitre {
      * @return <code>true</code> si l'objectif est terminé, <code>false</code> sinon
      */
     public boolean checkObjectifJardinierTermine(ObjectifJardinier objectifJardinier, Plateau plateau){
-        Parcelle[] parcelles = plateau.getParcelles();
+        Bambou[] bambous = plateau.getBambous();
         int nombreParcellesOk = 0;
-        for (int i=0; i<parcelles.length; i++){
-            if (parcelles[i].getClass() == ParcelleCouleur.class){
-                ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelles[i];
-                if (parcelleCouleur.getNombreBambou() == objectifJardinier.getNombreBambousAFairePousser() && parcelleCouleur.getCouleur()==objectifJardinier.getCouleur()) nombreParcellesOk++;
+        for (int i=0; i< bambous.length; i++){
+            if (bambous[i].getTailleBambou() >= objectifJardinier.getNombreBambousAFairePousser()){
+                nombreParcellesOk++;
             }
         }
         if (nombreParcellesOk >= objectifJardinier.getNombreDeParcelle()) return true;
