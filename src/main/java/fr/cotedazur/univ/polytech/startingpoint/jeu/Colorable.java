@@ -6,8 +6,8 @@ package fr.cotedazur.univ.polytech.startingpoint.jeu;
  */
 public interface Colorable {
     /**
-     * Renvoie la couleur de l'objet
-     * @return la couleur de l'objet
+     * Renvoie la couleur de l'objet {@code this}
+     * @return la couleur de l'objet {@code this}
      */
-    Couleur couleur();
+    Couleur getCouleur();
 }

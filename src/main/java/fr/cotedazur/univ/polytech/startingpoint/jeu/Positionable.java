@@ -6,8 +6,8 @@ package fr.cotedazur.univ.polytech.startingpoint.jeu;
  */
 public interface Positionable {
     /**
-     * Renvoie la position de l'objet
-     * @return la position de l'objet
+     * Renvoie la position de l'objet {@code this}
+     * @return la position de l'objet {@code this}
      */
-    Position position();
+    Position getPosition();
 }
