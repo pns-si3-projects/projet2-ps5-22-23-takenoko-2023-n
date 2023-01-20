@@ -3,31 +3,42 @@ package fr.cotedazur.univ.polytech.startingpoint.objectif;
 import java.util.Objects;
 
 /**
- * Représente les objectifs des parcelles avec un nombre de parcelles à placer et irriguer si besoin
+ * Représente les objectifs de parcelles.
+ * Un objectif de parcelles est un nombre de parcelles à placer.
  * @author équipe N
  */
 public class ObjectifParcelle extends Objectif {
     // Définition des attributs
+
     private final int nombreParcelles;
     private int nombreParcellePresenteEnJeu = 1;
 
 
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut
-     * @param nbPoints est le nombre de points de l'objectif
-     * @param nbParcelles est le nombre de parcelles à poser
-     * @implSpec <code>nbPoints > 0</code>, <code>nbParcelles > 0</code>
+     * Construit un objectif de parcelles par le nombre de points et le nombre de parcelles à poser
+     * @param nbPoints le nombre de points de l'objectif
+     * @param nbParcelles le nombre de parcelles à poser
+     * @implSpec {@code nbPoints > 0}, {@code nbParcelles > 0}
      */
     public ObjectifParcelle(int nbPoints, int nbParcelles) {
+        if (nbPoints <= 0) {
+            throw new IllegalArgumentException("Le nombre de points doit être supérieur à 0");
+        }
+        if (nbParcelles <= 0) {
+            throw new IllegalArgumentException("Le nombre de parcelles doit être supérieur à 0");
+        }
+
         nombrePoints = nbPoints;
         nombreParcelles = nbParcelles;
     }
 
 
-    // Accesseurs et méthodes toString et equals
+    // Accesseurs
+
     /**
-     * Renvoie le nombre de parcelles irriguées qui doivent se retrouver sur le plateau
+     * Renvoie le nombre de parcelles irriguées qui doivent être sur le plateau
      * @return le nombre de parcelles irriguées qui doivent être sur le plateau
      */
     public int getNombreParcelles() {
@@ -43,6 +54,9 @@ public class ObjectifParcelle extends Objectif {
         return nombreParcellePresenteEnJeu;
     }
 
+
+    // Méthodes to String et equals
+
     @Override
     public String toString() {
         String s = "Objectif de ";
@@ -53,8 +67,8 @@ public class ObjectifParcelle extends Objectif {
 
     /**
      * Compare 2 ObjectifParcelle par le nombre de points et le nombre de parcelles
-     * @param o est l'objet à comparer avec celui actuel
-     * @return <code>true</code> si l'ObjectifParcelle donné a le même nombre de points et de parcelles, <code>false</code> sinon
+     * @param o l'objet à comparer avec {@code this}
+     * @return {@code true} si l'ObjectifParcelle donné a le même nombre de points et de parcelles que {@code this}
      */
     @Override
     public boolean equals(Object o) {
