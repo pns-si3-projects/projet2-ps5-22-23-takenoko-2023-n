@@ -65,11 +65,6 @@ public class ObjectifParcelle extends Objectif {
         return s;
     }
 
-    /**
-     * Compare 2 ObjectifParcelle par le nombre de points et le nombre de parcelles
-     * @param o l'objet à comparer avec {@code this}
-     * @return {@code true} si l'ObjectifParcelle donné a le même nombre de points et de parcelles que {@code this}
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

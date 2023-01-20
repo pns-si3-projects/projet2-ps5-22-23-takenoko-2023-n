@@ -67,11 +67,6 @@ public class ObjectifPanda extends Objectif {
         return s;
     }
 
-    /**
-     * Compare 2 ObjectifPanda par le nombre de points et le nombre de bambous à manger
-     * @param o l'objet à comparer avec {@code this}
-     * @return {@code true} si l'ObjectifPanda donné a le même nombre de points et de bambous à manger que {@code this}
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -29,11 +29,6 @@ public abstract class Objectif {
         return "Objectif de " + nombrePoints + " points";
     }
 
-    /**
-     * Renvoie si les 2 objectifs sont égaux
-     * @param o l'objet à comparer avec {@code this}
-     * @return {@code true} si l'objectif donné a le même nombre de points que {@code this}
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

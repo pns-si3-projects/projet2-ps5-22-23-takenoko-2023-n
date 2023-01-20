@@ -61,11 +61,6 @@ public class ObjectifJardinier extends Objectif {
         return s;
     }
 
-    /**
-     * Compare 2 ObjectifJardinier par le nombre de points et le schéma à réaliser
-     * @param o l'objet à comparer avec {@code this}
-     * @return {@code true} si l'objectifJardinier donné a le même nombre de points et le même schéma que {@code this}
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
