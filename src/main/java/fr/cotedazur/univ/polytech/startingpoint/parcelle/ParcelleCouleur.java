@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Colorable;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -12,17 +13,17 @@ import java.util.Objects;
  * @param couleur la couleur de la parcelle
  * @author equipe N
  */
-public record ParcelleCouleur(Position position, Couleur couleur) implements Parcelle, Colorable {
-    // Définition des constructeurs
+public record ParcelleCouleur(@NotNull Position position, @NotNull Couleur couleur) implements Parcelle, Colorable {
+    // Accesseurs
 
-    /**
-     * Contruit une parcelle avec une position et une couleur
-     * @param position la position de la parcelle
-     * @param couleur la couleur de la parcelle
-     */
-    public ParcelleCouleur {
-        if (position == null) throw new IllegalArgumentException("La position ne doit pas être null");
-        if (couleur == null) throw new IllegalArgumentException("La couleur ne doit pas être null");
+    @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    @Override
+    public Couleur getCouleur() {
+        return couleur;
     }
 
 
