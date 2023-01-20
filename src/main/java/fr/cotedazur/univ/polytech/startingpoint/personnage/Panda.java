@@ -3,37 +3,38 @@ package fr.cotedazur.univ.polytech.startingpoint.personnage;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 
 /**
- * Classe représentant le Panda
+ * Représente le panda
  * @author equipe N
  */
 public class Panda implements Personnage {
     // Définition des attributs
+
     private final Position position;
 
 
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut du panda qui commence sur l'étang
+     * Construit le panda, commence sur l'étang
      */
     public Panda() {
         position = new Position();
     }
 
-    public void move(Position position){
-        this.position.setX(position.getX());
-        this.position.setY(position.getY());
-    }
 
+    // Accesseurs
 
-    // Accesseurs et méthode toString
     /**
-     * Renvoie la position du Panda
-     * @return la position
+     * Renvoie la position du panda
+     * @return la position du panda
      */
     @Override
     public Position position() {
         return position;
     }
+
+
+    // Méthode toString
 
     @Override
     public String toString() {
