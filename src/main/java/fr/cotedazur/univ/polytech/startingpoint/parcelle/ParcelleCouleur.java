@@ -7,7 +7,7 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import java.util.Objects;
 
 /**
- * Représente une parcelle posée sur le plateau
+ * Représente une parcelle posée sur le plateau.
  * @param position la position de la parcelle
  * @param couleur la couleur de la parcelle
  * @author equipe N

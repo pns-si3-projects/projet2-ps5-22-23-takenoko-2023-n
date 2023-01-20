@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * Représente un emplacement de parcelle disponible
+ * Représente un emplacement de parcelle disponible.
  * @author N
  */
 public class ParcelleDisponible implements Parcelle {
