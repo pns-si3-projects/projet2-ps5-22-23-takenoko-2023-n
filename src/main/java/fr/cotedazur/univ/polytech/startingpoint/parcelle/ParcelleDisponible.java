@@ -33,7 +33,7 @@ public class ParcelleDisponible implements Parcelle {
      * @return la position de la parcelle
      */
     @Override
-    public Position position() {
+    public Position getPosition() {
         return position;
     }
 
@@ -50,11 +50,11 @@ public class ParcelleDisponible implements Parcelle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParcelleDisponible that = (ParcelleDisponible) o;
-        return Objects.equals(position(), that.position());
+        return Objects.equals(getPosition(), that.getPosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(position());
+        return Objects.hash(getPosition());
     }
 }

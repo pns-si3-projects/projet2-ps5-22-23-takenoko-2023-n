@@ -29,7 +29,7 @@ public class Panda implements Personnage {
      * @return la position du panda
      */
     @Override
-    public Position position() {
+    public Position getPosition() {
         return position;
     }
 

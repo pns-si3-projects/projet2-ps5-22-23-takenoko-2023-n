@@ -29,7 +29,7 @@ public class Jardinier implements Personnage {
      * @return la position du jardinier
      */
     @Override
-    public Position position() {
+    public Position getPosition() {
         return position;
     }
 

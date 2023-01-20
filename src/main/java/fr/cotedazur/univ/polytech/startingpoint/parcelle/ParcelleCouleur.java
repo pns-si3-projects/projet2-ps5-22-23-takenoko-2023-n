@@ -37,7 +37,7 @@ public record ParcelleCouleur(Position position, Couleur couleur) implements Par
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParcelleCouleur that = (ParcelleCouleur) o;
-        return position.equals(that.position()) && couleur == that.couleur();
+        return position.equals(that.getPosition()) && couleur == that.getCouleur();
     }
 
     @Override

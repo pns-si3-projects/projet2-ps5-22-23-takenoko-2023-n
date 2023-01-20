@@ -69,7 +69,7 @@ public class Plaquette {
         int somme = 0;
 
         for (SectionBambou sectionBambou : reserveBambousManges) {
-            if (sectionBambou.couleur() == couleurBambou) {
+            if (sectionBambou.getCouleur() == couleurBambou) {
                 somme++;
             }
         }

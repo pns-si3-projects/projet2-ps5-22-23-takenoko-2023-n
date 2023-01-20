@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ParcelleNonVoisineException extends Exception {
     public ParcelleNonVoisineException(@NotNull Parcelle parcelleCible, @NotNull Parcelle parcelleNonVoisine) {
-        super("La parcelle en " + parcelleNonVoisine.position()
-                + " n'est pas voisine de la parcelle en " + parcelleCible.position());
+        super("La parcelle en " + parcelleNonVoisine.getPosition()
+                + " n'est pas voisine de la parcelle en " + parcelleCible.getPosition());
     }
 }
 
