@@ -32,20 +32,20 @@ class ParcelleCouleurTest {
 
     @Test
     void position() {
-        assertEquals(p1_1, pC1_1V.position());
-        assertEquals(p1_1, pC1_1VBis.position());
-        assertEquals(pC1_1V.position(), pC1_1VBis.position());
-        assertEquals(p2_1, pC2_1R.position());
+        assertEquals(p1_1, pC1_1V.getPosition());
+        assertEquals(p1_1, pC1_1VBis.getPosition());
+        assertEquals(pC1_1V.getPosition(), pC1_1VBis.getPosition());
+        assertEquals(p2_1, pC2_1R.getPosition());
     }
 
     @Test
     void couleur() {
-        assertEquals(vert, pC1_1V.couleur());
-        assertEquals(vert, pC1_1VBis.couleur());
-        assertEquals(pC1_1V.couleur(), pC1_1VBis.couleur());
-        assertEquals(rose, pC1_1R.couleur());
-        assertEquals(jaune, pC1_1J.couleur());
-        assertEquals(rose, pC2_1R.couleur());
+        assertEquals(vert, pC1_1V.getCouleur());
+        assertEquals(vert, pC1_1VBis.getCouleur());
+        assertEquals(pC1_1V.getCouleur(), pC1_1VBis.getCouleur());
+        assertEquals(rose, pC1_1R.getCouleur());
+        assertEquals(jaune, pC1_1J.getCouleur());
+        assertEquals(rose, pC2_1R.getCouleur());
     }
 
     @Test

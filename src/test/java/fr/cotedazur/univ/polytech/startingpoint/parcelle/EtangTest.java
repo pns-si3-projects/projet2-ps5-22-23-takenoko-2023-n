@@ -18,8 +18,8 @@ class EtangTest {
 
     @Test
     void getPosition(){
-        assertEquals(etang.position().getX(),0);
-        assertEquals(etang.position().getY(),0);
-        Assertions.assertEquals(etang.position(),new Position());
+        assertEquals(etang.getPosition().getX(),0);
+        assertEquals(etang.getPosition().getY(),0);
+        Assertions.assertEquals(etang.getPosition(),new Position());
     }
 }

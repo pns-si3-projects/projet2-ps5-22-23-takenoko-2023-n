@@ -23,9 +23,9 @@ class ParcelleDisponibleTest {
 
     @Test
     void getPosition(){
-        assertEquals(parD10.position(),position10);
-        assertNotEquals(parD01.position(),position10);
-        assertEquals(parD01.position(),position01);
+        assertEquals(parD10.getPosition(),position10);
+        assertNotEquals(parD01.getPosition(),position10);
+        assertEquals(parD01.getPosition(),position01);
     }
 
     @Test

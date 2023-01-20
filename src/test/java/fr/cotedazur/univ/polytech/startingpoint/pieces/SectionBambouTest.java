@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pieces;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,11 +24,11 @@ class SectionBambouTest {
 
     @Test
     void getCouleur() {
-        assertEquals(Couleur.VERT,bambouVert.couleur());
-        assertNotEquals(Couleur.JAUNE,bambouRose.couleur());
-        assertEquals(Couleur.ROSE,bambouRose.couleur());
-        assertEquals(Couleur.JAUNE,bambouJaune.couleur());
-        assertEquals(Couleur.VERT,bambouVertBis.couleur());
+        assertEquals(Couleur.VERT,bambouVert.getCouleur());
+        assertNotEquals(Couleur.JAUNE,bambouRose.getCouleur());
+        assertEquals(Couleur.ROSE,bambouRose.getCouleur());
+        assertEquals(Couleur.JAUNE,bambouJaune.getCouleur());
+        assertEquals(Couleur.VERT,bambouVertBis.getCouleur());
     }
 
     @Test
