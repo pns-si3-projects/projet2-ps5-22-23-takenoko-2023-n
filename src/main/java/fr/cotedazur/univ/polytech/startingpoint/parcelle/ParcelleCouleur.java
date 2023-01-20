@@ -7,17 +7,18 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import java.util.Objects;
 
 /**
- * Record représentant une parcelle posée sur le plateau
- * @param position est la position de la parcelle
- * @param couleur est la couleur de la parcelle
+ * Représente une parcelle posée sur le plateau
+ * @param position la position de la parcelle
+ * @param couleur la couleur de la parcelle
  * @author equipe N
  */
 public record ParcelleCouleur(Position position, Couleur couleur) implements Parcelle, Colorable {
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut
-     * @param position position finale de la parcelle
-     * @param couleur est la couleur de la parcelle
+     * Contruit une parcelle avec une position et une couleur
+     * @param position la position de la parcelle
+     * @param couleur la couleur de la parcelle
      */
     public ParcelleCouleur {
         if (position == null) throw new IllegalArgumentException("La position ne doit pas être null");

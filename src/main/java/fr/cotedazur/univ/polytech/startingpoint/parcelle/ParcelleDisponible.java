@@ -1,34 +1,44 @@
 package fr.cotedazur.univ.polytech.startingpoint.parcelle;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 /**
- * Classe permettant d'avoir une parcelle vide à la place d'un objet null
+ * Représente un emplacement de parcelle disponible
  * @author N
  */
 public class ParcelleDisponible implements Parcelle {
     // Définition des attributs
+
     private final Position position;
 
+
+    // Définition des constructeurs
+
     /**
-     * Constructeur par defaut
-     * @param position position finale de la parcelle
+     * Construit une représentation de parcelle disponible avec une position
+     * @param position la position de la parcelle
      */
-    public ParcelleDisponible(Position position) {
-        if (position == null) throw new NullPointerException("La position ne doit pas être null");
+    public ParcelleDisponible(@NotNull Position position) {
         this.position = position;
     }
 
+
+    // Accesseurs
+
     /**
      * Renvoie la position de la parcelle
-     * @return la position
+     * @return la position de la parcelle
      */
     @Override
     public Position position() {
         return position;
     }
+
+
+    // Méthodes toString et equals
 
     @Override
     public String toString() {
