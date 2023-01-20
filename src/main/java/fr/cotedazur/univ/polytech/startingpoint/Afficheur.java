@@ -98,5 +98,5 @@ public class Afficheur {
         System.out.println(objectif + " terminé");
     }
 
-    public void afficheDeplacement(Personnage personnage, Position position){System.out.println("Le " + personnage + " est deplacé en " + position);}
+    public void afficheDeplacement(Personnage personnage){System.out.println("Le " + personnage);}
 }

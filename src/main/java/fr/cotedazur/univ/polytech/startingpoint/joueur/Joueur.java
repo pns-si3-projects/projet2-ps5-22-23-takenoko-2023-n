@@ -127,7 +127,7 @@ public class Joueur {
             plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
         }
         else {
-            if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
+            if (!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
                 actionParcelle(piocheBambou,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
@@ -205,6 +205,7 @@ public class Joueur {
      */
     public void actionPanda(Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
         Position positionPanda = plateau.getPanda().getPosition();
+        Personnage panda = plateau.getPanda();
         boolean deplacementReussi = deplacementPanda(plateau,gPP.deplacementPossiblePersonnageDiagonaleDroite(positionPanda));
         if(!deplacementReussi){
             deplacementReussi = deplacementPanda(plateau,gPP.deplacementPossiblePersonnageDiagonaleGauche(positionPanda));
@@ -212,6 +213,7 @@ public class Joueur {
                 deplacementPanda(plateau,gPP.deplacementPossiblePersonnageHorizontal(positionPanda));
             }
         }
+        Main.AFFICHEUR.afficheDeplacement(panda);
         gestionObjectifPanda(arbitre, plaquette.getObjectifsPanda());
     }
 
@@ -244,6 +246,7 @@ public class Joueur {
      */
     public void actionJardinier(Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
         Position positionJardinier = plateau.getJardinier().getPosition();
+        Personnage jardinier=plateau.getJardinier();
         boolean deplacementReussi = deplacementJardinier(plateau,gPP.deplacementPossiblePersonnageDiagonaleDroite(positionJardinier));
         if(!deplacementReussi){
             deplacementReussi = deplacementJardinier(plateau,gPP.deplacementPossiblePersonnageDiagonaleGauche(positionJardinier));
@@ -251,6 +254,7 @@ public class Joueur {
                 deplacementJardinier(plateau,gPP.deplacementPossiblePersonnageHorizontal(positionJardinier));
             }
         }
+        Main.AFFICHEUR.afficheDeplacement(jardinier);
         gestionObjectifJardinier(arbitre, plaquette.getObjectifsJardinier(), plateau);
     }
 
@@ -266,7 +270,6 @@ public class Joueur {
         if(indexParcelleChoisie < 0 || indexParcelleChoisie >= positionPossibleDeplacement.size()) throw new ArithmeticException("Erreur objet random");
         Position positionParcelle = positionPossibleDeplacement.get(indexParcelleChoisie);
         plateau.getJardinier().move(positionParcelle);
-        /*Main.AFFICHEUR.afficheDeplacement();*/
         Optional<Parcelle> parcelleJardinier = plateau.getParcelle(positionParcelle);
         if (parcelleJardinier.isPresent() && parcelleJardinier.get().getClass() != Etang.class) {
             try {

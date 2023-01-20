@@ -37,6 +37,6 @@ public class Jardinier implements Personnage {
 
     @Override
     public String toString() {
-        return "Jardinier en " + position;
+        return "Jardinier est en " + position;
     }
 }
