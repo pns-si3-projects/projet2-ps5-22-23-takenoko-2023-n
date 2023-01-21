@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Range;
 import java.util.Random;
 
 /**
- * Représente la pioche des objectifs de panda
+ * Représente la pioche des objectifs de panda.
  * @author équipe N
  */
 public class PiocheObjectifPanda implements PiocheObjectifInterface {

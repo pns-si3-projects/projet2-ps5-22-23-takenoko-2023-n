@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Représente la pioche des objectifs de parcelles
+ * Représente la pioche des objectifs de parcelles.
  * @author équipe N
  */
 public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implements PiocheObjectifInterface {

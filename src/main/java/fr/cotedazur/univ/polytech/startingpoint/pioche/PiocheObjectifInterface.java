@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 
 /**
- * Représente une pioche d'objectifs (parcelle, panda ou jardinier)
+ * Représente une pioche d'objectifs (parcelle, panda ou jardinier).
  * @author equipe N
  */
 public interface PiocheObjectifInterface {

@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Random;
 
 /**
- * Représente la pioche de parcelles
+ * Représente la pioche de parcelles.
  * @author équipe N
  */
 public class PiocheParcelle extends ArrayList<ParcellePioche> {

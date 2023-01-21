@@ -7,7 +7,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import java.util.Random;
 
 /**
- * Représente l'ensemble des pioches d'objectif (objectifs de parcelles, panda et jardinier)
+ * Représente l'ensemble des pioches d'objectif (objectifs de parcelles, panda et jardinier).
  * @author équipe N
  */
 public class PiocheObjectif {

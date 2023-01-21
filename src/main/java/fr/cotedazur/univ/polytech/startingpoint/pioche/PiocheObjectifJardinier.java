@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Représente la pioche des objectifs de jardinier
+ * Représente la pioche des objectifs de jardinier.
  * @author équipe N
  */
 public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implements PiocheObjectifInterface {
