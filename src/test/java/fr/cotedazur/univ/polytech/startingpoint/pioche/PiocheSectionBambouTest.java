@@ -1,6 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -12,115 +14,99 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class PiocheSectionBambouTest {
+    // Attributs
+
     PiocheSectionBambou piocheSectionBambou;
     @Mock
     Random mockRandom = mock(Random.class);
+    Couleur vert = Couleur.VERT;
+    Couleur rose = Couleur.ROSE;
+    Couleur jaune = Couleur.JAUNE;
+
+
+    // Constructeur
+
+    @BeforeEach
+    void setUp() {
+        piocheSectionBambou = new PiocheSectionBambou(new Random());
+    }
+
+
+    // Accesseurs
 
     @Test
-    void getNombreBambousVertsRestants() {
-        piocheSectionBambou = new PiocheSectionBambou(new Random());
-        assertEquals(36, piocheSectionBambou.getNombreBambousVertsRestants());
-        piocheSectionBambou.piocheSectionBambouVert();
-        assertEquals(35, piocheSectionBambou.getNombreBambousVertsRestants());
+    void getNombreSectionsBambou() {
+        assertEquals(36, piocheSectionBambou.getNombreSectionsBambou(vert));
+        assertEquals(36, piocheSectionBambou.getNombreSectionsBambou(rose));
+        assertEquals(36, piocheSectionBambou.getNombreSectionsBambou(jaune));
     }
 
     @Test
-    void getNombreBambousRosesRestants() {
-        piocheSectionBambou = new PiocheSectionBambou(new Random());
-        assertEquals(24, piocheSectionBambou.getNombreBambousRosesRestants());
-        piocheSectionBambou.piocheSectionBambouRose();
-        piocheSectionBambou.piocheSectionBambouRose();
-        piocheSectionBambou.piocheSectionBambouRose();
-        assertEquals(21, piocheSectionBambou.getNombreBambousRosesRestants());
+    void isEmptySectionsBambou() {
+        assertFalse(piocheSectionBambou.isEmptySectionsBambou(vert));
+        assertFalse(piocheSectionBambou.isEmptySectionsBambou(rose));
+        assertFalse(piocheSectionBambou.isEmptySectionsBambou(jaune));
     }
 
-    @Test
-    void getNombreBambousJaunesRestants() {
-        piocheSectionBambou = new PiocheSectionBambou(new Random());
-        assertEquals(30, piocheSectionBambou.getNombreBambousJaunesRestants());
-        piocheSectionBambou.piocheSectionBambouJaune();
-        piocheSectionBambou.piocheSectionBambouJaune();
-        assertEquals(28, piocheSectionBambou.getNombreBambousJaunesRestants());
-    }
 
-    @Test
-    void isEmptyBambousVerts() {
-        piocheSectionBambou = new PiocheSectionBambou(new Random());
-        assertFalse(piocheSectionBambou.isEmptyBambousVerts());
-        piocheSectionBambou.piocheSectionBambouVert();
-        assertFalse(piocheSectionBambou.isEmptyBambousVerts());
-    }
-
-    @Test
-    void isEmptyBambousRoses() {
-        piocheSectionBambou = new PiocheSectionBambou(new Random());
-        assertFalse(piocheSectionBambou.isEmptyBambousRoses());
-        piocheSectionBambou.piocheSectionBambouRose();
-        assertFalse(piocheSectionBambou.isEmptyBambousRoses());
-    }
-
-    @Test
-    void isEmptyBambousJaunes() {
-        piocheSectionBambou = new PiocheSectionBambou(new Random());
-        assertFalse(piocheSectionBambou.isEmptyBambousJaunes());
-        piocheSectionBambou.piocheSectionBambouJaune();
-        assertFalse(piocheSectionBambou.isEmptyBambousJaunes());
-    }
+    // Méthodes d'utilisation
 
     @Test
     void piocheValeurTropGrande() {
         when(mockRandom.nextInt(anyInt())).thenReturn(36, 24, 30);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
-        assertThrows(RuntimeException.class, () -> {
-            piocheSectionBambou.piocheSectionBambouVert();});
-        assertThrows(RuntimeException.class, () -> {
-            piocheSectionBambou.piocheSectionBambouRose();});
-        assertThrows(RuntimeException.class, () -> {
-            piocheSectionBambou.piocheSectionBambouJaune();});
+
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(vert));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(rose));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(jaune));
     }
 
     @Test
     void piocheValeurTropPetite() {
         when(mockRandom.nextInt(anyInt())).thenReturn(-1);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
-        assertThrows(RuntimeException.class, () -> {
-            piocheSectionBambou.piocheSectionBambouVert();});
-        assertThrows(RuntimeException.class, () -> {
-            piocheSectionBambou.piocheSectionBambouRose();});
-        assertThrows(RuntimeException.class, () -> {
-            piocheSectionBambou.piocheSectionBambouJaune();});
+
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(vert));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(rose));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(jaune));
     }
 
     @Test
     void piocheSectionBambouVert() {
-        // retirer le ".getClass()" lorsque le equals de la classe SectionBambou sera faisable et fait (avec la couleur)
+        SectionBambou sectionBambouVert = new SectionBambou(vert);
+
         when(mockRandom.nextInt(anyInt())).thenReturn(35, 1, 32, 32);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouVert().getClass());
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouVert().getClass());
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouVert().getClass());
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouVert().getClass());
+
+        assertEquals(sectionBambouVert, piocheSectionBambou.piocheSectionBambou(vert));
+        assertEquals(sectionBambouVert, piocheSectionBambou.piocheSectionBambou(vert));
+        assertEquals(sectionBambouVert, piocheSectionBambou.piocheSectionBambou(vert));
+        assertEquals(sectionBambouVert, piocheSectionBambou.piocheSectionBambou(vert));
     }
 
     @Test
     void piocheSectionBambouRose() {
-        // retirer le ".getClass()" lorsque le equals de la classe SectionBambou sera faisable et fait (avec la couleur)
-        when(mockRandom.nextInt(anyInt())).thenReturn(23, 1, 20, 20);
+        SectionBambou sectionBambouRose = new SectionBambou(rose);
+        
+        when(mockRandom.nextInt(anyInt())).thenReturn(35, 1, 32, 32);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouRose().getClass());
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouRose().getClass());
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouRose().getClass());
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouRose().getClass());
+
+        assertEquals(sectionBambouRose, piocheSectionBambou.piocheSectionBambou(rose));
+        assertEquals(sectionBambouRose, piocheSectionBambou.piocheSectionBambou(rose));
+        assertEquals(sectionBambouRose, piocheSectionBambou.piocheSectionBambou(rose));
+        assertEquals(sectionBambouRose, piocheSectionBambou.piocheSectionBambou(rose));
     }
 
     @Test
     void piocheSectionBambouJaune() {
-        // retirer le ".getClass()" lorsque le equals de la classe SectionBambou sera faisable et fait (avec la couleur)
-        when(mockRandom.nextInt(anyInt())).thenReturn(29, 1, 26, 26);
+        SectionBambou sectionBambouJaune = new SectionBambou(jaune);
+
+        when(mockRandom.nextInt(anyInt())).thenReturn(35, 1, 32, 32);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouJaune().getClass());
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouJaune().getClass());
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouJaune().getClass());
-        assertEquals(SectionBambou.class, piocheSectionBambou.piocheSectionBambouJaune().getClass());
+
+        assertEquals(sectionBambouJaune, piocheSectionBambou.piocheSectionBambou(jaune));
+        assertEquals(sectionBambouJaune, piocheSectionBambou.piocheSectionBambou(jaune));
+        assertEquals(sectionBambouJaune, piocheSectionBambou.piocheSectionBambou(jaune));
+        assertEquals(sectionBambouJaune, piocheSectionBambou.piocheSectionBambou(jaune));
     }
 }
