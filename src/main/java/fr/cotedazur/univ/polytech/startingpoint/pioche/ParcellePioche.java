@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Colorable;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +12,15 @@ import java.util.Objects;
  * @param couleur la couleur de la parcelle
  * @author equipe N
  */
-public record ParcellePioche(@NotNull Couleur couleur) {
+public record ParcellePioche(@NotNull Couleur couleur) implements Colorable {
+    // Accesseurs
+
+    @Override
+    public Couleur getCouleur() {
+        return couleur;
+    }
+
+
     // Méthodes toString et equals
 
     @Override
