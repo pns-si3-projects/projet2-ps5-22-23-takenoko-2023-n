@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 
 /**
- * Interface représentant une pioche d'objectifs (parcelle, panda ou jardinier)
+ * Représente une pioche d'objectifs (parcelle, panda ou jardinier)
  * @author equipe N
  */
 public interface PiocheObjectifInterface {
@@ -15,7 +15,7 @@ public interface PiocheObjectifInterface {
 
     /**
      * Renvoie si la pioche d'objectifs ne contient plus de cartes
-     * @return <code>true</code> si la pioche est vide, <code>false</code> sinon
+     * @return {@code true} si la pioche est vide
      */
     boolean isEmpty();
 

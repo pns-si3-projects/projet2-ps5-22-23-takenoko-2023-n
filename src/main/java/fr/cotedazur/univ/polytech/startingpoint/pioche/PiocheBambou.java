@@ -2,15 +2,17 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
 /**
- * Classe permettant de gérer les pioches de bambous
+ * Représente la pioche de sections de bambou.
  * @author équipe N
  */
 public class PiocheBambou {
     // Définition des attributs
+
     private int nombreBambousVerts;
     private int nombreBambousRoses;
     private int nombreBambousJaunes;
@@ -18,12 +20,12 @@ public class PiocheBambou {
 
 
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut, crée une pioche de 90 sections de bambous
-     * @param random est un objet Random qui va permettre de créer une pioche aléatoire
+     * Construit une pioche de 90 sections de bambous
+     * @param random un objet Random pour l'aléatoire de la pioche
      */
-    public PiocheBambou(Random random) {
-        if (random == null) throw new NullPointerException("L'object random ne doit pas être null");
+    public PiocheBambou(@NotNull Random random) {
         nombreBambousVerts = 36;
         nombreBambousRoses = 24;
         nombreBambousJaunes = 30;
@@ -31,7 +33,8 @@ public class PiocheBambou {
     }
 
 
-    // Accesseurs et méthode toString
+    // Accesseurs
+
     /**
      * Renvoie le nombre de sections de bambous verts que contient la pioche
      * @return le nombre de sections de bambous verts restantes dans la pioche
@@ -58,7 +61,7 @@ public class PiocheBambou {
 
     /**
      * Renvoie si la pioche de bambous verts est vide
-     * @return <code>true</code> si la pioche est vide, <code>false</code> sinon
+     * @return {@code true} si la pioche est vide
      */
     public boolean isEmptyBambousVerts() {
         return nombreBambousVerts == 0;
@@ -66,7 +69,7 @@ public class PiocheBambou {
 
     /**
      * Renvoie si la pioche de bambous roses est vide
-     * @return <code>true</code> si la pioche est vide, <code>false</code> sinon
+     * @return {@code true} si la pioche est vide
      */
     public boolean isEmptyBambousRoses() {
         return nombreBambousRoses == 0;
@@ -74,20 +77,15 @@ public class PiocheBambou {
 
     /**
      * Renvoie si la pioche de bambous verts est vide
-     * @return <code>true</code> si la pioche est vide, <code>false</code> sinon
+     * @return {@code true} si la pioche est vide
      */
     public boolean isEmptyBambousJaunes() {
         return nombreBambousJaunes == 0;
     }
 
-    @Override
-    public String toString() {
-        return "Pioche de bambous : " + nombreBambousVerts + " verts, "
-                + nombreBambousRoses + " roses et " + nombreBambousJaunes + " jaunes.";
-    }
-
 
     // Méthodes d'utilisation
+
     /**
      * Renvoie une section de bambou vert désignée dans la pioche
      * @return la section de bambou piochée
@@ -96,7 +94,7 @@ public class PiocheBambou {
     public SectionBambou piocheSectionBambouVert() {
         assert !isEmptyBambousVerts() : "La pioche de bambous verts est vide";
         int positionBambou = random.nextInt(nombreBambousVerts);
-        if (positionBambou < 0 || positionBambou >= nombreBambousVerts) throw new RuntimeException();
+        if (positionBambou < 0 || positionBambou >= nombreBambousVerts) throw new ArithmeticException();
         nombreBambousVerts--;
         return new SectionBambou(Couleur.VERT);
     }
@@ -109,7 +107,7 @@ public class PiocheBambou {
     public SectionBambou piocheSectionBambouRose() {
         assert !isEmptyBambousRoses() : "La pioche de bambous roses est vide";
         int positionBambou = random.nextInt(nombreBambousRoses);
-        if (positionBambou < 0 || positionBambou >= nombreBambousRoses) throw new RuntimeException();
+        if (positionBambou < 0 || positionBambou >= nombreBambousRoses) throw new ArithmeticException();
         nombreBambousRoses--;
         return new SectionBambou(Couleur.ROSE);
     }
@@ -122,8 +120,17 @@ public class PiocheBambou {
     public SectionBambou piocheSectionBambouJaune() {
         assert !isEmptyBambousJaunes() : "La pioche de bambous jaunes est vide";
         int positionBambou = random.nextInt(nombreBambousJaunes);
-        if (positionBambou < 0 || positionBambou >= nombreBambousJaunes) throw new RuntimeException();
+        if (positionBambou < 0 || positionBambou >= nombreBambousJaunes) throw new ArithmeticException();
         nombreBambousJaunes--;
         return new SectionBambou(Couleur.JAUNE);
+    }
+
+
+    // Méthode toString
+
+    @Override
+    public String toString() {
+        return "Pioche de bambous : " + nombreBambousVerts + " verts, "
+                + nombreBambousRoses + " roses et " + nombreBambousJaunes + " jaunes.";
     }
 }

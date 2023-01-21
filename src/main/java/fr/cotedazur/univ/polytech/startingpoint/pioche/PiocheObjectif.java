@@ -4,28 +4,39 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 
+import java.util.Random;
+
 /**
- * Classe permettant de gérer les pioches d'objectifs (objectifs de parcelles, panda et jardinier)
+ * Représente l'ensemble des pioches d'objectif (objectifs de parcelles, panda et jardinier)
  * @author équipe N
  */
 public class PiocheObjectif {
     // Définition des attributs
+
     private final PiocheObjectifInterface[] piochesObjectif;
 
 
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut
+     * Construit la pioche des objectifs
      */
     public PiocheObjectif(PiocheObjectifInterface pOPar, PiocheObjectifInterface pOPan, PiocheObjectifInterface pOJar) {
-        if (pOPar == null || pOPan == null || pOJar == null) {
-            throw new IllegalArgumentException("Les pioches ne doivent pas être null");
+        if (pOPar == null) {
+            pOPar = new PiocheObjectifParcelle(new Random());
+        }
+        if (pOPan == null) {
+            pOPan = new PiocheObjectifPanda(new Random());
+        }
+        if (pOJar == null) {
+            pOJar = new PiocheObjectifJardinier(new Random());
         }
         piochesObjectif = new PiocheObjectifInterface[]{pOPar, pOPan, pOJar};
     }
 
 
-    // Accesseurs et méthode toString
+    // Accesseurs
+
     /**
      * Renvoie le nombre de cartes que contient la pioche d'objectifs de parcelles
      * @return le nombre de cartes restantes dans la pioche
@@ -52,7 +63,7 @@ public class PiocheObjectif {
 
     /**
      * Renvoie si la pioche d'objectifs de parcelles ne contient plus de cartes
-     * @return <code>true</code> si la pioche est vide, <code>false</code> sinon
+     * @return {@code true} si la pioche est vide
      */
     public boolean isEmptyPiocheObjectifParcelle() {
         return piochesObjectif[0].isEmpty();
@@ -60,7 +71,7 @@ public class PiocheObjectif {
 
     /**
      * Renvoie si la pioche d'objectifs de panda ne contient plus de cartes
-     * @return <code>true</code> si la pioche est vide, <code>false</code> sinon
+     * @return {@code true} si la pioche est vide
      */
     public boolean isEmptyPiocheObjectifPanda() {
         return piochesObjectif[1].isEmpty();
@@ -68,23 +79,15 @@ public class PiocheObjectif {
 
     /**
      * Renvoie si la pioche d'objectifs de jardinier ne contient plus de cartes
-     * @return <code>true</code> si la pioche est vide, <code>false</code> sinon
+     * @return {@code true} si la pioche est vide
      */
     public boolean isEmptyPiocheObjectifJardinier() {
         return piochesObjectif[2].isEmpty();
     }
 
-    @Override
-    public String toString() {
-        StringBuilder s = new StringBuilder();
-        for (PiocheObjectifInterface pioche : piochesObjectif) {
-            s.append(pioche).append("\n");
-        }
-        return s.toString();
-    }
-
 
     // Méthodes d'utilisation
+
     /**
      * Renvoie une carte objectif désignée aléatoirement dans la pioche d'objectifs de parcelles
      * @return la carte objectif piochée
@@ -113,5 +116,17 @@ public class PiocheObjectif {
     public ObjectifJardinier piocheObjectifJardinier() {
         assert !isEmptyPiocheObjectifJardinier() : "La pioche d'objectifs de jardinier est vide";
         return (ObjectifJardinier) piochesObjectif[2].pioche();
+    }
+
+
+    // Méthode toString
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (PiocheObjectifInterface pioche : piochesObjectif) {
+            s.append(pioche).append("\n");
+        }
+        return s.toString();
     }
 }

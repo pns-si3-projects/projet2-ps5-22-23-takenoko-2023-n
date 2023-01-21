@@ -2,31 +2,34 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Classe permettant de gérer la pioche des cartes objectif de jardinier
+ * Représente la pioche des objectifs de jardinier
  * @author équipe N
  */
 public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implements PiocheObjectifInterface {
     // Définition des attributs
+
     private final Random random;
 
 
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut
-     * @param random est un objet Random qui va permettre de créer une pioche aléatoire
+     * Construit la pioche d'objectifs de jardinier
+     * @param random un objet Random pour l'aléatoire de la pioche
      */
-    public PiocheObjectifJardinier(Random random) {
+    public PiocheObjectifJardinier(@NotNull Random random) {
         creePiocheObjectifsJardinier();
         this.random = random;
     }
 
     /**
-     * Permet d'initialiser la pioche en lui ajoutant les objectifs de jardinier
+     * Initialise la pioche en lui ajoutant les objectifs de jardinier
      */
     private void creePiocheObjectifsJardinier() {
         add(new ObjectifJardinier(5, 4));
@@ -47,7 +50,8 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
     }
 
 
-    // Accesseurs et méthode toString
+    // Accesseurs
+
     @Override
     public int getNombreObjectifsRestants() {
         return size();
@@ -58,18 +62,22 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
         return size() == 0;
     }
 
-    @Override
-    public String toString() {
-        return "Pioche d'objectifs de parcelles : " + size() + " cartes.";
-    }
-
 
     // Méthodes d'utilisation
+
     @Override
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de jardinier est vide";
         int positionCarte = random.nextInt(size());
         if (positionCarte < 0 || positionCarte >= size()) throw new ArithmeticException("Erreur objet random");
         return remove(positionCarte);
+    }
+
+
+    // Méthode toString
+
+    @Override
+    public String toString() {
+        return "Pioche d'objectifs de parcelles : " + size() + " cartes.";
     }
 }

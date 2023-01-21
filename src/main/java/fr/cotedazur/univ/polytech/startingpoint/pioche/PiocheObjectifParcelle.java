@@ -1,31 +1,34 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Classe permettant de gérer la pioche des cartes objectif de parcelles
+ * Représente la pioche des objectifs de parcelles
  * @author équipe N
  */
 public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implements PiocheObjectifInterface {
     // Définition des attributs
+
     private final Random random;
 
 
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut
-     * @param random est un objet Random qui va permettre de créer une pioche aléatoire
+     * Construit la pioche d'objectifs de parcelles
+     * @param random un objet Random pour l'aléatoire de la pioche
      */
-    public PiocheObjectifParcelle(Random random) {
+    public PiocheObjectifParcelle(@NotNull Random random) {
         creePiocheObjectifsParcelle();
         this.random = random;
     }
 
     /**
-     * Permet d'initialiser la pioche en lui ajoutant les objectifs de parcelles
+     * Initialise la pioche en lui ajoutant les objectifs de parcelles
      */
     private void creePiocheObjectifsParcelle() {
         add(new ObjectifParcelle(2, 3));
@@ -46,7 +49,8 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
     }
 
 
-    // Accesseurs et méthode toString
+    // Accesseurs
+
     @Override
     public int getNombreObjectifsRestants() {
         return size();
@@ -57,18 +61,22 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
         return size() == 0;
     }
 
-    @Override
-    public String toString() {
-        return "Pioche d'objectifs de parcelles : " + size() + " cartes.";
-    }
-
 
     // Méthodes d'utilisation
+
     @Override
     public ObjectifParcelle pioche() {
         assert !isEmpty() : "La pioche d'objectifs de parcelles est vide";
         int positionCarte = random.nextInt(size());
         if (positionCarte < 0 || positionCarte >= size()) throw new ArithmeticException("Erreur objet random");
         return remove(positionCarte);
+    }
+
+
+    // Méthode toString
+
+    @Override
+    public String toString() {
+        return "Pioche d'objectifs de parcelles : " + size() + " cartes.";
     }
 }
