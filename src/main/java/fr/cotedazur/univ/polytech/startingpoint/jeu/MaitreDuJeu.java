@@ -17,7 +17,7 @@ public class MaitreDuJeu {
     private final Plateau plateau;
     private final PiocheParcelle piocheParcelle;
     private final PiocheObjectif piocheObjectif;
-    private final PiocheBambou piocheBambou;
+    private final PiocheSectionBambou piocheSectionBambou;
     private final Joueur[] joueurs;
     private int nombreTour;
 
@@ -36,7 +36,7 @@ public class MaitreDuJeu {
         plateau = new Plateau();
         piocheParcelle = new PiocheParcelle(random);
         piocheObjectif = new PiocheObjectif(pOPar, pOPan, pOJar);
-        piocheBambou = new PiocheBambou(random);
+        piocheSectionBambou = new PiocheSectionBambou(random);
         joueurs = new Joueur[]{new Joueur(nomJoueur1), new Joueur(nomJoueur2)};
         nombreTour = 1;
 
