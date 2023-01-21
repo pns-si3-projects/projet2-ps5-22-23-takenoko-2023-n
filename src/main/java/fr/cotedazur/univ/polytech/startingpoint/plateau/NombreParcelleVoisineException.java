@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 /**
- * Exception dans le cas où le nombre de voisines désigné est incorrecte
+ * Exception si le nombre de voisines désigné est incorrect
  * @author equipe N
  */
 public class NombreParcelleVoisineException extends Exception {
