@@ -219,6 +219,7 @@ public class Plateau {
             for (Irrigation irrigation : this.irrigationsDisponibles){
                 if (irrigation.getPositions() == positions) this.irrigationsDisponibles.remove(irrigation);
             }
+            addIrrigationDisponible(nouvelleIrrigation);
         }
     }
 
