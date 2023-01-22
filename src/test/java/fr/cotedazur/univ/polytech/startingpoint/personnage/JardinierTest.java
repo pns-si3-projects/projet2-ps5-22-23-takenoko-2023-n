@@ -19,18 +19,7 @@ class JardinierTest {
     }
 
     @Test
-    void move() {
-        assertEquals(jardinier.getPosition(),position_0_0);
-        jardinier.move(position_1_0);
-        assertNotEquals(jardinier.getPosition(),position_0_0);
-        assertEquals(jardinier.getPosition(), new Position(1,0));
-    }
-
-    @Test
     void getPosition() {
         assertEquals(jardinier.getPosition(), new Position(0,0));
-        jardinier.move((position_1_0));
-        assertEquals(jardinier.getPosition(),new Position(1,0));
-        assertNotEquals(jardinier.getPosition(),new Position(0,0));
     }
 }

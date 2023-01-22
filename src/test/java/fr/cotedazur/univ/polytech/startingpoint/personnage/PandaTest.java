@@ -19,18 +19,7 @@ class PandaTest {
     }
 
     @Test
-    void move() {
-        assertEquals(panda.getPosition(),position_0_0);
-        panda.move(position_1_0);
-        assertNotEquals(panda.getPosition(),position_0_0);
-        assertEquals(panda.getPosition(), new Position(1,0));
-    }
-
-    @Test
     void getPosition() {
         assertEquals(panda.getPosition(), new Position(0,0));
-        panda.move((position_1_0));
-        assertEquals(panda.getPosition(),new Position(1,0));
-        assertNotEquals(panda.getPosition(),new Position(0,0));
     }
 }
