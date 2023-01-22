@@ -4,15 +4,17 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * Représente la pioche des objectifs de parcelles.
  * @author équipe N
  */
-public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implements PiocheObjectifInterface {
+public class PiocheObjectifParcelle implements PiocheObjectifInterface {
     // Définition des attributs
 
+    private final List<ObjectifParcelle> objectifParcelleList;
     private final Random random;
 
 
@@ -23,7 +25,9 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
      * @param random un objet Random pour l'aléatoire de la pioche
      */
     public PiocheObjectifParcelle(@NotNull Random random) {
+        objectifParcelleList = new ArrayList<>(15);
         creePiocheObjectifsParcelle();
+
         this.random = random;
     }
 
@@ -31,21 +35,21 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
      * Initialise la pioche en lui ajoutant les objectifs de parcelles
      */
     private void creePiocheObjectifsParcelle() {
-        add(new ObjectifParcelle(2, 3));
-        add(new ObjectifParcelle(3, 4));
-        add(new ObjectifParcelle(5, 4));
-        add(new ObjectifParcelle(4, 4));
-        add(new ObjectifParcelle(3, 4));
-        add(new ObjectifParcelle(3, 3));
-        add(new ObjectifParcelle(4, 4));
-        add(new ObjectifParcelle(3, 3));
-        add(new ObjectifParcelle(2, 3));
-        add(new ObjectifParcelle(2, 3));
-        add(new ObjectifParcelle(4, 3));
-        add(new ObjectifParcelle(4, 3));
-        add(new ObjectifParcelle(5, 4));
-        add(new ObjectifParcelle(4, 3));
-        add(new ObjectifParcelle(3, 3));
+        objectifParcelleList.add(new ObjectifParcelle(2, 3));
+        objectifParcelleList.add(new ObjectifParcelle(3, 4));
+        objectifParcelleList.add(new ObjectifParcelle(5, 4));
+        objectifParcelleList.add(new ObjectifParcelle(4, 4));
+        objectifParcelleList.add(new ObjectifParcelle(3, 4));
+        objectifParcelleList.add(new ObjectifParcelle(3, 3));
+        objectifParcelleList.add(new ObjectifParcelle(4, 4));
+        objectifParcelleList.add(new ObjectifParcelle(3, 3));
+        objectifParcelleList.add(new ObjectifParcelle(2, 3));
+        objectifParcelleList.add(new ObjectifParcelle(2, 3));
+        objectifParcelleList.add(new ObjectifParcelle(4, 3));
+        objectifParcelleList.add(new ObjectifParcelle(4, 3));
+        objectifParcelleList.add(new ObjectifParcelle(5, 4));
+        objectifParcelleList.add(new ObjectifParcelle(4, 3));
+        objectifParcelleList.add(new ObjectifParcelle(3, 3));
     }
 
 
@@ -53,12 +57,12 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
 
     @Override
     public int getNombreObjectifsRestants() {
-        return size();
+        return objectifParcelleList.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return size() == 0;
+        return objectifParcelleList.isEmpty();
     }
 
 
@@ -67,9 +71,12 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
     @Override
     public ObjectifParcelle pioche() {
         assert !isEmpty() : "La pioche d'objectifs de parcelles est vide";
-        int positionCarte = random.nextInt(size());
-        if (positionCarte < 0 || positionCarte >= size()) throw new ArithmeticException("Erreur objet random");
-        return remove(positionCarte);
+        int taille = getNombreObjectifsRestants();
+        int positionCarte = random.nextInt(taille);
+        if (positionCarte < 0 || positionCarte >= taille) {
+            throw new ArithmeticException("Erreur objet random");
+        }
+        return objectifParcelleList.remove(positionCarte);
     }
 
 
@@ -77,6 +84,6 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
 
     @Override
     public String toString() {
-        return "Pioche d'objectifs de parcelles : " + size() + " cartes.";
+        return "Pioche d'objectifs de parcelles : " + getNombreObjectifsRestants() + " cartes.";
     }
 }
