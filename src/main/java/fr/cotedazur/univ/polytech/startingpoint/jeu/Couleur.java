@@ -35,7 +35,7 @@ public enum Couleur {
      * @param couleur la couleur demandée
      */
     Couleur(String couleur) {
-        if (couleur.equalsIgnoreCase("vert")
+        if (couleur.equalsIgnoreCase("verte")
                 || couleur.equalsIgnoreCase("rose")
                 || couleur.equalsIgnoreCase("jaune")) {
             this.couleur = couleur;
