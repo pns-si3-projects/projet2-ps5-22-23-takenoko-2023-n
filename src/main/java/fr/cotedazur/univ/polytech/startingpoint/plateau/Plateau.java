@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 
 import java.util.*;
 
@@ -22,7 +23,8 @@ public class Plateau {
     private final Etang etang;
     private final List<Position> positionsDisponibles;
     private static final GestionnaireModificationPlateau GESTIONNAIRE_MODIFICATION_PLATEAU = new GestionnaireModificationPlateau();
-
+    private Set<Irrigation> irrigationsPosees;
+    private Set<Irrigation> irrigationsDisponibles;
 
     // Définition des constructeurs
     /**
@@ -36,6 +38,8 @@ public class Plateau {
         jardinier = new Jardinier();
         etang = new Etang();
         positionsDisponibles = new ArrayList<>();
+        irrigationsPosees = new HashSet<>();
+        irrigationsDisponibles = new HashSet<>();
 
         // Ajout des voisines de l'étang et des parcelles disponibles
         addVoisinesEtangEtDisponibles();
@@ -195,6 +199,43 @@ public class Plateau {
             }
         }
         return positionsBambousCouleur;
+    }
+
+    public Set<Irrigation> getIrrigationsPosees(){
+        return irrigationsPosees;
+    }
+
+    public Set<Irrigation> getIrrigationsDisponibles(){
+        return irrigationsDisponibles;
+    }
+
+    public void addIrrigation(Position position1, Position position2){
+        if (position1 != position2) {
+            List<Position> positions = new ArrayList<>();
+            positions.add(position1);
+            positions.add(position2);
+            Irrigation nouvelleIrrigation = new Irrigation(positions);
+            this.irrigationsPosees.add(nouvelleIrrigation);
+            for (Irrigation irrigation : this.irrigationsDisponibles){
+                if (irrigation.getPositions() == positions) this.irrigationsDisponibles.remove(irrigation);
+            }
+        }
+    }
+
+    public void addIrrigationDisponible(Irrigation irrigation){
+        List<Position> positionsIrrigation = irrigation.getPositions();
+        Position position1 = positionsIrrigation.get(0);
+        Position position2 = positionsIrrigation.get(1);
+        int x = position1.getX() + position2.getX();
+        int y = position1.getY() + position2.getY();
+        Position position3 = new Position(x,y);
+        for (Position position : positionsIrrigation){
+            List<Position> positionsIrrigationDisponible = new ArrayList<>();
+            positionsIrrigationDisponible.add(position);
+            positionsIrrigationDisponible.add(position3);
+            Irrigation irrigationDisponible = new Irrigation(positionsIrrigationDisponible);
+            this.irrigationsDisponibles.add(irrigationDisponible);
+        }
     }
 
     /**
