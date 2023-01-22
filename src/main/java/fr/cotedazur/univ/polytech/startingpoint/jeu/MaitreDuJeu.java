@@ -16,7 +16,9 @@ public class MaitreDuJeu {
 
     private final Plateau plateau;
     private final PiocheParcelle piocheParcelle;
-    private final PiocheObjectif piocheObjectif;
+    private final PiocheObjectifParcelle piocheObjectifParcelle;
+    private final PiocheObjectifPanda piocheObjectifPanda;
+    private final PiocheObjectifJardinier piocheObjectifJardinier;
     private final PiocheSectionBambou piocheSectionBambou;
     private final Joueur[] joueurs;
     private int nombreTour;
@@ -27,15 +29,12 @@ public class MaitreDuJeu {
     /**
      * Initialise le jeu (joueurs, plateau, pioches)
      */
-    public MaitreDuJeu(String nomJoueur1, String nomJoueur2) {
-        Random random = new Random();
-        PiocheObjectifInterface pOPar = new PiocheObjectifParcelle(random);
-        PiocheObjectifInterface pOPan = new PiocheObjectifPanda(random);
-        PiocheObjectifInterface pOJar = new PiocheObjectifJardinier(random);
-
+    public MaitreDuJeu(String nomJoueur1, String nomJoueur2, Random random) {
         plateau = new Plateau();
         piocheParcelle = new PiocheParcelle(random);
-        piocheObjectif = new PiocheObjectif(pOPar, pOPan, pOJar);
+        piocheObjectifParcelle = new PiocheObjectifParcelle(random);
+        piocheObjectifPanda = new PiocheObjectifPanda(random);
+        piocheObjectifJardinier = new PiocheObjectifJardinier(random);
         piocheSectionBambou = new PiocheSectionBambou(random);
         joueurs = new Joueur[]{new Joueur(nomJoueur1), new Joueur(nomJoueur2)};
         nombreTour = 1;
