@@ -55,12 +55,6 @@ class BambouTest {
     }
 
     @Test
-    void getTailleMaximumBambou() {
-        assertEquals(4, bambou.getTailleMaximumBambou());
-        assertEquals(Bambou.TAILLE_MAXIMUM_BAMBOU, bambou.getTailleMaximumBambou());
-    }
-
-    @Test
     void isEmptyBambou() {
         assertTrue(bambou.isEmptyBambou());
         try {
