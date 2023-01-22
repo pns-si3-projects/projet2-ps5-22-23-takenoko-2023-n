@@ -5,15 +5,17 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * Représente la pioche des objectifs de jardinier.
  * @author équipe N
  */
-public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implements PiocheObjectifInterface {
+public class PiocheObjectifJardinier implements PiocheObjectifInterface {
     // Définition des attributs
 
+    private final List<ObjectifJardinier> objectifJardinierList;
     private final Random random;
 
 
@@ -24,7 +26,9 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
      * @param random un objet Random pour l'aléatoire de la pioche
      */
     public PiocheObjectifJardinier(@NotNull Random random) {
+        objectifJardinierList = new ArrayList<>(15);
         creePiocheObjectifsJardinier();
+
         this.random = random;
     }
 
@@ -32,21 +36,21 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
      * Initialise la pioche en lui ajoutant les objectifs de jardinier
      */
     private void creePiocheObjectifsJardinier() {
-        add(new ObjectifJardinier(5, 4));
-        add(new ObjectifJardinier(6, 4));
-        add(new ObjectifJardinier(6, 6));
-        add(new ObjectifJardinier(7, 9));
-        add(new ObjectifJardinier(8, 12));
-        add(new ObjectifJardinier(4, 4));
-        add(new ObjectifJardinier(4, 4));
-        add(new ObjectifJardinier(5, 4));
-        add(new ObjectifJardinier(4, 4));
-        add(new ObjectifJardinier(5, 4));
-        add(new ObjectifJardinier(5, 4));
-        add(new ObjectifJardinier(6, 4));
-        add(new ObjectifJardinier(6, 4));
-        add(new ObjectifJardinier(7, 4));
-        add(new ObjectifJardinier(3, 4));
+        objectifJardinierList.add(new ObjectifJardinier(5, 4));
+        objectifJardinierList.add(new ObjectifJardinier(6, 4));
+        objectifJardinierList.add(new ObjectifJardinier(6, 6));
+        objectifJardinierList.add(new ObjectifJardinier(7, 9));
+        objectifJardinierList.add(new ObjectifJardinier(8, 12));
+        objectifJardinierList.add(new ObjectifJardinier(4, 4));
+        objectifJardinierList.add(new ObjectifJardinier(4, 4));
+        objectifJardinierList.add(new ObjectifJardinier(5, 4));
+        objectifJardinierList.add(new ObjectifJardinier(4, 4));
+        objectifJardinierList.add(new ObjectifJardinier(5, 4));
+        objectifJardinierList.add(new ObjectifJardinier(5, 4));
+        objectifJardinierList.add(new ObjectifJardinier(6, 4));
+        objectifJardinierList.add(new ObjectifJardinier(6, 4));
+        objectifJardinierList.add(new ObjectifJardinier(7, 4));
+        objectifJardinierList.add(new ObjectifJardinier(3, 4));
     }
 
 
@@ -54,12 +58,12 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
 
     @Override
     public int getNombreObjectifsRestants() {
-        return size();
+        return objectifJardinierList.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return size() == 0;
+        return objectifJardinierList.isEmpty();
     }
 
 
@@ -68,9 +72,11 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
     @Override
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de jardinier est vide";
-        int positionCarte = random.nextInt(size());
-        if (positionCarte < 0 || positionCarte >= size()) throw new ArithmeticException("Erreur objet random");
-        return remove(positionCarte);
+        int positionCarte = random.nextInt(getNombreObjectifsRestants());
+        if (positionCarte < 0 || positionCarte >= getNombreObjectifsRestants()) {
+            throw new ArithmeticException("Erreur objet random");
+        }
+        return objectifJardinierList.remove(positionCarte);
     }
 
 
@@ -78,6 +84,6 @@ public class PiocheObjectifJardinier extends ArrayList<ObjectifJardinier> implem
 
     @Override
     public String toString() {
-        return "Pioche d'objectifs de parcelles : " + size() + " cartes.";
+        return "Pioche d'objectifs de parcelles : " + getNombreObjectifsRestants() + " cartes.";
     }
 }
