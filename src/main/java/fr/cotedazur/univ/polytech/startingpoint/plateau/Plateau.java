@@ -201,14 +201,27 @@ public class Plateau {
         return positionsBambousCouleur;
     }
 
+    /**
+     * Renvoie les irrigations posées sur le plateau
+     * @return le set des irrigations posées sur le plateau
+     */
     public Set<Irrigation> getIrrigationsPosees(){
         return irrigationsPosees;
     }
 
+    /**
+     * Renvoie les irrigations disponibles
+     * @return le set des irrigations disponibles
+     */
     public Set<Irrigation> getIrrigationsDisponibles(){
         return irrigationsDisponibles;
     }
 
+    /**
+     * Ajoute une irrigation entre les parcelles aux positions données
+     * @param position1 position de la 1ere parcelle
+     * @param position2 position de la 2eme parcelle
+     */
     public void addIrrigation(Position position1, Position position2){
         Optional<Parcelle> parcelle1 = getParcelle(position1);
         Optional<Parcelle> parcelle2 = getParcelle(position2);
@@ -229,6 +242,10 @@ public class Plateau {
         }
     }
 
+    /**
+     * Ajoute les irrigations à la suite de celle en paramètre au set des irrigations disponibles si elles sont possible d'être posées
+     * @param irrigation l'irrigation à partir de laquelle il faut rechercher les nouvelles irrigations possible
+     */
     public void addIrrigationDisponible(Irrigation irrigation) {
         List<Position> positionsIrrigation = irrigation.getPositions();
         Position position1 = positionsIrrigation.get(0);
