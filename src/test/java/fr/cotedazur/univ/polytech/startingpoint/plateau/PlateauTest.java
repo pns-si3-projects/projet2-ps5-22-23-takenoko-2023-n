@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.plateau;
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -262,6 +263,24 @@ class PlateauTest {
             assertEquals("Il manque des voisines",exception.getMessage());
         }
     }
+
+    @Test
+    void addIrrigation(){
+        Position position11 = new Position(1,1);
+        Position position20 = new Position(2,0);
+        Position position31 = new Position(3,1);
+        plateau.addIrrigation(position11, position20);
+        assertEquals(1, plateau.getIrrigationsPosees().size());
+        assertEquals(2, plateau.getIrrigationsDisponibles().size());
+        plateau.addIrrigation(position11,position31);
+        assertEquals(2, plateau.getIrrigationsPosees().size());
+        assertEquals(3, plateau.getIrrigationsDisponibles().size());
+        plateau.addIrrigation(position20, position31);
+        assertEquals(3, plateau.getIrrigationsPosees().size());
+        assertEquals(4, plateau.getIrrigationsDisponibles().size());
+    }
+
+
 /*
     @Test
     void jardinierAddBambousParcelleExistante() throws ParcelleExistanteException, NombreParcelleVoisineException {

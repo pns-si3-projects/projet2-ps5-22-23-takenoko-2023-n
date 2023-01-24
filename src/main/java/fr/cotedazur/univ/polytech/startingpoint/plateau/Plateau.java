@@ -210,7 +210,9 @@ public class Plateau {
     }
 
     public void addIrrigation(Position position1, Position position2){
-        if (position1 != position2) {
+        Optional<Parcelle> parcelle1 = getParcelle(position1);
+        Optional<Parcelle> parcelle2 = getParcelle(position2);
+        if (position1 != position2 && parcelle1.isPresent() && parcelle2.isPresent()){
             List<Position> positions = new ArrayList<>();
             positions.add(position1);
             positions.add(position2);
@@ -218,26 +220,31 @@ public class Plateau {
             this.irrigationsPosees.add(nouvelleIrrigation);
             Set<Irrigation> setIrrigationsDispo = new HashSet<>();
             for (Irrigation irrigation : this.irrigationsDisponibles){
-                if (irrigation.getPositions() != positions)setIrrigationsDispo.add(irrigation);
+                if (!(irrigation.getPositions().get(0).equals(position1) && irrigation.getPositions().get(1).equals(position2))) {
+                    if (!(irrigation.getPositions().get(0).equals(position2) && irrigation.getPositions().get(1).equals(position1))) setIrrigationsDispo.add(irrigation);
+                }
             }
             this.irrigationsDisponibles = setIrrigationsDispo;
             addIrrigationDisponible(nouvelleIrrigation);
         }
     }
 
-    public void addIrrigationDisponible(Irrigation irrigation){
+    public void addIrrigationDisponible(Irrigation irrigation) {
         List<Position> positionsIrrigation = irrigation.getPositions();
         Position position1 = positionsIrrigation.get(0);
         Position position2 = positionsIrrigation.get(1);
         int x = position1.getX() + position2.getX();
         int y = position1.getY() + position2.getY();
-        Position position3 = new Position(x,y);
-        for (Position position : positionsIrrigation){
-            List<Position> positionsIrrigationDisponible = new ArrayList<>();
-            positionsIrrigationDisponible.add(position);
-            positionsIrrigationDisponible.add(position3);
-            Irrigation irrigationDisponible = new Irrigation(positionsIrrigationDisponible);
-            this.irrigationsDisponibles.add(irrigationDisponible);
+        Position position3 = new Position(x, y);
+        Optional<Parcelle> parcelle3 = getParcelle(position3);
+        if (parcelle3.isPresent()) {
+            for (Position position : positionsIrrigation) {
+                List<Position> positionsIrrigationDisponible = new ArrayList<>();
+                positionsIrrigationDisponible.add(position);
+                positionsIrrigationDisponible.add(position3);
+                Irrigation irrigationDisponible = new Irrigation(positionsIrrigationDisponible);
+                this.irrigationsDisponibles.add(irrigationDisponible);
+            }
         }
     }
 
