@@ -3,53 +3,63 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import java.util.Objects;
 
 /**
- * classe Position, permenant d'avoir une position
+ * Classe permettant d'avoir une position
  * @author equipe N
  */
 public class Position {
+    // Définition des attributs
     private int x;
     private int y;
 
+
+    // Définition des constructeurs
     /**
-     * contructeur par default pour l'Etang
+     * Contructeur pour l'etang
      */
-    public Position(){
-        this(0,0);
+    public Position() {
+        this(0, 0);
     }
 
     /**
-     * constructeur de Position avec deux coordonnées
-     * @param x coordonnée de l'abscise
-     * @param y coordonnée de l'ordonné
+     * Constructeur par défaut
+     * @param x coordonnée horizontale
+     * @param y coordonnée verticale
      */
-
-    public Position(int x, int y){
-        this.x=x;
-        this.y=y;
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
+    public void setX(int x){
+        this.x = x;
+    }
+
+    public void setY(int y){
+        this.y = y;
+    }
+
+    // Accesseurs et méthode toString et equals
     /**
-     * getter de l'attribut x
+     * Renvoie la valeur de l'attribut x
      * @return la valeur de x
      */
-    
     public int getX() {
         return x;
     }
 
     /**
-     * getter de l'attribut y
+     * Renvoie la valeur de l'attribut y
      * @return la valeur de y
      */
     public int getY() {
         return y;
     }
 
-    /**
-     * redefinition de la methode equals
-     * @param o objet a comparer
-     * @return si l'objet mit en parametre est equivalent a l'actuel
-     */
+    @Override
+    public String toString() {
+        return "("+x+","+y+")";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,18 +67,8 @@ public class Position {
         Position position = (Position) o;
         return getX() == position.getX() && getY() == position.getY();
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(getX(), getY());
-    }
-
-    /**
-     * redefinition de la methode toString
-     * @return une chaine de caractere
-     */
-    @Override
-    public String toString() {
-        return "("+x+","+y+")";
     }
 }

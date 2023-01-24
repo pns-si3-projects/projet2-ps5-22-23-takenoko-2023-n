@@ -3,37 +3,40 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class PositionTest {
-    Position p0_0;
-    Position p2_6;
-    Position p2_6_bis;
+    Position position0_0;
+    Position position0_0Bis;
+    Position position1_0;
 
     @BeforeEach
-    void setUp(){
-        p0_0=new Position();
-        p2_6=new Position(2,6);
-        p2_6_bis=new Position(2,6);
+    void setUp() {
+        position0_0 = new Position();
+        position0_0Bis = new Position(0, 0);
+        position1_0 = new Position(1, 0);
     }
 
     @Test
     void getX() {
-        assertEquals(0, p0_0.getX());
-        assertEquals(2, p2_6.getX());
-        assertNotEquals(4,p2_6_bis.getX());
+        assertEquals(0, position0_0.getX());
+        assertEquals(0, position0_0Bis.getX());
+        assertEquals(1, position1_0.getX());
+        assertNotEquals(0, position1_0.getX());
     }
 
     @Test
     void getY() {
-        assertEquals(0, p0_0.getY());
-        assertEquals(6, p2_6.getY());
-        assertNotEquals(4,p2_6_bis.getY());
+        assertEquals(0, position0_0.getY());
+        assertEquals(0, position0_0Bis.getY());
+        assertEquals(0, position1_0.getY());
+        assertNotEquals(1, position1_0.getY());
     }
 
     @Test
     void testEquals() {
-        assertEquals(p2_6, p2_6_bis);
-        assertNotEquals(p0_0, p2_6);
+        assertEquals(position0_0, position0_0Bis);
+        assertNotEquals(position0_0, position1_0);
     }
 }
