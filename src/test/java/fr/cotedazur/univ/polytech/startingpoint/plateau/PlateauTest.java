@@ -271,13 +271,23 @@ class PlateauTest {
         Position position31 = new Position(3,1);
         plateau.addIrrigation(position11, position20);
         assertEquals(1, plateau.getIrrigationsPosees().size());
-        assertEquals(2, plateau.getIrrigationsDisponibles().size());
+        assertEquals(0, plateau.getIrrigationsDisponibles().size());
+        ParcelleCouleur pc31 = new ParcelleCouleur(position31, couleurBambouDefault);
+        SectionBambou secBam3_1 = new SectionBambou(couleurBambouDefault);
+        Bambou bambou3_1;
+        try {
+            plateau.addParcelle(pc31, secBam3_1);
+            bambou3_1 = new Bambou(pc31);
+            bambou3_1.ajouteSectionBambou(secBam3_1);
+        } catch (ParcelleExistanteException | NombreParcelleVoisineException | AjoutCouleurException exception){
+            assert false : "Ne doit pas renvoyer d'exception";
+        }
         plateau.addIrrigation(position11,position31);
         assertEquals(2, plateau.getIrrigationsPosees().size());
-        assertEquals(3, plateau.getIrrigationsDisponibles().size());
+        assertEquals(0, plateau.getIrrigationsDisponibles().size());
         plateau.addIrrigation(position20, position31);
         assertEquals(3, plateau.getIrrigationsPosees().size());
-        assertEquals(4, plateau.getIrrigationsDisponibles().size());
+        assertEquals(0, plateau.getIrrigationsDisponibles().size());
     }
 
 
