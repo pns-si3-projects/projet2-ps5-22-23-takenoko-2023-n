@@ -246,7 +246,8 @@ public class Plateau {
      * Ajoute les irrigations à la suite de celle en paramètre au set des irrigations disponibles si elles sont possible d'être posées
      * @param irrigation l'irrigation à partir de laquelle il faut rechercher les nouvelles irrigations possible
      */
-    public void addIrrigationDisponible(Irrigation irrigation) {
+    public void
+    addIrrigationDisponible(Irrigation irrigation) {
         List<Position> positionsIrrigation = irrigation.getPositions();
         Position position1 = positionsIrrigation.get(0);
         Position position2 = positionsIrrigation.get(1);
@@ -346,23 +347,23 @@ public class Plateau {
      * @param parcelleCouleur est la parcelle de couleur ciblée
       */
     public void addBambou(ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou) {
-        Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.position());
-        if (optionalBambou.isPresent()) {
-            try {
-                optionalBambou.get().ajouteSectionBambou(sectionBambou);
+        if(parcelleCouleur.isIrriguee()) {
+            Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.position());
+            if (optionalBambou.isPresent()) {
+                try {
+                    optionalBambou.get().ajouteSectionBambou(sectionBambou);
+                } catch (AjoutCouleurException aCE) {
+                    assert false : "La couleur doit être la même que celle du bambou";
+                }
+            } else {
+                Bambou bambou = new Bambou(parcelleCouleur);
+                try {
+                    bambou.ajouteSectionBambou(sectionBambou);
+                } catch (AjoutCouleurException aCE) {
+                    assert false : "La couleur doit être la même que celle du bambou";
+                }
+                bambous.add(bambou);
             }
-            catch (AjoutCouleurException aCE){
-                assert false : "La couleur doit être la même que celle du bambou";
-            }
-        } else {
-            Bambou bambou = new Bambou(parcelleCouleur);
-            try {
-                bambou.ajouteSectionBambou(sectionBambou);
-            }
-            catch (AjoutCouleurException aCE){
-                assert false : "La couleur doit être la même que celle du bambou";
-            }
-            bambous.add(bambou);
         }
     }
 

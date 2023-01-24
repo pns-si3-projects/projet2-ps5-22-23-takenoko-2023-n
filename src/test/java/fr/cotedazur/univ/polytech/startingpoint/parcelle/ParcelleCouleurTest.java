@@ -49,6 +49,13 @@ class ParcelleCouleurTest {
     }
 
     @Test
+    void irriguee(){
+        pC1_1V.setIrriguee(true);
+        assertEquals(true,pC1_1V.isIrriguee());
+        assertNotEquals(true, pC2_1R.isIrriguee());
+    }
+
+    @Test
     void testEquals() {
         assertEquals(pC1_1V, pC1_1VBis);
         assertNotEquals(pC1_1V, pC1_1R);
