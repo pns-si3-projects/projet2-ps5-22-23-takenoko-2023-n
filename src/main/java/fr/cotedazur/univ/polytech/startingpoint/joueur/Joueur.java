@@ -61,7 +61,7 @@ public class Joueur {
         int nbObjectifs = objectifEnMainList.size();
         Objectif[] objectifs = new Objectif[nbObjectifs];
 
-        for (int i=0; i < nbObjectifs; i++) {
+        for (int i=0; i<nbObjectifs; i++) {
             objectifs[i] = objectifEnMainList.get(i);
         }
 
@@ -76,7 +76,7 @@ public class Joueur {
         int nbObjectifs = objectifTermineList.size();
         Objectif[] objectifs = new Objectif[nbObjectifs];
 
-        for (int i=0; i < nbObjectifs; i++) {
+        for (int i=0; i<nbObjectifs; i++) {
             objectifs[i] = objectifTermineList.get(i);
         }
 
