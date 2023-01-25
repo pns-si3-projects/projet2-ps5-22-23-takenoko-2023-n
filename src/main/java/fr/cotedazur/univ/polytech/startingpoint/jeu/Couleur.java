@@ -7,7 +7,7 @@ package fr.cotedazur.univ.polytech.startingpoint.jeu;
 public enum Couleur {
     // Définition des attributs
 
-    VERT("verte") {
+    VERTE("verte") {
         @Override
         public boolean isVerte() {
             return true;
@@ -39,7 +39,8 @@ public enum Couleur {
                 || couleur.equalsIgnoreCase("rose")
                 || couleur.equalsIgnoreCase("jaune")) {
             this.couleur = couleur;
-        } else {
+        }
+        else {
             throw new IllegalArgumentException(
                     "La couleur demandée ne correspond pas aux possibilités de couleur (vert, rose, jaune)");
         }
@@ -58,7 +59,7 @@ public enum Couleur {
 
     /**
      * Renvoie si la couleur est verte
-     * @return {@code true} si la couleur est verte, {@code false} sinon
+     * @return {@code true} si la couleur est verte
      */
     public boolean isVerte() {
         return false;
@@ -66,7 +67,7 @@ public enum Couleur {
 
     /**
      * Renvoie si la couleur est rose
-     * @return {@code true} si la couleur est rose, {@code false} sinon
+     * @return {@code true} si la couleur est rose
      */
     public boolean isRose() {
         return false;
@@ -74,7 +75,7 @@ public enum Couleur {
 
     /**
      * Renvoie si la couleur est jaune
-     * @return {@code true} si la couleur est jaune, {@code false} sinon
+     * @return {@code true} si la couleur est jaune
      */
     public boolean isJaune() {
         return false;

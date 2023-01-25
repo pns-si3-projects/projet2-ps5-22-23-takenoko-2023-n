@@ -49,7 +49,7 @@ public class PiocheParcelle {
      * Ajoute les parcelles vertes à la pioche
      */
     private void creeParcellesVertesPioche() {
-        Couleur vert = Couleur.VERT;
+        Couleur vert = Couleur.VERTE;
         for (int i=0; i<6; i++) {
             parcellePiocheList.add(new ParcellePioche(vert));
         }

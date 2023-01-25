@@ -42,7 +42,7 @@ public class PiocheSectionBambou {
      */
     public int getNombreSectionsBambou(@NotNull Couleur couleur) {
         return switch (couleur) {
-            case VERT -> nombreSectionsBambouVert;
+            case VERTE -> nombreSectionsBambouVert;
             case ROSE -> nombreSectionsBambouRose;
             case JAUNE -> nombreSectionsBambouJaune;
         };
@@ -81,7 +81,7 @@ public class PiocheSectionBambou {
 
     private SectionBambou retireSectionBambou(Couleur couleur) {
         switch (couleur) {
-            case VERT -> --nombreSectionsBambouVert;
+            case VERTE -> --nombreSectionsBambouVert;
             case ROSE -> --nombreSectionsBambouRose;
             case JAUNE -> --nombreSectionsBambouJaune;
         }

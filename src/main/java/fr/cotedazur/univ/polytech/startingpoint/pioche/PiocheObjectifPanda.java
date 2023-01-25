@@ -38,7 +38,7 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
      */
     private void creePiocheObjectifsPanda() {
         for (int i=0; i<5; i++) { // les 5 objectifs de panda vert
-            objectifPandaList.add(new ObjectifPanda(3, 2, Couleur.VERT));
+            objectifPandaList.add(new ObjectifPanda(3, 2, Couleur.VERTE));
         }
         for (int i=0; i<4; i++) { // les 4 objectifs de panda jaune
             objectifPandaList.add(new ObjectifPanda(4, 2, Couleur.JAUNE));
@@ -47,7 +47,7 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
             objectifPandaList.add(new ObjectifPanda(5, 2, Couleur.ROSE));
         }
         for (int i=0; i<3; i++) { // les 3 objectifs de panda des trois couleurs (à faire)
-            objectifPandaList.add(new ObjectifPanda(6, 3, Couleur.VERT));
+            objectifPandaList.add(new ObjectifPanda(6, 3, Couleur.VERTE));
         }
     }
 
