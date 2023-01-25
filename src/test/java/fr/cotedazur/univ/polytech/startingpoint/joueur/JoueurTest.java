@@ -7,12 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class JoueurTest {
-    // Attributs
     Joueur joueur1;
     Joueur joueur2;
 
 
-    // Constructeur
     @BeforeEach
     void setUp() {
         joueur1 = new Joueur("joueur1");
@@ -20,7 +18,6 @@ class JoueurTest {
     }
 
 
-    // Accesseurs
     @Test
     void getNom() {
         assertEquals("joueur1", joueur1.getNom());
@@ -34,20 +31,20 @@ class JoueurTest {
     }
 
     @Test
-    void getObjectifARealiserList() {
-        assertEquals(0, joueur1.nombreObjectifsEnMain());
+    void getObjectifsEnMain() {
+        // À modifier quand le joueur aura des objectifs
         assertEquals(0, joueur1.getObjectifsEnMain().length);
         assertEquals(0, joueur2.getObjectifsEnMain().length);
     }
 
     @Test
-    void getObjectifTermineList() {
+    void getObjectifsTermines() {
+        // À modifier quand le joueur aura des objectifs
         assertEquals(0, joueur1.getObjectifsTermines().length);
         assertEquals(0, joueur2.getObjectifsTermines().length);
     }
 
 
-    // Autres méthodes
     @Test
     void nombreObjectifsEnMain() {
         assertEquals(0, joueur1.nombreObjectifsEnMain());
@@ -61,7 +58,6 @@ class JoueurTest {
     }
 
 
-    // Méthode toString
     @Test
     void testToString() {
         assertEquals(joueur1.getNom(), joueur1.toString());
