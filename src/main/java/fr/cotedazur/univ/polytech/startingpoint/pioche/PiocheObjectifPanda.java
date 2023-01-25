@@ -70,11 +70,13 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
     @Override
     public Objectif pioche() {
         assert !isEmpty() : "La pioche d'objectifs de panda est vide";
+
         int size = getNombreObjectifsRestants();
         int positionCarte = random.nextInt(size);
         if (positionCarte < 0 || positionCarte >= size) {
             throw new ArithmeticException("Erreur objet random");
         }
+
         return objectifPandaList.remove(positionCarte);
     }
 

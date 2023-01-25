@@ -71,11 +71,13 @@ public class PiocheObjectifParcelle implements PiocheObjectifInterface {
     @Override
     public ObjectifParcelle pioche() {
         assert !isEmpty() : "La pioche d'objectifs de parcelles est vide";
+
         int taille = getNombreObjectifsRestants();
         int positionCarte = random.nextInt(taille);
         if (positionCarte < 0 || positionCarte >= taille) {
             throw new ArithmeticException("Erreur objet random");
         }
+
         return objectifParcelleList.remove(positionCarte);
     }
 

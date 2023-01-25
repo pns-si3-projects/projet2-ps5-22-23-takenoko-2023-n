@@ -70,8 +70,9 @@ public class PiocheSectionBambou {
             throw new AssertionError("La pioche de sections de bambou est vide");
         }
 
-        int positionBambou = random.nextInt(nombreSectionsBambouVert);
-        if (positionBambou < 0 || positionBambou >= getNombreSectionsBambou(couleur)) {
+        int taille = getNombreSectionsBambou(couleur);
+        int positionBambou = random.nextInt(taille);
+        if (positionBambou < 0 || positionBambou >= taille) {
             throw new ArithmeticException();
         }
 

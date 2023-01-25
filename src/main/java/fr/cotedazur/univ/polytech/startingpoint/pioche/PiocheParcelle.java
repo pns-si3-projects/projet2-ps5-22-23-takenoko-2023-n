@@ -126,9 +126,6 @@ public class PiocheParcelle {
      */
     public ParcellePioche[] pioche() throws PiocheParcelleEnCoursException {
         assert !isEmpty() : "La pioche de bambous est vide";
-        if (!parcellesPiochees.isEmpty()) {
-            throw new PiocheParcelleEnCoursException();
-        }
 
         if (getNombreParcellesRestantes() <= 3) {
             return random1Parcelle();
@@ -140,8 +137,9 @@ public class PiocheParcelle {
     /**
      * Renvoie un tableau de 3 fois la même parcelle, choisie aléatoirement dans la pioche
      * @return un tableau de 3 parcelles piochées
+     * @throws PiocheParcelleEnCoursException si une pioche de parcelles est déjà en cours
      */
-    private ParcellePioche[] random1Parcelle() {
+    private ParcellePioche[] random1Parcelle() throws PiocheParcelleEnCoursException {
         int size = getNombreParcellesRestantes();
 
         int positionParcelle = random.nextInt(size);
@@ -158,8 +156,9 @@ public class PiocheParcelle {
     /**
      * Renvoie un tableau de 3 parcelles différentes, choisies aléatoirement dans la pioche
      * @return un tableau de 3 parcelles piochées
+     * @throws PiocheParcelleEnCoursException si une pioche de parcelles est déjà en cours
      */
-    private ParcellePioche[] random3Parcelle() {
+    private ParcellePioche[] random3Parcelle() throws PiocheParcelleEnCoursException {
         int[] positionParcelle = random3Positions();
 
         ParcellePioche parcellePiochee1 = parcellePiocheList.get(positionParcelle[0]);
@@ -212,6 +211,7 @@ public class PiocheParcelle {
      */
     public ParcelleCouleur choisiParcelle(ParcellePioche parcelleChoisie, Position position)
             throws PiocheParcelleVideException {
+
         if (parcellesPiochees.isEmpty()) {
             throw new PiocheParcelleVideException();
         }

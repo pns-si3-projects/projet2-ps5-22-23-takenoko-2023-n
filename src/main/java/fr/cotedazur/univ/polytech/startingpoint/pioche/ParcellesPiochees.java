@@ -50,27 +50,28 @@ public class ParcellesPiochees {
      * @param parcelle1 la première parcelle piochée à ajouter
      * @param parcelle2 la deuxième parcelle piochée à ajouter
      * @param parcelle3 la troisième parcelle piochée à ajouter
-     * @return si les parcelles piochées sont ajoutées
+     * @throws PiocheParcelleEnCoursException si une pioche de parcelles est déjà en cours
      */
-    public boolean enregistre3ParcellesPiochees(ParcellePioche parcelle1,
+    public void enregistre3ParcellesPiochees(ParcellePioche parcelle1,
                                                 ParcellePioche parcelle2,
-                                                ParcellePioche parcelle3) {
+                                                ParcellePioche parcelle3)
+            throws PiocheParcelleEnCoursException {
+
         if (!isEmpty()) {
-            return false;
+            throw new PiocheParcelleEnCoursException();
         }
         parcelles[nombreParcelles++] = parcelle1;
         parcelles[nombreParcelles++] = parcelle2;
         parcelles[nombreParcelles++] = parcelle3;
-        return true;
     }
 
     /**
      * Enregistre 3 fois la parcelle piochée
      * @param parcelle la parcelle à ajouter 3 fois
-     * @return si la parcelle piochée est ajoutée
+     * @throws PiocheParcelleEnCoursException si une pioche de parcelles est déjà en cours
      */
-    public boolean enregistreParcellePiochee(ParcellePioche parcelle) {
-        return enregistre3ParcellesPiochees(parcelle, parcelle, parcelle);
+    public void enregistreParcellePiochee(ParcellePioche parcelle) throws PiocheParcelleEnCoursException {
+        enregistre3ParcellesPiochees(parcelle, parcelle, parcelle);
     }
 
     /**
@@ -89,10 +90,8 @@ public class ParcellesPiochees {
 
     /**
      * Oublie les parcelles piochées
-     * @return les parcelles précédemment enregistrées
      */
-    public ParcellePioche[] oublieParcellesPiochees() {
+    public void oublieParcellesPiochees() {
         nombreParcelles = 0;
-        return parcelles;
     }
 }
