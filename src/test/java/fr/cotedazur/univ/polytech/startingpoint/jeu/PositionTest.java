@@ -37,6 +37,12 @@ class PositionTest {
     }
 
     @Test
+    void testToString() {
+        assertEquals("(0,0)", position0_0.toString());
+        assertEquals("(1,0)", position1_0.toString());
+    }
+
+    @Test
     void testEquals() {
         assertEquals(position0_0, position0_0Bis);
         assertNotEquals(position0_0, position1_0);
