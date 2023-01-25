@@ -256,18 +256,39 @@ public class Plateau {
         List<Position> positionsIrrigation = irrigation.getPositions();
         Position position1 = positionsIrrigation.get(0);
         Position position2 = positionsIrrigation.get(1);
-        int x = position1.getX() + position2.getX();
-        int y = position1.getY() + position2.getY();
-        Position position3 = new Position(x, y);
-        Optional<Parcelle> parcelle3 = getParcelle(position3);
-        if (parcelle3.isPresent()) {
-            for (Position position : positionsIrrigation) {
-                List<Position> positionsIrrigationDisponible = new ArrayList<>();
-                positionsIrrigationDisponible.add(position);
-                positionsIrrigationDisponible.add(position3);
-                Irrigation irrigationDisponible = new Irrigation(positionsIrrigationDisponible);
-                this.irrigationsDisponibles.add(irrigationDisponible);
+        ParcelleCouleur parcelle1 = (ParcelleCouleur) getParcelle(position1).get();
+        ParcelleCouleur parcelle2 = (ParcelleCouleur) getParcelle(position2).get();
+        try {
+            Parcelle[] voisinsP1 = getTableauVoisines(parcelle1);
+            Parcelle[] voisinsP2 = getTableauVoisines(parcelle2);
+            List<Parcelle> parcellesPossiblePourIrrigation = new ArrayList<>();
+            for (Parcelle voisin1 : voisinsP1) {
+                for (Parcelle voisin2 : voisinsP2)
+                    if (voisin1 == voisin2 && voisin1 != etang) parcellesPossiblePourIrrigation.add(voisin1);
             }
+            for (Parcelle parcelle : parcellesPossiblePourIrrigation) {
+                if (parcelle.getClass() == ParcelleCouleur.class) {
+                    ParcelleCouleur parcelleAIrrigee = (ParcelleCouleur) parcelle;
+                    for (Position position : positionsIrrigation) {
+                        Optional<Irrigation> irrigationDejaPosee = chercheIrrigation(position,parcelleAIrrigee.position());
+                        if (irrigationDejaPosee.isEmpty()){
+                            List<Position> positionsIrrigationPotentielle = new ArrayList<>();
+                            positionsIrrigationPotentielle.add(position);
+                            positionsIrrigationPotentielle.add(parcelleAIrrigee.position());
+                            Irrigation irrigationPotentielle = new Irrigation(positionsIrrigationPotentielle);
+                            boolean dejaDisponible = false;
+                            for (Irrigation irrigationDispo : irrigationsDisponibles) {
+                                if (irrigationDispo.getPositions().get(0).equals(position) || irrigationDispo.getPositions().get(0).equals(parcelleAIrrigee.position()))
+                                    if (irrigationDispo.getPositions().get(1).equals(position) || irrigationDispo.getPositions().get(1).equals(parcelleAIrrigee.position())) dejaDisponible = true;
+                            }
+                            if (dejaDisponible == false) this.irrigationsDisponibles.add(irrigationPotentielle);
+                        }
+                    }
+                }
+            }
+        }
+        catch (ParcelleNonExistanteException e){
+            System.out.println(e);
         }
     }
 

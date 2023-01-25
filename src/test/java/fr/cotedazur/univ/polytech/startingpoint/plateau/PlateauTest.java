@@ -290,7 +290,7 @@ class PlateauTest {
         assertEquals(2, plateau.getIrrigationsPosees().size());
         assertEquals(1, plateau.getIrrigationsDisponibles().size());
         assertTrue(pc31.isIrriguee());
-        
+
         plateau.addIrrigation(position20, position31);
         assertEquals(3, plateau.getIrrigationsPosees().size());
         assertEquals(0, plateau.getIrrigationsDisponibles().size());
