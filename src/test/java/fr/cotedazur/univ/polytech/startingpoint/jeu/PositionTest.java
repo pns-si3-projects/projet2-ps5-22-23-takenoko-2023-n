@@ -36,7 +36,7 @@ class PositionTest {
         assertNotEquals(1, position1_0.getY());
     }
 
-    
+
     @Test
     void testToString() {
         assertEquals("(0,0)", position0_0.toString());
