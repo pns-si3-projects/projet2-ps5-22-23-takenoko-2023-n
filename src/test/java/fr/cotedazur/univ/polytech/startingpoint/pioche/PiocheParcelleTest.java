@@ -55,24 +55,20 @@ class PiocheParcelleTest {
 
     @Test
     void pioche() {
-        when(mockRandom.nextInt(anyInt())).thenReturn(26, 26, 1, 1, 5, 8, 2, 2, 4);
+        when(mockRandom.nextInt(anyInt())).thenReturn(26, 26, 1, 1, 5, 8, 2, 2, 4, 12, 14, 18);
         piocheParcelle = new PiocheParcelle(mockRandom);
         try {
             ParcellePioche[] parcelles = piocheParcelle.pioche();
             assertEquals(new ParcellePioche(Couleur.JAUNE), parcelles[0]);
-            try {
-                piocheParcelle.choisiParcelle(parcelles[1], new Position(2, 1));
-            } catch (PiocheParcelleVideException e) {
-                throw new AssertionError(e);
-            }
+            piocheParcelle.choisiParcelle(parcelles[1], new Position(2, 1));
             // Possible car une parcelle a été choisie
             parcelles = piocheParcelle.pioche();
             assertEquals(new ParcellePioche(Couleur.VERT), parcelles[1]);
-        } catch (PiocheParcelleEnCoursException e) {
+        } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
             throw new AssertionError(e);
         }
         // Pioche déjà en cours donc erreur de pioche
-        assertThrows(PiocheParcelleEnCoursException.class, () -> {piocheParcelle.pioche();});
+        assertThrows(PiocheParcelleEnCoursException.class, () -> piocheParcelle.pioche());
     }
 
     @Test
