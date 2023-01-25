@@ -246,8 +246,7 @@ public class Plateau {
      * Ajoute les irrigations à la suite de celle en paramètre au set des irrigations disponibles si elles sont possible d'être posées
      * @param irrigation l'irrigation à partir de laquelle il faut rechercher les nouvelles irrigations possible
      */
-    public void
-    addIrrigationDisponible(Irrigation irrigation) {
+    public void addIrrigationDisponible(Irrigation irrigation) {
         List<Position> positionsIrrigation = irrigation.getPositions();
         Position position1 = positionsIrrigation.get(0);
         Position position2 = positionsIrrigation.get(1);
@@ -264,6 +263,30 @@ public class Plateau {
                 this.irrigationsDisponibles.add(irrigationDisponible);
             }
         }
+    }
+
+    public void checkIrrigationsAutour(ParcelleCouleur parcelleCouleur) throws ParcelleNonExistanteException {
+        try {
+            Parcelle[] voisins = getTableauVoisines(parcelleCouleur);
+            for (int i = 0; i < voisins.length - 1; i++) {
+                Optional<Irrigation> irrigation = chercheIrrigation(voisins[i].position(), voisins[i + 1].position());
+                if (irrigation.isPresent()) addIrrigationDisponible(irrigation.get());
+            }
+            Optional<Irrigation> irrigation = chercheIrrigation(voisins[5].position(), voisins[0].position());
+            if (irrigation.isPresent()) addIrrigationDisponible(irrigation.get());
+        }
+        catch (ParcelleNonExistanteException e){
+            System.out.println(e);
+        }
+    }
+
+    public Optional<Irrigation> chercheIrrigation(Position position1, Position position2){
+        for (Irrigation irrigation : this.irrigationsPosees){
+            if (position1.equals(irrigation.getPositions().get(0)) | position1.equals(irrigation.getPositions().get(1))){
+                if (position2.equals(irrigation.getPositions().get(0)) | position2.equals(irrigation.getPositions().get(1))) return Optional.of(irrigation);
+            }
+        }
+        return Optional.empty();
     }
 
     /**
@@ -323,9 +346,10 @@ public class Plateau {
             addPositionsDisponibles(toutesVoisinesList);
             // On enlève la position de la parcelle ajoutée aux possibilités d'ajout de parcelle
             deletePositionList(parcelle.position());
+            checkIrrigationsAutour(parcelle);
         }
-        catch (ParcelleNonVoisineException pNVE) {
-            System.out.println(pNVE);
+        catch (ParcelleNonVoisineException | ParcelleNonExistanteException e) {
+            System.out.println(e);
         }
     }
 
