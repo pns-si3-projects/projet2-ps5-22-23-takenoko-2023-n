@@ -19,7 +19,7 @@ public class PiocheParcelle {
     private static final String ERREUR_RANDOM = "Erreur objet Random";
     private final List<ParcellePioche> parcellePiocheList;
     private final Random random;
-    private ParcellesPiochees parcellesPiochees;
+    private final ParcellesPiochees parcellesPiochees;
 
 
     // Définition des constructeurs
@@ -180,20 +180,26 @@ public class PiocheParcelle {
     private int[] random3Positions() {
         int size = getNombreParcellesRestantes();
         int positionParcelle1 = random.nextInt(size);
-        if (positionParcelle1 < 0 || positionParcelle1 >= size) throw new ArithmeticException(ERREUR_RANDOM);
+        if (positionParcelle1 < 0 || positionParcelle1 >= size) {
+            throw new ArithmeticException(ERREUR_RANDOM);
+        }
 
         // Boucle pour positionParcelle2
         int positionParcelle2;
         do {
             positionParcelle2 = random.nextInt(size);
-            if (positionParcelle2 < 0 || positionParcelle2 >= size) throw new ArithmeticException(ERREUR_RANDOM);
+            if (positionParcelle2 < 0 || positionParcelle2 >= size) {
+                throw new ArithmeticException(ERREUR_RANDOM);
+            }
         } while (positionParcelle1 == positionParcelle2);
 
         // Boucle pour positionParcelle3
         int positionParcelle3;
         do {
             positionParcelle3 = random.nextInt(size);
-            if (positionParcelle3 < 0 || positionParcelle3 >= size) throw new ArithmeticException(ERREUR_RANDOM);
+            if (positionParcelle3 < 0 || positionParcelle3 >= size) {
+                throw new ArithmeticException(ERREUR_RANDOM);
+            }
         } while (positionParcelle1 == positionParcelle3 || positionParcelle2 == positionParcelle3);
 
         return new int[]{positionParcelle1, positionParcelle2, positionParcelle3};
@@ -204,7 +210,8 @@ public class PiocheParcelle {
      * @return la parcelle piochée avec la position demandée (ParcelleCouleur)
      * @throws PiocheParcelleVideException si aucune pioche n'a été effectuée, mais une parcelle est choisie
      */
-    public ParcelleCouleur choisiParcelle(ParcellePioche parcelleChoisie, Position position) throws PiocheParcelleVideException {
+    public ParcelleCouleur choisiParcelle(ParcellePioche parcelleChoisie, Position position)
+            throws PiocheParcelleVideException {
         if (parcellesPiochees.isEmpty()) {
             throw new PiocheParcelleVideException();
         }
