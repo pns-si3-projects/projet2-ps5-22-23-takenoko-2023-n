@@ -225,7 +225,9 @@ public class Plateau {
     public void addIrrigation(Position position1, Position position2){
         Optional<Parcelle> parcelle1 = getParcelle(position1);
         Optional<Parcelle> parcelle2 = getParcelle(position2);
-        if (position1 != position2 && parcelle1.isPresent() && parcelle2.isPresent()){
+        if (position1 != position2 && parcelle1.isPresent() && parcelle2.isPresent() && parcelle1.get() != etang && parcelle2.get() != etang){
+            ParcelleCouleur parcelleC1 = (ParcelleCouleur) parcelle1.get();
+            ParcelleCouleur parcelleC2 = (ParcelleCouleur) parcelle2.get();
             List<Position> positions = new ArrayList<>();
             positions.add(position1);
             positions.add(position2);
@@ -234,7 +236,11 @@ public class Plateau {
             Set<Irrigation> setIrrigationsDispo = new HashSet<>();
             for (Irrigation irrigation : this.irrigationsDisponibles){
                 if (!(irrigation.getPositions().get(0).equals(position1) && irrigation.getPositions().get(1).equals(position2))) {
-                    if (!(irrigation.getPositions().get(0).equals(position2) && irrigation.getPositions().get(1).equals(position1))) setIrrigationsDispo.add(irrigation);
+                    if (!(irrigation.getPositions().get(0).equals(position2) && irrigation.getPositions().get(1).equals(position1))){
+                        setIrrigationsDispo.add(irrigation);
+                        if (!parcelleC1.isIrriguee()) parcelleC1.setIrriguee(true);
+                        if (!parcelleC2.isIrriguee()) parcelleC2.setIrriguee(true);
+                    }
                 }
             }
             this.irrigationsDisponibles = setIrrigationsDispo;
@@ -357,6 +363,7 @@ public class Plateau {
             addPositionsDisponibles(toutesVoisinesList);
             // On enlève la position de la parcelle ajoutée aux possibilités d'ajout de parcelle
             deletePositionList(parcelle.position());
+            if (futuresVoisinesList.contains(etang)) parcelle.setIrriguee(true);
             checkIrrigationsAutour(parcelle);
         }
         catch (ParcelleNonVoisineException | ParcelleNonExistanteException e) {
