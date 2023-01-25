@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
-import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +11,14 @@ class PositionTest {
     Position position0_0Bis;
     Position position1_0;
 
+
     @BeforeEach
     void setUp() {
         position0_0 = new Position();
         position0_0Bis = new Position(0, 0);
         position1_0 = new Position(1, 0);
     }
+
 
     @Test
     void getX() {
