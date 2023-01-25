@@ -17,8 +17,8 @@ class ObjectifPandaTest {
     @BeforeEach
     void setUp() {
         objP1_1 = new ObjectifPanda(1, 1,Couleur.ROSE);
-        objP2_2 = new ObjectifPanda(2, 2, Couleur.VERT);
-        objP2_2_bis_vert = new ObjectifPanda(2, 2,Couleur.VERT);
+        objP2_2 = new ObjectifPanda(2, 2, Couleur.VERTE);
+        objP2_2_bis_vert = new ObjectifPanda(2, 2,Couleur.VERTE);
         objP2_2_bis_jaune = new ObjectifPanda(2,2,Couleur.ROSE);
         objP3_2 = new ObjectifPanda(3, 2,Couleur.JAUNE);
         objP2_3 = new ObjectifPanda(2, 3,Couleur.JAUNE);
@@ -28,8 +28,8 @@ class ObjectifPandaTest {
     void getCouleurObjectifPanda(){
         assertEquals(Couleur.ROSE,objP1_1.getCouleurBambousAManger());
         assertNotEquals(Couleur.JAUNE,objP2_2.getCouleurBambousAManger());
-        assertEquals(Couleur.VERT,objP2_2.getCouleurBambousAManger());
-        assertEquals(Couleur.VERT,objP2_2_bis_vert.getCouleurBambousAManger());
+        assertEquals(Couleur.VERTE,objP2_2.getCouleurBambousAManger());
+        assertEquals(Couleur.VERTE,objP2_2_bis_vert.getCouleurBambousAManger());
         assertEquals(Couleur.JAUNE,objP3_2.getCouleurBambousAManger());
     }
 

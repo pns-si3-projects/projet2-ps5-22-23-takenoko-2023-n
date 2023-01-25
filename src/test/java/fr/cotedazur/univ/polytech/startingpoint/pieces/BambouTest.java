@@ -19,18 +19,18 @@ class BambouTest {
 
     @BeforeEach
     void setUp() {
-        pC1_2 = new ParcelleCouleur(new Position(1, 2), Couleur.VERT);
+        pC1_2 = new ParcelleCouleur(new Position(1, 2), Couleur.VERTE);
         bambou = new Bambou(pC1_2);
-        sectionBambou1 = new SectionBambou(Couleur.VERT);
-        sectionBambou2 = new SectionBambou(Couleur.VERT);
-        sectionBambou3 = new SectionBambou(Couleur.VERT);
-        sectionBambou4 = new SectionBambou(Couleur.VERT);
+        sectionBambou1 = new SectionBambou(Couleur.VERTE);
+        sectionBambou2 = new SectionBambou(Couleur.VERTE);
+        sectionBambou3 = new SectionBambou(Couleur.VERTE);
+        sectionBambou4 = new SectionBambou(Couleur.VERTE);
     }
 
     @Test
     void couleur() {
         assertNotEquals(Couleur.JAUNE, bambou.getCouleur());
-        assertEquals(Couleur.VERT, bambou.getCouleur());
+        assertEquals(Couleur.VERTE, bambou.getCouleur());
     }
 
     @Test

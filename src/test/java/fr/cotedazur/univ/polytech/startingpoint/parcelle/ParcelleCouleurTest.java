@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParcelleCouleurTest {
-    Couleur vert = Couleur.VERT;
+    Couleur vert = Couleur.VERTE;
     Couleur rose = Couleur.ROSE;
     Couleur jaune = Couleur.JAUNE;
     ParcelleCouleur pC1_1V;

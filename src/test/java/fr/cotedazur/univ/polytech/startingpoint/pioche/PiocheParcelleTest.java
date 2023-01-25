@@ -63,7 +63,7 @@ class PiocheParcelleTest {
             piocheParcelle.choisiParcelle(parcelles[1], new Position(2, 1));
             // Possible car une parcelle a été choisie
             parcelles = piocheParcelle.pioche();
-            assertEquals(new ParcellePioche(Couleur.VERT), parcelles[1]);
+            assertEquals(new ParcellePioche(Couleur.VERTE), parcelles[1]);
         } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
             throw new AssertionError(e);
         }
@@ -90,7 +90,7 @@ class PiocheParcelleTest {
         } catch (PiocheParcelleEnCoursException e) {
             throw new AssertionError(e);
         } finally {
-            ParcellePioche parcellePiocheVert = new ParcellePioche(Couleur.VERT);
+            ParcellePioche parcellePiocheVert = new ParcellePioche(Couleur.VERTE);
             Position position2_0 = new Position(2, 0);
             assertThrows(IllegalArgumentException.class, () -> piocheParcelle.choisiParcelle(parcellePiocheVert, position2_0));
         }

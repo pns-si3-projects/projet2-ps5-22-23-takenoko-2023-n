@@ -19,7 +19,7 @@ class PiocheSectionBambouTest {
     PiocheSectionBambou piocheSectionBambou;
     @Mock
     Random mockRandom = mock(Random.class);
-    Couleur vert = Couleur.VERT;
+    Couleur vert = Couleur.VERTE;
     Couleur rose = Couleur.ROSE;
     Couleur jaune = Couleur.JAUNE;
 

@@ -16,19 +16,19 @@ class SectionBambouTest {
 
     @BeforeEach
     void setUp() {
-        bambouVert = new SectionBambou(Couleur.VERT);
+        bambouVert = new SectionBambou(Couleur.VERTE);
         bambouJaune = new SectionBambou(Couleur.JAUNE);
         bambouRose = new SectionBambou(Couleur.ROSE);
-        bambouVertBis = new SectionBambou(Couleur.VERT);
+        bambouVertBis = new SectionBambou(Couleur.VERTE);
     }
 
     @Test
     void getCouleur() {
-        assertEquals(Couleur.VERT,bambouVert.getCouleur());
+        assertEquals(Couleur.VERTE,bambouVert.getCouleur());
         assertNotEquals(Couleur.JAUNE,bambouRose.getCouleur());
         assertEquals(Couleur.ROSE,bambouRose.getCouleur());
         assertEquals(Couleur.JAUNE,bambouJaune.getCouleur());
-        assertEquals(Couleur.VERT,bambouVertBis.getCouleur());
+        assertEquals(Couleur.VERTE,bambouVertBis.getCouleur());
     }
 
     @Test
