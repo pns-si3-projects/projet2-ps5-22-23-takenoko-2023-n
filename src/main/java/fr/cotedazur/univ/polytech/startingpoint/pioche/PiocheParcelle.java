@@ -166,10 +166,7 @@ public class PiocheParcelle {
         ParcellePioche parcellePiochee3 = parcellePiocheList.get(positionParcelle[2]);
         parcellesPiochees.enregistre3ParcellesPiochees(parcellePiochee1, parcellePiochee2, parcellePiochee3);
 
-        return new ParcellePioche[]{
-                parcellePiocheList.get(positionParcelle[0]),
-                parcellePiocheList.get(positionParcelle[1]),
-                parcellePiocheList.get(positionParcelle[2])};
+        return new ParcellePioche[]{parcellePiochee1, parcellePiochee2,  parcellePiochee3};
     }
 
     /**
