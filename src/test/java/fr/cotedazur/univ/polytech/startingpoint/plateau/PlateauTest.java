@@ -284,13 +284,24 @@ class PlateauTest {
         }
         assertEquals(1, plateau.getIrrigationsPosees().size());
         assertEquals(2, plateau.getIrrigationsDisponibles().size());
+        assertFalse(pc31.isIrriguee());
+
         plateau.addIrrigation(position11,position31);
         assertEquals(2, plateau.getIrrigationsPosees().size());
         assertEquals(1, plateau.getIrrigationsDisponibles().size());
+        assertTrue(pc31.isIrriguee());
+        
         plateau.addIrrigation(position20, position31);
         assertEquals(3, plateau.getIrrigationsPosees().size());
         assertEquals(0, plateau.getIrrigationsDisponibles().size());
     }
+
+    @Test
+    void isIrrigeeVoisinEtang(){
+        assertTrue(pC11.isIrriguee());
+        assertTrue(pC20.isIrriguee());
+    }
+
 
 
 /*
