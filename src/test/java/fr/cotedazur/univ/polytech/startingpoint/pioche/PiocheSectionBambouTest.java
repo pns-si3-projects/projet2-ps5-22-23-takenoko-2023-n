@@ -43,9 +43,9 @@ class PiocheSectionBambouTest {
 
     @Test
     void isEmptySectionsBambou() {
-        assertFalse(piocheSectionBambou.isEmptySectionsBambou(vert));
-        assertFalse(piocheSectionBambou.isEmptySectionsBambou(rose));
-        assertFalse(piocheSectionBambou.isEmptySectionsBambou(jaune));
+        assertFalse(piocheSectionBambou.isEmpty(vert));
+        assertFalse(piocheSectionBambou.isEmpty(rose));
+        assertFalse(piocheSectionBambou.isEmpty(jaune));
     }
 
 
@@ -56,9 +56,9 @@ class PiocheSectionBambouTest {
         when(mockRandom.nextInt(anyInt())).thenReturn(36, 24, 30);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
 
-        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(vert));
-        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(rose));
-        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(jaune));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(vert));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(rose));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(jaune));
     }
 
     @Test
@@ -66,9 +66,9 @@ class PiocheSectionBambouTest {
         when(mockRandom.nextInt(anyInt())).thenReturn(-1);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
 
-        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(vert));
-        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(rose));
-        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.piocheSectionBambou(jaune));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(vert));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(rose));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(jaune));
     }
 
     @Test
@@ -78,10 +78,10 @@ class PiocheSectionBambouTest {
         when(mockRandom.nextInt(anyInt())).thenReturn(35, 1, 32, 32);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
 
-        assertEquals(sectionBambouVert, piocheSectionBambou.piocheSectionBambou(vert));
-        assertEquals(sectionBambouVert, piocheSectionBambou.piocheSectionBambou(vert));
-        assertEquals(sectionBambouVert, piocheSectionBambou.piocheSectionBambou(vert));
-        assertEquals(sectionBambouVert, piocheSectionBambou.piocheSectionBambou(vert));
+        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(vert));
+        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(vert));
+        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(vert));
+        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(vert));
     }
 
     @Test
@@ -91,10 +91,10 @@ class PiocheSectionBambouTest {
         when(mockRandom.nextInt(anyInt())).thenReturn(23, 1, 20, 20);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
 
-        assertEquals(sectionBambouRose, piocheSectionBambou.piocheSectionBambou(rose));
-        assertEquals(sectionBambouRose, piocheSectionBambou.piocheSectionBambou(rose));
-        assertEquals(sectionBambouRose, piocheSectionBambou.piocheSectionBambou(rose));
-        assertEquals(sectionBambouRose, piocheSectionBambou.piocheSectionBambou(rose));
+        assertEquals(sectionBambouRose, piocheSectionBambou.pioche(rose));
+        assertEquals(sectionBambouRose, piocheSectionBambou.pioche(rose));
+        assertEquals(sectionBambouRose, piocheSectionBambou.pioche(rose));
+        assertEquals(sectionBambouRose, piocheSectionBambou.pioche(rose));
     }
 
     @Test
@@ -104,9 +104,9 @@ class PiocheSectionBambouTest {
         when(mockRandom.nextInt(anyInt())).thenReturn(29, 1, 26, 26);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
 
-        assertEquals(sectionBambouJaune, piocheSectionBambou.piocheSectionBambou(jaune));
-        assertEquals(sectionBambouJaune, piocheSectionBambou.piocheSectionBambou(jaune));
-        assertEquals(sectionBambouJaune, piocheSectionBambou.piocheSectionBambou(jaune));
-        assertEquals(sectionBambouJaune, piocheSectionBambou.piocheSectionBambou(jaune));
+        assertEquals(sectionBambouJaune, piocheSectionBambou.pioche(jaune));
+        assertEquals(sectionBambouJaune, piocheSectionBambou.pioche(jaune));
+        assertEquals(sectionBambouJaune, piocheSectionBambou.pioche(jaune));
+        assertEquals(sectionBambouJaune, piocheSectionBambou.pioche(jaune));
     }
 }
