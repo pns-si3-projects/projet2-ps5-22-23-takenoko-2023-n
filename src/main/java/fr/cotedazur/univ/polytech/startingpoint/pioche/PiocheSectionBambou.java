@@ -53,7 +53,7 @@ public class PiocheSectionBambou {
      * @param couleur la couleur demandée
      * @return {@code true} si la pioche n'a plus de sections de bambou de la couleur demandée
      */
-    public boolean isEmptySectionsBambou(@NotNull Couleur couleur) {
+    public boolean isEmpty(@NotNull Couleur couleur) {
         return getNombreSectionsBambou(couleur) == 0;
     }
 
@@ -65,8 +65,8 @@ public class PiocheSectionBambou {
      * @return la section de bambou piochée
      * @implNote la pioche de la couleur demandée ne doit pas être vide
      */
-    public SectionBambou piocheSectionBambou(@NotNull Couleur couleur) {
-        if (isEmptySectionsBambou(couleur)) {
+    public SectionBambou pioche(@NotNull Couleur couleur) {
+        if (isEmpty(couleur)) {
             throw new AssertionError("La pioche de sections de bambou est vide");
         }
 
