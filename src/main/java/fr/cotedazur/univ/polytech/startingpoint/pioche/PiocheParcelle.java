@@ -1,34 +1,39 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 import java.util.Random;
 
 /**
  * Représente la pioche de parcelles.
  * @author équipe N
  */
-public class PiocheParcelle extends ArrayList<ParcellePioche> {
+public class PiocheParcelle {
     // Définition des attributs
 
     private static final String ERREUR_RANDOM = "Erreur objet Random";
+    private final List<ParcellePioche> parcellePiocheList;
     private final Random random;
-    private Optional<ParcellePioche[]> parcellesPiochees;
+    private ParcellesPiochees parcellesPiochees;
 
+
+    // Définition des constructeurs
 
     /**
      * Construit la pioche de parcelles
      * @param random un objet Random pour l'aléatoire de la pioche
      */
     public PiocheParcelle(@NotNull Random random) {
+        parcellePiocheList = new ArrayList<>(27);
         creePiocheParcelles();
+
         this.random = random;
-        parcellesPiochees = Optional.empty();
+        parcellesPiochees = new ParcellesPiochees();
     }
 
     /**
@@ -46,16 +51,16 @@ public class PiocheParcelle extends ArrayList<ParcellePioche> {
     private void creeParcellesVertesPioche() {
         Couleur vert = Couleur.VERT;
         for (int i=0; i<6; i++) {
-            add(new ParcellePioche(vert));
+            parcellePiocheList.add(new ParcellePioche(vert));
         }
         // avec futur aménagement bassin
-        add(new ParcellePioche(vert));
-        add(new ParcellePioche(vert));
+        parcellePiocheList.add(new ParcellePioche(vert));
+        parcellePiocheList.add(new ParcellePioche(vert));
         // avec futur aménagement enclos
-        add(new ParcellePioche(vert));
-        add(new ParcellePioche(vert));
+        parcellePiocheList.add(new ParcellePioche(vert));
+        parcellePiocheList.add(new ParcellePioche(vert));
         // avec futur aménagement engrais
-        add(new ParcellePioche(vert));
+        parcellePiocheList.add(new ParcellePioche(vert));
     }
 
     /**
@@ -64,14 +69,14 @@ public class PiocheParcelle extends ArrayList<ParcellePioche> {
     private void creeParcellesRosesPioche() {
         Couleur rose = Couleur.ROSE;
         for (int i=0; i<4; i++) {
-            add(new ParcellePioche(rose));
+            parcellePiocheList.add(new ParcellePioche(rose));
         }
         // avec futur aménagement bassin
-        add(new ParcellePioche(rose));
+        parcellePiocheList.add(new ParcellePioche(rose));
         // avec futur aménagement enclos
-        add(new ParcellePioche(rose));
+        parcellePiocheList.add(new ParcellePioche(rose));
         // avec futur aménagement engrais
-        add(new ParcellePioche(rose));
+        parcellePiocheList.add(new ParcellePioche(rose));
     }
 
     /**
@@ -80,33 +85,33 @@ public class PiocheParcelle extends ArrayList<ParcellePioche> {
     private void creeParcellesJaunesPioche() {
         Couleur jaune = Couleur.JAUNE;
         for (int i=0; i<6; i++) {
-            add(new ParcellePioche(jaune));
+            parcellePiocheList.add(new ParcellePioche(jaune));
         }
         // avec futur aménagement bassin
-        add(new ParcellePioche(jaune));
+        parcellePiocheList.add(new ParcellePioche(jaune));
         // avec futur aménagement enclos
-        add(new ParcellePioche(jaune));
+        parcellePiocheList.add(new ParcellePioche(jaune));
         // avec futur aménagement engrais
-        add(new ParcellePioche(jaune));
+        parcellePiocheList.add(new ParcellePioche(jaune));
     }
 
 
     // Accesseurs
+
     /**
      * Renvoie le nombre de parcelles que contient la pioche
      * @return le nombre de parcelles restantes dans la pioche
      */
     public int getNombreParcellesRestantes() {
-        return size();
+        return parcellePiocheList.size();
     }
 
     /**
      * Renvoie si la pioche de parcelles est vide
      * @return {@code true} si la pioche est vide
      */
-    @Override
     public boolean isEmpty() {
-        return size() == 0;
+        return parcellePiocheList.isEmpty();
     }
 
 
@@ -121,27 +126,58 @@ public class PiocheParcelle extends ArrayList<ParcellePioche> {
      */
     public ParcellePioche[] pioche() throws PiocheParcelleEnCoursException {
         assert !isEmpty() : "La pioche de bambous est vide";
-        if (parcellesPiochees.isPresent()) throw new PiocheParcelleEnCoursException();
-        ParcellePioche[] parcelles;
-        int size = getNombreParcellesRestantes();
-        if (size <= 3) {
-            int positionParcelle = random.nextInt(size);
-            if (positionParcelle < 0 || positionParcelle >= size) throw new ArithmeticException(ERREUR_RANDOM);
-            parcelles = new ParcellePioche[]{get(positionParcelle), get(positionParcelle), get(positionParcelle)};
-            parcellesPiochees = Optional.of(parcelles);
-            return parcelles;
+        if (!parcellesPiochees.isEmpty()) {
+            throw new PiocheParcelleEnCoursException();
         }
-        int[] positions = random3Parcelles();
-        parcelles = new ParcellePioche[]{get(positions[0]), get(positions[1]), get(positions[2])};
-        parcellesPiochees = Optional.of(parcelles);
-        return parcelles;
+
+        if (getNombreParcellesRestantes() <= 3) {
+            return random1Parcelle();
+        }
+
+        return random3Parcelle();
+    }
+
+    /**
+     * Renvoie un tableau de 3 fois la même parcelle, choisie aléatoirement dans la pioche
+     * @return un tableau de 3 parcelles piochées
+     */
+    private ParcellePioche[] random1Parcelle() {
+        int size = getNombreParcellesRestantes();
+
+        int positionParcelle = random.nextInt(size);
+        if (positionParcelle < 0 || positionParcelle >= size) {
+            throw new ArithmeticException(ERREUR_RANDOM);
+        }
+
+        ParcellePioche parcellePiochee = parcellePiocheList.get(positionParcelle);
+        parcellesPiochees.enregistreParcellePiochee(parcellePiochee);
+
+        return new ParcellePioche[]{parcellePiochee, parcellePiochee, parcellePiochee};
+    }
+
+    /**
+     * Renvoie un tableau de 3 parcelles différentes, choisies aléatoirement dans la pioche
+     * @return un tableau de 3 parcelles piochées
+     */
+    private ParcellePioche[] random3Parcelle() {
+        int[] positionParcelle = random3Positions();
+
+        ParcellePioche parcellePiochee1 = parcellePiocheList.get(positionParcelle[0]);
+        ParcellePioche parcellePiochee2 = parcellePiocheList.get(positionParcelle[1]);
+        ParcellePioche parcellePiochee3 = parcellePiocheList.get(positionParcelle[2]);
+        parcellesPiochees.enregistre3ParcellesPiochees(parcellePiochee1, parcellePiochee2, parcellePiochee3);
+
+        return new ParcellePioche[]{
+                parcellePiocheList.get(positionParcelle[0]),
+                parcellePiocheList.get(positionParcelle[1]),
+                parcellePiocheList.get(positionParcelle[2])};
     }
 
     /**
      * Renvoie un tableau de 3 positions de parcelle différentes, choisies aléatoirement dans la pioche
      * @return un tableau de 3 positions de parcelle piochées
      */
-    private int[] random3Parcelles() {
+    private int[] random3Positions() {
         int size = getNombreParcellesRestantes();
         int positionParcelle1 = random.nextInt(size);
         if (positionParcelle1 < 0 || positionParcelle1 >= size) throw new ArithmeticException(ERREUR_RANDOM);
@@ -169,14 +205,17 @@ public class PiocheParcelle extends ArrayList<ParcellePioche> {
      * @throws PiocheParcelleVideException si aucune pioche n'a été effectuée, mais une parcelle est choisie
      */
     public ParcelleCouleur choisiParcelle(ParcellePioche parcelleChoisie, Position position) throws PiocheParcelleVideException {
-        if (parcellesPiochees.isEmpty()) throw new PiocheParcelleVideException();
-        ParcellePioche[] piochees = parcellesPiochees.get();
-        if (piochees[0].equals(parcelleChoisie) || piochees[1].equals(parcelleChoisie) || piochees[2].equals(parcelleChoisie)) {
-            parcellesPiochees = Optional.empty();
-            remove(parcelleChoisie);
+        if (parcellesPiochees.isEmpty()) {
+            throw new PiocheParcelleVideException();
+        }
+
+        if (parcellesPiochees.parcellePiochee(parcelleChoisie)) {
+            parcellesPiochees.oublieParcellesPiochees();
+            parcellePiocheList.remove(parcelleChoisie);
+
             return new ParcelleCouleur(position, parcelleChoisie.couleur());
         }
-        throw new IllegalArgumentException("La parcelle donnée ne correspond à aucune donnée lors de la pioche");
+        throw new IllegalArgumentException("La parcelle choisie ne correspond à aucune de la pioche effectuée");
     }
 
 

@@ -52,7 +52,9 @@ public class ParcellesPiochees {
      * @param parcelle3 la troisième parcelle piochée à ajouter
      * @return si les parcelles piochées sont ajoutées
      */
-    public boolean enregistre3ParcellesPiochees(ParcellePioche parcelle1, ParcellePioche parcelle2, ParcellePioche parcelle3) {
+    public boolean enregistre3ParcellesPiochees(ParcellePioche parcelle1,
+                                                ParcellePioche parcelle2,
+                                                ParcellePioche parcelle3) {
         if (!isEmpty()) {
             return false;
         }
