@@ -10,12 +10,14 @@ class CouleurTest {
     Couleur rose;
     Couleur jaune;
 
+
     @BeforeEach
     void setUp() {
         verte = Couleur.VERTE;
         rose = Couleur.ROSE;
         jaune = Couleur.JAUNE;
     }
+
 
     @Test
     void getCouleur() {
@@ -44,6 +46,7 @@ class CouleurTest {
         assertFalse(rose.isJaune());
         assertTrue(jaune.isJaune());
     }
+
 
     @Test
     void testToString() {
