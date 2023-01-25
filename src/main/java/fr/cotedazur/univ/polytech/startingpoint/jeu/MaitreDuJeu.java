@@ -8,7 +8,7 @@ import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import java.util.Random;
 
 /**
- * Initialise le jeu et gère les tours
+ * Initialise le jeu et gère les tours.
  * @author équipe N
  */
 public class MaitreDuJeu {
