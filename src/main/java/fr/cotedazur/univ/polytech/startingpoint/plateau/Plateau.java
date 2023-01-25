@@ -265,6 +265,11 @@ public class Plateau {
         }
     }
 
+    /**
+     * Vérifie si il y a des irrigations autour de la parcelle en paramètre puis ajoute des irrigations disponibles par rapport aux irrigations trouvées
+     * @param parcelleCouleur parcelle pour laquelle on veut verifier si il y a des irrigations autour
+     * @throws ParcelleNonExistanteException
+     */
     public void checkIrrigationsAutour(ParcelleCouleur parcelleCouleur) throws ParcelleNonExistanteException {
         try {
             Parcelle[] voisins = getTableauVoisines(parcelleCouleur);
@@ -280,6 +285,12 @@ public class Plateau {
         }
     }
 
+    /**
+     * Cherche si il y a une irrigation entre les positions données
+     * @param position1 position de la 1ere parcelle entre laquelle on cherche une irrigation
+     * @param position2 position de la 2eme parcelle entre laquelle on cherche une irrigation
+     * @return un optional de l'irrigation trouvée, sinon un optional vide
+     */
     public Optional<Irrigation> chercheIrrigation(Position position1, Position position2){
         for (Irrigation irrigation : this.irrigationsPosees){
             if (position1.equals(irrigation.getPositions().get(0)) | position1.equals(irrigation.getPositions().get(1))){
