@@ -282,9 +282,11 @@ class PlateauTest {
         } catch (ParcelleExistanteException | NombreParcelleVoisineException | AjoutCouleurException exception){
             assert false : "Ne doit pas renvoyer d'exception";
         }
+        assertEquals(1, plateau.getIrrigationsPosees().size());
+        assertEquals(2, plateau.getIrrigationsDisponibles().size());
         plateau.addIrrigation(position11,position31);
         assertEquals(2, plateau.getIrrigationsPosees().size());
-        assertEquals(0, plateau.getIrrigationsDisponibles().size());
+        assertEquals(1, plateau.getIrrigationsDisponibles().size());
         plateau.addIrrigation(position20, position31);
         assertEquals(3, plateau.getIrrigationsPosees().size());
         assertEquals(0, plateau.getIrrigationsDisponibles().size());
