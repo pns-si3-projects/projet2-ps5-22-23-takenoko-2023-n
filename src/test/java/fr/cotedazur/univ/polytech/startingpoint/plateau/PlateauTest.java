@@ -365,6 +365,53 @@ class PlateauTest {
         assertFalse(pc22.isIrriguee());
     }
 
+    @Test
+    void addBambou(){
+        Optional<Bambou> optBambou11 = plateau.getBambou(pC11.position());
+        assertEquals(1,optBambou11.get().getTailleBambou());
+        Optional<Bambou> optBambou20 = plateau.getBambou(pC20.position());
+        assertEquals(1, optBambou20.get().getTailleBambou());
+
+        Position position31 = new Position(3,1);
+        ParcelleCouleur pc31 = new ParcelleCouleur(position31, couleurBambouDefault);
+        SectionBambou secBam3_1 = new SectionBambou(couleurBambouDefault);
+        Bambou bambou3_1;
+        try {
+            plateau.addParcelle(pc31, secBam3_1);
+            bambou3_1 = new Bambou(pc31);
+            bambou3_1.ajouteSectionBambou(secBam3_1);
+        } catch (ParcelleExistanteException | NombreParcelleVoisineException | AjoutCouleurException exception){
+            assert false : "Ne doit pas renvoyer d'exception";
+        }
+        Optional<Bambou> optBambou31 = plateau.getBambou(pc31.position());
+        assertFalse(optBambou31.isPresent());
+
+        plateau.addIrrigation(pC11.position(), pC20.position());
+        Optional<Bambou> optBambou11_2 = plateau.getBambou(pC11.position());
+        assertEquals(1,optBambou11_2.get().getTailleBambou());
+        Optional<Bambou> optBambou20_2 = plateau.getBambou(pC20.position());
+        assertEquals(1, optBambou20_2.get().getTailleBambou());
+
+        assertTrue(pC11.isIrriguee());
+        assertTrue(pC20.isIrriguee());
+        assertFalse(pc31.isIrriguee());
+
+        plateau.addBambou(pC11, new SectionBambou(pC11.couleur()));
+        Optional<Bambou> optBambou11_3 = plateau.getBambou(pC11.position());
+        assertEquals(2, optBambou11_3.get().getTailleBambou());
+
+        plateau.addBambou(pc31, new SectionBambou(pc31.couleur()));
+        Optional<Bambou> optBambou31_2 = plateau.getBambou(pc31.position());
+        assertFalse(optBambou31_2.isPresent());
+
+        plateau.addIrrigation(pC11.position(), pc31.position());
+        Optional<Bambou> optBambou31_3 = plateau.getBambou(pc31.position());
+        assertEquals(1, optBambou31_3.get().getTailleBambou());
+        assertTrue(pc31.isIrriguee());
+        plateau.addBambou(pc31, new SectionBambou(pc31.couleur()));
+        Optional<Bambou> optBambou31_4 = plateau.getBambou(pc31.position());
+        assertEquals(2, optBambou31_4.get().getTailleBambou());
+    }
 
 
 /*
