@@ -231,7 +231,22 @@ class PlateauTest {
         bambous = plateau.getBambous();
 
         assertEquals(5, parcelles.length);
+        assertEquals(3, bambous.length);
+        plateau.addIrrigation(pC20.position(), pC11.position());
+
+        parcelles = plateau.getParcelles();
+        bambous = plateau.getBambous();
+
+        assertEquals(5, parcelles.length);
+        assertEquals(3, bambous.length);
+        plateau.addIrrigation(pC11.position(),pC31.position());
+
+        parcelles = plateau.getParcelles();
+        bambous = plateau.getBambous();
+
+        assertEquals(5, parcelles.length);
         assertEquals(4, bambous.length);
+
         for(Parcelle parcelle : parcelles){
             assertTrue(listParcelle.contains(parcelle));
         }
