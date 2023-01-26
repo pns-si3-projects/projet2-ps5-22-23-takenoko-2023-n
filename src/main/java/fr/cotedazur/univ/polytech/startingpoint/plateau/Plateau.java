@@ -231,20 +231,25 @@ public class Plateau {
             List<Position> positions = new ArrayList<>();
             positions.add(position1);
             positions.add(position2);
-            Irrigation nouvelleIrrigation = new Irrigation(positions);
-            this.irrigationsPosees.add(nouvelleIrrigation);
-            Set<Irrigation> setIrrigationsDispo = new HashSet<>();
-            for (Irrigation irrigation : this.irrigationsDisponibles){
-                if (!(irrigation.getPositions().get(0).equals(position1) && irrigation.getPositions().get(1).equals(position2))) {
-                    if (!(irrigation.getPositions().get(0).equals(position2) && irrigation.getPositions().get(1).equals(position1))){
-                        setIrrigationsDispo.add(irrigation);
-                        if (!parcelleC1.isIrriguee()) parcelleC1.setIrriguee(true);
-                        if (!parcelleC2.isIrriguee()) parcelleC2.setIrriguee(true);
-                    }
+            Irrigation irrigationAAdd = new Irrigation(positions);
+            boolean ajoute = false;
+            for (Irrigation irrigationDisponible : irrigationsDisponibles){
+                if (irrigationAAdd.equals(irrigationDisponible)){
+                    irrigationsPosees.add(irrigationAAdd);
+                    ajoute = true;
+                    break;
                 }
             }
-            this.irrigationsDisponibles = setIrrigationsDispo;
-            addIrrigationDisponible(nouvelleIrrigation);
+            if (ajoute){
+                Set<Irrigation> setIrrigationsDispo = new HashSet<>();
+                for (Irrigation irrigation : irrigationsDisponibles){
+                    if (!(irrigation.equals(irrigationAAdd))) setIrrigationsDispo.add(irrigation);
+                }
+                if (!parcelleC1.isIrriguee()) parcelleC1.setIrriguee(true);
+                if (!parcelleC2.isIrriguee()) parcelleC2.setIrriguee(true);
+                irrigationsDisponibles = setIrrigationsDispo;
+                addIrrigationDisponible(irrigationAAdd);
+            }
         }
     }
 
@@ -278,8 +283,9 @@ public class Plateau {
                             Irrigation irrigationPotentielle = new Irrigation(positionsIrrigationPotentielle);
                             boolean dejaDisponible = false;
                             for (Irrigation irrigationDispo : irrigationsDisponibles) {
-                                if (irrigationDispo.getPositions().get(0).equals(position) || irrigationDispo.getPositions().get(0).equals(parcelleAIrrigee.position()))
-                                    if (irrigationDispo.getPositions().get(1).equals(position) || irrigationDispo.getPositions().get(1).equals(parcelleAIrrigee.position())) dejaDisponible = true;
+                                if (irrigationDispo.equals(irrigationPotentielle)){
+                                    dejaDisponible = true;
+                                }
                             }
                             if (dejaDisponible == false) this.irrigationsDisponibles.add(irrigationPotentielle);
                         }
@@ -300,12 +306,31 @@ public class Plateau {
     public void checkIrrigationsAutour(ParcelleCouleur parcelleCouleur) throws ParcelleNonExistanteException {
         try {
             Parcelle[] voisins = getTableauVoisines(parcelleCouleur);
+            boolean voisinEtang = false;
             for (int i = 0; i < voisins.length - 1; i++) {
                 Optional<Irrigation> irrigation = chercheIrrigation(voisins[i].position(), voisins[i + 1].position());
                 if (irrigation.isPresent()) addIrrigationDisponible(irrigation.get());
+                if (voisins[i].equals(etang)) voisinEtang = true;
             }
             Optional<Irrigation> irrigation = chercheIrrigation(voisins[5].position(), voisins[0].position());
             if (irrigation.isPresent()) addIrrigationDisponible(irrigation.get());
+            if (voisins[5].equals(etang)) voisinEtang = true;
+            if (voisinEtang){
+                for (Parcelle parcelle : voisins){
+                    if (parcelle.getClass() == ParcelleCouleur.class) {
+                        Parcelle[] voisinsParcelle = getTableauVoisines(parcelle);
+                        for (Parcelle voisin : voisinsParcelle) {
+                            if (voisin.equals(etang)) {
+                                List<Position> positionsIrrigationDispo = new ArrayList<>();
+                                positionsIrrigationDispo.add(parcelleCouleur.position());
+                                positionsIrrigationDispo.add(parcelle.position());
+                                Irrigation irrigationDispo = new Irrigation(positionsIrrigationDispo);
+                                irrigationsDisponibles.add(irrigationDispo);
+                            }
+                        }
+                    }
+                }
+            }
         }
         catch (ParcelleNonExistanteException e){
             System.out.println(e);
@@ -319,10 +344,12 @@ public class Plateau {
      * @return un optional de l'irrigation trouvée, sinon un optional vide
      */
     public Optional<Irrigation> chercheIrrigation(Position position1, Position position2){
+        List<Position> positionsIrrigationRecherchee = new ArrayList<>();
+        positionsIrrigationRecherchee.add(position1);
+        positionsIrrigationRecherchee.add(position2);
+        Irrigation irrigationRecherchee = new Irrigation(positionsIrrigationRecherchee);
         for (Irrigation irrigation : this.irrigationsPosees){
-            if (position1.equals(irrigation.getPositions().get(0)) | position1.equals(irrigation.getPositions().get(1))){
-                if (position2.equals(irrigation.getPositions().get(0)) | position2.equals(irrigation.getPositions().get(1))) return Optional.of(irrigation);
-            }
+            if (irrigation.equals(irrigationRecherchee)) return Optional.of(irrigationRecherchee);
         }
         return Optional.empty();
     }
