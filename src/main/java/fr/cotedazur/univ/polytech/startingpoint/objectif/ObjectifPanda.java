@@ -24,7 +24,6 @@ public class ObjectifPanda extends Objectif {
      * @param nbPoints le nombre de points de l'objectif
      * @param nbBambous le nombre de bambous que le joueur doit posséder
      * @param couleur la couleur demandée pour les bambous
-     * @implSpec {@code nbPoints > 0}, {@code nbBambous > 0}
      */
     public ObjectifPanda(int nbPoints, int nbBambous, @NotNull Couleur couleur) {
         if (nbPoints <= 0) {
@@ -41,6 +40,7 @@ public class ObjectifPanda extends Objectif {
 
 
     // Accesseurs
+
     /**
      * Renvoie le nombre de bambous que le joueur doit posséder
      * @return le nombre de bambous que le joueur doit posséder
@@ -59,12 +59,10 @@ public class ObjectifPanda extends Objectif {
 
 
     // Méthodes toString et equals
+
     @Override
     public String toString() {
-        String s = "Objectif de ";
-        s += nombreBambousAManger + " bambous à posséder et vaut ";
-        s += nombrePoints + " points";
-        return s;
+        return super.toString() + " pour " + nombreBambousAManger + " bambous de couleur " + couleur + " à posséder";
     }
 
     @Override
@@ -73,7 +71,8 @@ public class ObjectifPanda extends Objectif {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ObjectifPanda that = (ObjectifPanda) o;
-        return getNombreBambousAManger() == that.getNombreBambousAManger() && getCouleurBambousAManger() == that.getCouleurBambousAManger();
+        return getNombreBambousAManger() == that.getNombreBambousAManger()
+                && getCouleurBambousAManger() == that.getCouleurBambousAManger();
     }
 
     @Override

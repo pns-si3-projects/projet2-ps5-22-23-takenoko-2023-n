@@ -11,7 +11,6 @@ public class ObjectifJardinier extends Objectif {
     // Définition des attributs
 
     private final int nombreBambousAFairePousser;
-    private int nombreBambousRestant;
 
 
     // Définition des constructeurs
@@ -31,11 +30,11 @@ public class ObjectifJardinier extends Objectif {
 
         nombrePoints = nbPoints;
         nombreBambousAFairePousser = schema;
-        nombreBambousRestant = nombreBambousAFairePousser;
     }
 
 
     // Accesseurs
+
     /**
      * Renvoie le schéma de bambous demandé
      * @return le schéma de bambous demandé
@@ -44,21 +43,12 @@ public class ObjectifJardinier extends Objectif {
         return nombreBambousAFairePousser;
     }
 
-    public int getNombreBambousRestant(){return nombreBambousRestant;}
-
-    public void soustraitNombreBambousPoses(int nombreBambousPoses){
-        nombreBambousRestant -= nombreBambousPoses;
-    }
-
 
     // Méthodes toString et equals
 
     @Override
     public String toString() {
-        String s = "Objectif de ";
-        s += nombreBambousAFairePousser + " bambous à faire pousser et vaut ";
-        s += nombrePoints + " points";
-        return s;
+        return super.toString() + " pour " + nombreBambousAFairePousser + " bambous à faire pousser.";
     }
 
     @Override

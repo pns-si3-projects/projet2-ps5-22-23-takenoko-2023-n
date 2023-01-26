@@ -13,6 +13,7 @@ public abstract class Objectif {
 
 
     // Accesseurs
+
     /**
      * Renvoie le nombre de points de l'objectif
      * @return le nombre de points de l'objectif

@@ -11,7 +11,6 @@ public class ObjectifParcelle extends Objectif {
     // Définition des attributs
 
     private final int nombreParcelles;
-    private int nombreParcellePresenteEnJeu = 1;
 
 
     // Définition des constructeurs
@@ -19,19 +18,19 @@ public class ObjectifParcelle extends Objectif {
     /**
      * Construit un objectif de parcelles par le nombre de points et le nombre de parcelles à poser
      * @param nbPoints le nombre de points de l'objectif
-     * @param nbParcelles le nombre de parcelles à poser
-     * @implSpec {@code nbPoints > 0}, {@code nbParcelles > 0}
+     * @param schema le schéma de parcelles à obtenir
+     * @implSpec {@code nbPoints > 0}, {@code schema > 0}
      */
-    public ObjectifParcelle(int nbPoints, int nbParcelles) {
+    public ObjectifParcelle(int nbPoints, int schema) {
         if (nbPoints <= 0) {
             throw new IllegalArgumentException("Le nombre de points doit être supérieur à 0");
         }
-        if (nbParcelles <= 0) {
+        if (schema <= 0) {
             throw new IllegalArgumentException("Le nombre de parcelles doit être supérieur à 0");
         }
 
         nombrePoints = nbPoints;
-        nombreParcelles = nbParcelles;
+        nombreParcelles = schema;
     }
 
 
@@ -45,24 +44,12 @@ public class ObjectifParcelle extends Objectif {
         return nombreParcelles;
     }
 
-    public void setNombreParcellePresenteEnJeu(int nombreParcellePresenteEnJeu){
-        if(nombreParcellePresenteEnJeu >= 0) {
-            this.nombreParcellePresenteEnJeu = nombreParcellePresenteEnJeu;
-        }
-    }
-    public int getNombreParcellePresenteEnJeu(){
-        return nombreParcellePresenteEnJeu;
-    }
-
 
     // Méthodes to String et equals
 
     @Override
     public String toString() {
-        String s = "Objectif de ";
-        s += nombreParcelles + " parcelles et vaut ";
-        s += nombrePoints + " points";
-        return s;
+        return super.toString() + " pour " + nombreParcelles + " parcelles";
     }
 
     @Override
