@@ -245,8 +245,16 @@ public class Plateau {
                 for (Irrigation irrigation : irrigationsDisponibles){
                     if (!(irrigation.equals(irrigationAAdd))) setIrrigationsDispo.add(irrigation);
                 }
-                if (!parcelleC1.isIrriguee()) parcelleC1.setIrriguee(true);
-                if (!parcelleC2.isIrriguee()) parcelleC2.setIrriguee(true);
+                if (!parcelleC1.isIrriguee()){
+                    parcelleC1.setIrriguee(true);
+                    SectionBambou sectionBambou = new SectionBambou(parcelleC1.couleur());
+                    addBambou(parcelleC1,sectionBambou);
+                }
+                if (!parcelleC2.isIrriguee()){
+                    parcelleC2.setIrriguee(true);
+                    SectionBambou sectionBambou = new SectionBambou(parcelleC2.couleur());
+                    addBambou(parcelleC2,sectionBambou);
+                }
                 irrigationsDisponibles = setIrrigationsDispo;
                 addIrrigationDisponible(irrigationAAdd);
             }
@@ -407,11 +415,11 @@ public class Plateau {
             // On prend toutes les voisines (dont les espaces vide en ParcelleDisponible)
             Parcelle[] toutesVoisinesList = GESTIONNAIRE_MODIFICATION_PLATEAU.addVoisinesParcelle(parcelle, futuresVoisinesList);
             parcelleEtVoisinesList.put(parcelle, toutesVoisinesList);
+            if (futuresVoisinesList.contains(etang)) parcelle.setIrriguee(true);
             addBambou(parcelle, sectionBambou);
             addPositionsDisponibles(toutesVoisinesList);
             // On enlève la position de la parcelle ajoutée aux possibilités d'ajout de parcelle
             deletePositionList(parcelle.position());
-            if (futuresVoisinesList.contains(etang)) parcelle.setIrriguee(true);
             checkIrrigationsAutour(parcelle);
         }
         catch (ParcelleNonVoisineException | ParcelleNonExistanteException e) {
