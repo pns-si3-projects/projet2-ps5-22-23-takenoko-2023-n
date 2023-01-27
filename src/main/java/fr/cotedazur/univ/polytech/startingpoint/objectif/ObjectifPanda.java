@@ -53,7 +53,7 @@ public class ObjectifPanda extends Objectif {
      * Renvoie la couleur des bambous que le joueur doit faire manger au panda
      * @return la couleur des bambous à faire manger au panda
      */
-    public Couleur getCouleurBambousAManger() {
+    public Couleur getCouleur() {
         return couleur;
     }
 
@@ -62,7 +62,8 @@ public class ObjectifPanda extends Objectif {
 
     @Override
     public String toString() {
-        return super.toString() + " pour " + nombreBambousAManger + " bambous de couleur " + couleur + " à posséder";
+        return super.toString() + " pour "
+                + nombreBambousAManger + " bambous de couleur " + couleur + " à posséder";
     }
 
     @Override
@@ -71,12 +72,11 @@ public class ObjectifPanda extends Objectif {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ObjectifPanda that = (ObjectifPanda) o;
-        return getNombreBambousAManger() == that.getNombreBambousAManger()
-                && getCouleurBambousAManger() == that.getCouleurBambousAManger();
+        return getNombreBambousAManger() == that.getNombreBambousAManger() && getCouleur() == that.getCouleur();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getNombreBambousAManger(), getCouleurBambousAManger());
+        return Objects.hash(super.hashCode(), getNombreBambousAManger(), getCouleur());
     }
 }
