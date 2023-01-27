@@ -39,7 +39,7 @@ public class ObjectifJardinier extends Objectif {
      * Renvoie le schéma de bambous demandé
      * @return le schéma de bambous demandé
      */
-    public int getNombreBambousAFairePousser() {
+    public int getSchema() {
         return nombreBambousAFairePousser;
     }
 
@@ -57,11 +57,11 @@ public class ObjectifJardinier extends Objectif {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ObjectifJardinier that = (ObjectifJardinier) o;
-        return getNombreBambousAFairePousser() == that.getNombreBambousAFairePousser();
+        return getSchema() == that.getSchema();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getNombreBambousAFairePousser());
+        return Objects.hash(super.hashCode(), getSchema());
     }
 }
