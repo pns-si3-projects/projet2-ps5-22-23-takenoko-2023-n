@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
@@ -159,5 +160,55 @@ public class GestionnairePossibilitePlateau {
             }
         }
         return positionsFiltrees;
+    }
+
+    /**
+     * Permet de renvoyer le nombre de Parcelle qui ressemble au motif dans l'objectif Parcelle
+     * @param listParcellePlateau liste des Parcelles du Plateau
+     * @param parcelleACheck La parcelle avec laquelle on veut essayer de faire un motif
+     * @param motifAFaire La liste des Parcelles pour faire le motifs
+     * @return Le nombre de Parcelle qui ressemble au motif
+     */
+    private int nombreParcelleMotif(Parcelle[] listParcellePlateau, Parcelle parcelleACheck, Parcelle[] motifAFaire){
+        if(parcelleACheck.equals(plateau.getEtang())) return 0;
+        Position positionEtang = plateau.getEtang().position();
+        int differenceX = parcelleACheck.position().getX() - motifAFaire[0].position().getX();
+        int differenceY = parcelleACheck.position().getY() - motifAFaire[0].position().getY();
+        int nombreParcelleProcheMotif = 1;
+        for(int i = 1; i < motifAFaire.length; i++){
+            Position positionMotif = motifAFaire[i].position();
+            Position positionACheck = new Position(positionMotif.getX() + differenceX, positionMotif.getY() + differenceY);
+            for(Parcelle parcellePlateau : listParcellePlateau){
+                if(positionEtang.equals(positionACheck) ) return 0; // impossible de le faire avec l'Etang dans le motif
+                if(parcellePlateau.position().equals(positionACheck) && !parcelleACheck.position().equals(positionACheck)){
+                    nombreParcelleProcheMotif++;
+                    break;
+                }
+            }
+        }
+        return nombreParcelleProcheMotif;
+    }
+
+    /**
+     * Renvoie la Parcelle qui peut s'approcher de l'objectif à faire
+     * @param objectifParcelle L'objectif Parcelle qu'on veut réaliser
+     * @return Renvoie la Parcelle qui peut s'approcher de l'objectif à faire
+     */
+    public Parcelle getParcellePlusProcheObjectif(ObjectifParcelle objectifParcelle){
+        Parcelle[] listParcellePlateau = plateau.getParcelles();
+        Parcelle[] motifAFaire = objectifParcelle.getMotif().getTableauParcelles();
+        int maxNombreParcelleMotif = 0;
+        Parcelle parcelleMaxMotif = plateau.getEtang();
+        for(Parcelle parcellePlateau : listParcellePlateau){
+            int nombreParcelle = nombreParcelleMotif(listParcellePlateau,parcellePlateau,motifAFaire);
+            if(nombreParcelle == motifAFaire.length){
+                return parcellePlateau;
+            }
+            else if (nombreParcelle > maxNombreParcelleMotif){
+                parcelleMaxMotif = parcellePlateau;
+                maxNombreParcelleMotif = nombreParcelle;
+            }
+        }
+        return parcelleMaxMotif;
     }
 }
