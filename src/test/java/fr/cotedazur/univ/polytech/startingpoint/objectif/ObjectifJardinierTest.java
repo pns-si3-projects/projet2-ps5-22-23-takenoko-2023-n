@@ -19,6 +19,9 @@ class ObjectifJardinierTest {
 
     @BeforeEach
     void setUp() {
+        verte = Couleur.VERTE;
+        rose = Couleur.ROSE;
+        jaune = Couleur.JAUNE;
         objJ5_4_J = new ObjectifJardinier(5, 4, jaune);
         objJ5_4_JBis = new ObjectifJardinier(5, 4, jaune);
         objJ5_4_V = new ObjectifJardinier(5, 4, verte);
