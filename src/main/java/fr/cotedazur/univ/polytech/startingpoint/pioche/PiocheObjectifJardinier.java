@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import org.jetbrains.annotations.NotNull;
@@ -36,21 +37,24 @@ public class PiocheObjectifJardinier implements PiocheObjectifInterface {
      * Initialise la pioche en lui ajoutant les objectifs de jardinier
      */
     private void creePiocheObjectifsJardinier() {
-        objectifJardinierList.add(new ObjectifJardinier(5, 4));
-        objectifJardinierList.add(new ObjectifJardinier(6, 4));
-        objectifJardinierList.add(new ObjectifJardinier(6, 6));
-        objectifJardinierList.add(new ObjectifJardinier(7, 9));
-        objectifJardinierList.add(new ObjectifJardinier(8, 12));
-        objectifJardinierList.add(new ObjectifJardinier(4, 4));
-        objectifJardinierList.add(new ObjectifJardinier(4, 4));
-        objectifJardinierList.add(new ObjectifJardinier(5, 4));
-        objectifJardinierList.add(new ObjectifJardinier(4, 4));
-        objectifJardinierList.add(new ObjectifJardinier(5, 4));
-        objectifJardinierList.add(new ObjectifJardinier(5, 4));
-        objectifJardinierList.add(new ObjectifJardinier(6, 4));
-        objectifJardinierList.add(new ObjectifJardinier(6, 4));
-        objectifJardinierList.add(new ObjectifJardinier(7, 4));
-        objectifJardinierList.add(new ObjectifJardinier(3, 4));
+        Couleur verte = Couleur.VERTE;
+        Couleur rose = Couleur.ROSE;
+        Couleur jaune = Couleur.JAUNE;
+        objectifJardinierList.add(new ObjectifJardinier(5, 4, jaune));
+        objectifJardinierList.add(new ObjectifJardinier(6, 4, jaune));
+        objectifJardinierList.add(new ObjectifJardinier(6, 6, rose));
+        objectifJardinierList.add(new ObjectifJardinier(7, 9, jaune));
+        objectifJardinierList.add(new ObjectifJardinier(8, 12, verte));
+        objectifJardinierList.add(new ObjectifJardinier(4, 4, verte));
+        objectifJardinierList.add(new ObjectifJardinier(4, 4, verte));
+        objectifJardinierList.add(new ObjectifJardinier(5, 4, verte));
+        objectifJardinierList.add(new ObjectifJardinier(4, 4, jaune));
+        objectifJardinierList.add(new ObjectifJardinier(5, 4, jaune));
+        objectifJardinierList.add(new ObjectifJardinier(5, 4, rose));
+        objectifJardinierList.add(new ObjectifJardinier(6, 4, rose));
+        objectifJardinierList.add(new ObjectifJardinier(6, 4, rose));
+        objectifJardinierList.add(new ObjectifJardinier(7, 4, rose));
+        objectifJardinierList.add(new ObjectifJardinier(3, 4, verte));
     }
 
 
