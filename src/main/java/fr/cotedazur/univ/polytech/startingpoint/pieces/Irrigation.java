@@ -26,4 +26,9 @@ public class Irrigation {
     public int hashCode() {
         return Objects.hash(positions);
     }
+
+    @Override
+    public String toString() {
+        return "Irrigation entre les parcelles en " + positions.get(0) + " et en " + positions.get(1);
+    }
 }

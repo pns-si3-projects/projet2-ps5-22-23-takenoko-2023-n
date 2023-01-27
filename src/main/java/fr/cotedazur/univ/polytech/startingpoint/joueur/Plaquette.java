@@ -17,7 +17,7 @@ public class Plaquette {
     private final List<SectionBambou> bambousManges;
     private final List<Objectif> objectifsARealiser;
     private final Integer[] actionsTour;
-    public enum ActionPossible {PARCELLE, PANDA, OBJECTIF,JARDINIER}
+    public enum ActionPossible {PARCELLE, PANDA, OBJECTIF, JARDINIER, IRRIGATION}
     public static final int NOMBRE_OBJECTIFS_MAX = 5;
 
 

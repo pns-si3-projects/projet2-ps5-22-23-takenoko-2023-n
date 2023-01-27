@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 
 import java.util.Optional;
 
@@ -93,5 +94,9 @@ public class Afficheur {
      */
     public void afficheObjectifValide(Objectif objectif){
         System.out.println(objectif + " terminé");
+    }
+
+    public void affichePoseIrrigation(Irrigation irrigation){
+        System.out.println(irrigation + "posée");
     }
 }
