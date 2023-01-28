@@ -94,7 +94,7 @@ public class Bambou implements Positionable, Colorable {
     public void ajouteSectionBambou(@NotNull SectionBambou sectionBambou) throws AjoutCouleurException {
         assert !isTailleMaximum() : "Le bambou a atteint sa taille maximum";
         if (sectionBambou.getCouleur() != getCouleur()) {
-            throw new AjoutCouleurException(getCouleur(), sectionBambou.getCouleur());
+            throw new AjoutCouleurException(this, sectionBambou);
         }
 
         sectionsBambou[tailleBambou++] = sectionBambou;
