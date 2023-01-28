@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
+import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
+
 import java.util.Objects;
 
 /**

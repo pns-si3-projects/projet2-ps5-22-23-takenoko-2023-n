@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.Motif;
+import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.MotifNonValideException;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
