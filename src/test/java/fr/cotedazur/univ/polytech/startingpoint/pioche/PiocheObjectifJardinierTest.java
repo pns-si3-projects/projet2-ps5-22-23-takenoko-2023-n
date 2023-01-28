@@ -37,6 +37,8 @@ class PiocheObjectifJardinierTest {
     @Test
     void isEmpty() {
         assertFalse(piocheObjectifJardinier.isEmpty());
+        piocheObjectifJardinier.pioche();
+        assertFalse(piocheObjectifJardinier.isEmpty());
     }
 
 
