@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * Représente une section de bambou
+ * Représente une section de bambou.
  * @param couleur la couleur de la section de bambou
  * @author equipe N
  */
@@ -24,7 +24,7 @@ public record SectionBambou(@NotNull Couleur couleur) implements Colorable {
 
     @Override
     public String toString() {
-        return "Section de bambou " + couleur;
+        return "Section de bambou de couleur " + couleur;
     }
 
     @Override
