@@ -48,6 +48,14 @@ class ObjectifPandaTest {
 
 
     @Test
+    void testToString() {
+        assertEquals("Objectif de 3 points pour 2 bambous de couleur verte à posséder",
+                objP3_2.toString());
+        assertEquals("Objectif de 4 points pour 2 bambous de couleur jaune à posséder",
+                objP4_2.toString());
+    }
+
+    @Test
     void testEquals() {
         assertEquals(objP3_2, objP3_2Bis);
         assertNotEquals(objP3_2, objP4_2);

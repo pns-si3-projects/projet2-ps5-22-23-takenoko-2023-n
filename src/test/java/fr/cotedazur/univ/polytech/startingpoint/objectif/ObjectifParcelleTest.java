@@ -31,6 +31,14 @@ class ObjectifParcelleTest {
 
 
     @Test
+    void testToString() {
+        assertEquals("Objectif de 2 points pour 3 parcelles",
+                objP2_3.toString());
+        assertEquals("Objectif de 3 points pour 4 parcelles",
+                objP3_4.toString());
+    }
+
+    @Test
     void testEquals() {
         assertEquals(objP2_3, objP2_3Bis);
         assertNotEquals(objP2_3, objP3_4);

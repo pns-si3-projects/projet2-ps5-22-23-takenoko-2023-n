@@ -37,6 +37,13 @@ class ObjectifTest {
     }
 
 
+    @Test
+    void testToString() {
+        assertEquals("Objectif de 2 points", objPar2_3.toString());
+        assertEquals("Objectif de 3 points", objPan3_2.toString());
+        assertEquals("Objectif de 5 points", objJar5_4.toString());
+    }
+
     /* Je n'arrive pas à utiliser le equals de Objectif --> prend automatiquement celui de la sous-classe
     @Test
     void testEquals() {

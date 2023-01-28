@@ -49,6 +49,14 @@ class ObjectifJardinierTest {
 
 
     @Test
+    void testToString() {
+        assertEquals("Objectif de 5 points pour 4 bambous de couleur jaune à faire pousser",
+                objJ5_4_J.toString());
+        assertEquals("Objectif de 6 points pour 4 bambous de couleur rose à faire pousser",
+                objJ6_4_R.toString());
+    }
+
+    @Test
     void testEquals() {
         assertEquals(objJ5_4_J, objJ5_4_JBis);
         assertNotEquals(objJ5_4_J, objJ5_4_V);
