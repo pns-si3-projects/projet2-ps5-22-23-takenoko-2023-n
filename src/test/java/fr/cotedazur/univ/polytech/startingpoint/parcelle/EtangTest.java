@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.parcelle;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,16 +9,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class EtangTest {
     Etang etang;
 
+
     @BeforeEach
     void setUp(){
-        etang=new Etang();
+        etang = new Etang();
     }
 
 
     @Test
     void getPosition(){
-        assertEquals(etang.getPosition().getX(),0);
-        assertEquals(etang.getPosition().getY(),0);
-        Assertions.assertEquals(etang.getPosition(),new Position());
+        assertEquals(new Position(), etang.getPosition());
+        assertEquals(0, etang.getPosition().getX());
+        assertEquals(0, etang.getPosition().getY());
+    }
+
+
+    @Test
+    void testToString(){
+        assertEquals("Etang en (0,0)", etang.toString());
     }
 }
