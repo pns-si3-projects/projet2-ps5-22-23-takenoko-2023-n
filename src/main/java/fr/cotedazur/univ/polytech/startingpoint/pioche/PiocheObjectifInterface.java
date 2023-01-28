@@ -8,8 +8,8 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
  */
 public interface PiocheObjectifInterface {
     /**
-     * Renvoie le nombre de cartes que contient la pioche
-     * @return le nombre de cartes dans la pioche
+     * Renvoie le nombre d'objectifs que contient la pioche
+     * @return le nombre d'objectifs dans la pioche
      */
     int getNombreObjectifsRestants();
 
@@ -20,8 +20,8 @@ public interface PiocheObjectifInterface {
     boolean isEmpty();
 
     /**
-     * Renvoie une carte objectif désignée dans la pioche
-     * @return la carte objectif piochée
+     * Renvoie l'objectif désigné dans la pioche
+     * @return l'objectif pioché
      * @implNote la pioche ne doit pas être vide
      */
     Objectif pioche();
