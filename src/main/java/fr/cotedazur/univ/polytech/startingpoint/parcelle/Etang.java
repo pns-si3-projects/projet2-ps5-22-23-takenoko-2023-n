@@ -5,7 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import java.util.Objects;
 
 /**
- * Représente l'étang, la pièce au centre du jeu
+ * Représente l'étang, la pièce au centre du jeu.
  * @author equipe N
  */
 public class Etang implements Parcelle {
