@@ -9,23 +9,7 @@ import java.util.Objects;
  * Représente un emplacement de parcelle disponible.
  * @author N
  */
-public class ParcelleDisponible implements Parcelle {
-    // Définition des attributs
-
-    private final Position position;
-
-
-    // Définition des constructeurs
-
-    /**
-     * Construit une représentation de parcelle disponible avec une position
-     * @param position la position de la parcelle
-     */
-    public ParcelleDisponible(@NotNull Position position) {
-        this.position = position;
-    }
-
-
+public record ParcelleDisponible(@NotNull Position position) implements Parcelle {
     // Accesseurs
 
     /**
@@ -50,7 +34,7 @@ public class ParcelleDisponible implements Parcelle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParcelleDisponible that = (ParcelleDisponible) o;
-        return Objects.equals(getPosition(), that.getPosition());
+        return getPosition().equals(that.getPosition());
     }
 
     @Override
