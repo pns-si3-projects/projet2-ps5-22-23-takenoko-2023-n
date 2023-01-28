@@ -63,7 +63,7 @@ public class ObjectifJardinier extends Objectif {
     @Override
     public String toString() {
         return super.toString() + " pour "
-                + nombreBambousAFairePousser + " bambous de couleur " + couleur + " à faire pousser.";
+                + nombreBambousAFairePousser + " bambous de couleur " + couleur + " à faire pousser";
     }
 
     @Override
