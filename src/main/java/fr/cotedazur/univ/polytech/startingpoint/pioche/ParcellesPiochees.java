@@ -3,8 +3,8 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 import java.util.Arrays;
 
 /**
- * Enregistre les parcelles piochées dans le tour
- * Les cartes sont ajoutées lors de la pioche puis supprimer après le choix effectué
+ * Enregistre les parcelles piochées dans le tour.
+ * Les cartes sont ajoutées lors de la pioche puis supprimées après le choix effectué
  */
 public class ParcellesPiochees {
     // Définition des attributs
