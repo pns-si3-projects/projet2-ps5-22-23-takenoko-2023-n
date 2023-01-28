@@ -32,6 +32,7 @@ class PlaquetteTest {
         assertFalse(plaquette.isActionTour(Plaquette.ActionPossible.PARCELLE));
     }
 
+
     @Test
     void nombreBambouCouleur() {
         assertEquals(0, plaquette.nombreBambouCouleur(Couleur.VERTE));
