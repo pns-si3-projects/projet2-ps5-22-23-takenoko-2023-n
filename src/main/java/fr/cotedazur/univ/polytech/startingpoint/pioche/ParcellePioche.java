@@ -33,11 +33,11 @@ public record ParcellePioche(@NotNull Couleur couleur) implements Colorable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParcellePioche that = (ParcellePioche) o;
-        return couleur == that.couleur();
+        return getCouleur() == that.getCouleur();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(couleur);
+        return Objects.hash(getCouleur());
     }
 }
