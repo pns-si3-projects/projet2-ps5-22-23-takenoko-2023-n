@@ -16,7 +16,7 @@ public class ObjectifParcelle extends Objectif {
     // Définition des constructeurs
 
     /**
-     * Construit un objectif de parcelles par le nombre de points et le nombre de parcelles à poser
+     * Construit un objectif de parcelles par le nombre de points et le schéma à obtenir sur le plateau
      * @param nbPoints le nombre de points de l'objectif
      * @param schema le schéma de parcelles à obtenir
      * @implSpec {@code nbPoints > 0}, {@code schema > 0}
@@ -37,10 +37,10 @@ public class ObjectifParcelle extends Objectif {
     // Accesseurs
 
     /**
-     * Renvoie le nombre de parcelles irriguées qui doivent être sur le plateau
-     * @return le nombre de parcelles irriguées qui doivent être sur le plateau
+     * Renvoie le schéma à obtenir sur le plateau
+     * @return le schéma à obtenir sur le plateau
      */
-    public int getNombreParcelles() {
+    public int getSchema() {
         return nombreParcelles;
     }
 
@@ -58,11 +58,11 @@ public class ObjectifParcelle extends Objectif {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ObjectifParcelle that = (ObjectifParcelle) o;
-        return getNombreParcelles() == that.getNombreParcelles();
+        return getSchema() == that.getSchema();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getNombreParcelles());
+        return Objects.hash(super.hashCode(), getSchema());
     }
 }
