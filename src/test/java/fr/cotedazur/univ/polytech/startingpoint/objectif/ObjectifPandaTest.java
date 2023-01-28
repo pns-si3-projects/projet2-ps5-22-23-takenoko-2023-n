@@ -16,6 +16,7 @@ class ObjectifPandaTest {
     Couleur rose;
     Couleur jaune;
 
+
     @BeforeEach
     void setUp() {
         verte = Couleur.VERTE;
@@ -27,6 +28,7 @@ class ObjectifPandaTest {
         objP5_2 = new ObjectifPanda(5, 2, rose);
         objP6_3 = new ObjectifPanda(6, 3, verte);
     }
+
 
     @Test
     void getNombreBambousAManger() {
@@ -43,6 +45,7 @@ class ObjectifPandaTest {
         assertEquals(rose, objP5_2.getCouleur());
         assertEquals(verte, objP6_3.getCouleur());
     }
+
 
     @Test
     void testEquals() {

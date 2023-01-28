@@ -17,6 +17,7 @@ class ObjectifJardinierTest {
     Couleur rose;
     Couleur jaune;
 
+
     @BeforeEach
     void setUp() {
         verte = Couleur.VERTE;
@@ -28,6 +29,7 @@ class ObjectifJardinierTest {
         objJ6_4_R = new ObjectifJardinier(6, 4, rose);
         objJ6_6_R = new ObjectifJardinier(6, 6, rose);
     }
+
 
     @Test
     void getNombreBambousAFairePousser() {
@@ -44,6 +46,7 @@ class ObjectifJardinierTest {
         assertEquals(rose, objJ6_4_R.getCouleur());
         assertEquals(rose, objJ6_6_R.getCouleur());
     }
+
 
     @Test
     void testEquals() {
