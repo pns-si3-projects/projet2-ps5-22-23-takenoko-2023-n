@@ -7,25 +7,34 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EtangTest {
-    Etang etang;
+    Etang etang1;
+    Etang etang2;
 
 
     @BeforeEach
     void setUp(){
-        etang = new Etang();
+        etang1 = new Etang();
+        etang2 = new Etang();
     }
 
 
     @Test
     void getPosition(){
-        assertEquals(new Position(), etang.getPosition());
-        assertEquals(0, etang.getPosition().getX());
-        assertEquals(0, etang.getPosition().getY());
+        assertEquals(new Position(), etang1.getPosition());
+        assertEquals(0, etang1.getPosition().getX());
+        assertEquals(0, etang1.getPosition().getY());
+        assertEquals(new Position(), etang2.getPosition());
     }
 
 
     @Test
     void testToString(){
-        assertEquals("Etang en (0,0)", etang.toString());
+        assertEquals("Etang en (0,0)", etang1.toString());
+        assertEquals("Etang en (0,0)", etang2.toString());
+    }
+
+    @Test
+    void testEquals(){
+        assertEquals(etang1, etang2);
     }
 }
