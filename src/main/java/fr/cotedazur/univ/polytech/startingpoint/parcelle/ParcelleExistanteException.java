@@ -8,6 +8,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ParcelleExistanteException extends Exception {
     public ParcelleExistanteException(@NotNull Parcelle parcelle) {
-        super("La parcelle demandée est déjà placée sur le plateau");
+        super("La " + parcelle + " demandée est déjà placée sur le plateau");
     }
 }
