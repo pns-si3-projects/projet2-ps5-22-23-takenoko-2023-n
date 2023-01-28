@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint.plateau;
+package fr.cotedazur.univ.polytech.startingpoint.pieces;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import org.jetbrains.annotations.NotNull;
