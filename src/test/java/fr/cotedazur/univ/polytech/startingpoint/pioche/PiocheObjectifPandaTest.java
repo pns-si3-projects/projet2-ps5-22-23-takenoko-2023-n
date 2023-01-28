@@ -75,4 +75,10 @@ class PiocheObjectifPandaTest {
         assertEquals(new ObjectifPanda(4, 2, Couleur.JAUNE), piocheObjectifPanda.pioche());
         assertEquals(new ObjectifPanda(5, 2, Couleur.ROSE), piocheObjectifPanda.pioche());
     }
+
+
+    @Test
+    void testToString() {
+        assertEquals("Pioche d'objectifs de panda : 15 objectifs", piocheObjectifPanda.toString());
+    }
 }
