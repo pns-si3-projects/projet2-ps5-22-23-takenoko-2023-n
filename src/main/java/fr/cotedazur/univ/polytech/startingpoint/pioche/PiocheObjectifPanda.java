@@ -85,6 +85,6 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
 
     @Override
     public String toString() {
-        return "Pioche d'objectifs de panda : " + getNombreObjectifsRestants() + " cartes.";
+        return "Pioche d'objectifs de panda : " + getNombreObjectifsRestants() + " objectifs";
     }
 }
