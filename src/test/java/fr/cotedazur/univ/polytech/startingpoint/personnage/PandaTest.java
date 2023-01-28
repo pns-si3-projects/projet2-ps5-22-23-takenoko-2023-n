@@ -7,19 +7,27 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PandaTest {
-    Panda panda;
-    Position position_1_0;
-    Position position_0_0;
+    Panda panda1;
+    Panda panda2;
+
 
     @BeforeEach
     void setUp(){
-        panda=new Panda();
-        position_1_0=new Position(1,0);
-        position_0_0=new Position(0,0);
+        panda1 = new Panda();
+        panda2 = new Panda();
     }
+
 
     @Test
     void getPosition() {
-        assertEquals(panda.getPosition(), new Position(0,0));
+        assertEquals(new Position(), panda1.getPosition());
+        assertEquals(new Position(), panda2.getPosition());
+    }
+
+
+    @Test
+    void testToString() {
+        assertEquals("Panda en (0,0)", panda1.toString());
+        assertEquals("Panda en (0,0)", panda2.toString());
     }
 }
