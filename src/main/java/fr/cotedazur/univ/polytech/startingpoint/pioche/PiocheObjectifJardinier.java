@@ -91,6 +91,6 @@ public class PiocheObjectifJardinier implements PiocheObjectifInterface {
 
     @Override
     public String toString() {
-        return "Pioche d'objectifs de parcelles : " + getNombreObjectifsRestants() + " cartes.";
+        return "Pioche d'objectifs de jardinier : " + getNombreObjectifsRestants() + " objectifs";
     }
 }
