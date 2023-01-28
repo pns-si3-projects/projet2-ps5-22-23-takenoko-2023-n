@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.personnage;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,13 @@ class JardinierTest {
     void setUp(){
         jardinier1 = new Jardinier();
         jardinier2 = new Jardinier();
+    }
+
+
+    @Test
+    void getPosition() {
+        assertEquals(new Position(), jardinier1.getPosition());
+        assertEquals(new Position(), jardinier2.getPosition());
     }
 
 
