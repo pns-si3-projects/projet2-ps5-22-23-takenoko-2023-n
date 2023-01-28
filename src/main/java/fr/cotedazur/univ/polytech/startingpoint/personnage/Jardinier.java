@@ -34,7 +34,7 @@ public class Jardinier implements Personnage {
     }
 
 
-    // Méthodes toString
+    // Méthode toString
 
     @Override
     public String toString() {

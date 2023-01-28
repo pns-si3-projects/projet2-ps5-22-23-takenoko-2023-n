@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.personnage;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 
 /**
- * Représente le panda
+ * Représente le panda.
  * @author equipe N
  */
 public class Panda implements Personnage {
