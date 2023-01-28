@@ -80,9 +80,8 @@ public class Plaquette {
     /**
      * Ajoute la section de bambou mangée à la réserve dans la plaquette
      * @param sectionBambou la section de bambou à ajouter à réserve de la plaquette
-     * @return {@code true} si la section de bambou est ajoutée
      */
-    public boolean mangeSectionBambou(@NotNull SectionBambou sectionBambou) {
-        return reserveBambousManges.add(sectionBambou);
+    public void mangeSectionBambou(@NotNull SectionBambou sectionBambou) {
+        reserveBambousManges.add(sectionBambou);
     }
 }
