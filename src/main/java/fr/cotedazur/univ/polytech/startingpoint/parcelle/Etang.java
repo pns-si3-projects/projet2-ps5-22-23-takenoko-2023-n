@@ -25,6 +25,7 @@ public class Etang implements Parcelle {
 
 
     // Accesseurs
+
     @Override
     public Position getPosition() {
         return position;
@@ -32,6 +33,7 @@ public class Etang implements Parcelle {
 
 
     // Méthodes toString et equals
+
     @Override
     public String toString() {
         return "Etang en " + position;
