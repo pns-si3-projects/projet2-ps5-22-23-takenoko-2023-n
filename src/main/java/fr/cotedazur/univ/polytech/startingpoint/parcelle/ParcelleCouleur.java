@@ -28,6 +28,7 @@ public record ParcelleCouleur(@NotNull Position position, @NotNull Couleur coule
 
 
     // Méthodes toString et equals
+
     @Override
     public String toString() {
         return "Parcelle de couleur " + couleur + " en " + position;
