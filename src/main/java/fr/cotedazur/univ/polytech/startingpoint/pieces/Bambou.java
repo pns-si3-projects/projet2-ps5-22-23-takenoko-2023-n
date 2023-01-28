@@ -5,13 +5,12 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Positionable;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.AjoutCouleurException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 /**
- * Représente l'ensemble des sections de bambou pouvant être placées sur une parcelle de couleur
+ * Représente l'ensemble des sections de bambou pouvant être placées sur une parcelle de couleur.
  * @author equipe N
  */
 public class Bambou implements Positionable, Colorable {
@@ -62,9 +61,12 @@ public class Bambou implements Positionable, Colorable {
      * Renvoie s'il n'y a plus de sections de bambou
      * @return {@code true} s'il n'y a plus de sections de bambou
      */
-    public boolean isEmptyBambou() {
+    public boolean isEmpty() {
         return tailleBambou == 0;
     }
+
+
+    // Méthodes d'utilisation
 
     /**
      * Renvoie si le bambou a atteint sa taille maximum
@@ -74,16 +76,13 @@ public class Bambou implements Positionable, Colorable {
         return tailleBambou == TAILLE_MAXIMUM_BAMBOU;
     }
 
-
-    // Méthodes d'utilisation
-
     /**
      * Renvoie une section de bambou
      * @return une section de bambou
      * @implNote le bambou doit contenir au moins une section de bambou
      */
     public SectionBambou prendSectionBambou() {
-        assert !isEmptyBambou() : "Le bambou ne contient pas de section de bambou";
+        assert !isEmpty() : "Le bambou ne contient pas de section de bambou";
         return sectionsBambou[--tailleBambou];
     }
 
@@ -93,10 +92,11 @@ public class Bambou implements Positionable, Colorable {
      * @implNote le bambou ne doit pas être à sa taille maximum
      */
     public void ajouteSectionBambou(@NotNull SectionBambou sectionBambou) throws AjoutCouleurException {
-        assert !isTailleMaximum() : "Le Bambou a atteint sa taille maximum";
+        assert !isTailleMaximum() : "Le bambou a atteint sa taille maximum";
         if (sectionBambou.getCouleur() != getCouleur()) {
             throw new AjoutCouleurException(getCouleur(), sectionBambou.getCouleur());
         }
+
         sectionsBambou[tailleBambou++] = sectionBambou;
     }
 
@@ -105,7 +105,7 @@ public class Bambou implements Positionable, Colorable {
 
     @Override
     public String toString() {
-        return "Bambou " + couleur + " en " + position + " de " + tailleBambou + " sections de bambou";
+        return "Bambou de couleur " + couleur + " en " + position + " de " + tailleBambou + " sections de bambou";
     }
 
     @Override
@@ -113,11 +113,13 @@ public class Bambou implements Positionable, Colorable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bambou bambou = (Bambou) o;
-        return getTailleBambou() == bambou.getTailleBambou() && getPosition().equals(bambou.getPosition()) && getCouleur() == bambou.getCouleur();
+        return getTailleBambou() == bambou.getTailleBambou()
+                && getPosition().equals(bambou.getPosition())
+                && getCouleur() == bambou.getCouleur();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPosition(), getTailleBambou(), getCouleur());
+        return Objects.hash(getPosition(), getCouleur(), getTailleBambou());
     }
 }
