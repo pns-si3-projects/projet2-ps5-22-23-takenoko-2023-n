@@ -39,11 +39,11 @@ public record ParcelleCouleur(@NotNull Position position, @NotNull Couleur coule
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParcelleCouleur that = (ParcelleCouleur) o;
-        return position.equals(that.getPosition()) && couleur == that.getCouleur();
+        return getPosition().equals(that.getPosition()) && getCouleur() == that.getCouleur();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(position, couleur);
+        return Objects.hash(getPosition(), getCouleur());
     }
 }
