@@ -8,31 +8,39 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class ParcelleDisponibleTest {
-    Position position10;
-    Position position01;
-    ParcelleDisponible parD10;
-    ParcelleDisponible parD01;
+    ParcelleDisponible parD2_0;
+    ParcelleDisponible parD2_0Bis;
+    ParcelleDisponible parD0_2;
+    Position position2_0;
+    Position position0_2;
+
 
     @BeforeEach
     void setUp(){
-        position10 = new Position(1,0);
-        position01 = new Position(0,1);
-        parD10 = new ParcelleDisponible(position10);
-        parD01 = new ParcelleDisponible(position01);
+        position2_0 = new Position(2,0);
+        position0_2 = new Position(0,2);
+        parD2_0 = new ParcelleDisponible(position2_0);
+        parD2_0Bis = new ParcelleDisponible(position2_0);
+        parD0_2 = new ParcelleDisponible(position0_2);
     }
+
 
     @Test
     void getPosition(){
-        assertEquals(parD10.getPosition(),position10);
-        assertNotEquals(parD01.getPosition(),position10);
-        assertEquals(parD01.getPosition(),position01);
+        assertEquals(position2_0, parD2_0.getPosition());
+        assertEquals(position0_2, parD0_2.getPosition());
+    }
+
+
+    @Test
+    void testToString(){
+        assertEquals("Parcelle disponible en (2,0)", parD2_0.toString());
+        assertEquals("Parcelle disponible en (0,2)", parD0_2.toString());
     }
 
     @Test
     void testEquals(){
-        ParcelleDisponible parD10bis = new ParcelleDisponible(position10);
-        assertEquals(parD10bis,parD10);
-        assertNotEquals(parD01,parD10bis);
-        assertNotEquals(parD01,parD10);
+        assertEquals(parD2_0, parD2_0Bis);
+        assertNotEquals(parD2_0, parD0_2);
     }
 }
