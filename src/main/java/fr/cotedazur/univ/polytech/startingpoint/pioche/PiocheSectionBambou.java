@@ -66,9 +66,8 @@ public class PiocheSectionBambou {
      * @implNote la pioche de la couleur demandée ne doit pas être vide
      */
     public SectionBambou pioche(@NotNull Couleur couleur) {
-        if (isEmpty(couleur)) {
-            throw new AssertionError("La pioche de sections de bambou est vide");
-        }
+        boolean isNotEmpty = !isEmpty(couleur);
+        assert isNotEmpty : "La pioche de sections de bambou est vide";
 
         int taille = getNombreSectionsBambou(couleur);
         int positionBambou = random.nextInt(taille);
@@ -94,6 +93,6 @@ public class PiocheSectionBambou {
     @Override
     public String toString() {
         return "Pioche de bambous : " + nombreSectionsBambouVert + " verts, "
-                + nombreSectionsBambouRose + " roses et " + nombreSectionsBambouJaune + " jaunes.";
+                + nombreSectionsBambouRose + " roses et " + nombreSectionsBambouJaune + " jaunes";
     }
 }
