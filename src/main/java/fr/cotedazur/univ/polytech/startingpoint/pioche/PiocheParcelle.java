@@ -227,6 +227,6 @@ public class PiocheParcelle {
 
     @Override
     public String toString() {
-        return "Pioche de parcelles : " + getNombreParcellesRestantes() + " parcelles.";
+        return "Pioche de parcelles : " + getNombreParcellesRestantes() + " parcelles";
     }
 }
