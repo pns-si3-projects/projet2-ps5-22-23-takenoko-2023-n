@@ -52,6 +52,7 @@ public class Plateau {
         int nbParcelles = parcelleEtVoisinesList.size();
         Parcelle[] parcelles = new Parcelle[nbParcelles];
         Iterator<Parcelle> iterateurParcelles = parcelleEtVoisinesList.keySet().iterator();
+
         for (int i=0; i<nbParcelles; i++) {
             parcelles[i] = iterateurParcelles.next();
         }
@@ -84,6 +85,7 @@ public class Plateau {
         int nbBambous = bambouList.size();
         Bambou[] bambous = new Bambou[nbBambous];
         Iterator<Bambou> iterateurBambous = bambouList.iterator();
+
         for (int i=0; i<nbBambous; i++) {
             bambous[i] = iterateurBambous.next();
         }

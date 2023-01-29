@@ -4,7 +4,7 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Exception si la parcelle donnée ne se trouve par sur le plateau
+ * Exception si la parcelle donnée ne se trouve par sur le plateau.
  * @author equipe N
  */
 public class ParcelleNonPoseeException extends Exception {
