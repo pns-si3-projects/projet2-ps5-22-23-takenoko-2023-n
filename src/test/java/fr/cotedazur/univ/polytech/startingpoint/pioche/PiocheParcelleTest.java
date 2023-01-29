@@ -128,4 +128,10 @@ class PiocheParcelleTest {
             throw new AssertionError(e);
         }
     }
+
+
+    @Test
+    void testToString() {
+        assertEquals("Pioche de parcelles : 27 parcelles", piocheParcelle.toString());
+    }
 }
