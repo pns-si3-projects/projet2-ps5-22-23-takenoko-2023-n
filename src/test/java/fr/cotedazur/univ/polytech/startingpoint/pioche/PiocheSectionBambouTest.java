@@ -14,49 +14,45 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class PiocheSectionBambouTest {
-    // Attributs
-
     PiocheSectionBambou piocheSectionBambou;
     @Mock
-    Random mockRandom = mock(Random.class);
-    Couleur vert = Couleur.VERTE;
-    Couleur rose = Couleur.ROSE;
-    Couleur jaune = Couleur.JAUNE;
+    Random mockRandom;
+    Couleur verte;
+    Couleur rose;
+    Couleur jaune;
 
-
-    // Constructeur
 
     @BeforeEach
     void setUp() {
         piocheSectionBambou = new PiocheSectionBambou(new Random());
+        mockRandom = mock(Random.class);
+        verte = Couleur.VERTE;
+        rose = Couleur.ROSE;
+        jaune = Couleur.JAUNE;
     }
 
 
-    // Accesseurs
-
     @Test
     void getNombreSectionsBambou() {
-        assertEquals(36, piocheSectionBambou.getNombreSectionsBambou(vert));
+        assertEquals(36, piocheSectionBambou.getNombreSectionsBambou(verte));
         assertEquals(24, piocheSectionBambou.getNombreSectionsBambou(rose));
         assertEquals(30, piocheSectionBambou.getNombreSectionsBambou(jaune));
     }
 
     @Test
     void isEmptySectionsBambou() {
-        assertFalse(piocheSectionBambou.isEmpty(vert));
+        assertFalse(piocheSectionBambou.isEmpty(verte));
         assertFalse(piocheSectionBambou.isEmpty(rose));
         assertFalse(piocheSectionBambou.isEmpty(jaune));
     }
 
-
-    // Méthodes d'utilisation
 
     @Test
     void piocheValeurTropGrande() {
         when(mockRandom.nextInt(anyInt())).thenReturn(36, 24, 30);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
 
-        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(vert));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(verte));
         assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(rose));
         assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(jaune));
     }
@@ -66,22 +62,22 @@ class PiocheSectionBambouTest {
         when(mockRandom.nextInt(anyInt())).thenReturn(-1);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
 
-        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(vert));
+        assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(verte));
         assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(rose));
         assertThrows(ArithmeticException.class, () -> piocheSectionBambou.pioche(jaune));
     }
 
     @Test
     void piocheSectionBambouVert() {
-        SectionBambou sectionBambouVert = new SectionBambou(vert);
+        SectionBambou sectionBambouVert = new SectionBambou(verte);
 
         when(mockRandom.nextInt(anyInt())).thenReturn(35, 1, 32, 32);
         piocheSectionBambou = new PiocheSectionBambou(mockRandom);
 
-        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(vert));
-        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(vert));
-        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(vert));
-        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(vert));
+        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(verte));
+        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(verte));
+        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(verte));
+        assertEquals(sectionBambouVert, piocheSectionBambou.pioche(verte));
     }
 
     @Test
@@ -108,5 +104,11 @@ class PiocheSectionBambouTest {
         assertEquals(sectionBambouJaune, piocheSectionBambou.pioche(jaune));
         assertEquals(sectionBambouJaune, piocheSectionBambou.pioche(jaune));
         assertEquals(sectionBambouJaune, piocheSectionBambou.pioche(jaune));
+    }
+
+
+    @Test
+    void testToString() {
+        assertEquals("Pioche de bambous : 36 verts, 24 roses et 30 jaunes", piocheSectionBambou.toString());
     }
 }
