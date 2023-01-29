@@ -33,7 +33,7 @@ class ParcellesPiocheesTest {
         try {
             parcellesPiochees.enregistreParcellePiochee(parcellePiocheV);
         } catch (PiocheParcelleEnCoursException e) {
-            throw new AssertionError("Aucune pioche ne devrait être effectuée");
+            throw new AssertionError(e);
         }
 
         ParcellePioche[] parcelles = parcellesPiochees.getParcellesPiochees();
@@ -48,7 +48,7 @@ class ParcellesPiocheesTest {
         try {
             parcellesPiochees.enregistreParcellePiochee(parcellePiocheV);
         } catch (PiocheParcelleEnCoursException e) {
-            throw new AssertionError("Aucune pioche ne devrait être effectuée");
+            throw new AssertionError(e);
         }
 
         assertFalse(parcellesPiochees.isEmpty());
@@ -60,7 +60,7 @@ class ParcellesPiocheesTest {
         try {
             parcellesPiochees.enregistre3ParcellesPiochees(parcellePiocheV, parcellePiocheJ, parcellePiocheR);
         } catch (PiocheParcelleEnCoursException e) {
-            throw new AssertionError("Aucune pioche ne devrait être effectuée");
+            throw new AssertionError(e);
         }
 
         assertThrows(PiocheParcelleEnCoursException.class,
@@ -77,7 +77,7 @@ class ParcellesPiocheesTest {
         try {
             parcellesPiochees.enregistre3ParcellesPiochees(parcellePiocheV, parcellePiocheJ, parcellePiocheR);
         } catch (PiocheParcelleEnCoursException e) {
-            throw new AssertionError("Aucune pioche ne devrait être effectuée");
+            throw new AssertionError(e);
         }
 
         ParcellePioche[] parcelles = parcellesPiochees.getParcellesPiochees();
@@ -91,7 +91,7 @@ class ParcellesPiocheesTest {
         try {
             parcellesPiochees.enregistreParcellePiochee(parcellePiocheR);
         } catch (PiocheParcelleEnCoursException e) {
-            throw new AssertionError("Aucune pioche ne devrait être effectuée");
+            throw new AssertionError(e);
         }
 
         assertThrows(PiocheParcelleEnCoursException.class,
@@ -107,7 +107,7 @@ class ParcellesPiocheesTest {
         try {
             parcellesPiochees.enregistreParcellePiochee(parcellePiocheR);
         } catch (PiocheParcelleEnCoursException e) {
-            throw new AssertionError("Aucune pioche ne devrait être effectuée");
+            throw new AssertionError(e);
         }
 
         ParcellePioche[] parcelles = parcellesPiochees.getParcellesPiochees();
@@ -121,7 +121,7 @@ class ParcellesPiocheesTest {
         try {
             parcellesPiochees.enregistreParcellePiochee(parcellePiocheJ);
         } catch (PiocheParcelleEnCoursException e) {
-            throw new AssertionError("Aucune pioche ne devrait être effectuée");
+            throw new AssertionError(e);
         }
 
         assertFalse(parcellesPiochees.parcellePiochee(parcellePiocheV));
@@ -134,7 +134,7 @@ class ParcellesPiocheesTest {
         try {
             parcellesPiochees.enregistreParcellePiochee(parcellePiocheV);
         } catch (PiocheParcelleEnCoursException e) {
-            throw new AssertionError("Aucune pioche ne devrait être effectuée");
+            throw new AssertionError(e);
         }
         assertFalse(parcellesPiochees.isEmpty());
 
