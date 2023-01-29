@@ -8,6 +8,10 @@ import org.jetbrains.annotations.NotNull;
  * @author equipe N
  */
 public class ParcelleNonPoseeException extends Exception {
+    /**
+     * Construit le message de l'exception
+     * @param parcelle la parcelle recherchée
+     */
     public ParcelleNonPoseeException(@NotNull Parcelle parcelle) {
         super("\"" + parcelle + "\"" + " ne se trouve pas sur le plateau");
     }

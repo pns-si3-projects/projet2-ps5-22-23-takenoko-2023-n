@@ -7,6 +7,11 @@ import org.jetbrains.annotations.NotNull;
  * @author equipe N
  */
 public class ParcelleNonVoisineException extends Exception {
+    /**
+     * Construit le message de l'exception
+     * @param parcelleCible la parcelle ciblée
+     * @param parcelleNonVoisine la parcelle donnée en tant que voisine de la parcelle ciblée
+     */
     public ParcelleNonVoisineException(@NotNull Parcelle parcelleCible, @NotNull Parcelle parcelleNonVoisine) {
         super("La parcelle en " + parcelleNonVoisine.getPosition()
                 + " n'est pas voisine de la parcelle en " + parcelleCible.getPosition());

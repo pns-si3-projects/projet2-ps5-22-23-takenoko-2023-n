@@ -5,6 +5,9 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
  * @author equipe N
  */
 public class PiocheParcelleEnCoursException extends Exception {
+    /**
+     * Construit le message de l'exception
+     */
     public PiocheParcelleEnCoursException() {
         super("Une pioche de parcelles est déjà en cours");
     }

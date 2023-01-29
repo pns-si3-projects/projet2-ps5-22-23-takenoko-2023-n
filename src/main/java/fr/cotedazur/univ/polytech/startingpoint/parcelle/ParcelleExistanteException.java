@@ -7,6 +7,10 @@ import org.jetbrains.annotations.NotNull;
  * @author equipe N
  */
 public class ParcelleExistanteException extends Exception {
+    /**
+     * Construit le message de l'exception
+     * @param parcelle la parcelle qui doit être ajoutée au plateau
+     */
     public ParcelleExistanteException(@NotNull Parcelle parcelle) {
         super("La " + parcelle + " demandée est déjà placée sur le plateau");
     }

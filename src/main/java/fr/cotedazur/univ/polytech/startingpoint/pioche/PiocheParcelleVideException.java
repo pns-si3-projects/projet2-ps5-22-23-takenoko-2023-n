@@ -5,6 +5,9 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
  * @author equipe N
  */
 public class PiocheParcelleVideException extends Exception {
+    /**
+     * Construit le message de l'exception
+     */
     public PiocheParcelleVideException() {
         super("Aucune pioche de parcelle n'a été effectuée, veuillez commencer par piocher");
     }
