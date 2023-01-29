@@ -10,18 +10,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PlateauTest {
-    // Attributs
     Plateau plateau;
 
 
-    // Constructeur
     @BeforeEach
     void setUp() {
         plateau = new Plateau();
     }
 
 
-    // Accesseurs
     @Test
     void getParcelles() {
         assertEquals(0, plateau.getParcelles().length);
