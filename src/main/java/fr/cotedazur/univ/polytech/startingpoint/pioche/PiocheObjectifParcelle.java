@@ -17,7 +17,8 @@ import java.util.Random;
 public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implements PiocheObjectifInterface {
     // Définition des attributs
     private final Random random;
-    private Motif motifParDefautSimple;
+    private Motif motifParDefaut2Parcelles;
+    private Motif motifParDefaut3Parcelles;
 
 
     // Définition des constructeurs
@@ -27,7 +28,8 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
      */
     public PiocheObjectifParcelle(Random random) {
         try {
-            motifParDefautSimple = new Motif(new ParcelleCouleur(new Position(0,0), Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT));
+            motifParDefaut2Parcelles = new Motif(new ParcelleCouleur(new Position(0,0), Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT));
+            motifParDefaut3Parcelles = new Motif(new ParcelleCouleur(new Position(0,0), Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT),new ParcelleCouleur(new Position(-1,-1),Couleur.VERT));
         }
         catch (MotifNonValideException mNVE){
             assert false: "Ne doit pas renvoyer d'exception car ce motif ils sont tous voisin";
@@ -40,21 +42,21 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
      * Permet d'initialiser la pioche en lui ajoutant les objectifs de parcelles
      */
     private void creePiocheObjectifsParcelle() {
-        add(new ObjectifParcelle(2, motifParDefautSimple));
-        add(new ObjectifParcelle(3, motifParDefautSimple));
-        add(new ObjectifParcelle(5, motifParDefautSimple));
-        add(new ObjectifParcelle(4, motifParDefautSimple));
-        add(new ObjectifParcelle(3, motifParDefautSimple));
-        add(new ObjectifParcelle(3, motifParDefautSimple));
-        add(new ObjectifParcelle(4, motifParDefautSimple));
-        add(new ObjectifParcelle(3, motifParDefautSimple));
-        add(new ObjectifParcelle(2, motifParDefautSimple));
-        add(new ObjectifParcelle(2, motifParDefautSimple));
-        add(new ObjectifParcelle(4, motifParDefautSimple));
-        add(new ObjectifParcelle(4, motifParDefautSimple));
-        add(new ObjectifParcelle(5, motifParDefautSimple));
-        add(new ObjectifParcelle(4, motifParDefautSimple));
-        add(new ObjectifParcelle(3, motifParDefautSimple));
+        add(new ObjectifParcelle(2, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(3, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(5, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(4, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(3, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(3, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(4, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(3, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(2, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(2, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(4, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(4, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(5, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(4, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(3, motifParDefaut2Parcelles));
     }
 
 
