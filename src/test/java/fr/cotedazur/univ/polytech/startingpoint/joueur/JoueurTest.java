@@ -14,9 +14,9 @@ class JoueurTest {
 
     @BeforeEach
     void setUp() {
-        joueurParcelle = new Joueur("joueur1", Joueur.StrategiePossible.PARCELLE);
-        joueurPanda = new Joueur("joueur2", Joueur.StrategiePossible.PANDA);
-        joueurJardinier = new Joueur("joueur3", Joueur.StrategiePossible.JARDINIER);
+        joueurParcelle = new Joueur("joueur1", Strategie.StrategiePossible.PARCELLE);
+        joueurPanda = new Joueur("joueur2", Strategie.StrategiePossible.PANDA);
+        joueurJardinier = new Joueur("joueur3", Strategie.StrategiePossible.JARDINIER);
     }
 
 
