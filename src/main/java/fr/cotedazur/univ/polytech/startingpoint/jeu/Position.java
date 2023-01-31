@@ -1,7 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
 /**
@@ -29,7 +27,7 @@ public class Position {
      * @param x la coordonnée horizontale
      * @param y la coordonnée verticale
      */
-    public Position(@NotNull int x, @NotNull int y) {
+    public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
