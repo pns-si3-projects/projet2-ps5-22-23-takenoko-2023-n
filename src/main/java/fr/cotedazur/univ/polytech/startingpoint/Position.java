@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 /**
