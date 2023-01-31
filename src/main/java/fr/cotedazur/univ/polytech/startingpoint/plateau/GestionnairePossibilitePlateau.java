@@ -171,14 +171,19 @@ public class GestionnairePossibilitePlateau {
      */
 
     public Optional<Position> positionPossiblePrendrePourMotif(ObjectifParcelle objectifParcelle){
-        Parcelle parcellePlusProcheObjectif = GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(plateau.getParcelles(),objectifParcelle);
+        Position[] positionDisponible = plateau.getPositionsDisponible();
+        Parcelle[] parcellesMap = plateau.getParcelles();
+        Parcelle parcellePlusProcheObjectif = GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(parcellesMap,objectifParcelle);
         Parcelle[] motifAFaire = objectifParcelle.getMotif().getTableauParcelles();
-        Parcelle[] motifParcelle = GestionnairePossibiliteMotif.getMotifAFaire(plateau.getParcelles(), parcellePlusProcheObjectif,motifAFaire);
+        Parcelle[] motifParcelle = GestionnairePossibiliteMotif.getMotifAFaire(parcellesMap, parcellePlusProcheObjectif,motifAFaire);
 
         if(GestionnairePossibiliteMotif.checkMotifComplet(motifParcelle)) return Optional.empty();
 
-        Optional<Position> positionARecuperer = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(plateau.getPositionsDisponible(), motifParcelle);
+        Optional<Position> positionARecuperer = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(positionDisponible, motifParcelle);
         if(positionARecuperer.isPresent()) return positionARecuperer;
-        else return GestionnairePossibiliteMotif.cherchePositionARecuperer(plateau.getPositionsDisponible(),motifParcelle);
+
+        Optional<Position> optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(positionDisponible,motifParcelle);
+        if(optPosition.isPresent()) return optPosition;
+        else return Optional.of(positionDisponible[0]);
     }
 }

@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
 
 import java.util.Optional;
@@ -102,7 +103,7 @@ public class GestionnairePossibiliteMotif {
      */
     public static boolean checkMotifComplet(Parcelle[] parcelleMotif){
         for(int i = 0; i < parcelleMotif.length; i++){
-            if(parcelleMotif[i].getClass() == ParcelleDisponible.class) return false;
+            if(parcelleMotif[i].getClass() != ParcelleCouleur.class) return false;
         }
         return true;
     }
@@ -180,6 +181,7 @@ public class GestionnairePossibiliteMotif {
     public static Optional<Position> cherchePositionARecuperer(Position[] positionDisponible, Parcelle[] motifParcelle){
         for (int i = 1; i < motifParcelle.length; i++) {
             if ( motifParcelle[i].getClass() == ParcelleDisponible.class ) {
+                if (cherchePositionPossibilite(positionDisponible,motifParcelle[i].position()).isPresent()) return Optional.of(motifParcelle[i].position());
                 return Optional.ofNullable(cherchePositionPlusProcheParcelleAPoser(positionDisponible, motifParcelle[i].position()));
             }
         }
