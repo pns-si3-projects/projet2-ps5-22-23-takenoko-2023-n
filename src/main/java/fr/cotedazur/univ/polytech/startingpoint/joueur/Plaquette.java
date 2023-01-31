@@ -152,9 +152,11 @@ public class Plaquette {
      */
     public SectionBambou[] getSectionBambouVert(){
         SectionBambou[] listSectionBambous = new SectionBambou[getNombreBambousVerts()];
+        int j = 0;
         for ( int i = 0;i<bambousManges.size();i++ ) {
             if(bambousManges.get(i).couleur() == Couleur.VERT){
-                listSectionBambous[i] = bambousManges.get(i);
+                listSectionBambous[j] = bambousManges.get(i);
+                j++;
             }
         }
         return listSectionBambous;
