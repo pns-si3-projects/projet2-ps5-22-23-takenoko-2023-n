@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.Afficheur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
+import fr.cotedazur.univ.polytech.startingpoint.joueur.Strategie;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
@@ -30,8 +31,8 @@ public class MaitreDuJeu {
      * Initialise le jeu (joueurs, plateau, pioches)
      */
     public MaitreDuJeu(Random random, String nomJoueur1, String nomJoueur2) {
-        Joueur joueur1 = new Joueur(nomJoueur1, Joueur.StrategiePossible.PARCELLE);
-        Joueur joueur2 = new Joueur(nomJoueur2, Joueur.StrategiePossible.PANDA);
+        Joueur joueur1 = new Joueur(nomJoueur1, Strategie.StrategiePossible.PARCELLE);
+        Joueur joueur2 = new Joueur(nomJoueur2, Strategie.StrategiePossible.PANDA);
 
         plateau = new Plateau();
         piocheParcelle = new PiocheParcelle(random);
