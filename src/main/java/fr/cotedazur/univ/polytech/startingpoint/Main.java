@@ -7,6 +7,6 @@ import java.util.Random;
 public class Main {
 
     public static void main(String... args) {
-        MaitreDuJeu maitreDuJeu = new MaitreDuJeu("Joueur1", "Joueur2", new Random());
+        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(new Random(), "Joueur1", "Joueur2");
     }
 }

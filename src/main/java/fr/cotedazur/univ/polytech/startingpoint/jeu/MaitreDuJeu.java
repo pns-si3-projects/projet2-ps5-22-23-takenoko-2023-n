@@ -29,14 +29,17 @@ public class MaitreDuJeu {
     /**
      * Initialise le jeu (joueurs, plateau, pioches)
      */
-    public MaitreDuJeu(String nomJoueur1, String nomJoueur2, Random random) {
+    public MaitreDuJeu(Random random, String nomJoueur1, String nomJoueur2) {
+        Joueur joueur1 = new Joueur(nomJoueur1, Joueur.StrategiePossible.PARCELLE);
+        Joueur joueur2 = new Joueur(nomJoueur2, Joueur.StrategiePossible.PANDA);
+
         plateau = new Plateau();
         piocheParcelle = new PiocheParcelle(random);
         piocheObjectifParcelle = new PiocheObjectifParcelle(random);
         piocheObjectifPanda = new PiocheObjectifPanda(random);
         piocheObjectifJardinier = new PiocheObjectifJardinier(random);
         piocheSectionBambou = new PiocheSectionBambou(random);
-        joueurs = new Joueur[]{new Joueur(nomJoueur1), new Joueur(nomJoueur2)};
+        joueurs = new Joueur[]{joueur1, joueur2};
         nombreTour = 1;
 
         Afficheur.initialisation();

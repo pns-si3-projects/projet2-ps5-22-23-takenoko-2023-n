@@ -14,6 +14,7 @@ import java.util.List;
 public class Joueur {
     // Définition des attributs
 
+    public enum StrategiePossible {PARCELLE, JARDINIER, PANDA}
     public static final int NOMBRE_OBJECTIFS_MAX = 5;
     private final String nom;
     private final Plaquette plaquette;
@@ -27,7 +28,7 @@ public class Joueur {
      * Construit un joueur par son nom
      * @param nom le nom du joueur
      */
-    public Joueur(@NotNull String nom) {
+    public Joueur(@NotNull String nom, StrategiePossible strategieChoisie) {
         this.nom = nom;
         plaquette = new Plaquette();
         objectifEnMainList = new ArrayList<>(3);
