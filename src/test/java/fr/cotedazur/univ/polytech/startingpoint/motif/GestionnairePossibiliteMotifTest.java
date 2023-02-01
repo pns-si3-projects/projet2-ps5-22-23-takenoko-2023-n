@@ -2,7 +2,6 @@ package fr.cotedazur.univ.polytech.startingpoint.motif;
 
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.MotifNonValideException;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,12 +44,8 @@ class GestionnairePossibiliteMotifTest {
         pm11 = new Position(-1,1);
         listParcelleMap.add(etang);
         addInListPosition(p11,p20,p1m1,pm1m1,pm20,pm11);
-        try {
-            motif0011 = new Motif(new ParcelleCouleur(new Position(0,0),couleurDefaut), new ParcelleCouleur(new Position(1,1),couleurDefaut));
-            motifm1m10011 = new Motif(new ParcelleCouleur(new Position(-1,-1),couleurDefaut),new ParcelleCouleur(new Position(0,0),couleurDefaut), new ParcelleCouleur(new Position(1,1),couleurDefaut));
-        } catch (MotifNonValideException e) {
-            assert false : "ne doit pas renvoyer d'exception";
-        }
+        motif0011 = new MotifDiagonale(new ParcelleCouleur(new Position(0,0), couleurDefaut), new ParcelleCouleur(new Position(1,1), couleurDefaut));
+        motifm1m10011 = new MotifDiagonale(new ParcelleCouleur(new Position(-1,-1), couleurDefaut), new ParcelleCouleur(new Position(0,0), couleurDefaut), new ParcelleCouleur(new Position(1,1), couleurDefaut));
     }
 
     private Parcelle[] transformListParcelleInTab(List<Parcelle> parcelleMap){
