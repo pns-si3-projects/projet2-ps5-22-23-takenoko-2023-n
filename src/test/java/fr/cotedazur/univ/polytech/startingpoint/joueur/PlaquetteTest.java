@@ -1,11 +1,11 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.NombreObjectifsEnCoursException;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,12 +20,20 @@ class PlaquetteTest {
     ObjectifJardinier objJar3_2;
     ObjectifJardinier objJar6_4;
     Plaquette plaquette;
+    Motif motifParDefaut = null;
 
     @BeforeEach
     void setUp() {
+        try {
+            motifParDefaut = new Motif(new ParcelleCouleur(new Position(0,0),Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT));
+        }
+        catch (MotifNonValideException mNVE){
+            assert false : "Les parcelles sont voisines";
+        }
+
         secBa = new SectionBambou(Couleur.VERT);
-        objPar2_3 = new ObjectifParcelle(2, 3);
-        objPar3_4 = new ObjectifParcelle(3, 4);
+        objPar2_3 = new ObjectifParcelle(2, motifParDefaut);
+        objPar3_4 = new ObjectifParcelle(3, motifParDefaut);
         objPan3_2 = new ObjectifPanda(3, 2,Couleur.VERT);
         objPan4_2 = new ObjectifPanda(4, 2,Couleur.VERT);
         objJar3_2 = new ObjectifJardinier(3, 2);

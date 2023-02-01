@@ -281,7 +281,9 @@ public class Plateau {
         Optional<Bambou> optionalBambou = getBambou(parcelleCouleur.position());
         if (optionalBambou.isPresent()) {
             try {
-                optionalBambou.get().ajouteSectionBambou(sectionBambou);
+                if(!optionalBambou.get().isTailleMaximum()) {
+                    optionalBambou.get().ajouteSectionBambou(sectionBambou);
+                }
             }
             catch (AjoutCouleurException aCE){
                 assert false : "La couleur doit être la même que celle du bambou";
@@ -298,14 +300,14 @@ public class Plateau {
         }
     }
 
-    public int jardinierAddBambous(ParcelleCouleur parcelle) throws ParcelleNonExistanteException {
+    public int jardinierAddBambous(Parcelle parcelle) throws ParcelleNonExistanteException {
         Parcelle[] parcellesVoisine = getTableauVoisines(parcelle);
         int nombreBambousPoses = 0;
-        addBambou(parcelle, new SectionBambou(parcelle.couleur()));
+        if(parcelle.getClass() == ParcelleCouleur.class) addBambou((ParcelleCouleur) parcelle, new SectionBambou(((ParcelleCouleur) parcelle).couleur()));
         nombreBambousPoses++;
         for(Parcelle p : parcellesVoisine){
-            if(p.getClass() != ParcelleDisponible.class && p.getClass().equals(etang.getClass())){
-                addBambou((ParcelleCouleur) p,new SectionBambou(parcelle.couleur()));
+            if(p.getClass() == ParcelleCouleur.class){
+                addBambou((ParcelleCouleur) p,new SectionBambou(((ParcelleCouleur) p).couleur()));
                 nombreBambousPoses++;
             }
         }

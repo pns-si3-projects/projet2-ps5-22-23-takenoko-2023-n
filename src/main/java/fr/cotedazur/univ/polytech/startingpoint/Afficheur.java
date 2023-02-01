@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Personnage;
 
 import java.util.Optional;
 
@@ -41,7 +42,7 @@ public class Afficheur {
      * @param nombreDeTour Le numéro du tour
      */
     public void afficheDebutTour(int nombreDeTour){
-        System.out.println("Tour numero" + nombreDeTour);
+        System.out.println("Tour numero " + nombreDeTour);
     }
 
     /**
@@ -85,6 +86,22 @@ public class Afficheur {
             messageAAffiche = "Jardinier";
         }
         System.out.println("Objectif " + messageAAffiche + " pioché");
+    }
+
+    /**
+     * Affiche où le Panda c'est déplacé
+     * @param positionDeplace Position où le panda se déplace
+     */
+    public void afficheDeplacementPanda(Position positionDeplace){
+        System.out.println("Le Panda c'est déplacé en "+positionDeplace);
+    }
+
+    /**
+     * Affiche où le Jardinier c'est déplacé
+     * @param positionDeplace Position où le panda se Jardinier
+     */
+    public void afficheDeplacementJardinier(Position positionDeplace){
+        System.out.println("Le Jardinier c'est déplacé en " + positionDeplace);
     }
 
     /**

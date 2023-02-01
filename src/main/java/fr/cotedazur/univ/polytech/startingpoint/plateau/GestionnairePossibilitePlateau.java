@@ -2,14 +2,17 @@ package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleNonExistanteException;
+import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 /**
  * Classe qui permet de renvoyer les déplacements possibles sur le plateau
@@ -159,5 +162,28 @@ public class GestionnairePossibilitePlateau {
             }
         }
         return positionsFiltrees;
+    }
+
+    /**
+     * Renvoie une des "meilleurs" position possible pour créer un motif sur le Plateau
+     * @param objectifParcelle L'objectif à réaliser
+     * @return position possible pour créer un motif sur le Plateau
+     */
+
+    public Optional<Position> positionPossiblePrendrePourMotif(ObjectifParcelle objectifParcelle){
+        Position[] positionDisponible = plateau.getPositionsDisponible();
+        Parcelle[] parcellesMap = plateau.getParcelles();
+        Parcelle parcellePlusProcheObjectif = GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(parcellesMap,objectifParcelle);
+        Parcelle[] motifAFaire = objectifParcelle.getMotif().getTableauParcelles();
+        Parcelle[] motifParcelle = GestionnairePossibiliteMotif.getMotifAFaire(parcellesMap, parcellePlusProcheObjectif,motifAFaire);
+
+        if(GestionnairePossibiliteMotif.checkMotifComplet(motifParcelle)) return Optional.empty();
+
+        Optional<Position> positionARecuperer = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(positionDisponible, motifParcelle);
+        if(positionARecuperer.isPresent()) return positionARecuperer;
+
+        Optional<Position> optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(positionDisponible,motifParcelle);
+        if(optPosition.isPresent()) return optPosition;
+        else return Optional.of(positionDisponible[0]);
     }
 }

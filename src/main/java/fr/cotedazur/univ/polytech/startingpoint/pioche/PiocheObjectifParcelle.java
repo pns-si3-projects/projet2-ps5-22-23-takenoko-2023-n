@@ -1,6 +1,11 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.MotifNonValideException;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,6 +17,8 @@ import java.util.Random;
 public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implements PiocheObjectifInterface {
     // Définition des attributs
     private final Random random;
+    private Motif motifParDefaut2Parcelles;
+    private Motif motifParDefaut3Parcelles;
 
 
     // Définition des constructeurs
@@ -20,6 +27,13 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
      * @param random est un objet Random qui va permettre de créer une pioche aléatoire
      */
     public PiocheObjectifParcelle(Random random) {
+        try {
+            motifParDefaut2Parcelles = new Motif(new ParcelleCouleur(new Position(0,0), Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT));
+            motifParDefaut3Parcelles = new Motif(new ParcelleCouleur(new Position(0,0), Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT),new ParcelleCouleur(new Position(-1,-1),Couleur.VERT));
+        }
+        catch (MotifNonValideException mNVE){
+            assert false: "Ne doit pas renvoyer d'exception car ce motif ils sont tous voisin";
+        }
         creePiocheObjectifsParcelle();
         this.random = random;
     }
@@ -28,21 +42,21 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
      * Permet d'initialiser la pioche en lui ajoutant les objectifs de parcelles
      */
     private void creePiocheObjectifsParcelle() {
-        add(new ObjectifParcelle(2, 3));
-        add(new ObjectifParcelle(3, 4));
-        add(new ObjectifParcelle(5, 4));
-        add(new ObjectifParcelle(4, 4));
-        add(new ObjectifParcelle(3, 4));
-        add(new ObjectifParcelle(3, 3));
-        add(new ObjectifParcelle(4, 4));
-        add(new ObjectifParcelle(3, 3));
-        add(new ObjectifParcelle(2, 3));
-        add(new ObjectifParcelle(2, 3));
-        add(new ObjectifParcelle(4, 3));
-        add(new ObjectifParcelle(4, 3));
-        add(new ObjectifParcelle(5, 4));
-        add(new ObjectifParcelle(4, 3));
-        add(new ObjectifParcelle(3, 3));
+        add(new ObjectifParcelle(2, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(3, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(5, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(4, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(3, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(3, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(4, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(3, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(2, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(2, motifParDefaut2Parcelles));
+        add(new ObjectifParcelle(4, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(4, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(5, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(4, motifParDefaut3Parcelles));
+        add(new ObjectifParcelle(3, motifParDefaut2Parcelles));
     }
 
 

@@ -43,7 +43,6 @@ public class Joueur {
         objectifTermineList = new ArrayList<>();
     }
 
-
     // Accesseurs et méthode toString
     /**
      * Renvoie le nom du Joueur
@@ -87,7 +86,6 @@ public class Joueur {
                 + " objectifs terminés, pour " + getPoints() + " points";
     }
 
-
     // Méthodes de jeu
     /**
      * Effectue le tour du joueur
@@ -109,38 +107,25 @@ public class Joueur {
      * @param arbitre permet de vérifier les actions et les objectifs
      * @param gPP est le gestionnaire de possibilité de déplacements sur le plateau pour savoir où on peut déplacer le panda
      */
-    private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, PiocheParcelle piocheParcelle,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
-        if(plaquette.getNombreObjectifs() == 5){
-            if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
-                actionParcelle(piocheBambou,piocheParcelle,plateau,arbitre);
-                plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
-            }
-            else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA)){
-                actionPanda(plateau,arbitre,gPP);
-                plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
-            }
-            else {
-                actionJardinier(plateau,arbitre,gPP);
-                plaquette.realiseAction((Plaquette.ActionPossible.JARDINIER));
-            }
+    public void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, PiocheParcelle piocheParcelle,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
+        if(gestionObjectifParcelle(plateau.getParcelles(), arbitre, plaquette.getObjectifsParcelle())){
+            plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
         }
-        else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF)){
+        if(plaquette.getNombreObjectifs() < 5 && !plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF)){
             actionPioche(piocheObjectif);
             plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
         }
-        else {
-            if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
-                actionParcelle(piocheBambou,piocheParcelle,plateau,arbitre);
-                plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
-            }
-            else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA)){
-                actionPanda(plateau,arbitre,gPP);
-                plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
-            }
-            else{
-                actionJardinier(plateau,arbitre,gPP);
-                plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
-            }
+        else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
+            actionParcelle(piocheBambou,piocheParcelle,plateau,arbitre,gPP);
+            plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
+        }
+        else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER)){
+            actionJardinier(plateau,arbitre,gPP);
+            plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
+        }
+        else{
+            actionPanda(plateau,arbitre,gPP);
+            plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
         }
     }
 
@@ -182,61 +167,42 @@ public class Joueur {
     }
 
     /**
-     * Permet d'ajouter une parcelle
-     * @param piocheBambou la pioche de bambou pour piocher un bambou et le poser sur la parcelle ajoutée
-     * @param plateau le plateau pour ajouter les parcelles
-     * @param arbitre permet de vérifier les actions et les objectifs
+     * Effectue une action d'ajout de Parcelle
+     * @param piocheBambou La pioche de bambou qui permet de récupérer une section de bambou
+     * @param piocheParcelle La pioche de parcelle qui permet de récupérer une parcelle
+     * @param plateau Le plateau, pour ajouter une parcelle même si aucun objectif est possible
+     * @param arbitre L'arbitre qui verifie si les objectifs sont bien réalisés
+     * @param gPP Le gestionnaire de Possibilité de plateau qui permet d'aider le joueur à choisir une parcelle
      */
-    public void actionParcelle(PiocheBambou piocheBambou,PiocheParcelle piocheParcelle, Plateau plateau,Arbitre arbitre) {
-        boolean parcelleAjoute = false;
-        while (!parcelleAjoute) {
+    public void actionParcelle(PiocheBambou piocheBambou,PiocheParcelle piocheParcelle,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP) {
+        Optional<Position> optPositionChoisi = gPP.positionPossiblePrendrePourMotif(plaquette.getObjectifsParcelle()[0]);
+        Position positionChoisi;
+        positionChoisi = optPositionChoisi.orElseGet(() -> plateau.getPositionsDisponible()[0]);
 
-            Position positionParcelleChoisie = choisiParcellePlateau(plateau.getPositionsDisponible());
-            Optional<ParcelleCouleur> optParcelleCouleurChoisie = choisiParcellePioche(piocheParcelle, positionParcelleChoisie);
-
-            if (optParcelleCouleurChoisie.isPresent()) {
-
-                ParcelleCouleur parcelleCouleurChoisie = optParcelleCouleurChoisie.get();
-                SectionBambou sectionBambou = choisiSectionBambou(piocheBambou,parcelleCouleurChoisie.couleur());
-                parcelleAjoute = addParcellePlateau(plateau, parcelleCouleurChoisie, sectionBambou);
-
-                if (parcelleAjoute) Main.AFFICHEUR.afficheAjoutParcelle(parcelleCouleurChoisie);
+        if (piocheParcelle.getNombreParcellesRestantes() > 0) {
+            try {
+                ParcellePioche[] parcelles = piocheParcelle.pioche();
+                ParcelleCouleur parcelleChoisi = piocheParcelle.choisiParcelle(parcelles[0], positionChoisi);
+                SectionBambou sectionBambou = choisiSectionBambou(piocheBambou, parcelleChoisi.couleur());
+                plateau.addParcelle(parcelleChoisi, sectionBambou);
+                Main.AFFICHEUR.afficheAjoutParcelle(parcelleChoisi);
+            } catch (ParcelleExistanteException | NombreParcelleVoisineException | PiocheParcelleVideException | PiocheParcelleEnCoursException e) {
+                assert false : "Ne doit pas renvoyer d'erreur";
             }
-
-        }
-        gestionObjectifParcelle(plateau.getParcelles(), arbitre, plaquette.getObjectifsParcelle());
-    }
-
-    private SectionBambou choisiSectionBambou(PiocheBambou piocheBambou, Couleur couleurParcelle){
-        if(couleurParcelle.isVert()) return piocheBambou.piocheSectionBambouVert();
-        else if(couleurParcelle.isJaune()) return piocheBambou.piocheSectionBambouJaune();
-        else{
-            return piocheBambou.piocheSectionBambouRose();
+            gestionObjectifParcelle(plateau.getParcelles(),arbitre, plaquette.getObjectifsParcelle());
         }
     }
 
     /**
-     * Choisi une Parcelle dans la Pioche Parcelle
-     * @param piocheParcelle La pioche de Parcelle
-     * @param positionParcelle La position de la parcelle qu'on veut ajouter
-     * @return Renvoie la Parcelle Couleur si la pioche n'est pas vide
+     * Choisi une section de bambou de couleur dans la pioche de bambou
+     * @param piocheBambou La pioche de bambou pour piocher un bambou
+     * @param couleurParcelle La couleur de la Parcelle pour pioche le bambou de même couleur
+     * @return une section de bambou de couleur
      */
-    public Optional<ParcelleCouleur> choisiParcellePioche(PiocheParcelle piocheParcelle, Position positionParcelle){
-        if (piocheParcelle.getNombreParcellesRestantes() > 0) {
-            try {
-                ParcellePioche[] parcellesAChoisir = piocheParcelle.pioche();
-                int nombreAleatoire = random.nextInt(3);
-                ParcelleCouleur parcelleChoisi = piocheParcelle.choisiParcelle(parcellesAChoisir[nombreAleatoire],positionParcelle);
-                return Optional.of(parcelleChoisi);
-            }
-            catch (PiocheParcelleEnCoursException pPECE){
-                assert false : "Ne doit pas être en cours d'exécution";
-            }
-            catch (PiocheParcelleVideException pPVE){
-                assert false: "Condition de pioches impossibles à être vide";
-            }
-        }
-        return Optional.empty();
+    private SectionBambou choisiSectionBambou(PiocheBambou piocheBambou, Couleur couleurParcelle){
+        if(couleurParcelle.isVert()) return piocheBambou.piocheSectionBambouVert();
+        else if(couleurParcelle.isJaune()) return piocheBambou.piocheSectionBambouJaune();
+        else return piocheBambou.piocheSectionBambouRose();
     }
 
     /**
@@ -269,8 +235,10 @@ public class Joueur {
             if (optBambou.isPresent()) {
                 Bambou bambou = optBambou.get();
                 if (!bambou.isEmptyBambou()) {
+                    plateau.getPanda().move(possibleDeplacement);
                     SectionBambou sectionBambou = bambou.prendSectionBambou();
                     plaquette.ajouteSectionBambou(sectionBambou);
+                    Main.AFFICHEUR.afficheDeplacementPanda(possibleDeplacement);
                     return true;
                 }
             }
@@ -307,10 +275,11 @@ public class Joueur {
         Position positionParcelle = positionPossibleDeplacement.get(indexParcelleChoisie);
         if(indexParcelleChoisie < 0 || indexParcelleChoisie >= positionPossibleDeplacement.size()) throw new ArithmeticException("Erreur objet random");
         plateau.getJardinier().move(positionParcelle);
+        Main.AFFICHEUR.afficheDeplacementJardinier(positionParcelle);
         Optional<Parcelle> parcelleJardinier = plateau.getParcelle(positionParcelle);
         if (parcelleJardinier.isPresent()) {
             try {
-                return plateau.jardinierAddBambous((ParcelleCouleur) parcelleJardinier.get());
+                return plateau.jardinierAddBambous(parcelleJardinier.get());
             }
             catch (ParcelleNonExistanteException pnee){
                 System.err.println(pnee);
@@ -328,18 +297,21 @@ public class Joueur {
      * @param arbitre L'arbitre qui doit vérifier si l'objectif est validé
      * @param objectifsParcelles La liste des objectifs parcelles
      */
-    private void gestionObjectifParcelle(Parcelle[] listParcellesEtVoisines, Arbitre arbitre, ObjectifParcelle[] objectifsParcelles) {
+    private boolean gestionObjectifParcelle(Parcelle[] listParcellesEtVoisines, Arbitre arbitre, ObjectifParcelle[] objectifsParcelles) {
         assert objectifsParcelles != null : "La plaquette contenant les objectifs parcelles ne doit pas être vide";
+        boolean objectifValide = false;
         for (ObjectifParcelle objectifParcelle : objectifsParcelles) {
             if (arbitre.checkObjectifParcelleTermine(listParcellesEtVoisines, objectifParcelle)) {
                 if (plaquette.supprimeObjectif(objectifParcelle)) {
                     objectifTermineList.add(objectifParcelle);
+                    objectifValide = true;
                     Main.AFFICHEUR.afficheObjectifValide(objectifParcelle);
                 } else {
                     assert false : "L'objectif doit normalement existe";
                 }
             }
         }
+        return objectifValide;
     }
 
     /**
@@ -396,15 +368,10 @@ public class Joueur {
     private SectionBambou[] getTableauSectionBambouPourObjectifPanda(ObjectifPanda objectifPanda){
         Couleur couleurBambouPourObjectif = objectifPanda.getCouleurBambousAManger();
         switch (couleurBambouPourObjectif) {
-            case VERT:
-                return plaquette.getSectionBambouVert();
-            case JAUNE:
-                return plaquette.getSectionBambouJaune();
-            case ROSE:
-                return plaquette.getSectionBambouRose();
-            default:
-                assert false : "Doit forcément être une des 3 autres couleurs";
-                break;
+            case VERT -> { return plaquette.getSectionBambouVert(); }
+            case JAUNE -> { return plaquette.getSectionBambouJaune(); }
+            case ROSE -> { return plaquette.getSectionBambouRose(); }
+            default -> { assert false : "Doit forcément être une des 3 autres couleurs"; }
         }
         return new SectionBambou[0];
     }
@@ -419,60 +386,12 @@ public class Joueur {
         Couleur couleurBambouPourObjectif = objectifPanda.getCouleurBambousAManger();
 
         switch (couleurBambouPourObjectif) {
-            case VERT:
-                return plaquette.deleteSectionBambouVert(nombreBambouObjectif);
-            case JAUNE:
-                return plaquette.deleteSectionBambouJaune(nombreBambouObjectif);
-            case ROSE:
-                return plaquette.deleteSectionBambouRose(nombreBambouObjectif);
-            default:
-                assert false : "Doit forcément être une des 3 autres couleurs";
-                break;
+            case VERT -> { return plaquette.deleteSectionBambouVert(nombreBambouObjectif); }
+            case JAUNE -> { return plaquette.deleteSectionBambouJaune(nombreBambouObjectif); }
+            case ROSE -> { return plaquette.deleteSectionBambouRose(nombreBambouObjectif);  }
+            default -> { assert false : "Doit forcément être une des 3 autres couleurs"; }
         }
         return false;
     }
 
-    /**
-     * Méthode qui pioche un objectifParcelle dans la pioche
-     * @param piocheObjectif La pioche d'objectif
-     * @return Renvoie un optionnal d'objectif (Optionnal empty si la pioche est vide
-     */
-    public Optional<ObjectifParcelle> piocheObjectifParcelle(PiocheObjectif piocheObjectif){
-        if(piocheObjectif.isEmptyPiocheObjectifParcelle()) {
-            return Optional.empty();
-        }
-        else {
-            ObjectifParcelle objectifParcellePioche = piocheObjectif.piocheObjectifParcelle();
-            assert objectifParcellePioche != null : "L'objectif ne doit pas etre null";
-            return Optional.of(objectifParcellePioche);
-        }
-    }
-
-    /**
-     * Renvoie le choix de parcelle que le joueur veut poser sur le plateau
-     * @param listPositionDisponible la liste des positions disponibles
-     * @return la parcelle que le joueur veut poser
-     */
-    public Position choisiParcellePlateau(Position[] listPositionDisponible){
-        int nombreAleatoire = random.nextInt(listPositionDisponible.length);
-        if(nombreAleatoire < 0 || nombreAleatoire >= listPositionDisponible.length) throw new ArithmeticException("Erreur objet random");
-        return listPositionDisponible[nombreAleatoire];
-    }
-
-    /**
-     * Ajoute la parcelle au plateau
-     * @param plateau le plateau pour ajouter la parcelle
-     * @param parcelleCouleur la parcelle de couleur à ajouter
-     * @return <code>true</code> si la parcelle a bien été posée, <code>false</code> sinon
-     */
-    public boolean addParcellePlateau(Plateau plateau, ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou) {
-        try {
-            plateau.addParcelle(parcelleCouleur, sectionBambou);
-            return true;
-        }
-        catch (ParcelleExistanteException | NombreParcelleVoisineException exception) {
-            System.err.println(exception);
-            return false;
-        }
-    }
 }
