@@ -49,6 +49,14 @@ public class Plaquette {
     }
 
     /**
+     * Renvoie les actions réalisées dans le tour
+     * @return un tableau des actions réalisées dans le tour
+     */
+    public boolean[] getActionsTour() {
+        return actionsTour;
+    }
+
+    /**
      * Renvoie si l'action est jouée dans le tour
      * @param actionPossible l'action à vérifier si jouée dans le tour
      * @return {@code true} si l'action est jouée dans le tour
@@ -83,5 +91,43 @@ public class Plaquette {
      */
     public void mangeSectionBambou(@NotNull SectionBambou sectionBambou) {
         reserveBambousManges.add(sectionBambou);
+    }
+
+    /**
+     * Permet de jouer une action
+     * @param actionJouee l'action à jouer
+     * @return {@code true} si l'action est jouée
+     */
+    public boolean joueActionTour(ActionPossible actionJouee) {
+        if (nombreActionTour() < 2 && !isActionTour(actionJouee)) {
+            actionsTour[actionJouee.ordinal()] = true;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Renvoie le nombre d'actions jouées dans le tour
+     * @return le nombre d'actions jouées dans le tour
+     */
+    private int nombreActionTour() {
+        int res = 0;
+
+        for (boolean actionJouee : actionsTour) {
+            if (actionJouee) {
+                res++;
+            }
+        }
+
+        return res;
+    }
+
+    /**
+     * Termine le tour en retirant les actions jouées
+     */
+    public void termineTour() {
+        for (ActionPossible action : ActionPossible.values()) {
+            actionsTour[action.ordinal()] = false;
+        }
     }
 }
