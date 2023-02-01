@@ -12,19 +12,19 @@ public class StrategieParcelle implements Strategie {
     // Méthodes d'utilisation
 
     @Override
-    public Plaquette.ActionPossible choisiActionTour(boolean[] actionsPossiblesTour, List<Objectif> objectifs) {
+    public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs) {
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (actionsPossiblesTour[parcelle.ordinal()]) {
+        if (!actionsRealiseesTour[parcelle.ordinal()]) {
             return parcelle;
         }
 
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
-        if (actionsPossiblesTour[objectif.ordinal()]) {
+        if (!actionsRealiseesTour[objectif.ordinal()]) {
             return objectif;
         }
 
         Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
-        if (actionsPossiblesTour[panda.ordinal()]) {
+        if (!actionsRealiseesTour[panda.ordinal()]) {
             return panda;
         }
 

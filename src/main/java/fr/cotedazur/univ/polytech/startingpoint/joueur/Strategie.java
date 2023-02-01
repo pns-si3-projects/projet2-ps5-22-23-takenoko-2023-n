@@ -15,9 +15,9 @@ public interface Strategie {
 
     /**
      * Renvoie l'action choisie pour le tour
-     * @param actionsPossiblesTour le tableau des actions possibles lors du tour
+     * @param actionsRealiseesTour le tableau des actions réalisées lors du tour
      * @param objectifs la liste des objectifs à réaliser
      * @return l'action choisie
      */
-    Plaquette.ActionPossible choisiActionTour(boolean[] actionsPossiblesTour, List<Objectif> objectifs);
+    Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs);
 }
