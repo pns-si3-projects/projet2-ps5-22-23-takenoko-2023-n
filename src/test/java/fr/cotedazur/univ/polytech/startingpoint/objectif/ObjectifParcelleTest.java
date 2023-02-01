@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.objectif;
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,21 +19,16 @@ class ObjectifParcelleTest {
     ObjectifParcelle objP2_3;
     ObjectifParcelle objP3_3;
     ObjectifParcelle objP3_3_bis;
-    Motif motif2Parcelle = null;
-    Motif motif3Parcelle = null;
+    Motif motif2Parcelle;
+    Motif motif3Parcelle;
 
     @BeforeEach
     void setUp() {
-        try {
-            ParcelleCouleur parcelleCouleur00 = new ParcelleCouleur(new Position(0,0), Couleur.ROSE);
-            ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1,1),Couleur.ROSE);
-            ParcelleCouleur parcelleCouleur22 = new ParcelleCouleur(new Position(2,2),Couleur.ROSE);
-            motif2Parcelle = new Motif(parcelleCouleur00,parcelleCouleur11);
-            motif3Parcelle = new Motif(parcelleCouleur00,parcelleCouleur11,parcelleCouleur22);
-        }
-        catch (MotifNonValideException mNVE){
-            assert false : "Ne doit pas renvoyer d'exception car les parcelles sont voisines";
-        }
+        ParcelleCouleur parcelleCouleur00 = new ParcelleCouleur(new Position(0,0), Couleur.ROSE);
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1,1),Couleur.ROSE);
+        ParcelleCouleur parcelleCouleur22 = new ParcelleCouleur(new Position(2,2),Couleur.ROSE);
+        motif2Parcelle = new MotifDiagonale(parcelleCouleur00,parcelleCouleur11);
+        motif3Parcelle = new MotifDiagonale(parcelleCouleur00,parcelleCouleur11,parcelleCouleur22);
         objP1_2 = new ObjectifParcelle(1, motif2Parcelle);
         objP2_2 = new ObjectifParcelle(2, motif2Parcelle);
         objP2_2_bis = new ObjectifParcelle(2, motif2Parcelle);

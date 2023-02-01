@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
@@ -76,13 +77,7 @@ class ArbitreTest {
 
     @Test
     void checkObjectifParcelleTermineSimple() {
-        Motif motifParDefaut = null;
-        try {
-            motifParDefaut = new Motif(new ParcelleCouleur(new Position(0, 0), Couleur.VERT), new ParcelleCouleur(new Position(1, 1), Couleur.VERT));
-        }
-        catch (MotifNonValideException mNVE){
-            assert false: "Ce sont des parcelles voisines donc ne dois pas renvoyer d'erreur";
-        }
+        Motif motifParDefaut  = new MotifDiagonale(new ParcelleCouleur(new Position(0, 0), Couleur.VERT), new ParcelleCouleur(new Position(1, 1), Couleur.VERT));
         ObjectifParcelle objectifParcelleACheck = new ObjectifParcelle(5, motifParDefaut);
         try {
             ParcelleCouleur parcelleCouleurAAdd20 = new ParcelleCouleur(plateau.getPositionsDisponible()[1], Couleur.ROSE);
@@ -101,13 +96,7 @@ class ArbitreTest {
 
     @Test
     void checkObjectifParcelleTermine3Parcelle(){
-        Motif motifParDefaut = null;
-        try {
-            motifParDefaut = new Motif(new ParcelleCouleur(new Position(0, 0), Couleur.VERT), new ParcelleCouleur(new Position(1, 1), Couleur.VERT), new ParcelleCouleur(new Position(2,2),Couleur.VERT));
-        }
-        catch (MotifNonValideException mNVE){
-            assert false: "Ce sont des parcelles voisines donc ne dois pas renvoyer d'erreur";
-        }
+        Motif motifParDefaut = new MotifDiagonale(new ParcelleCouleur(new Position(0, 0), Couleur.VERT), new ParcelleCouleur(new Position(1, 1), Couleur.VERT), new ParcelleCouleur(new Position(2,2),Couleur.VERT));
         ObjectifParcelle objectifParcelleACheck = new ObjectifParcelle(5, motifParDefaut);
         try {
             ParcelleCouleur parcelleCouleurAAdd20 = new ParcelleCouleur(plateau.getPositionsDisponible()[1], Couleur.ROSE);

@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.MotifNonValideException;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
@@ -13,7 +13,6 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteExcept
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -137,12 +136,8 @@ class GestionnairePossibilitePlateauTest {
         Plateau plateauPourMotif = new Plateau();
         GestionnairePossibilitePlateau gPPMotif = new GestionnairePossibilitePlateau(plateauPourMotif);
         ObjectifParcelle objectifParcelleSimple2Parcelle = null;
-        try {
-            Motif motifSimple = new Motif(new ParcelleCouleur(new Position(0,0),secBamV.couleur()),new ParcelleCouleur(new Position(1,1),secBamV.couleur()));
-            objectifParcelleSimple2Parcelle = new ObjectifParcelle(3,motifSimple);
-        } catch (MotifNonValideException e) {
-            assert false: "Ne doit pas renvoyer d'erreur";
-        }
+        Motif motifSimple = new MotifDiagonale(new ParcelleCouleur(new Position(0,0),secBamV.couleur()),new ParcelleCouleur(new Position(1,1),secBamV.couleur()));
+        objectifParcelleSimple2Parcelle = new ObjectifParcelle(3,motifSimple);
         Optional<Position> optPosition = gPPMotif.positionPossiblePrendrePourMotif(objectifParcelleSimple2Parcelle);
         assertTrue(optPosition.isPresent());
         assertEquals(pC11J.position(),optPosition.get());
@@ -187,12 +182,8 @@ class GestionnairePossibilitePlateauTest {
         Plateau plateauPourMotif = new Plateau();
         GestionnairePossibilitePlateau gPPMotif = new GestionnairePossibilitePlateau(plateauPourMotif);
         ObjectifParcelle objectifParcelleSimple2Parcelle = null;
-        try {
-            Motif motifMoyen = new Motif(new ParcelleCouleur(new Position(0,0),secBamV.couleur()),new ParcelleCouleur(new Position(1,1),secBamV.couleur()), new ParcelleCouleur(new Position(-1,-1),secBamV.couleur()));
-            objectifParcelleSimple2Parcelle = new ObjectifParcelle(3,motifMoyen);
-        } catch (MotifNonValideException e) {
-            assert false: "Ne doit pas renvoyer d'erreur";
-        }
+        Motif motifMoyen = new MotifDiagonale(new ParcelleCouleur(new Position(-1,-1),secBamV.couleur()), new ParcelleCouleur(new Position(0,0),secBamV.couleur()),new ParcelleCouleur(new Position(1,1),secBamV.couleur()));
+        objectifParcelleSimple2Parcelle = new ObjectifParcelle(3,motifMoyen);
         Optional<Position> optPosition = gPPMotif.positionPossiblePrendrePourMotif(objectifParcelleSimple2Parcelle);
         assertTrue(optPosition.isPresent());
         assertEquals(pC11J.position(),optPosition.get());

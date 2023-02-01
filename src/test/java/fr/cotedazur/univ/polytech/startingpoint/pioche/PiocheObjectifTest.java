@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,12 +26,7 @@ class PiocheObjectifTest {
         PiocheObjectifPanda pOPan= new PiocheObjectifPanda(new Random());
         PiocheObjectifJardinier pOJar= new PiocheObjectifJardinier(new Random());
         piocheObjectif = new PiocheObjectif(pOPar, pOPan, pOJar);
-        try {
-            motifParDefaut = new Motif(new ParcelleCouleur(new Position(0,0),Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT));
-        }
-        catch (MotifNonValideException motifNonValideException){
-            assert false : "les Parcelles sont voisines";
-        }
+        motifParDefaut = new MotifDiagonale(new ParcelleCouleur(new Position(0,0), Couleur.VERT), new ParcelleCouleur(new Position(1,1), Couleur.VERT));
 
 /*        when(pOPar.pioche())
                 .thenReturn(new ObjectifParcelle(4, motifParDefaut))

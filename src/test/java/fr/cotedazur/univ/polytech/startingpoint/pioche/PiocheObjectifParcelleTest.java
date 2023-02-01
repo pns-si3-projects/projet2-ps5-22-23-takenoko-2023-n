@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.MotifNonValideException;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import org.junit.jupiter.api.Test;
@@ -48,15 +48,8 @@ class PiocheObjectifParcelleTest {
     @Test
     void pioche() {
         when(mockRandom.nextInt(anyInt())).thenReturn(14, 10, 11, 0, 0);
-        Motif motif2Parcelles = null;
-        Motif motif3Parcelles = null;
-        try {
-            motif2Parcelles = new Motif(new ParcelleCouleur(new Position(0,0), Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT));
-            motif3Parcelles = new Motif(new ParcelleCouleur(new Position(0,0), Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT), new ParcelleCouleur(new Position(-1,-1),Couleur.VERT));
-        }
-        catch (MotifNonValideException mNVE){
-            assert false : "Les parcelles sont normalement Voisine";
-        }
+        Motif motif2Parcelles = new MotifDiagonale(new ParcelleCouleur(new Position(0,0), Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT));
+        Motif motif3Parcelles = new MotifDiagonale(new ParcelleCouleur(new Position(-1,-1), Couleur.VERT), new ParcelleCouleur(new Position(0,0), Couleur.VERT), new ParcelleCouleur(new Position(1,1), Couleur.VERT));
 
         piocheObjectifParcelle = new PiocheObjectifParcelle(mockRandom);
         assertEquals(new ObjectifParcelle(3, motif2Parcelles), piocheObjectifParcelle.pioche());

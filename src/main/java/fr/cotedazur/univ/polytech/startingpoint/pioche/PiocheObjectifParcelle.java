@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.MotifNonValideException;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 
@@ -27,13 +27,8 @@ public class PiocheObjectifParcelle extends ArrayList<ObjectifParcelle> implemen
      * @param random est un objet Random qui va permettre de créer une pioche aléatoire
      */
     public PiocheObjectifParcelle(Random random) {
-        try {
-            motifParDefaut2Parcelles = new Motif(new ParcelleCouleur(new Position(0,0), Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT));
-            motifParDefaut3Parcelles = new Motif(new ParcelleCouleur(new Position(0,0), Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT),new ParcelleCouleur(new Position(-1,-1),Couleur.VERT));
-        }
-        catch (MotifNonValideException mNVE){
-            assert false: "Ne doit pas renvoyer d'exception car ce motif ils sont tous voisin";
-        }
+        motifParDefaut2Parcelles = new MotifDiagonale(new ParcelleCouleur(new Position(0,0), Couleur.VERT), new ParcelleCouleur(new Position(1,1), Couleur.VERT));
+        motifParDefaut3Parcelles = new MotifDiagonale(new ParcelleCouleur(new Position(-1,-1), Couleur.VERT), new ParcelleCouleur(new Position(0,0), Couleur.VERT), new ParcelleCouleur(new Position(1,1),Couleur.VERT));
         creePiocheObjectifsParcelle();
         this.random = random;
     }

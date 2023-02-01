@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.objectif;
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,15 +24,8 @@ class ObjectifTest {
         ParcelleCouleur parcelleCouleur00 = new ParcelleCouleur(new Position(0,0), Couleur.ROSE);
         ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1,1),Couleur.ROSE);
         ParcelleCouleur parcelleCouleur22 = new ParcelleCouleur(new Position(2,2), Couleur.ROSE);
-        Motif motif2Parcelle = null;
-        Motif motif3Parcelle = null;
-        try {
-            motif2Parcelle = new Motif(parcelleCouleur00,parcelleCouleur11);
-            motif3Parcelle = new Motif(parcelleCouleur00,parcelleCouleur11,parcelleCouleur22);
-        }
-        catch (MotifNonValideException mNVE){
-            assert false: "Les parcelles sont voisines donc ne doit pas renvoyer d'exception";
-        }
+        Motif motif2Parcelle = new MotifDiagonale(parcelleCouleur00,parcelleCouleur11);
+        Motif motif3Parcelle = new MotifDiagonale(parcelleCouleur00,parcelleCouleur11,parcelleCouleur22);
         objPar2_2 = new ObjectifParcelle(2, motif2Parcelle);
         objPar3_2 = new ObjectifParcelle(3, motif2Parcelle);
         objPar2_3 = new ObjectifParcelle(2, motif3Parcelle);

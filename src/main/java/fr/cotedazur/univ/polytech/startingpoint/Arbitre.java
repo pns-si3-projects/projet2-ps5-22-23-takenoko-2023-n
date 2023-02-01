@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -118,14 +119,8 @@ public class Arbitre {
             }
         }
 
-        try {
-            Motif motifCree = new Motif(motifACreer);
-            return Optional.of(motifCree);
-        }
-        catch (MotifNonValideException mNVE){
-            assert false: "Ne dois pas renvoyer d'erreur normalement";
-            return Optional.empty();
-        }
+        Motif motifCree = new MotifDiagonale(motifACreer);
+        return Optional.of(motifCree);
     }
 
     /**
