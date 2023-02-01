@@ -8,16 +8,26 @@ import java.util.Objects;
 
 /**
  * Classe représentant le motif d'un objectif Parcelle
- *
  * @author equipe N
  */
 public abstract class Motif {
     protected ParcelleCouleur[] tabParcelles;
 
+    /**
+     * Renvoie toutes les orientations d'un motif
+     * @return toutes les orientations d'un motif
+     */
+    public abstract ParcelleCouleur[][] getOrientation();
+
+    /**
+     * Renvoie toutes les orientations d'un motif pour L'IA
+     * @return toutes les orientations d'un motif pour L'IA
+     */
+    public abstract ParcelleCouleur[][] getOrientationForIA();
+
 
     /**
      * Verifie si la parcelle se trouve a la même position que celle dans l'autre motifs mais avec une distance de <code> differencePosition </code>
-     *
      * @param positionParcelleMotif      La position de la parcelle où se situe dans le motif-ci
      * @param positionParcelleOtherMotif La position de la parcelle où se situe dans l'autre motif
      * @param differencePositionX        la distance en X calculé auparavant entre les 2 motifs
@@ -36,7 +46,6 @@ public abstract class Motif {
 
     /**
      * Compare les 2 motifs pour le equals
-     *
      * @param otherMotif Le motif à comparer
      * @return <code> true </code> si le motif est le même
      */
@@ -60,7 +69,6 @@ public abstract class Motif {
 
     /**
      * Renvoie une copie du tableau de Parcelle du motif
-     *
      * @return une copie du tableau de Parcelle du motif
      */
     public ParcelleCouleur[] getTableauParcelles() {
