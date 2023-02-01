@@ -1,5 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+
+import java.util.List;
+
 /**
  * Permet d'appliquer une stratégie de jeu
  * @author equipe N
@@ -11,7 +15,9 @@ public interface Strategie {
 
     /**
      * Renvoie l'action choisie pour le tour
+     * @param actionsPossiblesTour le tableau des actions possibles lors du tour
+     * @param objectifs la liste des objectifs à réaliser
      * @return l'action choisie
      */
-    Plaquette.ActionPossible choisiActionTour(Plaquette.ActionPossible[] actionsPossiblesTour);
+    Plaquette.ActionPossible choisiActionTour(boolean[] actionsPossiblesTour, List<Objectif> objectifs);
 }
