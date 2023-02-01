@@ -17,7 +17,7 @@ public class Plaquette {
 
     public enum ActionPossible {PARCELLE, JARDINIER, PANDA, OBJECTIF}
     private final List<SectionBambou> reserveBambousManges;
-    private final Boolean[] actionsTour;
+    private final boolean[] actionsTour;
 
 
     // Définition des constructeurs
@@ -27,7 +27,7 @@ public class Plaquette {
      */
     public Plaquette() {
         reserveBambousManges = new ArrayList<>();
-        actionsTour = new Boolean[]{false, false, false, false};
+        actionsTour = new boolean[]{false, false, false, false};
     }
 
 
