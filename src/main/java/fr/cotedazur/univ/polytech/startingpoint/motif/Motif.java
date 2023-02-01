@@ -50,21 +50,30 @@ public abstract class Motif {
      * @return <code> true </code> si le motif est le même
      */
     public boolean compareMotif(Motif otherMotif) {
-        if (otherMotif.tabParcelles.length != tabParcelles.length) return false;
+        if (otherMotif.tabParcelles.length != tabParcelles.length) {
+            return false;
+        }
 
-        ParcelleCouleur[] motifActuel = tabParcelles;
+        ParcelleCouleur[][] orientationMotifActuel = getOrientation();
         ParcelleCouleur[] motifOther = otherMotif.tabParcelles;
-        int differencePositionX = Math.abs(motifActuel[0].position().getX() - motifOther[0].position().getX());
-        int differencePositionY = Math.abs(motifActuel[0].position().getY() - motifOther[0].position().getY());
+        for (int i = 0; i < orientationMotifActuel.length; i++) {
+            int differencePositionX = Math.abs(orientationMotifActuel[i][0].position().getX() - motifOther[0].position().getX());
+            int differencePositionY = Math.abs(orientationMotifActuel[i][0].position().getY() - motifOther[0].position().getY());
+            boolean memeMotif = true;
 
-        for (int i = 1; i < motifActuel.length; i++) {
-            Position positionMotifActuel = motifActuel[i].position();
-            Position positionMotifOther = motifOther[i].position();
-            if (!comparePosition(positionMotifActuel, positionMotifOther, differencePositionX, differencePositionY)) {
-                return false;
+            for (int j = 1; j < motifOther.length; j++) {
+                Position positionMotifActuel = orientationMotifActuel[i][j].position();
+                Position positionMotifOther = motifOther[j].position();
+                if (!comparePosition(positionMotifActuel, positionMotifOther, differencePositionX, differencePositionY)) {
+                    memeMotif = false;
+                }
+            }
+
+            if (memeMotif){
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
