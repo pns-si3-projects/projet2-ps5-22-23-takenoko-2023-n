@@ -19,6 +19,7 @@ public class Joueur {
     private final Plaquette plaquette;
     private final List<Objectif> objectifEnMainList;
     private final List<Objectif> objectifTermineList;
+    private final Strategie strategie;
 
 
     // Définition des constructeurs
@@ -32,6 +33,11 @@ public class Joueur {
         plaquette = new Plaquette();
         objectifEnMainList = new ArrayList<>(3);
         objectifTermineList = new ArrayList<>();
+        strategie = switch (strategieChoisie) {
+            case PARCELLE -> new StrategieParcelle();
+            case PANDA -> new StrategiePanda();
+            case JARDINIER -> new StrategieJardinier();
+        };
     }
 
 
