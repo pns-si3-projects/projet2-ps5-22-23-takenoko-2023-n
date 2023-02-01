@@ -1,10 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
+import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
 import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
 import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
@@ -76,89 +76,66 @@ public class Arbitre {
     }
 
     /**
-     * Cherche la Parcelle dans le plateau si elle existe
-     * @param listParcelleEtVoisine Les parcelles du plateau
-     * @param positionAChercher La position de la parcelle A chercher
-     * @return la parcelle si elle existe dans le plateau
+     * Convertit le tableau de Parcelle en tableau de Parcelle Couleur pour faire un motif en vérifiant avant que le motif contient que des parcelles Couleur via la méthode checkMotifComplet
+     * @param listParcelleMotif La liste des Parcelle pour créer le motif
+     * @return Le nouveau motif avec le tableau de Parcelle
      */
-    private Optional<Parcelle> getParcelleATrouver(Parcelle[] listParcelleEtVoisine, Position positionAChercher){
-        if(positionAChercher.equals(new Position())) return Optional.empty(); // Si la position est l'étang
-
-        for (Parcelle parcelle : listParcelleEtVoisine) {
-            if (parcelle.position().equals(positionAChercher)) {
-                return Optional.of(parcelle);
-            }
+    private Motif convertTabInMotifDiagonale(Parcelle[] listParcelleMotif) {
+        ParcelleCouleur[] parcelleCouleursMotifs = new ParcelleCouleur[listParcelleMotif.length];
+        for (int i = 0; i< listParcelleMotif.length; i++) {
+            parcelleCouleursMotifs[i] = (ParcelleCouleur) listParcelleMotif[i];
         }
-        return Optional.empty();
-    }
-
-    /**
-     * Méthode permettant de créer un motif si c'est possible via une Parcelle et la liste de ParcelleEtVoisine
-     * @param listParcelleEtVoisine la liste de ParcelleEtVoisine
-     * @param parcelleCible La parcelle avec laquelle on cherche a faire un motif
-     * @param motifAFaire Le motif qu'on cherche a faire
-     * @return un motif si il est possible d'en faire un
-     */
-    public Optional<Motif> creeMotif(Parcelle[] listParcelleEtVoisine, Parcelle parcelleCible, Motif motifAFaire){
-        ParcelleCouleur[] tableauParcelleMotif = motifAFaire.getTableauParcelles();
-        ParcelleCouleur[] motifACreer = new ParcelleCouleur[tableauParcelleMotif.length];
-        motifACreer[0] = (ParcelleCouleur) parcelleCible;
-
-        for (int i = 1; i < tableauParcelleMotif.length; i++ ) {
-            int differenceX = tableauParcelleMotif[0].position().getX() - tableauParcelleMotif[i].position().getX();
-            int differenceY = tableauParcelleMotif[0].position().getY() - tableauParcelleMotif[i].position().getY();
-            Position positionParcelleCible = parcelleCible.position();
-            Position positionAChercher = new Position(positionParcelleCible.getX() + differenceX,positionParcelleCible.getY() + differenceY);
-
-            Optional<Parcelle> optParcelleTrouver = getParcelleATrouver(listParcelleEtVoisine,positionAChercher);
-            if(optParcelleTrouver.isPresent()) {
-                motifACreer[i] = (ParcelleCouleur) optParcelleTrouver.get();
-            }
-            else {
-                return Optional.empty();
-            }
-        }
-
-        Motif motifCree = new MotifDiagonale(motifACreer);
-        return Optional.of(motifCree);
+        return new MotifDiagonale(parcelleCouleursMotifs);
     }
 
     /**
      * Méthode qui vérifie si l'objectif a été terminé
-     * @param listParcellesEtVoisines la liste de parcelles et voisines
+     * @param listParcellesEtVoisines le tableau de parcelles et voisines
      * @param objectifParcelle l'objectif à vérifier
      * @return <code>true</code> si l'objectif est terminé, <code>false</code> sinon
      */
     public boolean checkObjectifParcelleTermine(Parcelle[] listParcellesEtVoisines, ObjectifParcelle objectifParcelle) {
-        Motif motifATrouver = objectifParcelle.getMotif();
+        Parcelle parcelleAChercher = GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(listParcellesEtVoisines, objectifParcelle);
+        Parcelle[] parcelleMotif = GestionnairePossibiliteMotif.getMotifAFaire(listParcellesEtVoisines, parcelleAChercher, objectifParcelle.getMotif().getTableauParcelles());
 
-        for (Parcelle parcelle : listParcellesEtVoisines) {
-            if(parcelle.getClass() != Etang.class) {
-                Optional<Motif> optMotif = creeMotif(listParcellesEtVoisines, parcelle, motifATrouver);
-                if (optMotif.isPresent()){
-                    if(optMotif.get().equals(motifATrouver)){
-                        return true;
-                    }
-                }
-            }
+        if ( GestionnairePossibiliteMotif.checkMotifComplet(parcelleMotif) ) { // La méthode vérifie si c'est que des parcelles couleurs
+            Motif motifAVerifier = convertTabInMotifDiagonale(parcelleMotif); // Donc aucun risque sur le Cast
+            return objectifParcelle.getMotif().equals(motifAVerifier);
         }
         return false;
     }
 
-    public boolean checkObjectifPandaTermine(SectionBambou[] sectionBambous, ObjectifPanda objectifPanda){
-        if ( !verifieCouleurBambou(sectionBambous,objectifPanda.getCouleurBambousAManger()) ) return false;
-        return sectionBambous.length >= objectifPanda.getNombreBambousAManger();
-    }
-
-    public boolean checkObjectifJardinierTermine(ObjectifJardinier objectifJardinier){
-        return objectifJardinier.getNombreBambousRestant() <= 0;
-    }
-
-    private boolean verifieCouleurBambou(SectionBambou[] sectionBambous, Couleur couleur){
+    /**
+     * Renvoie <code>true</code> si la couleur de toutes les section de bambous sont de même couleur
+     * @param sectionBambous Le tableau des sections de bambous
+     * @param couleur La couleur des sections de bambous
+     * @return <code>true</code> si la couleur de toutes les section de bambous sont de même couleur
+     */
+    private boolean verifieCouleurBambou(SectionBambou[] sectionBambous, Couleur couleur) {
         for (SectionBambou sectionBambou : sectionBambous) {
             if (sectionBambou.couleur() != couleur) return false;
         }
         return true;
+    }
+
+    /**
+     * Renvoie <code>true</code> si l'objectif Panda est terminé
+     * @param sectionBambous Le tableau des sections de Bambous
+     * @param objectifPanda L'objectif Panda à faire
+     * @return <code>true</code> si l'objectif Panda est terminé
+     */
+    public boolean checkObjectifPandaTermine(SectionBambou[] sectionBambous, ObjectifPanda objectifPanda) {
+        if ( !verifieCouleurBambou(sectionBambous,objectifPanda.getCouleurBambousAManger()) ) return false;
+        return sectionBambous.length >= objectifPanda.getNombreBambousAManger();
+    }
+
+    /**
+     * Renvoie <code>true</code> si l'objectif Jardinier est terminé
+     * @param objectifJardinier L'objectif Jardinier à faire
+     * @return <code>true</code> si l'objectif Jardinier est terminé
+     */
+    public boolean checkObjectifJardinierTermine(ObjectifJardinier objectifJardinier){
+        return objectifJardinier.getNombreBambousRestant() <= 0;
     }
 
     /**
