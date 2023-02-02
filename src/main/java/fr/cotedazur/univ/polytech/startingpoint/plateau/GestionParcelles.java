@@ -9,6 +9,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public class GestionParcelles {
+    // Définition d'un constructeur privé pour éviter les instanciations
+
+    private GestionParcelles() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    
+    // Méthodes d'utilisation
 
     /**
      * Renvoie la parcelle à la position demandée
