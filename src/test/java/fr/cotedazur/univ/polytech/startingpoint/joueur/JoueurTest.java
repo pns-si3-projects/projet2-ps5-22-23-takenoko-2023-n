@@ -38,6 +38,7 @@ class JoueurTest {
     ObjectifPanda objPanJ2;
     ObjectifJardinier objJarJ2;
     PiocheBambou piocheBambou;
+    PiocheIrrigation piocheIrrigation;
     GestionnairePossibilitePlateau gPP;
 
     Joueur joueur1;
@@ -161,8 +162,8 @@ class JoueurTest {
     void tourDeJeu() {
         Arbitre arbitre = new Arbitre();
         while (arbitre.verifieFinDeJeu(joueur1, joueur2)){
-            joueur1.tour(piocheObjectif, piocheBambou, piocheParcelle, plateau, arbitre, gPP);
-            joueur2.tour(piocheObjectif, piocheBambou, piocheParcelle, plateau, arbitre,gPP);
+            joueur1.tour(piocheObjectif, piocheBambou, piocheParcelle,piocheIrrigation,  plateau, arbitre, gPP);
+            joueur2.tour(piocheObjectif, piocheBambou, piocheParcelle,piocheIrrigation,  plateau, arbitre,gPP);
         }
         if (joueur1.getPoints() > joueur2.getPoints()) {
             assertEquals(Optional.of(joueur1), arbitre.joueurGagnant(joueur1, joueur2));

@@ -6,6 +6,7 @@ import fr.cotedazur.univ.polytech.startingpoint.Main;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 
@@ -95,10 +96,10 @@ public class Joueur {
      * @param plateau le plateau pour ajouter les parcelles
      * @param arbitre permet de vérifier les actions
      */
-    public void tour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, PiocheParcelle piocheParcelle, Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP) {
+    public void tour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, PiocheParcelle piocheParcelle,PiocheIrrigation piocheIrrigation, Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP) {
         plaquette.reinitialiseActionsTour();
-        actionTour(piocheObjectif, piocheBambou, piocheParcelle, plateau, arbitre, gPP);
-        actionTour(piocheObjectif, piocheBambou, piocheParcelle, plateau, arbitre, gPP);
+        actionTour(piocheObjectif, piocheBambou, piocheParcelle,piocheIrrigation, plateau, arbitre, gPP);
+        actionTour(piocheObjectif, piocheBambou, piocheParcelle,piocheIrrigation, plateau, arbitre, gPP);
     }
 
     /**
@@ -109,7 +110,7 @@ public class Joueur {
      * @param arbitre permet de vérifier les actions et les objectifs
      * @param gPP est le gestionnaire de possibilité de déplacements sur le plateau pour savoir où on peut déplacer le panda
      */
-    private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, PiocheParcelle piocheParcelle,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
+    private void actionTour(PiocheObjectif piocheObjectif, PiocheBambou piocheBambou, PiocheParcelle piocheParcelle,PiocheIrrigation piocheIrrigation,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP){
         if(plaquette.getNombreObjectifs() == 5){
             if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
                 actionParcelle(piocheBambou,piocheParcelle,plateau,arbitre);
@@ -119,9 +120,13 @@ public class Joueur {
                 actionPanda(plateau,arbitre,gPP);
                 plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
             }
-            else {
+            else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER)){
                 actionJardinier(plateau,arbitre,gPP);
                 plaquette.realiseAction((Plaquette.ActionPossible.JARDINIER));
+            }
+            else {
+                actionIrrigation(plateau,arbitre,piocheIrrigation,gPP);
+                plaquette.realiseAction((Plaquette.ActionPossible.IRRIGATION));
             }
         }
         else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF)){
@@ -296,6 +301,15 @@ public class Joueur {
         gestionObjectifJardinier(arbitre, plaquette.getObjectifsJardinier(), deplacementReussi);
     }
 
+    public void actionIrrigation(Plateau plateau, Arbitre arbitre,PiocheIrrigation piocheIrrigation, GestionnairePossibilitePlateau gPP){
+        boolean irrigationAjoute = false;
+        while (!irrigationAjoute) {
+            new Irrigation((List<Position>) choisiIrrigation(plateau));
+
+        }
+    }
+
+
     /**
      * Déplace le jardinier en fonction de la liste de positions possibles
      * @param plateau le plateau pour ajouter les bambous
@@ -457,6 +471,17 @@ public class Joueur {
         int nombreAleatoire = random.nextInt(listPositionDisponible.length);
         if(nombreAleatoire < 0 || nombreAleatoire >= listPositionDisponible.length) throw new ArithmeticException("Erreur objet random");
         return listPositionDisponible[nombreAleatoire];
+    }
+    public Irrigation choisiIrrigation(Plateau plateau){
+        int nombreAleatoire= random.nextInt(plateau.getPositionsDisponible().length);
+        int cmp=0;
+        if(nombreAleatoire < 0 || nombreAleatoire >= plateau.getPositionsDisponible().length) throw new ArithmeticException("Erreur objet random");
+        for(Irrigation i : plateau.getIrrigationsDisponibles()){
+            if (cmp==nombreAleatoire){
+                return i;
+            }
+        }
+        return null;
     }
 
     /**

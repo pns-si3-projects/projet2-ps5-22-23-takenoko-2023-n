@@ -26,6 +26,7 @@ class ArbitreTest {
     PiocheObjectif piocheObjectif;
     PiocheBambou piocheBambou;
     PiocheParcelle piocheParcelle;
+    PiocheIrrigation piocheIrrigation;
     Plateau plateau;
     GestionnairePossibilitePlateau gPP;
 
@@ -51,8 +52,8 @@ class ArbitreTest {
     void checkFinDeJeu() {
         while (!arbitre.verifieFinDeJeu(joueur1, joueur2)) {
             assertFalse(arbitre.verifieFinDeJeu(joueur1, joueur2));
-            joueur1.tour(piocheObjectif, piocheBambou, piocheParcelle,plateau, arbitre,gPP);
-            joueur2.tour(piocheObjectif, piocheBambou, piocheParcelle,plateau, arbitre,gPP);
+            joueur1.tour(piocheObjectif, piocheBambou, piocheParcelle,piocheIrrigation,plateau, arbitre,gPP);
+            joueur2.tour(piocheObjectif, piocheBambou, piocheParcelle,piocheIrrigation,plateau, arbitre,gPP);
         }
         assertTrue(arbitre.verifieFinDeJeu(joueur1, joueur2));
     }
@@ -61,8 +62,8 @@ class ArbitreTest {
     void joueurGagnant() {
         assertTrue(arbitre.joueurGagnant(joueur1, joueur2).isEmpty());
         while (!arbitre.verifieFinDeJeu(joueur1, joueur2)) {
-            joueur1.tour(piocheObjectif, piocheBambou, piocheParcelle,plateau, arbitre,gPP);
-            joueur2.tour(piocheObjectif, piocheBambou, piocheParcelle,plateau, arbitre,gPP);
+            joueur1.tour(piocheObjectif, piocheBambou, piocheParcelle,piocheIrrigation,plateau, arbitre,gPP);
+            joueur2.tour(piocheObjectif, piocheBambou, piocheParcelle,piocheIrrigation,plateau, arbitre,gPP);
         }
         if (joueur1.getPoints() > joueur2.getPoints()) {
             assertEquals(Optional.of(joueur1), arbitre.joueurGagnant(joueur1, joueur2));
