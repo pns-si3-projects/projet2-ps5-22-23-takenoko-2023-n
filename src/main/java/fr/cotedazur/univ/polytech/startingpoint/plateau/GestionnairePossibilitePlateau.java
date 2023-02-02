@@ -163,27 +163,4 @@ public class GestionnairePossibilitePlateau {
         }
         return positionsFiltrees;
     }
-
-    /**
-     * Renvoie une des "meilleurs" position possible pour créer un motif sur le Plateau
-     * @param objectifParcelle L'objectif à réaliser
-     * @return position possible pour créer un motif sur le Plateau
-     */
-
-    public Optional<Position> positionPossiblePrendrePourMotif(ObjectifParcelle objectifParcelle){
-        Position[] positionDisponible = plateau.getPositionsDisponible();
-        Parcelle[] parcellesMap = plateau.getParcelles();
-        Parcelle parcellePlusProcheObjectif = GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(parcellesMap,objectifParcelle);
-        Parcelle[] motifAFaire = objectifParcelle.getMotif().getTableauParcelles();
-        Parcelle[] motifParcelle = GestionnairePossibiliteMotif.getMotifAFaire(parcellesMap, parcellePlusProcheObjectif,motifAFaire);
-
-        if(GestionnairePossibiliteMotif.checkMotifComplet(motifParcelle)) return Optional.empty();
-
-        Optional<Position> positionARecuperer = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(positionDisponible, motifParcelle);
-        if(positionARecuperer.isPresent()) return positionARecuperer;
-
-        Optional<Position> optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(positionDisponible,motifParcelle);
-        if(optPosition.isPresent()) return optPosition;
-        else return Optional.of(positionDisponible[0]);
-    }
 }
