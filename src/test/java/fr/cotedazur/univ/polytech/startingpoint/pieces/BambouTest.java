@@ -80,8 +80,8 @@ class BambouTest {
             bambou1_1V.ajouteSectionBambou(sectionBambouVerte);
             bambou2_0R.ajouteSectionBambou(sectionBambouRose);
         }
-        catch (AjoutCouleurException aCE) {
-            throw new AssertionError("La section de Bambou devrait être de la même couleur");
+        catch (AjoutCouleurException e) {
+            throw new AssertionError(e);
         }
 
         assertEquals(sectionBambouVerte, bambou1_1V.prendSectionBambou());
@@ -104,8 +104,8 @@ class BambouTest {
             bambou1_1V.ajouteSectionBambou(sectionBambouVerte);
             bambou2_0R.ajouteSectionBambou(sectionBambouRose);
         }
-        catch (AjoutCouleurException aCE) {
-            throw new AssertionError("La section de Bambou devrait être de la même couleur");
+        catch (AjoutCouleurException e) {
+            throw new AssertionError(e);
         }
 
         assertEquals(2, bambou1_1V.getTailleBambou());
@@ -125,7 +125,7 @@ class BambouTest {
         try {
             bambou1_1V.ajouteSectionBambou(sectionBambouVerte);
         } catch (AjoutCouleurException e) {
-            throw new AssertionError("La section de Bambou devrait être de la même couleur");
+            throw new AssertionError(e);
         }
         assertEquals("Bambou de couleur verte en (1,1) de 1 sections de bambou", bambou1_1V.toString());
     }
