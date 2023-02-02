@@ -95,14 +95,7 @@ public class Arbitre {
      * @return <code>true</code> si l'objectif est terminé, <code>false</code> sinon
      */
     public boolean checkObjectifParcelleTermine(Parcelle[] listParcellesEtVoisines, ObjectifParcelle objectifParcelle) {
-        Parcelle parcelleAChercher = GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(listParcellesEtVoisines, objectifParcelle);
-        Parcelle[] parcelleMotif = GestionnairePossibiliteMotif.getMotifAFaire(listParcellesEtVoisines, parcelleAChercher, objectifParcelle.getMotif().getTableauParcelles());
-
-        if ( GestionnairePossibiliteMotif.checkMotifComplet(parcelleMotif) ) { // La méthode vérifie si c'est que des parcelles couleurs
-            Motif motifAVerifier = convertTabInMotifDiagonale(parcelleMotif); // Donc aucun risque sur le Cast
-            return objectifParcelle.getMotif().equals(motifAVerifier);
-        }
-        return false;
+        return GestionnairePossibiliteMotif.checkMotifInBoard(listParcellesEtVoisines, objectifParcelle);
     }
 
     /**
