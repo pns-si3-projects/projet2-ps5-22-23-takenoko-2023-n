@@ -205,22 +205,22 @@ class JoueurTest {
 
         assertEquals(0, plateau.getIrrigationsPosees().size());
         assertEquals(1, plateau.getIrrigationsDisponibles().size());
-        boolean ajout1 = joueur1.actionIrrigation(plateau, arbitre, piocheIrrigation, gPP);
+        boolean ajout1 = joueur1.actionIrrigation(plateau, piocheIrrigation);
         assertTrue(ajout1);
         assertEquals(1, plateau.getIrrigationsPosees().size());
         assertEquals(2, plateau.getIrrigationsDisponibles().size());
         assertEquals(19, piocheIrrigation.getNombreIrrigation());
-        boolean ajout2 = joueur2.actionIrrigation(plateau,arbitre,piocheIrrigation, gPP);
+        boolean ajout2 = joueur2.actionIrrigation(plateau, piocheIrrigation);
         assertTrue(ajout2);
         assertEquals(2, plateau.getIrrigationsPosees().size());
         assertEquals(1, plateau.getIrrigationsDisponibles().size());
         assertEquals(18, piocheIrrigation.getNombreIrrigation());
-        boolean ajout3 = joueur1.actionIrrigation(plateau, arbitre, piocheIrrigation, gPP);
+        boolean ajout3 = joueur1.actionIrrigation(plateau, piocheIrrigation);
         assertTrue(ajout3);
         assertEquals(3, plateau.getIrrigationsPosees().size());
         assertEquals(0, plateau.getIrrigationsDisponibles().size());
         assertEquals(17, piocheIrrigation.getNombreIrrigation());
-        boolean ajout4 = joueur2.actionIrrigation(plateau, arbitre, piocheIrrigation, gPP);
+        boolean ajout4 = joueur2.actionIrrigation(plateau, piocheIrrigation);
         assertFalse(ajout4);
         assertEquals(3, plateau.getIrrigationsPosees().size());
         assertEquals(0, plateau.getIrrigationsDisponibles().size());

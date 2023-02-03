@@ -125,7 +125,7 @@ public class Joueur {
                 plaquette.realiseAction((Plaquette.ActionPossible.JARDINIER));
             }
             else {
-                actionIrrigation(plateau,arbitre,piocheIrrigation,gPP);
+                actionIrrigation(plateau,piocheIrrigation);
                 plaquette.realiseAction((Plaquette.ActionPossible.IRRIGATION));
             }
         }
@@ -301,7 +301,13 @@ public class Joueur {
         gestionObjectifJardinier(arbitre, plaquette.getObjectifsJardinier(), deplacementReussi);
     }
 
-    public boolean actionIrrigation(Plateau plateau, Arbitre arbitre,PiocheIrrigation piocheIrrigation, GestionnairePossibilitePlateau gPP){
+    /**
+     * Action de poser une Irrigation
+     * @param plateau le plateau pour ajouter les irrigations
+     * @param piocheIrrigation pour prendre une irrigation dans la pioche
+     * @return true si l'irrigation est bien posée false sinon
+     */
+    public boolean actionIrrigation(Plateau plateau,PiocheIrrigation piocheIrrigation){
         boolean irrigationAjoute = false;
         while (!irrigationAjoute && !piocheIrrigation.isEmptyIrrigation() && !plateau.getIrrigationsDisponibles().isEmpty()) {
             Irrigation irrigationAAjouter = choisiIrrigation(plateau);
