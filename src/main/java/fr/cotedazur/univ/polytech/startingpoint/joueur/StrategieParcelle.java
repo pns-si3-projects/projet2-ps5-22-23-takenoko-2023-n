@@ -19,7 +19,7 @@ public class StrategieParcelle implements Strategie {
         }
 
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
-        if (!actionsRealiseesTour[objectif.ordinal()]) {
+        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)) {
             return objectif;
         }
 
