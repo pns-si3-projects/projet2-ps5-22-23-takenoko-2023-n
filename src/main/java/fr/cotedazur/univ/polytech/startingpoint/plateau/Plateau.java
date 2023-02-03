@@ -222,9 +222,10 @@ public class Plateau {
      * @param position1 position de la 1ere parcelle
      * @param position2 position de la 2eme parcelle
      */
-    public void addIrrigation(Position position1, Position position2){
+    public boolean addIrrigation(Position position1, Position position2){
         Optional<Parcelle> parcelle1 = getParcelle(position1);
         Optional<Parcelle> parcelle2 = getParcelle(position2);
+        boolean ajoute = false;
         if (position1 != position2 && parcelle1.isPresent() && parcelle2.isPresent() && parcelle1.get() != etang && parcelle2.get() != etang){
             ParcelleCouleur parcelleC1 = (ParcelleCouleur) parcelle1.get();
             ParcelleCouleur parcelleC2 = (ParcelleCouleur) parcelle2.get();
@@ -232,7 +233,6 @@ public class Plateau {
             positions.add(position1);
             positions.add(position2);
             Irrigation irrigationAAdd = new Irrigation(positions);
-            boolean ajoute = false;
             for (Irrigation irrigationDisponible : irrigationsDisponibles){
                 if (irrigationAAdd.equals(irrigationDisponible)){
                     irrigationsPosees.add(irrigationAAdd);
@@ -259,6 +259,7 @@ public class Plateau {
                 addIrrigationDisponible(irrigationAAdd);
             }
         }
+        return ajoute;
     }
 
     /**

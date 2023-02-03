@@ -7,10 +7,9 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionnairePossibilitePlateau;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -40,6 +39,7 @@ class JoueurTest {
     PiocheBambou piocheBambou;
     PiocheIrrigation piocheIrrigation;
     GestionnairePossibilitePlateau gPP;
+    Arbitre arbitre;
 
     Joueur joueur1;
     Joueur joueur2;
@@ -66,6 +66,8 @@ class JoueurTest {
         piocheBambou = new PiocheBambou(new Random());
         joueur1 = new Joueur("Robot1", mockRandom, objParJ1, objPanJ1, objJarJ1);
         joueur2 = new Joueur("Robot2", mockRandom, objParJ2, objPanJ2, objJarJ2);
+        arbitre = new Arbitre();
+        piocheIrrigation = new PiocheIrrigation(new Random());
     }
 
     @Test
@@ -174,6 +176,55 @@ class JoueurTest {
         else {
             assertEquals(Optional.empty(), arbitre.joueurGagnant(joueur1, joueur2));
         }
+    }
+
+    @Test
+    void actionIrrigation(){
+        ParcelleCouleur pc20 = new ParcelleCouleur(new Position(2,0), Couleur.JAUNE);
+        ParcelleCouleur pc11 = new ParcelleCouleur(new Position(1,1), Couleur.JAUNE);
+        ParcelleCouleur pc31 = new ParcelleCouleur(new Position(3,1), Couleur.VERT);
+        try {
+            //Parcelle 2 0
+            SectionBambou secBam2_0 = new SectionBambou(Couleur.JAUNE);
+            plateau.addParcelle(pc20, secBam2_0);
+            Bambou bambou2_0 = new Bambou(pc20);
+            bambou2_0.ajouteSectionBambou(secBam2_0);
+            //Parcelle 1 1
+            SectionBambou secBam1_1 = new SectionBambou(Couleur.JAUNE);
+            plateau.addParcelle(pc11, secBam1_1);
+            Bambou bambou1_1 = new Bambou(pc11);
+            bambou1_1.ajouteSectionBambou(secBam1_1);
+            //Parcelle 3 1
+            SectionBambou secBam3_1 = new SectionBambou(Couleur.VERT);
+            plateau.addParcelle(pc31, secBam3_1);
+            Bambou bambou3_1 = new Bambou(pc31);
+            bambou3_1.ajouteSectionBambou(secBam3_1);
+        } catch (ParcelleExistanteException | NombreParcelleVoisineException | AjoutCouleurException exception){
+            assert false : "Ne doit pas renvoyer d'exception";
+        }
+
+        assertEquals(0, plateau.getIrrigationsPosees().size());
+        assertEquals(1, plateau.getIrrigationsDisponibles().size());
+        boolean ajout1 = joueur1.actionIrrigation(plateau, arbitre, piocheIrrigation, gPP);
+        assertTrue(ajout1);
+        assertEquals(1, plateau.getIrrigationsPosees().size());
+        assertEquals(2, plateau.getIrrigationsDisponibles().size());
+        assertEquals(19, piocheIrrigation.getNombreIrrigation());
+        boolean ajout2 = joueur2.actionIrrigation(plateau,arbitre,piocheIrrigation, gPP);
+        assertTrue(ajout2);
+        assertEquals(2, plateau.getIrrigationsPosees().size());
+        assertEquals(1, plateau.getIrrigationsDisponibles().size());
+        assertEquals(18, piocheIrrigation.getNombreIrrigation());
+        boolean ajout3 = joueur1.actionIrrigation(plateau, arbitre, piocheIrrigation, gPP);
+        assertTrue(ajout3);
+        assertEquals(3, plateau.getIrrigationsPosees().size());
+        assertEquals(0, plateau.getIrrigationsDisponibles().size());
+        assertEquals(17, piocheIrrigation.getNombreIrrigation());
+        boolean ajout4 = joueur2.actionIrrigation(plateau, arbitre, piocheIrrigation, gPP);
+        assertFalse(ajout4);
+        assertEquals(3, plateau.getIrrigationsPosees().size());
+        assertEquals(0, plateau.getIrrigationsDisponibles().size());
+        assertEquals(17, piocheIrrigation.getNombreIrrigation());
     }
 
 }

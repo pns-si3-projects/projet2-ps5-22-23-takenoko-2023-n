@@ -34,6 +34,13 @@ public class PiocheIrrigation {
         return nombreIrrigation == 0;
     }
 
+    /**
+     * Décrémente le nombre d'irrigation dans la pioche
+     */
+    public void poseIrrigation(){
+        this.nombreIrrigation--;
+    }
+
     @Override
     public String toString() {
         return "Pioche d'irrigation' : " + nombreIrrigation +".";

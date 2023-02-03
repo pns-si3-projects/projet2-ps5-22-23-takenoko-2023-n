@@ -301,12 +301,17 @@ public class Joueur {
         gestionObjectifJardinier(arbitre, plaquette.getObjectifsJardinier(), deplacementReussi);
     }
 
-    public void actionIrrigation(Plateau plateau, Arbitre arbitre,PiocheIrrigation piocheIrrigation, GestionnairePossibilitePlateau gPP){
+    public boolean actionIrrigation(Plateau plateau, Arbitre arbitre,PiocheIrrigation piocheIrrigation, GestionnairePossibilitePlateau gPP){
         boolean irrigationAjoute = false;
-        while (!irrigationAjoute) {
-            new Irrigation((List<Position>) choisiIrrigation(plateau));
-
+        while (!irrigationAjoute && !piocheIrrigation.isEmptyIrrigation() && !plateau.getIrrigationsDisponibles().isEmpty()) {
+            Irrigation irrigationAAjouter = choisiIrrigation(plateau);
+            if (irrigationAAjouter != null) {
+                List<Position> positionsIrrigationAAjouter = irrigationAAjouter.getPositions();
+                irrigationAjoute = plateau.addIrrigation(positionsIrrigationAAjouter.get(0), positionsIrrigationAAjouter.get(1));
+                if (irrigationAjoute) piocheIrrigation.poseIrrigation();
+            }
         }
+        return irrigationAjoute;
     }
 
 
@@ -473,13 +478,14 @@ public class Joueur {
         return listPositionDisponible[nombreAleatoire];
     }
     public Irrigation choisiIrrigation(Plateau plateau){
-        int nombreAleatoire= random.nextInt(plateau.getPositionsDisponible().length);
+        int nombreAleatoire= random.nextInt(plateau.getIrrigationsDisponibles().size());
         int cmp=0;
-        if(nombreAleatoire < 0 || nombreAleatoire >= plateau.getPositionsDisponible().length) throw new ArithmeticException("Erreur objet random");
+        if(nombreAleatoire < 0 || nombreAleatoire >= plateau.getIrrigationsDisponibles().size()) throw new ArithmeticException("Erreur objet random");
         for(Irrigation i : plateau.getIrrigationsDisponibles()){
             if (cmp==nombreAleatoire){
                 return i;
             }
+            cmp++;
         }
         return null;
     }
