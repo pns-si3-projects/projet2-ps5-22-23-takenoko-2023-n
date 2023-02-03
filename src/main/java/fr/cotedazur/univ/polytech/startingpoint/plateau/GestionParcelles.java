@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Permet de gérer les parcelles du plateau
+ */
 public class GestionParcelles {
     // Définition des attributs
 
