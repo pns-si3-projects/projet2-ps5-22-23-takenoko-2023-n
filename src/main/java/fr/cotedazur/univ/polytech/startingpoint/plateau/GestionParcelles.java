@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class GestionParcelles {
+    // Définition des attributs
+
+    public static final Parcelle ETANG = new Etang();
+
+
     // Définition d'un constructeur privé pour éviter les instanciations
 
     private GestionParcelles() {
@@ -187,7 +192,7 @@ public class GestionParcelles {
     private static boolean estPositionDisponible(Parcelle[] parcelles, ParcelleDisponible parcelleDisponible) {
         List<Parcelle> parcellesVoisines = GestionParcelles.chercheFuturesVoisines(parcelles, parcelleDisponible);
 
-        if (parcellesVoisines.contains(new Etang())) {
+        if (parcellesVoisines.contains(ETANG)) {
             return true;
         }
         int nbVoisines = parcellesVoisines.size();
