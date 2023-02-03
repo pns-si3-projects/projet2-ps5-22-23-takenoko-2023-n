@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.startingpoint.Arbitre;
 import fr.cotedazur.univ.polytech.startingpoint.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.Main;
 import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
@@ -116,7 +117,7 @@ public class Joueur {
             plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
         }
         else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
-            actionParcelle(piocheBambou,piocheParcelle,plateau,arbitre,gPP);
+            actionParcelle(piocheBambou,piocheParcelle,plateau,arbitre);
             plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
         }
         else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER)){
@@ -172,10 +173,9 @@ public class Joueur {
      * @param piocheParcelle La pioche de parcelle qui permet de récupérer une parcelle
      * @param plateau Le plateau, pour ajouter une parcelle même si aucun objectif est possible
      * @param arbitre L'arbitre qui verifie si les objectifs sont bien réalisés
-     * @param gPP Le gestionnaire de Possibilité de plateau qui permet d'aider le joueur à choisir une parcelle
      */
-    public void actionParcelle(PiocheBambou piocheBambou,PiocheParcelle piocheParcelle,Plateau plateau, Arbitre arbitre, GestionnairePossibilitePlateau gPP) {
-        Optional<Position> optPositionChoisi = gPP.positionPossiblePrendrePourMotif(plaquette.getObjectifsParcelle()[0]);
+    public void actionParcelle(PiocheBambou piocheBambou,PiocheParcelle piocheParcelle,Plateau plateau, Arbitre arbitre) {
+        Optional<Position> optPositionChoisi = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(plateau.getParcelles(), plateau.getPositionsDisponible(), plaquette.getObjectifsParcelle()[0]);
         Position positionChoisi;
         positionChoisi = optPositionChoisi.orElseGet(() -> plateau.getPositionsDisponible()[0]);
 

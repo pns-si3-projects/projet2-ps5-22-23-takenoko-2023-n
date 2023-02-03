@@ -52,15 +52,13 @@ public class GestionnairePossibiliteMotif {
      * @return Renvoie la Parcelle qui peut s'approcher de l'objectif à faire
      */
     public static Parcelle getParcellePlusProcheObjectif(Parcelle[] tableauParcellePlateau, Parcelle[] parcellesMotif) {
-        Parcelle[] listParcellePlateau = tableauParcellePlateau;
-        Parcelle[] motifAFaire = parcellesMotif;
         int maxNombreParcelleMotif = 0;
         Parcelle parcelleMaxMotif = new Etang();
 
-        for (Parcelle parcellePlateau : listParcellePlateau) {
-            int nombreParcelle = nombreParcelleMotif(listParcellePlateau,parcellePlateau,motifAFaire);
+        for (Parcelle parcellePlateau : tableauParcellePlateau) {
+            int nombreParcelle = nombreParcelleMotif(tableauParcellePlateau, parcellePlateau, parcellesMotif);
 
-            if (nombreParcelle == motifAFaire.length) return parcellePlateau;
+            if (nombreParcelle == parcellesMotif.length) return parcellePlateau;
             else if (nombreParcelle > maxNombreParcelleMotif) {
                 parcelleMaxMotif = parcellePlateau;
                 maxNombreParcelleMotif = nombreParcelle;
@@ -101,15 +99,18 @@ public class GestionnairePossibiliteMotif {
     }
 
     /**
-     * Vérifie si le motif est complet
-     * @param parcelleMotif Tableau de parcelle avec lesquels on a créer le motif
-     * @return <code>true</code> si le motif est complet sinon <code>false</code>
+     * Renvoie le nombre de Parcelle Couleur dans le motif
+     * @param tabParcelleMotifRessemblant Tableau de parcelle avec lesquels on a créer le motif
+     * @return le nombre de Parcelle Couleur dans le motif
      */
-    public static boolean checkMotifComplet(Parcelle[] parcelleMotif){
-        for (Parcelle parcelle : parcelleMotif) {
-            if (parcelle.getClass() != ParcelleCouleur.class) return false;
+    protected static int countParcelleCouleurMotif(Parcelle[] tabParcelleMotifRessemblant) {
+        int count = 0;
+        for (Parcelle parcelleMotif : tabParcelleMotifRessemblant) {
+            if (parcelleMotif.getClass() == ParcelleCouleur.class) {
+                count++;
+            }
         }
-        return true;
+        return count;
     }
 
     /**
@@ -144,12 +145,12 @@ public class GestionnairePossibiliteMotif {
     /**
      * Renvoie une position en fonction de l'indice du tableau des voisins et de la position qu'on souhaite ajouter
      * @param indiceVoisin L'indice du Voisin de la position qu'on souhaite ajouter
-     * @param positionATrouver
-     * @return une position
+     * @param positionSource Position de la parcelleSource à laquelle on cherche son voisin
+     * @return une position en fonction de l'indice du tableau des voisins
      */
-    private static Position positionTab(int indiceVoisin, Position positionATrouver){
-        int x = positionATrouver.getX();
-        int y = positionATrouver.getY();
+    private static Position positionTab(int indiceVoisin, Position positionSource){
+        int x = positionSource.getX();
+        int y = positionSource.getY();
         return switch (indiceVoisin) {
             case 0 -> new Position(x + 1,y + 1);
             case 1 -> new Position( x + 2,y);
@@ -204,22 +205,12 @@ public class GestionnairePossibiliteMotif {
         for(ParcelleCouleur[] orientation : allOrientations) {
             Parcelle parcelleMax = getParcellePlusProcheObjectif(parcellesBoard, orientation);
             Parcelle[] motifRessemblantAuMotifParcelle = getMotifAFaire(parcellesBoard, parcelleMax, orientation);
-            if ( checkMotifComplet(motifRessemblantAuMotifParcelle) ) { // Ici on vérifie qu'il y a que des parcelles couleurs et comme avec les méthodes précédentes on reproduit le même motif alors le motif est donc le même
+            if ( countParcelleCouleurMotif(motifRessemblantAuMotifParcelle ) == orientation.length) { // Ici on vérifie qu'il y a que des parcelles couleurs et comme avec les méthodes précédentes on reproduit le même motif alors le motif est donc le même
                 return true;
             }
         }
 
         return false;
-    }
-
-    private static int countParcelleCouleurMotif(Parcelle[] tabParcelleMotifRessemblant) {
-        int count = 0;
-        for (Parcelle parcelleMotif : tabParcelleMotifRessemblant) {
-            if (parcelleMotif.getClass() == ParcelleCouleur.class) {
-                count++;
-            }
-        }
-        return count;
     }
 
     /**
@@ -232,13 +223,13 @@ public class GestionnairePossibiliteMotif {
         int maxParcelleMotif = -1;
         Parcelle[] motifPlusRessemblant = new Parcelle[0];
 
-        for (int i = 0; i < allOrientations.length; i++) {
-            Parcelle parcelleMax = getParcellePlusProcheObjectif(parcellesBoard, allOrientations[i]);
-            Parcelle[] motifRessmblantAuMotifParcelle = getMotifAFaire(parcellesBoard, parcelleMax, allOrientations[i]);
+        for (ParcelleCouleur[] orientation : allOrientations) {
+            Parcelle parcelleMax = getParcellePlusProcheObjectif(parcellesBoard, orientation);
+            Parcelle[] motifRessmblantAuMotifParcelle = getMotifAFaire(parcellesBoard, parcelleMax, orientation);
             int nombreParcelleCouleurMotif = countParcelleCouleurMotif(motifRessmblantAuMotifParcelle);
 
             if (nombreParcelleCouleurMotif > maxParcelleMotif) {
-                if (nombreParcelleCouleurMotif == allOrientations[i].length) {
+                if (nombreParcelleCouleurMotif == orientation.length) {
                     return Optional.empty();
                 }
 
