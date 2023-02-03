@@ -13,6 +13,7 @@ import java.util.Optional;
 
 /**
  * Permet de gérer les parcelles du plateau
+ * @author équipe N
  */
 public class GestionParcelles {
     // Définition des attributs
@@ -31,7 +32,7 @@ public class GestionParcelles {
 
     /**
      * Renvoie la parcelle à la position demandée
-     * @param parcelles le tableau des parcelles du plateau
+     * @param parcelles le tableau des parcelles posées
      * @param position la position de la parcelle demandée
      * @return la parcelle à la position demandée
      */
