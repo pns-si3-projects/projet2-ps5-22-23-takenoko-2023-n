@@ -11,6 +11,7 @@ class PlaquetteTest {
     Plaquette plaquette;
     boolean[] actions;
     Plaquette.ActionPossible parcelle;
+    Plaquette.ActionPossible irrigation;
     Plaquette.ActionPossible jardinier;
     Plaquette.ActionPossible panda;
     Plaquette.ActionPossible objectif;
@@ -19,8 +20,9 @@ class PlaquetteTest {
     @BeforeEach
     void setUp() {
         plaquette = new Plaquette();
-        actions = new boolean[]{false, false, false, false};
+        actions = new boolean[]{false, false, false, false, false};
         parcelle = Plaquette.ActionPossible.PARCELLE;
+        irrigation = Plaquette.ActionPossible.IRRIGATION;
         jardinier = Plaquette.ActionPossible.JARDINIER;
         panda = Plaquette.ActionPossible.PANDA;
         objectif = Plaquette.ActionPossible.OBJECTIF;
@@ -37,6 +39,7 @@ class PlaquetteTest {
         boolean[] actionsTour = plaquette.getActionsTour();
 
         assertEquals(actions[parcelle.ordinal()], actionsTour[parcelle.ordinal()]);
+        assertEquals(actions[irrigation.ordinal()], actionsTour[irrigation.ordinal()]);
         assertEquals(actions[jardinier.ordinal()], actionsTour[jardinier.ordinal()]);
         assertEquals(actions[panda.ordinal()], actionsTour[panda.ordinal()]);
         assertEquals(actions[objectif.ordinal()], actionsTour[objectif.ordinal()]);
@@ -45,6 +48,7 @@ class PlaquetteTest {
     @Test
     void isActionTour() {
         assertFalse(plaquette.isActionTour(parcelle));
+        assertFalse(plaquette.isActionTour(irrigation));
         assertFalse(plaquette.isActionTour(jardinier));
         assertFalse(plaquette.isActionTour(panda));
         assertFalse(plaquette.isActionTour(objectif));
@@ -77,6 +81,7 @@ class PlaquetteTest {
         assertTrue(plaquette.joueActionTour(panda));
         assertTrue(plaquette.joueActionTour(jardinier));
         assertFalse(plaquette.isActionTour(parcelle));
+        assertFalse(plaquette.isActionTour(irrigation));
         assertTrue(plaquette.isActionTour(jardinier));
         assertTrue(plaquette.isActionTour(panda));
         assertFalse(plaquette.isActionTour(objectif));
@@ -88,6 +93,7 @@ class PlaquetteTest {
         assertTrue(plaquette.joueActionTour(parcelle));
         assertTrue(plaquette.joueActionTour(objectif));
         assertTrue(plaquette.isActionTour(parcelle));
+        assertFalse(plaquette.isActionTour(irrigation));
         assertFalse(plaquette.isActionTour(jardinier));
         assertFalse(plaquette.isActionTour(panda));
         assertTrue(plaquette.isActionTour(objectif));
@@ -112,5 +118,10 @@ class PlaquetteTest {
         assertTrue(plaquette.isActionTour(objectif));
         plaquette.termineTour();
         assertFalse(plaquette.isActionTour(objectif));
+
+        plaquette.joueActionTour(irrigation);
+        assertTrue(plaquette.isActionTour(irrigation));
+        plaquette.termineTour();
+        assertFalse(plaquette.isActionTour(irrigation));
     }
 }
