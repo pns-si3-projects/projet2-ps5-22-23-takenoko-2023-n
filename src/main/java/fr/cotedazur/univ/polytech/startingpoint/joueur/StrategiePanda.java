@@ -4,6 +4,10 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 
 import java.util.List;
 
+/**
+ * Représente la stratégie de jeu favorisant la réalisation des objectifs de panda
+ * @author equipe N
+ */
 public class StrategiePanda implements Strategie {
     // Méthodes d'utilisation
 

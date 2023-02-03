@@ -5,7 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import java.util.List;
 
 /**
- * Représente la stratégie de jeu "favoriser les objectifs de parcelle"
+ * Représente la stratégie de jeu favorisant la réalisation des objectifs de parcelle
  * @author equipe N
  */
 public class StrategieParcelle implements Strategie {
