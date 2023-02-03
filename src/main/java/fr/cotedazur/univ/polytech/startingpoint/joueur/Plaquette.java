@@ -15,7 +15,7 @@ import java.util.List;
 public class Plaquette {
     // Définition des attributs
 
-    public enum ActionPossible {PARCELLE, JARDINIER, PANDA, OBJECTIF}
+    public enum ActionPossible {PARCELLE, IRRIGATION, JARDINIER, PANDA, OBJECTIF}
     private final List<SectionBambou> reserveBambousManges;
     private final boolean[] actionsTour;
 
@@ -27,7 +27,7 @@ public class Plaquette {
      */
     public Plaquette() {
         reserveBambousManges = new ArrayList<>();
-        actionsTour = new boolean[]{false, false, false, false};
+        actionsTour = new boolean[]{false, false, false, false, false};
     }
 
 
