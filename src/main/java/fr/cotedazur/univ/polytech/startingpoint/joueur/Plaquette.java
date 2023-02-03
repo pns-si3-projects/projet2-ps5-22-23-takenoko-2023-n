@@ -35,7 +35,7 @@ public class Plaquette {
         objectifsARealiser.add(objPar);
         objectifsARealiser.add(objPan);
         objectifsARealiser.add(objJar);
-        actionsTour = new Integer[]{0, 0, 0,0};
+        actionsTour = new Integer[]{0, 0, 0, 0, 0};
     }
 
 

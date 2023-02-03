@@ -1,9 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.Arbitre;
-import fr.cotedazur.univ.polytech.startingpoint.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.Main;
-import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.*;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
@@ -116,17 +113,17 @@ public class Joueur {
                 actionParcelle(piocheBambou,piocheParcelle,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
+            else if (!plaquette.isActionRealisee(Plaquette.ActionPossible.IRRIGATION)){
+                actionIrrigation(plateau,piocheIrrigation);
+                plaquette.realiseAction((Plaquette.ActionPossible.IRRIGATION));
+            }
             else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA)){
                 actionPanda(plateau,arbitre,gPP);
                 plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
             }
-            else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER)){
+            else /*if(!plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER))*/{
                 actionJardinier(plateau,arbitre,gPP);
                 plaquette.realiseAction((Plaquette.ActionPossible.JARDINIER));
-            }
-            else {
-                actionIrrigation(plateau,piocheIrrigation);
-                plaquette.realiseAction((Plaquette.ActionPossible.IRRIGATION));
             }
         }
         else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF)){
@@ -134,7 +131,11 @@ public class Joueur {
             plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
         }
         else {
-            if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
+            if(!plaquette.isActionRealisee(Plaquette.ActionPossible.IRRIGATION) && plateau.getParcelles().length>2){
+                actionIrrigation(plateau,piocheIrrigation);
+                plaquette.realiseAction((Plaquette.ActionPossible.IRRIGATION));
+            }
+            else if(!plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE)){
                 actionParcelle(piocheBambou,piocheParcelle,plateau,arbitre);
                 plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
             }
@@ -314,7 +315,10 @@ public class Joueur {
             if (irrigationAAjouter != null) {
                 List<Position> positionsIrrigationAAjouter = irrigationAAjouter.getPositions();
                 irrigationAjoute = plateau.addIrrigation(positionsIrrigationAAjouter.get(0), positionsIrrigationAAjouter.get(1));
-                if (irrigationAjoute) piocheIrrigation.poseIrrigation();
+                if (irrigationAjoute) {
+                    piocheIrrigation.poseIrrigation();
+                    Main.AFFICHEUR.affichePoseIrrigation(irrigationAAjouter);
+                }
             }
         }
         return irrigationAjoute;

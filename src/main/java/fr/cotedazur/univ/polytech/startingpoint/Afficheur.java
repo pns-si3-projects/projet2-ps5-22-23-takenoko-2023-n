@@ -97,6 +97,6 @@ public class Afficheur {
     }
 
     public void affichePoseIrrigation(Irrigation irrigation){
-        System.out.println(irrigation + "posée");
+        System.out.println(irrigation + " posée");
     }
 }
