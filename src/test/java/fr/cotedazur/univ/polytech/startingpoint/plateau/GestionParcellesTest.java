@@ -29,7 +29,7 @@ class GestionParcellesTest {
         rose = Couleur.ROSE;
         jaune = Couleur.JAUNE;
 
-        etang = new Etang();
+        etang = GestionParcelles.ETANG;
         pC2_0V = new ParcelleCouleur(new Position(2, 0), verte);
         pC1_1R = new ParcelleCouleur(new Position(1, 1), rose);
         pC1_m1J = new ParcelleCouleur(new Position(1, -1), jaune);
