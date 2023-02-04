@@ -1,6 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -90,7 +92,7 @@ public class Joueur {
     }
 
 
-    // Autres méthodes
+    // Méthodes d'utilisation
 
     /**
      * Renvoie le nombre d'objectifs possédés, mais pas terminés
@@ -98,6 +100,14 @@ public class Joueur {
      */
     public int nombreObjectifsEnMain() {
         return objectifEnMainList.size();
+    }
+
+    /**
+     * Renvoie le nombre d'objectifs terminés
+     * @return le nombre d'objectifs terminés
+     */
+    public int nombreObjectifsTermines() {
+        return objectifTermineList.size();
     }
 
     /**
@@ -112,6 +122,69 @@ public class Joueur {
         }
 
         return somme;
+    }
+
+    /**
+     * Renvoie le nombre de points remportés par les objectifs de panda terminés
+     * @return le nombre de points des objectifs de panda du joueur
+     */
+    public int nombrePointsObjectifsPanda() {
+        int somme = 0;
+
+        for (Objectif objectif : objectifTermineList) {
+            if (objectif instanceof ObjectifPanda) {
+                somme += objectif.getNombrePoints();
+            }
+        }
+
+        return somme;
+    }
+
+    /**
+     * Effectue les actions du tour
+     */
+    public void joueTour() {
+        Plaquette.ActionPossible actionChoisie =
+                strategie.choisiActionTour(plaquette.getActionsTour(), objectifEnMainList);
+        switch (actionChoisie) {
+            case PARCELLE -> joueParcelle();
+            case IRRIGATION -> joueIrrigation();
+            case JARDINIER -> deplaceJardinier();
+            case PANDA -> deplacePanda();
+            case OBJECTIF -> piocheObjectif();
+        }
+    }
+
+    private void joueParcelle() {
+
+    }
+
+    private void joueIrrigation() {
+
+    }
+
+    private void deplaceJardinier() {
+
+    }
+
+    private void deplacePanda() {
+
+    }
+
+    private void piocheObjectif() {
+
+    }
+
+    /**
+     * Permet de recevoir la carte Empereur en étant le premier joueur à terminer le nombre d'objectifs demandé
+     * @param empereur la carte Empereur
+     */
+    public void recoitEmpereur(Objectif empereur) {
+        if (empereur instanceof Empereur) {
+            objectifTermineList.add(empereur);
+        } else {
+            throw new IllegalArgumentException("L'objectif donné n'est pas la carte Empereur");
+        }
     }
 
 
