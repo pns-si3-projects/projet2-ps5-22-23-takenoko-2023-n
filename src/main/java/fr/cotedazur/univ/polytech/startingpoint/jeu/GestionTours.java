@@ -17,13 +17,16 @@ public class GestionTours {
      * @return le joueur ayant terminé le nombre d'objectifs demandé
      */
     public Joueur tours(Joueur[] joueurs, int nombreObjectifsDemandes) {
+        int nbTours = 1;
         while (true) {
+            AfficheurJeu.debutTour(nbTours);
             for (Joueur joueur : joueurs) {
                 joueur.joueTour();
                 if (joueur.nombreObjectifsTermines() >= nombreObjectifsDemandes) {
                     return joueur;
                 }
             }
+            nbTours++;
         }
     }
 
@@ -32,6 +35,7 @@ public class GestionTours {
      * @param joueurs les joueurs de la partie sans le joueur ayant reçu la carte Empereur
      */
     public void dernierTour(Joueur[] joueurs, Joueur joueurFinObjectifs) {
+        AfficheurJeu.debutDernierTour();
         for (Joueur joueur : joueurs) {
             if (!joueur.equals(joueurFinObjectifs)) {
                 joueur.joueTour();
