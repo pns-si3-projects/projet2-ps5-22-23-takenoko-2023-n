@@ -9,4 +9,12 @@ public class Empereur extends Objectif {
     public Empereur() {
         nombrePoints = 2;
     }
+
+
+    // Méthode toString
+
+    @Override
+    public String toString() {
+        return "Empereur de " + nombrePoints + " points";
+    }
 }
