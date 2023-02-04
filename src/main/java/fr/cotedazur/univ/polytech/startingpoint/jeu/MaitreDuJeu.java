@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
-import fr.cotedazur.univ.polytech.startingpoint.Afficheur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
@@ -46,7 +45,7 @@ public class MaitreDuJeu {
         gestionTours = new GestionTours();
         nombreObjectifsDemandes = nombreObjectifsDemandes(joueurs.length);
 
-        Afficheur.initialisation();
+        AfficheurJeu.initialisation();
     }
 
     /**
@@ -80,9 +79,9 @@ public class MaitreDuJeu {
 
         Optional<Joueur> joueurOpt = gestionTours.gagnant(joueurs);
         if (joueurOpt.isPresent()) {
-            Afficheur.victoire(joueurOpt.get());
+            AfficheurJeu.victoire(joueurOpt.get());
         } else {
-            Afficheur.victoire();
+            AfficheurJeu.victoire();
         }
     }
 }

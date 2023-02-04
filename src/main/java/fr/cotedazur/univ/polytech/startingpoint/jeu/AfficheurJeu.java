@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.startingpoint;
+package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 
@@ -6,7 +6,7 @@ import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
  * Affiche les changements dans le jeu.
  * @author equipe N
  */
-public class Afficheur {
+public class AfficheurJeu {
     /**
      * Affiche l'état d'initialisation du jeu
      */
