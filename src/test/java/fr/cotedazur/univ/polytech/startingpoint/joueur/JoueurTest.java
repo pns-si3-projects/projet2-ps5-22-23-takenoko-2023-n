@@ -1,10 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class JoueurTest {
     Joueur joueurParcelle;
@@ -54,9 +56,35 @@ class JoueurTest {
     }
 
     @Test
+    void nombreObjectifsTermines() {
+        assertEquals(0, joueurParcelle.nombreObjectifsTermines());
+        assertNotEquals(1, joueurPanda.nombreObjectifsTermines());
+    }
+
+    @Test
     void nombrePoints() {
         assertEquals(0, joueurParcelle.nombrePoints());
         assertNotEquals(1, joueurPanda.nombrePoints());
+    }
+
+    @Test
+    void nombrePointsObjectifsPanda() {
+        assertEquals(0, joueurParcelle.nombrePointsObjectifsPanda());
+        assertNotEquals(1, joueurPanda.nombrePointsObjectifsPanda());
+    }
+
+    @Test
+    void recoitEmpereur() {
+        Objectif empereur = new Empereur();
+        Objectif objectif = new ObjectifParcelle(3, 3);
+
+        joueurParcelle.recoitEmpereur(empereur);
+        Objectif[] objectifs = joueurParcelle.getObjectifsTermines();
+        assertEquals(empereur, objectifs[0]);
+
+        assertThrows(IllegalArgumentException.class, () -> joueurParcelle.recoitEmpereur(objectif));
+        assertThrows(IllegalArgumentException.class, () -> joueurJardinier.recoitEmpereur(objectif));
+        assertThrows(IllegalArgumentException.class, () -> joueurPanda.recoitEmpereur(objectif));
     }
 
 
