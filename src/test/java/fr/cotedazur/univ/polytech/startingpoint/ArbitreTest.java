@@ -4,6 +4,8 @@ import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
 import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
@@ -14,6 +16,8 @@ import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -131,5 +135,38 @@ class ArbitreTest {
         arbitre.addTour();
         arbitre.addTour();
         assertEquals(arbitre.getNombreTour(), 3);
+    }
+
+    Parcelle[] transformListToTab(List<Parcelle> listParcelles) {
+        Parcelle[] tableauParcelle = new Parcelle[listParcelles.size()];
+        for (int i = 0; i < listParcelles.size(); i++) {
+            tableauParcelle[i] = listParcelles.get(i);
+        }
+        return tableauParcelle;
+    }
+    @Test
+    void checkObjectifParcelle() {
+        List<Parcelle> listParcelle = new ArrayList<>();
+        listParcelle.add(new Etang());
+        Motif motif0011 = new MotifDiagonale(new ParcelleCouleur(new Position(0, 0), Couleur.VERT), new ParcelleCouleur(new Position(1, 1), Couleur.VERT));
+        Motif motif001122 = new MotifDiagonale(new ParcelleCouleur(new Position(0, 0), Couleur.VERT), new ParcelleCouleur(new Position(1, 1), Couleur.VERT), new ParcelleCouleur(new Position(2, 2), Couleur.VERT));
+        ObjectifParcelle objectifParcelleSimple = new ObjectifParcelle(3, motif0011);
+        ObjectifParcelle objectifParcelleMoyen = new ObjectifParcelle(5, motif001122);
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleSimple));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleMoyen));
+
+        listParcelle.add(new ParcelleCouleur(new Position(2,0), Couleur.VERT));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleSimple));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleMoyen));
+
+        listParcelle.add(new ParcelleCouleur(new Position(1, 1), Couleur.VERT));
+        assertTrue(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleSimple));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleMoyen));
+
+        listParcelle.add(new ParcelleCouleur(new Position(-1, 1), Couleur.VERT));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleMoyen));
+
+        listParcelle.add(new ParcelleCouleur(new Position(0, 2), Couleur.VERT));
+        assertTrue(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleMoyen));
     }
 }
