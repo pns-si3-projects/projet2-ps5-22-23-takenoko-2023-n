@@ -15,31 +15,6 @@ public class MotifDiagonale extends Motif{
         tabParcelles = parcellesCouleurs;
     }
 
-    /**
-     * Renvoie une nouvelle parcelle de Couleur en fonction de l'indice du voisin, de la position de la Parcelle et la couleur de la parcelle suivante
-     * @param indiceVoisin Indice du voisin compris entre 1 et 6
-     * @param positionParcelleCible La position de la parcelle d'origin
-     * @param couleurParcelleVoisine La couleur de la Parcelle Voisine
-     * @return une nouvelle parcelle de Couleur
-     */
-    private ParcelleCouleur getVoisin(int indiceVoisin, Position positionParcelleCible, Couleur couleurParcelleVoisine) {
-        int xPC = positionParcelleCible.getX();
-        int yPC = positionParcelleCible.getY();
-
-        return switch (indiceVoisin) {
-            case 0 -> new ParcelleCouleur( new Position(xPC + 1, yPC + 1), couleurParcelleVoisine);
-            case 1 -> new ParcelleCouleur( new Position(xPC + 2, yPC), couleurParcelleVoisine);
-            case 2 -> new ParcelleCouleur( new Position(xPC + 1, yPC - 1), couleurParcelleVoisine);
-            case 3 -> new ParcelleCouleur( new Position(xPC - 1, yPC - 1), couleurParcelleVoisine);
-            case 4 -> new ParcelleCouleur( new Position(xPC - 2, yPC), couleurParcelleVoisine);
-            case 5 -> new ParcelleCouleur( new Position(xPC - 1, yPC + 1), couleurParcelleVoisine);
-            default -> {
-                assert false : "L'indice du voisin doit être entre 0 et 6";
-                yield null;
-            }
-        };
-    }
-
     @Override
     public ParcelleCouleur[][] getOrientationForIA() {
         ParcelleCouleur[][] orientationBaseMotif = getOrientation();
