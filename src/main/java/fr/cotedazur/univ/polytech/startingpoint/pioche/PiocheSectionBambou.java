@@ -62,6 +62,7 @@ public class PiocheSectionBambou {
 
     /**
      * Renvoie une section de bambou de la couleur désignée
+     * @param couleur la couleur de la section de bambou
      * @return la section de bambou piochée
      * @implNote la pioche de la couleur demandée ne doit pas être vide
      */
@@ -78,6 +79,11 @@ public class PiocheSectionBambou {
         return retireSectionBambou(couleur);
     }
 
+    /**
+     * Renvoie une section de bambou de la couleur désignée
+     * @param couleur la couleur de la section de bambou
+     * @return la section de bambou piochée
+     */
     private SectionBambou retireSectionBambou(Couleur couleur) {
         switch (couleur) {
             case VERTE -> --nombreSectionsBambouVert;
