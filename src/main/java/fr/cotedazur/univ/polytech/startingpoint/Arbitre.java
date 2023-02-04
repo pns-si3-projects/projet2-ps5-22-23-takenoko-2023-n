@@ -2,11 +2,8 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
-import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
-import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
 
 import java.util.Optional;
@@ -73,19 +70,6 @@ public class Arbitre {
             }
         }
         return (occurenceMaxPoint > 1) ? Optional.empty() : Optional.of(joueurs[indiceJoueurMax]);
-    }
-
-    /**
-     * Convertit le tableau de Parcelle en tableau de Parcelle Couleur pour faire un motif en vérifiant avant que le motif contient que des parcelles Couleur via la méthode checkMotifComplet
-     * @param listParcelleMotif La liste des Parcelle pour créer le motif
-     * @return Le nouveau motif avec le tableau de Parcelle
-     */
-    private Motif convertTabInMotifDiagonale(Parcelle[] listParcelleMotif) {
-        ParcelleCouleur[] parcelleCouleursMotifs = new ParcelleCouleur[listParcelleMotif.length];
-        for (int i = 0; i< listParcelleMotif.length; i++) {
-            parcelleCouleursMotifs[i] = (ParcelleCouleur) listParcelleMotif[i];
-        }
-        return new MotifDiagonale(parcelleCouleursMotifs);
     }
 
     /**
