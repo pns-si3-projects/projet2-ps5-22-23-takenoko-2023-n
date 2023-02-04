@@ -15,6 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class GestionnairePossibiliteMotifTest {
     List<Parcelle> listParcelleMap;
@@ -121,9 +122,36 @@ class GestionnairePossibiliteMotifTest {
         assertEquals(parcelleCouleurm20, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(tabParcelleMap, parcellesMotifm1m10011));
     }
 
+    @Test
+    void testPlusProcheObjectifPlusieursParcellesAvecOrientation() {
+        Parcelle[] parcellesMotif00m20 = motif0011.getOrientation()[4];
+        Parcelle[] parcellesMotifm200020 = motifm1m10011.getOrientation()[1];
+        assertEquals(etang, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(transformListParcelleInTab(listParcelleMap), parcellesMotif00m20));
+        assertEquals(etang, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(transformListParcelleInTab(listParcelleMap), parcellesMotifm200020));
+
+        ParcelleCouleur parcelleCouleur1m1 = new ParcelleCouleur(new Position(1, -1), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur1m1);
+        assertEquals(parcelleCouleur1m1, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(transformListParcelleInTab(listParcelleMap), parcellesMotif00m20));
+        assertEquals(parcelleCouleur1m1, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(transformListParcelleInTab(listParcelleMap), parcellesMotifm200020));
+
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(new Position(2, 0), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur20);
+        assertEquals(parcelleCouleur1m1, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(transformListParcelleInTab(listParcelleMap), parcellesMotif00m20));
+        assertEquals(parcelleCouleur1m1, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(transformListParcelleInTab(listParcelleMap), parcellesMotifm200020));
+
+        ParcelleCouleur parcelleCouleur3m1 = new ParcelleCouleur(new Position(3, -1), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur3m1);
+        assertEquals(parcelleCouleur3m1, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(transformListParcelleInTab(listParcelleMap), parcellesMotif00m20));
+        assertEquals(parcelleCouleur1m1, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(transformListParcelleInTab(listParcelleMap), parcellesMotifm200020));
+
+        ParcelleCouleur parcelleCouleurm1m1 = new ParcelleCouleur(new Position(-1, -1), couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm1m1);
+        assertEquals(parcelleCouleur1m1, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(transformListParcelleInTab(listParcelleMap), parcellesMotif00m20));
+        assertEquals(parcelleCouleurm1m1, GestionnairePossibiliteMotif.getParcellePlusProcheObjectif(transformListParcelleInTab(listParcelleMap), parcellesMotifm200020));
+    }
 
     @Test
-    void motifAFaireObjectifSimple(){
+    void motifAFaireObjectifSimpleSansOrientation() {
         Parcelle[] motifParcelle0011 = motif0011.getTableauParcelles();
         Parcelle[] motifRessemblant = new Parcelle[2];
         ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(listPositionDisponible.get(1),couleurDefaut);
@@ -150,7 +178,35 @@ class GestionnairePossibiliteMotifTest {
     }
 
     @Test
-    void motifAFaireObjectifMoyen(){
+    void motifAFaireObjectifSimpleAvecOrientation() {
+        Parcelle[] motifParcelle00m1m1 = motif0011.getOrientation()[3];
+        Parcelle[] motifRessemblant = new Parcelle[2];
+        ParcelleCouleur parcelleCouleurm11 = new ParcelleCouleur(listPositionDisponible.get(5), couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm11);
+        Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleurm11, motifParcelle00m1m1);
+        ParcelleDisponible parcelleDisponiblem20 = new ParcelleDisponible(listPositionDisponible.get(4));
+        motifRessemblant[0] = parcelleCouleurm11;
+        motifRessemblant[1] = parcelleDisponiblem20;
+        assertArrayEquals(motifRessemblant, motifFaitParMethode);
+
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(listPositionDisponible.get(1), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur20);
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur20, motifParcelle00m1m1);
+        motifRessemblant[0] = parcelleCouleur20;
+        motifRessemblant[1] = new ParcelleDisponible(listPositionDisponible.get(2));
+        assertArrayEquals(motifRessemblant, motifFaitParMethode);
+
+        ParcelleCouleur parcelleCouleurm20 = new ParcelleCouleur(parcelleDisponiblem20.position(), couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm20);
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleurm11, motifParcelle00m1m1);
+        motifRessemblant[0] = parcelleCouleurm11;
+        motifRessemblant[1] = parcelleCouleurm20;
+        assertArrayEquals(motifRessemblant, motifFaitParMethode);
+
+    }
+
+    @Test
+    void motifAFaireObjectifMoyenSansOrientation(){
         Parcelle[] motifParcellem1m10011 = motifm1m10011.getTableauParcelles();
         Parcelle[] motifRessemblant = new Parcelle[3];
         ParcelleCouleur parcelleCouleur1m1 = new ParcelleCouleur(listPositionDisponible.get(2),couleurDefaut);
@@ -190,7 +246,34 @@ class GestionnairePossibiliteMotifTest {
     }
 
     @Test
-    void checkMotifCompletSimple(){
+    void motifAFaireObjectifMoyenAvecOrientation() {
+        Parcelle[] motifParcellem11m20m3m1 = motifm1m10011.getOrientation()[3];
+        Parcelle[] motifRessemblant = new Parcelle[3];
+        ParcelleCouleur parcelleCouleurm11 = new ParcelleCouleur(listPositionDisponible.get(5), couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm11);
+        ParcelleDisponible parcelleDisponiblem3m1 = new ParcelleDisponible(new Position(-3, -1));
+        motifRessemblant[0] = parcelleCouleurm11;
+        motifRessemblant[1] = new ParcelleDisponible(listPositionDisponible.get(4)); // Position -2, 0
+        motifRessemblant[2] = parcelleDisponiblem3m1;
+        Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleurm11, motifParcellem11m20m3m1);
+        assertArrayEquals(motifRessemblant, motifFaitParMethode);
+
+        ParcelleCouleur parcelleCouleurm20 = new ParcelleCouleur(listPositionDisponible.get(4), couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm20);
+        motifRessemblant[1] = parcelleCouleurm20;
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleurm11, motifParcellem11m20m3m1);
+        assertArrayEquals(motifRessemblant, motifFaitParMethode);
+
+        ParcelleCouleur parcelleCouleurm3m1 = new ParcelleCouleur(parcelleDisponiblem3m1.position(), couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm3m1);
+        motifRessemblant[2] = parcelleCouleurm3m1;
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleurm11, motifParcellem11m20m3m1);
+        assertArrayEquals(motifRessemblant, motifFaitParMethode);
+
+    }
+
+    @Test
+    void countMotifCompletSimple(){
         Parcelle[] motifParcelle0011 = motif0011.getTableauParcelles();
         Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap),etang,motifParcelle0011);
         assertEquals(0, GestionnairePossibiliteMotif.countParcelleCouleurMotif(motifFaitParMethode));
@@ -245,7 +328,7 @@ class GestionnairePossibiliteMotifTest {
     }
 
     @Test
-    void cherchePositionPossibilitePourFaireMotifSimple(){
+    void cherchePositionPossibilitePourFaireMotifSimpleSansOrientation(){
         Parcelle[] motifParcelle0011 = motif0011.getTableauParcelles();
         Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), etang, motifParcelle0011);
         Position position11 = listPositionDisponible.get(0);
@@ -281,7 +364,33 @@ class GestionnairePossibiliteMotifTest {
     }
 
     @Test
-    void cherchePositionPossibilitePourFaireMotifMoyen(){
+    void cherchePositionPossibilitePourFaireMotifSimpleAvecOrientation() {
+        Parcelle[] motifParcelle001m1 = motif0011.getOrientation()[2];
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(listPositionDisponible.get(0), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur11);
+        listPositionDisponible.remove(listPositionDisponible.get(0));
+        Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur11, motifParcelle001m1);
+        Position position20 = listPositionDisponible.get(0);
+        Optional<Position> optPosition = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isPresent());
+        assertEquals(position20, optPosition.get());
+
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(position20, couleurDefaut);
+        Position position3m1 = new Position(3, -1);
+        listParcelleMap.add(parcelleCouleur20);
+        listPositionDisponible.add(position3m1);
+        listPositionDisponible.remove(position20);
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur11, motifParcelle001m1);
+        optPosition = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isEmpty());
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur20, motifParcelle001m1);
+        optPosition = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isPresent());
+        assertEquals(position3m1, optPosition.get());
+    }
+
+    @Test
+    void cherchePositionPossibilitePourFaireMotifMoyenSansOrientation(){
         Parcelle[] motifParcellem1m10011 = motifm1m10011.getTableauParcelles();
         Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), etang, motifParcellem1m10011);
         Position position11 = listPositionDisponible.get(0);
@@ -335,7 +444,45 @@ class GestionnairePossibiliteMotifTest {
     }
 
     @Test
-    void cherchePositionARecupererMotifSimple(){
+    void cherchePositionPossibilitePourFaireMotifMoyenAvecOrientation() {
+        Parcelle[] motifParcelle11m11m31 = motifm1m10011.getOrientation()[4];
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(listPositionDisponible.get(0), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur11);
+        listPositionDisponible.remove(listPositionDisponible.get(0));
+        Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur11, motifParcelle11m11m31);
+        Position positionm11 = listPositionDisponible.get(4);
+        Optional<Position> optPosition = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isPresent());
+        assertEquals(positionm11, optPosition.get());
+
+        ParcelleCouleur parcelleCouleurm11 = new ParcelleCouleur(positionm11, couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm11);
+        listPositionDisponible.add(new Position(0, 2));
+        listPositionDisponible.remove(positionm11);
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur11, motifParcelle11m11m31);
+        optPosition = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isEmpty());
+
+        ParcelleCouleur parcelleCouleurm20 = new ParcelleCouleur(listPositionDisponible.get(3), couleurDefaut);
+        Position positionm31 = new Position(-3, 1);
+        listParcelleMap.add(parcelleCouleurm20);
+        listPositionDisponible.add(positionm31);
+        listPositionDisponible.remove(positionm11);
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur11, motifParcelle11m11m31);
+        optPosition = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isPresent());
+        assertEquals(positionm31, optPosition.get());
+
+
+        ParcelleCouleur parcelleCouleurm31 = new ParcelleCouleur(positionm31, couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm31);
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur11, motifParcelle11m11m31);
+        optPosition = GestionnairePossibiliteMotif.cherchePositionPossibilitePourFaireMotif(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isEmpty());
+    }
+
+    @Test
+    void cherchePositionARecupererMotifSimpleSansOrientation() {
         Parcelle[] motifParcelle0011 = motif0011.getTableauParcelles();
         Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), etang, motifParcelle0011);
         Optional<Position> optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(transformListPositionInTab(listPositionDisponible),motifFaitParMethode);
@@ -368,7 +515,26 @@ class GestionnairePossibiliteMotifTest {
     }
 
     @Test
-    void cherchePositionARecupererMotifMoyen(){
+    void cherchePositionARecupererMotifSimpleAvecOrientation() {
+        Parcelle[] motifParcelle111m1 = motif0011.getOrientation()[4];
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(listPositionDisponible.get(0), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur11);
+        listPositionDisponible.remove(parcelleCouleur11.position());
+        Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur11, motifParcelle111m1);
+        Optional<Position> optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(transformListPositionInTab(listPositionDisponible),motifFaitParMethode);
+        Position positionm11 = listPositionDisponible.get(4);
+        assertTrue(optPosition.isPresent());
+        assertEquals(positionm11,optPosition.get());
+
+        ParcelleCouleur parcelleCouleurm11 = new ParcelleCouleur(positionm11, couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm11);
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur11, motifParcelle111m1);
+        optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isEmpty()); // Car motif complet en 1,1 et -1,1
+    }
+
+    @Test
+    void cherchePositionARecupererMotifMoyenSansOrientation(){
         Parcelle[] motifParcellem1m10011 = motifm1m10011.getTableauParcelles();
         Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), etang, motifParcellem1m10011);
         Optional<Position> optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(transformListPositionInTab(listPositionDisponible),motifFaitParMethode);
@@ -408,6 +574,45 @@ class GestionnairePossibiliteMotifTest {
     }
 
     @Test
+    void cherchePositionARecupererMotifMoyenAvecOrientation() {
+        Parcelle[] motifParcelle00m11m22 = motifm1m10011.getOrientation()[5];
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(listPositionDisponible.get(1), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur20);
+        listPositionDisponible.remove(parcelleCouleur20.position());
+        Parcelle[] motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur20, motifParcelle00m11m22);
+        Optional<Position> optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(transformListPositionInTab(listPositionDisponible),motifFaitParMethode);
+        Position position11 = listPositionDisponible.get(0);
+        assertTrue(optPosition.isPresent());
+        assertEquals(position11,optPosition.get());
+
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(position11, couleurDefaut);
+        Position positionm11 = listPositionDisponible.get(4);
+        listParcelleMap.add(parcelleCouleur11);
+        listPositionDisponible.remove(position11);
+        listPositionDisponible.add(new Position(3, 1));
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur20, motifParcelle00m11m22);
+        optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isPresent());
+        assertEquals(positionm11,optPosition.get());
+
+        ParcelleCouleur parcelleCouleurm11 = new ParcelleCouleur(positionm11, couleurDefaut);
+        Position position02 = new Position(0, 2);
+        listParcelleMap.add(parcelleCouleurm11);
+        listPositionDisponible.remove(positionm11);
+        listPositionDisponible.add(position02);
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur20, motifParcelle00m11m22);
+        optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isPresent());
+        assertEquals(position02,optPosition.get());
+
+        ParcelleCouleur parcelleCouleurm02 = new ParcelleCouleur(position02, couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm02);
+        motifFaitParMethode = GestionnairePossibiliteMotif.getMotifAFaire(transformListParcelleInTab(listParcelleMap), parcelleCouleur20, motifParcelle00m11m22);
+        optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(transformListPositionInTab(listPositionDisponible), motifFaitParMethode);
+        assertTrue(optPosition.isEmpty());
+    }
+
+    @Test
     void positionPossiblePourPrendreMotif2Parcelles(){
         ObjectifParcelle objectifParcelleSimple2Parcelle = new ObjectifParcelle(3, motif0011);
         Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(transformListParcelleInTab(listParcelleMap), transformListPositionInTab(listPositionDisponible), objectifParcelleSimple2Parcelle);
@@ -432,8 +637,8 @@ class GestionnairePossibiliteMotifTest {
 
     @Test
     void positionPossiblePourPrendreMotif3Parcelles(){
-        ObjectifParcelle objectifParcelleSimple3Parcelles = new ObjectifParcelle(3, motifm1m10011);
-        Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(transformListParcelleInTab(listParcelleMap), transformListPositionInTab(listPositionDisponible), objectifParcelleSimple3Parcelles);
+        ObjectifParcelle objectifParcelleMoyen3Parcelles = new ObjectifParcelle(4, motifm1m10011);
+        Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(transformListParcelleInTab(listParcelleMap), transformListPositionInTab(listPositionDisponible), objectifParcelleMoyen3Parcelles);
         Position position11 = new Position(1, 1);
         assertTrue(optPosition.isPresent());
         assertEquals(position11, optPosition.get());
@@ -444,7 +649,7 @@ class GestionnairePossibiliteMotifTest {
         Position position22 = new Position(2,2);
         addInListParcelle(parcelleCouleur11, parcelleCouleur20, parcelleCouleur31);
         listPositionDisponible.add(position22);
-        optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(transformListParcelleInTab(listParcelleMap), transformListPositionInTab(listPositionDisponible), objectifParcelleSimple3Parcelles);
+        optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(transformListParcelleInTab(listParcelleMap), transformListPositionInTab(listPositionDisponible), objectifParcelleMoyen3Parcelles);
         assertTrue(optPosition.isPresent()); // Car l'objectif n'est pas fini, il y a deux parcelle sur le plateau
         assertEquals(position22, optPosition.get());
 
@@ -453,13 +658,57 @@ class GestionnairePossibiliteMotifTest {
         Position position42 = new Position(4,2);
         listParcelleMap.add(parcelleCouleur22);
         listPositionDisponible.add(position42);
-        optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(transformListParcelleInTab(listParcelleMap), transformListPositionInTab(listPositionDisponible), objectifParcelleSimple3Parcelles);
+        optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(transformListParcelleInTab(listParcelleMap), transformListPositionInTab(listPositionDisponible), objectifParcelleMoyen3Parcelles);
         assertTrue(optPosition.isPresent());
         assertEquals(position42, optPosition.get());
 
         ParcelleCouleur parcelleCouleur42 = new ParcelleCouleur(position42, couleurDefaut);
         listParcelleMap.add(parcelleCouleur42);
-        optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(transformListParcelleInTab(listParcelleMap), transformListPositionInTab(listPositionDisponible), objectifParcelleSimple3Parcelles);
+        optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(transformListParcelleInTab(listParcelleMap), transformListPositionInTab(listPositionDisponible), objectifParcelleMoyen3Parcelles);
         assertTrue(optPosition.isEmpty()); // Car ObjectifTermine
+    }
+
+    @Test
+    void checkMotifInBoard2Parcelles() {
+        ObjectifParcelle objectifParcelleSimple2Parcelles = new ObjectifParcelle(3, motif0011);
+        assertFalse(GestionnairePossibiliteMotif.checkMotifInBoard(transformListParcelleInTab(listParcelleMap), objectifParcelleSimple2Parcelles));
+
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(new Position(2, 0), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur20);
+        assertFalse(GestionnairePossibiliteMotif.checkMotifInBoard(transformListParcelleInTab(listParcelleMap), objectifParcelleSimple2Parcelles));
+
+        ParcelleCouleur parcelleCouleur1m1 = new ParcelleCouleur(new Position(1, -1), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur1m1);
+        assertTrue(GestionnairePossibiliteMotif.checkMotifInBoard(transformListParcelleInTab(listParcelleMap), objectifParcelleSimple2Parcelles));
+
+        listParcelleMap.remove(parcelleCouleur1m1);
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1, 1), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur11); // Pour montrer que l'orientation fonctionne
+        assertTrue(GestionnairePossibiliteMotif.checkMotifInBoard(transformListParcelleInTab(listParcelleMap), objectifParcelleSimple2Parcelles));
+    }
+
+    @Test
+    void checkMotifInBoard3Parcelles() {
+        ObjectifParcelle objectifParcelleMoyen3Parcelles = new ObjectifParcelle(5, motifm1m10011);
+        assertFalse(GestionnairePossibiliteMotif.checkMotifInBoard(transformListParcelleInTab(listParcelleMap), objectifParcelleMoyen3Parcelles));
+
+        ParcelleCouleur parcelleCouleurm11 = new ParcelleCouleur(new Position(-1, 1), couleurDefaut);
+        listParcelleMap.add(parcelleCouleurm11);
+        assertFalse(GestionnairePossibiliteMotif.checkMotifInBoard(transformListParcelleInTab(listParcelleMap), objectifParcelleMoyen3Parcelles));
+
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1, 1), couleurDefaut);
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(new Position(2, 0), couleurDefaut);
+        addInListParcelle(parcelleCouleur11, parcelleCouleur20);
+        assertFalse(GestionnairePossibiliteMotif.checkMotifInBoard(transformListParcelleInTab(listParcelleMap), objectifParcelleMoyen3Parcelles));
+
+        ParcelleCouleur parcelleCouleur31 = new ParcelleCouleur(new Position(3, 1), couleurDefaut);
+        listParcelleMap.add(parcelleCouleur31);
+        assertTrue(GestionnairePossibiliteMotif.checkMotifInBoard(transformListParcelleInTab(listParcelleMap), objectifParcelleMoyen3Parcelles));
+
+        ParcelleCouleur parcelleCouleur1m1 = new ParcelleCouleur(new Position(1, -1), couleurDefaut);
+        ParcelleCouleur parcelleCouleur3m1 = new ParcelleCouleur(new Position(3, -1), couleurDefaut);
+        addInListParcelle(parcelleCouleur1m1, parcelleCouleur3m1);
+        listParcelleMap.remove(parcelleCouleur31);
+        assertTrue(GestionnairePossibiliteMotif.checkMotifInBoard(transformListParcelleInTab(listParcelleMap), objectifParcelleMoyen3Parcelles));
     }
 }
