@@ -144,8 +144,10 @@ public class Joueur {
      * Effectue les actions du tour
      */
     public void joueTour() {
+        AfficheurJoueur.debutTour(this.getNom());
         Plaquette.ActionPossible actionChoisie =
                 strategie.choisiActionTour(plaquette.getActionsTour(), objectifEnMainList);
+        AfficheurJoueur.actionChoisie(actionChoisie);
         switch (actionChoisie) {
             case PARCELLE -> joueParcelle();
             case IRRIGATION -> joueIrrigation();
