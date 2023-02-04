@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
-import fr.cotedazur.univ.polytech.startingpoint.joueur.Strategie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -117,17 +116,13 @@ class GestionToursTest {
 
     @Test
     void dernierTour() {
-        Joueur joueur1 = spy(new Joueur("joueur1", Strategie.StrategiePossible.PARCELLE));
-        Joueur joueur2FinObjectifs = spy(new Joueur("joueur2", Strategie.StrategiePossible.PANDA));
-        Joueur joueur3 = spy(new Joueur("joueur3", Strategie.StrategiePossible.PARCELLE));
-        Joueur joueur4 = spy(new Joueur("joueur4", Strategie.StrategiePossible.JARDINIER));
-        joueurs = new Joueur[]{joueur1, joueur2FinObjectifs, joueur3, joueur4};
+        joueurs = new Joueur[]{joueurMock1, joueurMock2, joueurMock3, joueurMock4};
 
-        gestionTours.dernierTour(joueurs, joueur2FinObjectifs);
-        verify(joueur1, times(1)).joueTour();
-        verify(joueur2FinObjectifs, never()).joueTour();
-        verify(joueur3, times(1)).joueTour();
-        verify(joueur4, times(1)).joueTour();
+        gestionTours.dernierTour(joueurs, joueurMock2);
+        verify(joueurMock1, times(1)).joueTour();
+        verify(joueurMock2, never()).joueTour();
+        verify(joueurMock3, times(1)).joueTour();
+        verify(joueurMock4, times(1)).joueTour();
     }
 
     @Test
