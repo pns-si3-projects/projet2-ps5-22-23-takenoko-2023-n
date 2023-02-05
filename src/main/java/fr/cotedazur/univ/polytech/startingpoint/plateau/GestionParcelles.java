@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -31,6 +32,31 @@ public class GestionParcelles {
     // Méthodes d'utilisation
 
     /**
+     * Renvoie les parcelles posées
+     * @param parcellesEtVoisines la map des parcelles et leurs voisines
+     * @return un tableau des parcelles posées
+     */
+    public static Parcelle[] getParcelles(@NotNull Map<Parcelle, Parcelle[]> parcellesEtVoisines) {
+        return parcellesEtVoisines.keySet().toArray(new Parcelle[0]);
+    }
+
+    /**
+     * Renvoie les parcelles voisines de la parcelle demandée
+     * @param parcellesEtVoisines la map des parcelles et leurs voisines
+     * @param parcelle la parcelle donnée pour chercher les voisines
+     * @return un tableau des parcelles voisines demandées
+     * @throws ParcelleNonPoseeException si la parcelle donnée ne se trouve pas sur le plateau
+     */
+    public static Parcelle[] getVoisinesParcelle(@NotNull Map<Parcelle, Parcelle[]> parcellesEtVoisines,
+                                                 @NotNull Parcelle parcelle) throws ParcelleNonPoseeException {
+
+        if (parcellesEtVoisines.containsKey(parcelle)) {
+            return parcellesEtVoisines.get(parcelle);
+        }
+        throw new ParcelleNonPoseeException(parcelle);
+    }
+
+    /**
      * Renvoie la parcelle à la position demandée
      * @param parcelles le tableau des parcelles posées
      * @param position la position de la parcelle demandée
@@ -43,6 +69,19 @@ public class GestionParcelles {
             }
         }
         return Optional.empty();
+    }
+
+    /**
+     * Renvoie la parcelle de la direction donnée dans le tableau des voisines
+     * @param voisines le tableau des parcelles voisines
+     * @param indiceDirection l'indice de direction
+     * @return la parcelle dans la direction demandée
+     */
+    public static Parcelle parcelleSuivante(@NotNull Parcelle[] voisines, int indiceDirection) {
+        if (indiceDirection < 0 || indiceDirection > 5) {
+            throw new IllegalArgumentException("Indice de direction incorrecte");
+        }
+        return voisines[indiceDirection];
     }
 
     /**
