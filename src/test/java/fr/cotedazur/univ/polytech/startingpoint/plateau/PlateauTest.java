@@ -10,6 +10,7 @@ import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -135,4 +136,85 @@ class PlateauTest {
         // Position de pC1_1R plus disponible, mais ajout nouvelle position
         assertTrue(positionsDisponibles.contains(p3_1));
     }
+
+    @Test
+    void addIrrigation(){
+        Position position11 = new Position(1,1);
+        Position position20 = new Position(2,0);
+        Position position31 = new Position(3,1);
+        Position position22 = new Position(2,2);
+        ParcelleCouleur pc11 = new ParcelleCouleur(position11, Couleur.JAUNE);
+        ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
+        assertTrue(plateau.poseParcelle(pc11));
+        assertTrue(plateau.poseParcelle(pc20));
+        assertTrue(pc11.isIrriguee());
+        assertTrue(pc20.isIrriguee());
+        assertEquals(0, plateau.getIrrigationsPosees().size());
+        assertEquals(1, plateau.getIrrigationsDisponibles().size());
+
+        assertTrue(plateau.addIrrigation(position11, position20));
+        assertEquals(1, plateau.getIrrigationsPosees().size());
+        assertEquals(0, plateau.getIrrigationsDisponibles().size());
+
+        ParcelleCouleur pc31 = new ParcelleCouleur(position31, Couleur.VERTE);
+        assertTrue(plateau.poseParcelle(pc31));
+        assertFalse(pc31.isIrriguee());
+        assertEquals(1, plateau.getIrrigationsPosees().size());
+        assertEquals(2, plateau.getIrrigationsDisponibles().size());
+
+        ParcelleCouleur pc22 =  new ParcelleCouleur(position22, Couleur.JAUNE);
+        assertTrue(plateau.poseParcelle(pc22));
+        assertFalse(pc22.isIrriguee());
+        assertEquals(1, plateau.getIrrigationsPosees().size());
+        assertEquals(2, plateau.getIrrigationsDisponibles().size());
+
+        assertTrue(plateau.addIrrigation(position11, position31));
+        assertTrue(pc31.isIrriguee());
+        assertEquals(2, plateau.getIrrigationsPosees().size());
+        assertEquals(3, plateau.getIrrigationsDisponibles().size());
+
+        assertTrue(plateau.addIrrigation(position20, position31));
+        assertEquals(3, plateau.getIrrigationsPosees().size());
+        assertEquals(2, plateau.getIrrigationsDisponibles().size());
+    }
+
+    @Test
+    void isIrrigeeVoisinEtang(){
+        Position position11 = new Position(1,1);
+        Position position20 = new Position(2,0);
+        ParcelleCouleur pc11 = new ParcelleCouleur(position11, Couleur.JAUNE);
+        ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
+        plateau.poseParcelle(pc11);
+        plateau.poseParcelle(pc20);
+        assertTrue(pc11.isIrriguee());
+        assertTrue(pc20.isIrriguee());
+    }
+
+    @Test
+    void addIrrigationNonPossible(){
+        Position position11 = new Position(1,1);
+        Position position20 = new Position(2,0);
+        Position position31 = new Position(3,1);
+        Position position22 = new Position(2,2);
+        ParcelleCouleur pc11 = new ParcelleCouleur(position11, Couleur.JAUNE);
+        ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
+        plateau.poseParcelle(pc11);
+        plateau.poseParcelle(pc20);
+        plateau.addIrrigation(position11, position20);
+
+        ParcelleCouleur pc31 = new ParcelleCouleur(position31, Couleur.VERTE);
+        ParcelleCouleur pc22 = new ParcelleCouleur(position22, Couleur.JAUNE);
+        plateau.poseParcelle(pc31);
+        plateau.poseParcelle(pc22);
+
+        //Ajout de l'irrigation alors qu'il n'y a pas d'irrigation avant : donc l'ajout est impossible et les set ne sont pas modifiés
+        assertFalse(plateau.addIrrigation(position11,position22));
+        assertEquals(1, plateau.getIrrigationsPosees().size());
+        assertEquals(2, plateau.getIrrigationsDisponibles().size());
+        assertTrue(pc20.isIrriguee());
+        assertTrue(pc11.isIrriguee());
+        assertFalse(pc31.isIrriguee());
+        assertFalse(pc22.isIrriguee());
+    }
+
 }
