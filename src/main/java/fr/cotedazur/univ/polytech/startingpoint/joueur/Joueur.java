@@ -3,6 +3,8 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -141,40 +143,66 @@ public class Joueur {
     }
 
     /**
-     * Effectue les actions du tour
+     * Renvoie l'action à effectuer
      */
-    public void joueTour() {
+    public Plaquette.ActionPossible choisiAction() {
         AfficheurJoueur.debutTour(this.getNom());
+
         Plaquette.ActionPossible actionChoisie =
                 strategie.choisiActionTour(plaquette.getActionsTour(), objectifEnMainList);
+        plaquette.joueActionTour(actionChoisie);
         AfficheurJoueur.actionChoisie(actionChoisie);
-        switch (actionChoisie) {
-            case PARCELLE -> joueParcelle();
-            case IRRIGATION -> joueIrrigation();
-            case JARDINIER -> deplaceJardinier();
-            case PANDA -> deplacePanda();
-            case OBJECTIF -> piocheObjectif();
-        }
+        return actionChoisie;
     }
 
-    private void joueParcelle() {
-
-    }
-
-    private void joueIrrigation() {
+    /**
+     * Pioche une parcelle et la pose sur le plateau
+     * @param plateau le plateau du jeu
+     * @param piocheParcelle la pioche de parcelles du jeu
+     */
+    public void joueParcelle(Plateau plateau, PiocheParcelle piocheParcelle) {
 
     }
 
-    private void deplaceJardinier() {
+    /**
+     * Pioche une irrigation et choisi où la placer (plateau ou plaquette)
+     * @param plateau le plateau du jeu
+     * @param piocheIrrigation la pioche d'irrigation du jeu
+     */
+    public void joueIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation) {
 
     }
 
-    private void deplacePanda() {
+    /**
+     * Permet de déplacer le jardinier sur le plateau
+     * @param plateau le plateau du jeu
+     */
+    public void deplaceJardinier(Plateau plateau) {
 
     }
 
-    private void piocheObjectif() {
+    /**
+     * Permet de déplacer le panda sur le plateau
+     * @param plateau le plateau du jeu
+     */
+    public void deplacePanda(Plateau plateau) {
 
+    }
+
+    /**
+     * Pioche l'objectif de son choix
+     * @param piocheObjectifParcelle la pioche d'objectifs de parcelle du jeu
+     * @param piocheObjectifJardinier la pioche d'objectifs de jardinier du jeu
+     * @param piocheObjectifPanda la pioche d'objectifs de panda du jeu
+     */
+    public void piocheObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
+                               PiocheObjectifJardinier piocheObjectifJardinier,
+                               PiocheObjectifPanda piocheObjectifPanda) {
+
+    }
+
+    public void finDeTour() {
+        plaquette.termineTour();
     }
 
     /**

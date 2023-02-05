@@ -17,12 +17,8 @@ import java.util.Random;
 public class MaitreDuJeu {
     // Définition des attributs
 
-    public static final Plateau PLATEAU = new Plateau();
-    public static final PiocheParcelle PIOCHE_PARCELLE = new PiocheParcelle(new Random());
-    public static final PiocheObjectifParcelle PIOCHE_OBJECTIF_PARCELLE = new PiocheObjectifParcelle(new Random());
-    public static final PiocheObjectifPanda PIOCHE_OBJECTIF_PANDA = new PiocheObjectifPanda(new Random());
-    public static final PiocheObjectifJardinier PIOCHE_OBJECTIF_JARDINIER = new PiocheObjectifJardinier(new Random());
-    public static final PiocheSectionBambou PIOCHE_SECTION_BAMBOU = new PiocheSectionBambou(new Random());
+    public static final Plateau PLATEAU = new Plateau(); // A supprimer
+    public static final PiocheSectionBambou PIOCHE_SECTION_BAMBOU = new PiocheSectionBambou(new Random()); // A supprimer
     private final GestionTours gestionTours;
     private final Joueur[] joueurs;
     /** Le nombre d'objectifs demandé pour recevoir la carte empereur */
