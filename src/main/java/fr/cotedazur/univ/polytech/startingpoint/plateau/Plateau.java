@@ -145,6 +145,10 @@ public class Plateau {
         return irrigationsDisponibles;
     }
 
+    public void setIrrigationsDisponibles(Set<Irrigation> irrigationsDisponibles){
+        this.irrigationsDisponibles = irrigationsDisponibles;
+    }
+
     // Méthodes d'utilisation
 
     /**
@@ -186,10 +190,8 @@ public class Plateau {
         if (voisinesParcelle.contains(GestionParcelles.ETANG)) parcelle.setIrriguee(true);
 
         // On met à jour le set d'irrigations disponible
-        try {
-            GestionIrrigation.checkIrrigationsAutour(parcelle);
-        } catch (ParcelleNonPoseeException e) {return false;}
-
+        Optional<Set<Irrigation>> newIrrigationsDisponible = GestionIrrigation.checkIrrigationsAutour(this.parcelleEtVoisinesList, parcelle, this.irrigationsDisponibles, irrigationsPosees);
+        if (newIrrigationsDisponible.isPresent()) setIrrigationsDisponibles(newIrrigationsDisponible.get());
         return true;
     }
 
@@ -251,7 +253,8 @@ public class Plateau {
                     //addBambou(parcelleC2,sectionBambou);
                 }
                 //met a jour le set des irrigations disponibles avec les nouvelles possibilités
-                //addIrrigationDisponible(irrigationAAdd);
+                Optional<Set<Irrigation>> irrigationsDisponoblesSet = GestionIrrigation.addIrrigationDisponible(parcelleEtVoisinesList, irrigationAAdd, irrigationsDisponibles, irrigationsPosees);
+                if (irrigationsDisponoblesSet.isPresent()) setIrrigationsDisponibles(irrigationsDisponoblesSet.get());
             }
         }
         return ajoute;
