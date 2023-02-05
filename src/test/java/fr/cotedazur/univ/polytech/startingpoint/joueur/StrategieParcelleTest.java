@@ -23,7 +23,7 @@ class StrategieParcelleTest {
 
     @Test
     void choisiActionTour() {
-        boolean[] actionsRealiseesTour = new boolean[]{false, false, false, false};
+        boolean[] actionsRealiseesTour = new boolean[]{false, false, false, false, false};
         assertEquals(Plaquette.ActionPossible.PARCELLE,
                 strategieParcelle.choisiActionTour(actionsRealiseesTour, objectifs));
 

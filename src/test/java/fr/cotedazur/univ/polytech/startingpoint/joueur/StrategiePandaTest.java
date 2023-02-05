@@ -23,7 +23,7 @@ class StrategiePandaTest {
 
     @Test
     void choisiActionTour() {
-        boolean[] actionsRealiseesTour = new boolean[]{false, false, false, false};
+        boolean[] actionsRealiseesTour = new boolean[]{false, false, false, false, false};
         assertEquals(Plaquette.ActionPossible.PANDA,
                 strategiePanda.choisiActionTour(actionsRealiseesTour, objectifs));
 

@@ -23,7 +23,7 @@ class StrategieJardinierTest {
 
     @Test
     void choisiActionTour() {
-        boolean[] actionsRealiseesTour = new boolean[]{false, false, false, false};
+        boolean[] actionsRealiseesTour = new boolean[]{false, false, false, false, false};
         assertEquals(Plaquette.ActionPossible.JARDINIER,
                 strategieJardinier.choisiActionTour(actionsRealiseesTour, objectifs));
 
