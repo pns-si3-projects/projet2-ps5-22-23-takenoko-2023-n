@@ -1,14 +1,13 @@
 package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
+import fr.cotedazur.univ.polytech.startingpoint.joueur.Plaquette;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 
 class MaitreDuJeuTest {
     MaitreDuJeu maitreDuJeu;
@@ -20,6 +19,11 @@ class MaitreDuJeuTest {
     Joueur joueurMock3;
     @Mock
     Joueur joueurMock4;
+    Plaquette.ActionPossible parcelle;
+    Plaquette.ActionPossible irrigation;
+    Plaquette.ActionPossible jardinier;
+    Plaquette.ActionPossible panda;
+    Plaquette.ActionPossible objectif;
 
 
     @BeforeEach
@@ -28,11 +32,18 @@ class MaitreDuJeuTest {
         joueurMock2 = mock(Joueur.class);
         joueurMock3 = mock(Joueur.class);
         joueurMock4 = mock(Joueur.class);
+        parcelle = Plaquette.ActionPossible.PARCELLE;
+        irrigation = Plaquette.ActionPossible.IRRIGATION;
+        jardinier = Plaquette.ActionPossible.JARDINIER;
+        panda = Plaquette.ActionPossible.PANDA;
+        objectif = Plaquette.ActionPossible.OBJECTIF;
     }
 
 
     @Test
     void jeu2Joueurs() {
+        when(joueurMock1.choisiAction()).thenReturn(parcelle, objectif);
+        when(joueurMock2.choisiAction()).thenReturn(jardinier, objectif);
         when(joueurMock1.nombreObjectifsTermines()).thenReturn(7, 9);
         when(joueurMock2.nombreObjectifsTermines()).thenReturn(6, 15);
         when(joueurMock1.nombrePoints()).thenReturn(52);
@@ -50,6 +61,9 @@ class MaitreDuJeuTest {
 
     @Test
     void jeu3Joueurs() {
+        when(joueurMock1.choisiAction()).thenReturn(parcelle, objectif);
+        when(joueurMock2.choisiAction()).thenReturn(jardinier, objectif);
+        when(joueurMock3.choisiAction()).thenReturn(panda, objectif);
         when(joueurMock1.nombreObjectifsTermines()).thenReturn(5, 7);
         when(joueurMock2.nombreObjectifsTermines()).thenReturn(6, 8);
         when(joueurMock3.nombreObjectifsTermines()).thenReturn(4, 7);
@@ -73,6 +87,10 @@ class MaitreDuJeuTest {
 
     @Test
     void jeu4Joueurs() {
+        when(joueurMock1.choisiAction()).thenReturn(parcelle, objectif);
+        when(joueurMock2.choisiAction()).thenReturn(jardinier, objectif);
+        when(joueurMock3.choisiAction()).thenReturn(panda, objectif);
+        when(joueurMock4.choisiAction()).thenReturn(parcelle, objectif, jardinier, panda, irrigation);
         when(joueurMock1.nombreObjectifsTermines()).thenReturn(3, 7);
         when(joueurMock2.nombreObjectifsTermines()).thenReturn(5, 8);
         when(joueurMock3.nombreObjectifsTermines()).thenReturn(5, 8);

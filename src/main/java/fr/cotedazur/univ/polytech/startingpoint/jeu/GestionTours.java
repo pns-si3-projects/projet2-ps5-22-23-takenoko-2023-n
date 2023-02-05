@@ -1,6 +1,9 @@
 package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
+import fr.cotedazur.univ.polytech.startingpoint.joueur.Plaquette;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.*;
 
@@ -9,6 +12,30 @@ import java.util.*;
  * @author équipe N
  */
 public class GestionTours {
+    // Définition des attributs
+
+    private final Plateau plateau;
+    private final PiocheParcelle piocheParcelle;
+    private final PiocheObjectifParcelle piocheObjectifParcelle;
+    private final PiocheObjectifPanda piocheObjectifPanda;
+    private final PiocheObjectifJardinier piocheObjectifJardinier;
+    private final PiocheSectionBambou piocheSectionBambou;
+    private final PiocheIrrigation piocheIrrigation;
+
+
+    // Définition des constructeurs
+
+    public GestionTours() {
+        plateau = new Plateau();
+        piocheParcelle = new PiocheParcelle(new Random());
+        piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
+        piocheObjectifPanda = new PiocheObjectifPanda(new Random());
+        piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
+        piocheSectionBambou = new PiocheSectionBambou(new Random());
+        piocheIrrigation = new PiocheIrrigation(new Random());
+    }
+
+
     // Méthodes d'utilisation
 
     /**
@@ -21,13 +48,36 @@ public class GestionTours {
         while (true) {
             AfficheurJeu.debutTour(nbTours);
             for (Joueur joueur : joueurs) {
-                joueur.joueTour();
+                joueTour(joueur);
                 if (joueur.nombreObjectifsTermines() >= nombreObjectifsDemandes) {
                     return joueur;
                 }
             }
             nbTours++;
         }
+    }
+
+    /**
+     * Permet au joueur de choisir deux actions et de les effectuer
+     * @param joueur le joueur pour qui c'est le tour
+     */
+    private void joueTour(Joueur joueur) {
+        Plaquette.ActionPossible actionChoisie;
+
+        for (int i=0; i<2; i++) {
+            actionChoisie = joueur.choisiAction();
+
+            switch (actionChoisie) {
+                case PARCELLE -> joueur.joueParcelle(plateau, piocheParcelle);
+                case IRRIGATION -> joueur.joueIrrigation(plateau, piocheIrrigation);
+                case JARDINIER -> joueur.deplaceJardinier(plateau);
+                case PANDA -> joueur.deplacePanda(plateau);
+                case OBJECTIF -> joueur.piocheObjectif(piocheObjectifParcelle,
+                        piocheObjectifJardinier, piocheObjectifPanda);
+            }
+        }
+
+        joueur.finDeTour();
     }
 
     /**
@@ -38,7 +88,7 @@ public class GestionTours {
         AfficheurJeu.debutDernierTour();
         for (Joueur joueur : joueurs) {
             if (!joueur.equals(joueurFinObjectifs)) {
-                joueur.joueTour();
+                joueur.choisiAction();
             }
         }
     }

@@ -48,7 +48,7 @@ class PlateauTest {
         try {
             voisines = plateau.getVoisinesParcelle(GestionParcelles.ETANG);
         } catch (ParcelleNonPoseeException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError(e);
         }
         List<Parcelle> voisinesList = new ArrayList<>(List.of(voisines));
 
