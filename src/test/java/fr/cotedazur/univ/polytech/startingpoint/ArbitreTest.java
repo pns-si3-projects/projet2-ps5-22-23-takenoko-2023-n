@@ -1,8 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
-import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
-import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
+import fr.cotedazur.univ.polytech.startingpoint.motif.*;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -145,28 +144,95 @@ class ArbitreTest {
         return tableauParcelle;
     }
     @Test
-    void checkObjectifParcelle() {
+    void checkObjectifParcelleDiagonale() {
         List<Parcelle> listParcelle = new ArrayList<>();
         listParcelle.add(new Etang());
-        Motif motif0011 = new MotifDiagonale(new ParcelleCouleur(new Position(0, 0), Couleur.VERT), new ParcelleCouleur(new Position(1, 1), Couleur.VERT));
-        Motif motif001122 = new MotifDiagonale(new ParcelleCouleur(new Position(0, 0), Couleur.VERT), new ParcelleCouleur(new Position(1, 1), Couleur.VERT), new ParcelleCouleur(new Position(2, 2), Couleur.VERT));
-        ObjectifParcelle objectifParcelleSimple = new ObjectifParcelle(3, motif0011);
-        ObjectifParcelle objectifParcelleMoyen = new ObjectifParcelle(5, motif001122);
-        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleSimple));
-        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleMoyen));
+        ParcelleCouleur parcelleCouleur00 = new ParcelleCouleur(new Position(0, 0), Couleur.VERT);
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1, 1), Couleur.VERT);
+        ParcelleCouleur parcelleCouleurm1m1 = new ParcelleCouleur(new Position(-1, -1), Couleur.VERT);
+        Motif motifDiagonale = new MotifDiagonale(parcelleCouleurm1m1, parcelleCouleur00, parcelleCouleur11);
+        ObjectifParcelle objectifParcelleDiagonale = new ObjectifParcelle(2, motifDiagonale);
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleDiagonale));
 
-        listParcelle.add(new ParcelleCouleur(new Position(2,0), Couleur.VERT));
-        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleSimple));
-        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleMoyen));
+        listParcelle.add(new ParcelleCouleur(new Position(-2, 0), Couleur.VERT));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleDiagonale));
 
-        listParcelle.add(new ParcelleCouleur(new Position(1, 1), Couleur.VERT));
-        assertTrue(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleSimple));
-        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleMoyen));
+        listParcelle.add(new ParcelleCouleur(new Position(-1, -1), Couleur.VERT));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleDiagonale));
+
+        listParcelle.add(new ParcelleCouleur(new Position(1, -1), Couleur.VERT));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleDiagonale));
+
+        listParcelle.add(new ParcelleCouleur(new Position(0, -2), Couleur.VERT));
+        assertTrue(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleDiagonale));
+   }
+
+    @Test
+    void checkObjectifParcelleTriangle() {
+        List<Parcelle> listParcelle = new ArrayList<>();
+        listParcelle.add(new Etang());
+        ParcelleCouleur parcelleCouleur00 = new ParcelleCouleur(new Position(0, 0), Couleur.VERT);
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1, 1), Couleur.VERT);
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(new Position(2, 0), Couleur.VERT);
+        Motif motifTriangle = new MotifTriangle(parcelleCouleur00, parcelleCouleur20, parcelleCouleur11);
+        ObjectifParcelle objectifParcelleTriangle = new ObjectifParcelle(3, motifTriangle);
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleTriangle));
+
+        listParcelle.add(new ParcelleCouleur(new Position(1, -1), Couleur.VERT));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleTriangle));
+
+        listParcelle.add(new ParcelleCouleur(new Position(-1, -1), Couleur.VERT));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleTriangle));
+
+        listParcelle.add(new ParcelleCouleur(new Position(0,-2), Couleur.VERT));
+        assertTrue(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleTriangle));
+    }
+
+    @Test
+    void checkObjectifParcelleLosange() {
+        List<Parcelle> listParcelle = new ArrayList<>();
+        listParcelle.add(new Etang());
+        ParcelleCouleur parcelleCouleur00 = new ParcelleCouleur(new Position(0, 0), Couleur.VERT);
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1, 1), Couleur.VERT);
+        ParcelleCouleur parcelleCouleur02 = new ParcelleCouleur(new Position(0, 2), Couleur.VERT);
+        ParcelleCouleur parcelleCouleurm11 = new ParcelleCouleur(new Position(-1, 1), Couleur.VERT);
+        Motif motifLosange = new MotifLosange(parcelleCouleur00, parcelleCouleur11, parcelleCouleurm11, parcelleCouleur02);
+        ObjectifParcelle objectifParcelleLosange = new ObjectifParcelle(5, motifLosange);
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleLosange));
+
+        listParcelle.add(new ParcelleCouleur(new Position(-2, 0), Couleur.VERT));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleLosange));
 
         listParcelle.add(new ParcelleCouleur(new Position(-1, 1), Couleur.VERT));
-        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleMoyen));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleLosange));
 
-        listParcelle.add(new ParcelleCouleur(new Position(0, 2), Couleur.VERT));
-        assertTrue(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleMoyen));
+        listParcelle.add(new ParcelleCouleur(new Position(-3, 1), Couleur.VERT));
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleLosange));
+
+        listParcelle.add(new ParcelleCouleur(new Position(-2, 2), Couleur.VERT));
+        assertTrue(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleLosange));
+    }
+
+    @Test
+    void checkObjectifParcelleDecale() {
+        List<Parcelle> listParcelle = new ArrayList<>();
+        listParcelle.add(new Etang());
+        ParcelleCouleur parcelleCouleur00 = new ParcelleCouleur(new Position(0, 0), Couleur.VERT);
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1, 1), Couleur.VERT);
+        ParcelleCouleur parcelleCouleur02 = new ParcelleCouleur(new Position(0, 2), Couleur.VERT);
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(new Position(2, 0), Couleur.VERT);
+        Motif motifDecale = new MotifDecale(parcelleCouleur00, parcelleCouleur11, parcelleCouleur02);
+        ObjectifParcelle objectifParcelleDecale = new ObjectifParcelle(4, motifDecale);
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleDecale));
+
+        listParcelle.add(parcelleCouleur20);
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleDecale));
+
+        listParcelle.add(parcelleCouleur11);
+        assertFalse(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleDecale));
+
+        listParcelle.add(new ParcelleCouleur(new Position(1, -1), Couleur.VERT));
+        assertTrue(arbitre.checkObjectifParcelleTermine(transformListToTab(listParcelle), objectifParcelleDecale));
+
     }
 }
