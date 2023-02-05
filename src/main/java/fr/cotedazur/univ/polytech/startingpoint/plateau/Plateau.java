@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.MaitreDuJeu;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -8,6 +9,8 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteExcept
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -25,6 +28,8 @@ public class Plateau {
     private final Set<Bambou> bambouList;
     private final Panda panda;
     private final Jardinier jardinier;
+    private Set<Irrigation> irrigationsPosees;
+    private Set<Irrigation> irrigationsDisponibles;
 
 
     // Définition des constructeurs
@@ -40,6 +45,8 @@ public class Plateau {
         bambouList = new HashSet<>();
         panda = new Panda();
         jardinier = new Jardinier();
+        irrigationsPosees = new HashSet<>();
+        irrigationsDisponibles = new HashSet<>();
 
         // Ajout de l'étang dans la liste des parcelles
         poseEtang();
@@ -122,6 +129,21 @@ public class Plateau {
         return jardinier;
     }
 
+    /**
+     * Renvoie les irrigations posées sur le plateau
+     * @return le set des irrigations posées sur le plateau
+     */
+    public Set<Irrigation> getIrrigationsPosees(){
+        return irrigationsPosees;
+    }
+
+    /**
+     * Renvoie les irrigations disponibles
+     * @return le set des irrigations disponibles
+     */
+    public Set<Irrigation> getIrrigationsDisponibles(){
+        return irrigationsDisponibles;
+    }
 
     // Méthodes d'utilisation
 
@@ -159,6 +181,15 @@ public class Plateau {
         // On modifie les positions disponibles
         positionsDisponibles.addAll(GestionParcelles.positionsDisponibles(getParcelles(), toutesVoisinesParcelle));
         positionsDisponibles.remove(parcelle.getPosition());
+
+        // Si voisine de l'étang, la parcelle est irriguée
+        if (voisinesParcelle.contains(GestionParcelles.ETANG)) parcelle.setIrriguee(true);
+
+        // On met à jour le set d'irrigations disponible
+        try {
+            GestionIrrigation.checkIrrigationsAutour(parcelle);
+        } catch (ParcelleNonPoseeException e) {return false;}
+
         return true;
     }
 
@@ -174,5 +205,55 @@ public class Plateau {
             voisinesVoisine[indiceVoisine] = parcelle;
             parcelleEtVoisinesList.put(parcelleVoisine, voisinesVoisine);
         }
+    }
+
+    /**
+     * Ajoute une irrigation entre les parcelles aux positions données
+     * @param position1 position de la 1ere parcelle
+     * @param position2 position de la 2eme parcelle
+     */
+    public boolean addIrrigation(Position position1, Position position2){
+        Optional<Parcelle> parcelle1 = GestionParcelles.chercheParcelle(getParcelles(),position1);
+        Optional<Parcelle> parcelle2 = GestionParcelles.chercheParcelle(getParcelles(),position2);
+        boolean ajoute = false;
+        if (position1 != position2 && parcelle1.isPresent() && parcelle2.isPresent() && parcelle1.get().getClass() != Etang.class && parcelle2.get().getClass() != Etang.class){
+            ParcelleCouleur parcelleC1 = (ParcelleCouleur) parcelle1.get();
+            ParcelleCouleur parcelleC2 = (ParcelleCouleur) parcelle2.get();
+            List<Position> positions = new ArrayList<>();
+            positions.add(position1);
+            positions.add(position2);
+            Irrigation irrigationAAdd = new Irrigation(positions);
+            //pose l'irrigation si elle est présente dans les irrigations disponibles
+            for (Irrigation irrigationDisponible : irrigationsDisponibles){
+                if (irrigationAAdd.equals(irrigationDisponible)){
+                    irrigationsPosees.add(irrigationAAdd);
+                    ajoute = true;
+                    break;
+                }
+            }
+            if (ajoute){
+                //supprime l'irrigation posées du set des irrigations disponibles
+                Set<Irrigation> setIrrigationsDispo = new HashSet<>();
+                for (Irrigation irrigation : irrigationsDisponibles){
+                    if (!(irrigation.equals(irrigationAAdd))) setIrrigationsDispo.add(irrigation);
+                }
+                irrigationsDisponibles = setIrrigationsDispo;
+                //irrige et pose un bambou si la parcelle n'est pas irrigée
+                if (!parcelleC1.isIrriguee()){
+                    parcelleC1.setIrriguee(true);
+                    SectionBambou sectionBambou = MaitreDuJeu.PIOCHE_SECTION_BAMBOU.pioche(parcelleC1.getCouleur());
+                    //addBambou(parcelleC1,sectionBambou);
+                }
+                //irrige et pose un bambou si la parcelle n'est pas irrigée
+                if (!parcelleC2.isIrriguee()){
+                    parcelleC2.setIrriguee(true);
+                    SectionBambou sectionBambou = MaitreDuJeu.PIOCHE_SECTION_BAMBOU.pioche(parcelleC2.getCouleur());
+                    //addBambou(parcelleC2,sectionBambou);
+                }
+                //met a jour le set des irrigations disponibles avec les nouvelles possibilités
+                //addIrrigationDisponible(irrigationAAdd);
+            }
+        }
+        return ajoute;
     }
 }
