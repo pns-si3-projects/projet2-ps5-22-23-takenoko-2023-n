@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
+import fr.cotedazur.univ.polytech.startingpoint.joueur.Plaquette;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -22,6 +23,11 @@ class GestionToursTest {
     @Mock
     Joueur joueurMock4;
     Joueur[] joueurs;
+    Plaquette.ActionPossible parcelle;
+    Plaquette.ActionPossible irrigation;
+    Plaquette.ActionPossible jardinier;
+    Plaquette.ActionPossible panda;
+    Plaquette.ActionPossible objectif;
 
 
     @BeforeEach
@@ -31,12 +37,20 @@ class GestionToursTest {
         joueurMock2 = mock(Joueur.class);
         joueurMock3 = mock(Joueur.class);
         joueurMock4 = mock(Joueur.class);
+        parcelle = Plaquette.ActionPossible.PARCELLE;
+        irrigation = Plaquette.ActionPossible.IRRIGATION;
+        jardinier = Plaquette.ActionPossible.JARDINIER;
+        panda = Plaquette.ActionPossible.PANDA;
+        objectif = Plaquette.ActionPossible.OBJECTIF;
     }
 
 
     @Test
     void tours2Joueurs() {
         Joueur joueurFinObjectifs;
+        // Joueurs font tout le temps le même choix, car ça n'a pas d'impact sur les tests
+        when(joueurMock1.choisiAction()).thenReturn(parcelle, objectif);
+        when(joueurMock2.choisiAction()).thenReturn(jardinier, objectif);
 
         when(joueurMock1.nombreObjectifsTermines()).thenReturn(7, 9);
         when(joueurMock2.nombreObjectifsTermines()).thenReturn(6, 15);
@@ -54,6 +68,10 @@ class GestionToursTest {
     @Test
     void tours3Joueurs() {
         Joueur joueurFinObjectifs;
+        // Joueurs font tout le temps le même choix, car ça n'a pas d'impact sur les tests
+        when(joueurMock1.choisiAction()).thenReturn(parcelle, objectif);
+        when(joueurMock2.choisiAction()).thenReturn(jardinier, objectif);
+        when(joueurMock3.choisiAction()).thenReturn(panda, objectif);
 
         when(joueurMock1.nombreObjectifsTermines()).thenReturn(3, 6, 7, 7);
         when(joueurMock2.nombreObjectifsTermines()).thenReturn(0, 1, 5, 8);
@@ -80,6 +98,11 @@ class GestionToursTest {
     @Test
     void tours4Joueurs() {
         Joueur joueurFinObjectifs;
+        // Joueurs font tout le temps le même choix, car ça n'a pas d'impact sur les tests
+        when(joueurMock1.choisiAction()).thenReturn(parcelle, objectif);
+        when(joueurMock2.choisiAction()).thenReturn(jardinier, objectif);
+        when(joueurMock3.choisiAction()).thenReturn(panda, objectif);
+        when(joueurMock4.choisiAction()).thenReturn(parcelle, objectif, jardinier, panda, irrigation);
 
         when(joueurMock1.nombreObjectifsTermines()).thenReturn(3, 5, 6, 6);
         when(joueurMock2.nombreObjectifsTermines()).thenReturn(0, 1, 5, 7);
@@ -119,10 +142,10 @@ class GestionToursTest {
         joueurs = new Joueur[]{joueurMock1, joueurMock2, joueurMock3, joueurMock4};
 
         gestionTours.dernierTour(joueurs, joueurMock2);
-        verify(joueurMock1, times(1)).joueTour();
-        verify(joueurMock2, never()).joueTour();
-        verify(joueurMock3, times(1)).joueTour();
-        verify(joueurMock4, times(1)).joueTour();
+        verify(joueurMock1, times(1)).choisiAction();
+        verify(joueurMock2, never()).choisiAction();
+        verify(joueurMock3, times(1)).choisiAction();
+        verify(joueurMock4, times(1)).choisiAction();
     }
 
     @Test

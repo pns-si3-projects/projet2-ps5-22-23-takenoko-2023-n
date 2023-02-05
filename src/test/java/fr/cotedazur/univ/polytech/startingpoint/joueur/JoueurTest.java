@@ -74,6 +74,38 @@ class JoueurTest {
     }
 
     @Test
+    void choisiAction() {
+        assertEquals(Plaquette.ActionPossible.PARCELLE, joueurParcelle.choisiAction());
+        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurParcelle.choisiAction());
+
+        assertEquals(Plaquette.ActionPossible.JARDINIER, joueurJardinier.choisiAction());
+        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurJardinier.choisiAction());
+
+        assertEquals(Plaquette.ActionPossible.PANDA, joueurPanda.choisiAction());
+        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurPanda.choisiAction());
+    }
+
+    @Test
+    void joueParcelle() {
+    }
+
+    @Test
+    void joueIrrigation() {
+    }
+
+    @Test
+    void deplaceJardinier() {
+    }
+
+    @Test
+    void deplacePanda() {
+    }
+
+    @Test
+    void piocheObjectif() {
+    }
+
+    @Test
     void recoitEmpereur() {
         Objectif empereur = new Empereur();
         Objectif objectif = new ObjectifParcelle(3, 3);
