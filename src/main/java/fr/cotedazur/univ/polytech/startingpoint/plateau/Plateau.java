@@ -60,11 +60,19 @@ public class Plateau {
     // Accesseurs
 
     /**
+     * Renvoie les parcelles et leurs voisines
+     * @return une map des parcelles et leurs voisines
+     */
+    public Map<Parcelle, Parcelle[]> getParcelleEtVoisinesList() {
+        return new HashMap<>(parcelleEtVoisinesList);
+    }
+
+    /**
      * Renvoie les parcelles posées
      * @return un tableau des parcelles posées
      */
     public Parcelle[] getParcelles() {
-        return parcelleEtVoisinesList.keySet().toArray(new Parcelle[0]);
+        return GestionParcelles.getParcelles(getParcelleEtVoisinesList());
     }
 
     /**
@@ -74,10 +82,7 @@ public class Plateau {
      * @throws ParcelleNonPoseeException si la parcelle donnée ne se trouve pas sur le plateau
      */
     public Parcelle[] getVoisinesParcelle(@NotNull Parcelle parcelle) throws ParcelleNonPoseeException {
-        if (parcelleEtVoisinesList.containsKey(parcelle)) {
-            return parcelleEtVoisinesList.get(parcelle);
-        }
-        throw new ParcelleNonPoseeException(parcelle);
+        return GestionParcelles.getVoisinesParcelle(getParcelleEtVoisinesList(), parcelle);
     }
 
     /**
