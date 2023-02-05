@@ -24,7 +24,7 @@ public class GestionIrrigation {
      * Ajoute les irrigations à la suite de celle en paramètre au set des irrigations disponibles si elles sont possible d'être posées
      * @param irrigation l'irrigation à partir de laquelle il faut rechercher les nouvelles irrigations possible
      */
-    public void addIrrigationDisponible(Irrigation irrigation) {						//
+    public static void addIrrigationDisponible(Irrigation irrigation) {						//
         List<Position> positionsIrrigation = irrigation.getPositions();
         Position position1 = positionsIrrigation.get(0);
         Position position2 = positionsIrrigation.get(1);
@@ -79,7 +79,7 @@ public class GestionIrrigation {
      * Vérifie si il y a des irrigations autour de la parcelle en paramètre puis ajoute des irrigations disponibles par rapport aux irrigations trouvées
      * @param parcelleCouleur parcelle pour laquelle on veut verifier si il y a des irrigations autour
      */
-    public void checkIrrigationsAutour(ParcelleCouleur parcelleCouleur) throws ParcelleNonPoseeException {
+    public static void checkIrrigationsAutour(ParcelleCouleur parcelleCouleur) throws ParcelleNonPoseeException {
         try {
             Parcelle[] voisins = MaitreDuJeu.PLATEAU.getVoisinesParcelle(parcelleCouleur);
             boolean voisinEtang = false;
@@ -124,7 +124,7 @@ public class GestionIrrigation {
      * @param position2 position de la 2eme parcelle entre laquelle on cherche une irrigation
      * @return un optional de l'irrigation trouvée, sinon un optional vide
      */
-    public Optional<Irrigation> chercheIrrigation(Position position1, Position position2){
+    public static Optional<Irrigation> chercheIrrigation(Position position1, Position position2){
         List<Position> positionsIrrigationRecherchee = new ArrayList<>();
         positionsIrrigationRecherchee.add(position1);
         positionsIrrigationRecherchee.add(position2);

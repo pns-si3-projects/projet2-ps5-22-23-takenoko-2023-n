@@ -176,6 +176,15 @@ public class Plateau {
         // On modifie les positions disponibles
         positionsDisponibles.addAll(GestionParcelles.positionsDisponibles(getParcelles(), toutesVoisinesParcelle));
         positionsDisponibles.remove(parcelle.getPosition());
+
+        // Si voisine de l'étang, la parcelle est irriguée
+        if (voisinesParcelle.contains(GestionParcelles.ETANG)) parcelle.setIrriguee(true);
+
+        // On met à jour le set d'irrigations disponible
+        try {
+            GestionIrrigation.checkIrrigationsAutour(parcelle);
+        } catch (ParcelleNonPoseeException e) {return false;}
+
         return true;
     }
 
