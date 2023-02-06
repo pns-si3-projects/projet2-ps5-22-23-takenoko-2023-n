@@ -1,10 +1,18 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Représente la stratégie de jeu favorisant la réalisation des objectifs de parcelle
@@ -13,31 +21,128 @@ import java.util.List;
 public class StrategieParcelle implements Strategie {
     // Méthodes d'utilisation
 
+    /**
+     * Renvoie le nombre d'objectif Parcelle
+     * @param objectifs
+     * @return le nombre d'objectif Parcelle
+     */
+    private int countObjectifParcelle(List<Objectif> objectifs) {
+        int count = 0;
+        for (Objectif objectif : objectifs) {
+            if (objectif.getClass() == ObjectifParcelle.class) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Renvoie le nombre d'objectif Jardinier
+     * @param objectifs
+     * @return le nombre d'objectif Jardinier
+     */
+    private int countObjectifJardinier(List<Objectif> objectifs) {
+        int count = 0;
+        for (Objectif objectif : objectifs) {
+            if (objectif.getClass() == ObjectifJardinier.class) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Renvoie {@code true} si la parcelle est de même couleur que celle des objectifs
+     * @param objectifs Les objectifs à réaliser
+     * @return {@code true} si la parcelle est de même couleur que celle des objectifs
+     */
+    private boolean checkCouleurObjectifs(ParcelleCouleur parcelleCouleur, List<Objectif> objectifs) {
+        for (Objectif objectif : objectifs) {
+            if (objectif.getClass() == ObjectifJardinier.class) {
+                ObjectifJardinier objectifJardinier = (ObjectifJardinier) objectif;
+
+                if (objectifJardinier.getCouleur() == parcelleCouleur.getCouleur()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Renvoie {@code true} si l'action Parcelle est possible
+     * @param objectifs Les objectifs à réaliser
+     * @return {@code true} si l'action Parcelle est possible
+     */
+    public boolean checkPossibiliteActionParcelle(List<Objectif> objectifs) {
+        return countObjectifParcelle(objectifs) != 0;
+    }
+
+    /**
+     * Renvoie {@code true} si l'action Irrigation est possible
+     * @param piochesVides Le tableau boolean des piochesVides
+     * @return {@code true} si l'action Irrigation est possible
+     */
+    public boolean checkPossibiliteActionIrrigation(boolean[] piochesVides) {
+        return !piochesVides[4];
+    }
+
+    /**
+     * Renvoie {@code true} si l'action Irrigation est possible
+     * @param plateau Le plateau pour vérifier si il y a une parcelle irriguées et de même couleur qu'un des objetifs
+     * @param objectifs Les objectifs à réalisées
+     * @return {@code true} si l'action Irrigation est possible
+     */
+    public boolean checkPossibiliteActionJardinier(Plateau plateau, List<Objectif> objectifs) {
+        if (countObjectifJardinier(objectifs) == 0) {
+            return false;
+        }
+
+        List<Position> listDeplacementPossible = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),
+                plateau.getJardinier().getPosition());
+
+        for (Position position : listDeplacementPossible) {
+            if (!position.equals(new Position())) {
+                Optional<Parcelle> optParcelle =  GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
+
+                if (optParcelle.isPresent()) {
+                    ParcelleCouleur parcelleCouleur = (ParcelleCouleur) optParcelle.get();
+
+                    if (parcelleCouleur.isIrriguee() && checkCouleurObjectifs(parcelleCouleur, objectifs)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs,
                                                      Plateau plateau, boolean[] piochesVides) {
+
+        Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
+        if (!actionsRealiseesTour[parcelle.ordinal()] && checkPossibiliteActionParcelle(objectifs)) {
+            return parcelle;
+        }
 
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
         if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)) {
             return objectif;
         }
 
-        Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()]) {
-            return parcelle;
+        Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
+        if (!actionsRealiseesTour[irrigation.ordinal()] && checkPossibiliteActionIrrigation(piochesVides)) {
+            return irrigation;
         }
 
         Plaquette.ActionPossible jardinier = Plaquette.ActionPossible.JARDINIER;
-        if (!actionsRealiseesTour[jardinier.ordinal()]) {
+        if (!actionsRealiseesTour[jardinier.ordinal()] && checkPossibiliteActionJardinier(plateau, objectifs)) {
             return jardinier;
         }
 
-        Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
-        if (!actionsRealiseesTour[panda.ordinal()]) {
-            return panda;
-        }
-
-        return Plaquette.ActionPossible.IRRIGATION;
+        return Plaquette.ActionPossible.PANDA;
     }
 
     @Override
