@@ -60,7 +60,7 @@ public class ObjectifParcelle extends Objectif {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ObjectifParcelle that = (ObjectifParcelle) o;
-        return getSchema() == that.getSchema();
+        return getSchema().equals(that.getSchema());
     }
 
     @Override
