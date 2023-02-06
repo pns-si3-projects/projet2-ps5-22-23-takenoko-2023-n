@@ -14,6 +14,7 @@ import java.util.*;
 public class GestionTours {
     // Définition des attributs
 
+    public enum PiochesPossibles {PARCELLE, OBJ_PARCELLE, OBJ_PANDA, OBJ_JARDINIER, IRRIGATION};
     private final Plateau plateau;
     private final PiocheParcelle piocheParcelle;
     private final PiocheObjectifParcelle piocheObjectifParcelle;
@@ -25,6 +26,9 @@ public class GestionTours {
 
     // Définition des constructeurs
 
+    /**
+     * Construit le gestionnaire pour les tours
+     */
     public GestionTours() {
         plateau = new Plateau();
         piocheParcelle = new PiocheParcelle(new Random());
@@ -32,7 +36,7 @@ public class GestionTours {
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
         piocheSectionBambou = new PiocheSectionBambou(new Random());
-        piocheIrrigation = new PiocheIrrigation(new Random());
+        piocheIrrigation = new PiocheIrrigation();
     }
 
 
@@ -65,19 +69,48 @@ public class GestionTours {
         Plaquette.ActionPossible actionChoisie;
 
         for (int i=0; i<2; i++) {
-            actionChoisie = joueur.choisiAction();
+            actionChoisie = joueur.choisiAction(plateau, piochesVides());
 
             switch (actionChoisie) {
-                case PARCELLE -> joueur.joueParcelle(plateau, piocheParcelle);
-                case IRRIGATION -> joueur.joueIrrigation(plateau, piocheIrrigation);
-                case JARDINIER -> joueur.deplaceJardinier(plateau);
-                case PANDA -> joueur.deplacePanda(plateau);
-                case OBJECTIF -> joueur.piocheObjectif(piocheObjectifParcelle,
+                case PARCELLE -> joueur.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
+                case IRRIGATION -> joueur.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
+                case JARDINIER -> joueur.actionJardinier(plateau, piocheSectionBambou);
+                case PANDA -> joueur.actionPanda(plateau);
+                case OBJECTIF -> joueur.actionObjectif(piocheObjectifParcelle,
                         piocheObjectifJardinier, piocheObjectifPanda);
             }
         }
 
         joueur.finDeTour();
+    }
+
+    /**
+     * Renvoie quelles pioches sont vides (sauf la piocheSectionBambou qui ne peut pas l'être)
+     * @return le tableau des pioches si elles sont vides
+     */
+    private boolean[] piochesVides() {
+        boolean[] piochesVides = new boolean[PiochesPossibles.values().length];
+
+        for (PiochesPossibles pioche : PiochesPossibles.values()) {
+            piochesVides[pioche.ordinal()] = estPiocheVide(pioche);
+        }
+
+        return piochesVides;
+    }
+
+    /**
+     * Renvoie si la pioche demandée est vide
+     * @param pioche la pioche demandée
+     * @return {@code true} si la pioche demandée est vide
+     */
+    private boolean estPiocheVide(PiochesPossibles pioche) {
+        return switch (pioche) {
+            case PARCELLE -> piocheParcelle.isEmpty();
+            case OBJ_PARCELLE -> piocheObjectifParcelle.isEmpty();
+            case OBJ_PANDA -> piocheObjectifPanda.isEmpty();
+            case OBJ_JARDINIER -> piocheObjectifJardinier.isEmpty();
+            case IRRIGATION -> piocheIrrigation.isEmpty();
+        };
     }
 
     /**
@@ -88,7 +121,7 @@ public class GestionTours {
         AfficheurJeu.debutDernierTour();
         for (Joueur joueur : joueurs) {
             if (!joueur.equals(joueurFinObjectifs)) {
-                joueur.choisiAction();
+                joueur.choisiAction(plateau, piochesVides());
             }
         }
     }

@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
 
@@ -12,7 +13,9 @@ public class StrategieParcelle implements Strategie {
     // Méthodes d'utilisation
 
     @Override
-    public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs) {
+    public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs,
+                                                     Plateau plateau, boolean[] piochesVides) {
+
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
         if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)) {
             return objectif;
