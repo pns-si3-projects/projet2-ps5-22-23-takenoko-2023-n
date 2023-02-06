@@ -17,9 +17,9 @@ public class StrategiePanda implements Strategie {
     // Méthodes d'utilisation
 
     @Override
-    public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs,Plateau plateau) {
+    public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs) {
         Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
-        if( plateau.getBambous().length > 0 ) {
+        /*if( plateau.getBambous().length > 0 ) {
             if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 3) {
                 return panda;
             }
@@ -34,7 +34,7 @@ public class StrategiePanda implements Strategie {
             int irrigationPossable = plateau.getIrrigationsPosees().size()-plateau.getIrrigationsDisponibles().size();
             if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3))
                 return irrigation;
-        }
+        }*/
         return Plaquette.ActionPossible.JARDINIER;
     }
 
