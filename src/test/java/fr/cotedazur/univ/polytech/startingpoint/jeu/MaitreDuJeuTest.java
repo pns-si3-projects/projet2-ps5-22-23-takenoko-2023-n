@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.jeu;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Plaquette;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -42,8 +43,8 @@ class MaitreDuJeuTest {
 
     @Test
     void jeu2Joueurs() {
-        when(joueurMock1.choisiAction()).thenReturn(parcelle, objectif);
-        when(joueurMock2.choisiAction()).thenReturn(jardinier, objectif);
+        when(joueurMock1.choisiAction(any(Plateau.class), any())).thenReturn(parcelle, objectif);
+        when(joueurMock2.choisiAction(any(Plateau.class), any())).thenReturn(jardinier, objectif);
         when(joueurMock1.nombreObjectifsTermines()).thenReturn(7, 9);
         when(joueurMock2.nombreObjectifsTermines()).thenReturn(6, 15);
         when(joueurMock1.nombrePoints()).thenReturn(52);
@@ -61,9 +62,9 @@ class MaitreDuJeuTest {
 
     @Test
     void jeu3Joueurs() {
-        when(joueurMock1.choisiAction()).thenReturn(parcelle, objectif);
-        when(joueurMock2.choisiAction()).thenReturn(jardinier, objectif);
-        when(joueurMock3.choisiAction()).thenReturn(panda, objectif);
+        when(joueurMock1.choisiAction(any(Plateau.class), any())).thenReturn(objectif, parcelle);
+        when(joueurMock2.choisiAction(any(Plateau.class), any())).thenReturn(jardinier, objectif);
+        when(joueurMock3.choisiAction(any(Plateau.class), any())).thenReturn(panda, objectif);
         when(joueurMock1.nombreObjectifsTermines()).thenReturn(5, 7);
         when(joueurMock2.nombreObjectifsTermines()).thenReturn(6, 8);
         when(joueurMock3.nombreObjectifsTermines()).thenReturn(4, 7);
@@ -87,10 +88,10 @@ class MaitreDuJeuTest {
 
     @Test
     void jeu4Joueurs() {
-        when(joueurMock1.choisiAction()).thenReturn(parcelle, objectif);
-        when(joueurMock2.choisiAction()).thenReturn(jardinier, objectif);
-        when(joueurMock3.choisiAction()).thenReturn(panda, objectif);
-        when(joueurMock4.choisiAction()).thenReturn(parcelle, objectif, jardinier, panda, irrigation);
+        when(joueurMock1.choisiAction(any(Plateau.class), any())).thenReturn(parcelle, objectif);
+        when(joueurMock2.choisiAction(any(Plateau.class), any())).thenReturn(jardinier, objectif);
+        when(joueurMock3.choisiAction(any(Plateau.class), any())).thenReturn(panda, objectif);
+        when(joueurMock4.choisiAction(any(Plateau.class), any())).thenReturn(parcelle, objectif, jardinier, panda, irrigation);
         when(joueurMock1.nombreObjectifsTermines()).thenReturn(3, 7);
         when(joueurMock2.nombreObjectifsTermines()).thenReturn(5, 8);
         when(joueurMock3.nombreObjectifsTermines()).thenReturn(5, 8);

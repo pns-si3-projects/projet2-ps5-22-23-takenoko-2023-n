@@ -1,11 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
-import fr.cotedazur.univ.polytech.startingpoint.jeu.MaitreDuJeu;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+<<<<<<< HEAD
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
+=======
+>>>>>>> c952ab0fa455d2533b8301457e78761c0d156312
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
@@ -24,26 +25,26 @@ public class StrategiePanda implements Strategie {
                                                      Plateau plateau, boolean[] piochesVides) {
         
         Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
-        if( plateau.getBambous().length > 0 ) {
-            if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 3) {
-                return panda;
-            }
-            Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
-            if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)) {
-                return objectif;
-            }
-            Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-            if (!actionsRealiseesTour[parcelle.ordinal()] && (plateau.getParcelles().length < 10))
-                return parcelle;
-            Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
-            int irrigationPossable = plateau.getIrrigationsPosees().size()-plateau.getIrrigationsDisponibles().size();
-            if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3))
-                return irrigation;
+        if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 3
+                && plateau.getBambous().length > 0) {
+            return panda;
         }
+        Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
+        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)) {
+            return objectif;
+        }
+        Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
+        if (!actionsRealiseesTour[parcelle.ordinal()] && (plateau.getParcelles().length < 10))
+            return parcelle;
+        Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
+        int irrigationPossable = plateau.getIrrigationsPosees().size()-plateau.getIrrigationsDisponibles().size();
+        if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3))
+            return irrigation;
         return Plaquette.ActionPossible.JARDINIER;
     }
 
     @Override
+<<<<<<< HEAD
     public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleEnCoursException, PiocheParcelleVideException {
         boolean parcellepose = false;
         ParcelleCouleur parcelleCouleur=null;
@@ -93,6 +94,4 @@ public class StrategiePanda implements Strategie {
                                PiocheObjectifPanda piocheObjectifPanda) {
 
     }
-
-
 }

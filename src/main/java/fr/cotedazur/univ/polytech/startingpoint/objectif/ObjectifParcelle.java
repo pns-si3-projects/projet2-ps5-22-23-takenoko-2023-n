@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
+import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
+
 import java.util.Objects;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Objects;
 public class ObjectifParcelle extends Objectif {
     // Définition des attributs
 
-    private final int nombreParcelles;
+    private final Motif motifARealiser;
 
 
     // Définition des constructeurs
@@ -21,16 +23,16 @@ public class ObjectifParcelle extends Objectif {
      * @param schema le schéma de parcelles à obtenir
      * @implSpec {@code nbPoints > 0}, {@code schema > 0}
      */
-    public ObjectifParcelle(int nbPoints, int schema) {
+    public ObjectifParcelle(int nbPoints, Motif schema) {
         if (nbPoints <= 0) {
             throw new IllegalArgumentException("Le nombre de points doit être supérieur à 0");
         }
-        if (schema <= 0) {
-            throw new IllegalArgumentException("Le nombre de parcelles doit être supérieur à 0");
+        if (schema == null) {
+            throw new IllegalArgumentException("Le motif ne doit pas être vide");
         }
 
         nombrePoints = nbPoints;
-        nombreParcelles = schema;
+        motifARealiser = schema;
     }
 
 
@@ -40,8 +42,8 @@ public class ObjectifParcelle extends Objectif {
      * Renvoie le schéma à obtenir sur le plateau
      * @return le schéma à obtenir sur le plateau
      */
-    public int getSchema() {
-        return nombreParcelles;
+    public Motif getSchema() {
+        return motifARealiser;
     }
 
 
@@ -49,7 +51,7 @@ public class ObjectifParcelle extends Objectif {
 
     @Override
     public String toString() {
-        return super.toString() + " pour " + nombreParcelles + " parcelles";
+        return super.toString() + " pour ce schema-ci : " + motifARealiser;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class ObjectifParcelle extends Objectif {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ObjectifParcelle that = (ObjectifParcelle) o;
-        return getSchema() == that.getSchema();
+        return getSchema().equals(that.getSchema());
     }
 
     @Override

@@ -2,13 +2,10 @@ package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.Random;
 
 /**
  * Initialise le jeu et gère les tours.
@@ -17,8 +14,6 @@ import java.util.Random;
 public class MaitreDuJeu {
     // Définition des attributs
 
-    public static final Plateau PLATEAU = new Plateau(); // A supprimer
-    public static final PiocheSectionBambou PIOCHE_SECTION_BAMBOU = new PiocheSectionBambou(new Random()); // A supprimer
     private final GestionTours gestionTours;
     private final Joueur[] joueurs;
     /** Le nombre d'objectifs demandé pour recevoir la carte empereur */

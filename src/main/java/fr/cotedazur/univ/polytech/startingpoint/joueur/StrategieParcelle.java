@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class StrategieParcelle implements Strategie {
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[objectif.ordinal()]) {
+        if (!actionsRealiseesTour[parcelle.ordinal()]) {
             return parcelle;
         }
 
@@ -37,5 +38,30 @@ public class StrategieParcelle implements Strategie {
         }
 
         return Plaquette.ActionPossible.IRRIGATION;
+    }
+
+    @Override
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) {
+
+    }
+
+    @Override
+    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
+
+    }
+
+    @Override
+    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou) {
+
+    }
+
+    @Override
+    public void actionPanda(Plateau plateau) {
+
+    }
+
+    @Override
+    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda) {
+
     }
 }

@@ -187,8 +187,11 @@ public class Plateau {
         positionsDisponibles.addAll(GestionParcelles.positionsDisponibles(getParcelles(), toutesVoisinesParcelle));
         positionsDisponibles.remove(parcelle.getPosition());
 
-        // Si voisine de l'étang, la parcelle est irriguée
-        if (voisinesParcelle.contains(GestionParcelles.ETANG)) parcelle.setIrriguee(true);
+        // Si voisine de l'étang, la parcelle est irriguée et a une section de bambou
+        if (voisinesParcelle.contains(GestionParcelles.ETANG)){
+            parcelle.setIrriguee(true);
+            poseBambou(parcelle);
+        }
 
         // On met à jour le set d'irrigations disponible
         Optional<Set<Irrigation>> newIrrigationsDisponible = GestionIrrigation.checkIrrigationsAutour(this.parcelleEtVoisinesList, parcelle, this.irrigationsDisponibles, irrigationsPosees);
@@ -244,14 +247,12 @@ public class Plateau {
                 //irrige et pose un bambou si la parcelle n'est pas irrigée
                 if (!parcelleC1.isIrriguee()){
                     parcelleC1.setIrriguee(true);
-                    SectionBambou sectionBambou = MaitreDuJeu.PIOCHE_SECTION_BAMBOU.pioche(parcelleC1.getCouleur());
-                    //addBambou(parcelleC1,sectionBambou);
+                    poseBambou(parcelleC1);
                 }
                 //irrige et pose un bambou si la parcelle n'est pas irrigée
                 if (!parcelleC2.isIrriguee()){
                     parcelleC2.setIrriguee(true);
-                    SectionBambou sectionBambou = MaitreDuJeu.PIOCHE_SECTION_BAMBOU.pioche(parcelleC2.getCouleur());
-                    //addBambou(parcelleC2,sectionBambou);
+                    poseBambou(parcelleC2);
                 }
                 //met a jour le set des irrigations disponibles avec les nouvelles possibilités
                 Optional<Set<Irrigation>> irrigationsDisponoblesSet = GestionIrrigation.addIrrigationDisponible(parcelleEtVoisinesList, irrigationAAdd, irrigationsDisponibles, irrigationsPosees);

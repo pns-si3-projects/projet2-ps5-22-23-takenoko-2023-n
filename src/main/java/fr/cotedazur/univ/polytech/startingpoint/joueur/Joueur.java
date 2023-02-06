@@ -144,6 +144,8 @@ public class Joueur {
 
     /**
      * Renvoie l'action à effectuer
+     * @param plateau le plateau du jeu
+     * @param piochesVides un tableau pour savoir quelle pioche est vide
      */
     public Plaquette.ActionPossible choisiAction(Plateau plateau, boolean[] piochesVides) {
         AfficheurJoueur.debutTour(this.getNom());

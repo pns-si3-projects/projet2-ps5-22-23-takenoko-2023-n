@@ -1,8 +1,13 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifV;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +17,8 @@ class JoueurTest {
     Joueur joueurParcelle;
     Joueur joueurPanda;
     Joueur joueurJardinier;
+    Plateau plateau;
+    boolean[] piochesVides;
 
 
     @BeforeEach
@@ -19,6 +26,8 @@ class JoueurTest {
         joueurParcelle = new Joueur("joueur1", Strategie.StrategiePossible.PARCELLE);
         joueurPanda = new Joueur("joueur2", Strategie.StrategiePossible.PANDA);
         joueurJardinier = new Joueur("joueur3", Strategie.StrategiePossible.JARDINIER);
+        plateau = new Plateau();
+        piochesVides = new boolean[] {false, false, false, false, false};
     }
 
 
@@ -75,14 +84,14 @@ class JoueurTest {
 
     @Test
     void choisiAction() {
-        assertEquals(Plaquette.ActionPossible.PARCELLE, joueurParcelle.choisiAction());
-        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurParcelle.choisiAction());
+        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurParcelle.choisiAction(plateau, piochesVides));
+        assertEquals(Plaquette.ActionPossible.PARCELLE, joueurParcelle.choisiAction(plateau, piochesVides));
 
-        assertEquals(Plaquette.ActionPossible.JARDINIER, joueurJardinier.choisiAction());
-        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurJardinier.choisiAction());
+        assertEquals(Plaquette.ActionPossible.PARCELLE, joueurJardinier.choisiAction(plateau, piochesVides));
+        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurJardinier.choisiAction(plateau, piochesVides));
 
-        assertEquals(Plaquette.ActionPossible.PANDA, joueurPanda.choisiAction());
-        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurPanda.choisiAction());
+        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurPanda.choisiAction(plateau, piochesVides));
+        assertEquals(Plaquette.ActionPossible.PARCELLE, joueurPanda.choisiAction(plateau, piochesVides));
     }
 
     @Test
@@ -108,7 +117,10 @@ class JoueurTest {
     @Test
     void recoitEmpereur() {
         Objectif empereur = new Empereur();
-        Objectif objectif = new ObjectifParcelle(3, 3);
+        ParcelleCouleur parcelle0_0V = new ParcelleCouleur(new Position(), Couleur.VERTE);
+        ParcelleCouleur parcelle1_m1V = new ParcelleCouleur(new Position(1, -1), Couleur.JAUNE);
+        ParcelleCouleur parcelle3_m1V = new ParcelleCouleur(new Position(3, -1), Couleur.ROSE);
+        Objectif objectif = new ObjectifParcelle(3, new MotifV(parcelle0_0V, parcelle1_m1V, parcelle3_m1V));
 
         joueurParcelle.recoitEmpereur(empereur);
         Objectif[] objectifs = joueurParcelle.getObjectifsTermines();
