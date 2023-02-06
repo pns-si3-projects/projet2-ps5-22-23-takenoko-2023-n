@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
@@ -14,6 +15,7 @@ import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Représente la stratégie de jeu favorisant la réalisation des objectifs de parcelle
@@ -84,7 +86,7 @@ public class StrategieParcelle implements Strategie {
      * @param piochesVides Le tableau boolean des piochesVides
      * @return {@code true} si l'action Irrigation est possible
      */
-    public boolean checkPossibiliteActionIrrigation(boolean[] piochesVides) {
+    public boolean checkPossibiliteActionIrrigation(boolean[] piochesVides) { // Vérifier Irrigation Possible
         return !piochesVides[4];
     }
 
@@ -174,9 +176,7 @@ public class StrategieParcelle implements Strategie {
         Parcelle[] tableauParcellePlateau = plateau.getParcelles();
         Position[] tableauPositionDisponible = plateau.getPositionsDisponibles();
         Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(tableauParcellePlateau, tableauPositionDisponible, null);
-        Position positionChoisi;
-
-        positionChoisi = optPosition.orElseGet(() -> tableauPositionDisponible[0]);
+        Position positionChoisi = optPosition.orElseGet(() -> tableauPositionDisponible[0]);
 
         ParcelleCouleur parcelleCouleurChoisi = choisirParcelle(piocheParcelle, positionChoisi);
         plateau.poseParcelle(parcelleCouleurChoisi);
@@ -184,7 +184,13 @@ public class StrategieParcelle implements Strategie {
 
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
+        Set<Irrigation> setIrrigation = plateau.getIrrigationsDisponibles();
 
+        for (Irrigation irrigation : setIrrigation) {
+            List<Position> positionIrrigation = irrigation.getPositions();
+            plateau.addIrrigation(positionIrrigation.get(0), positionIrrigation.get(1));
+            break;
+        }
     }
 
     @Override
