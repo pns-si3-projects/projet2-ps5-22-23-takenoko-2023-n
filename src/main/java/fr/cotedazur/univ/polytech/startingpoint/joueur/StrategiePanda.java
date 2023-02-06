@@ -1,10 +1,14 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Représente la stratégie de jeu favorisant la réalisation des objectifs de panda
@@ -37,13 +41,39 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) {
-
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleEnCoursException, PiocheParcelleVideException {
+        boolean parcellepose = false;
+        ParcelleCouleur parcelleCouleur=null;
+        ParcellePioche[] pioche = piocheParcelle.pioche() ;
+        for ( ParcellePioche parcellePiochee : pioche ) {
+            if ( GestionParcelles.chercheParcelleCouleur( plateau.getParcelles(), parcellePiochee.getCouleur()).isEmpty() && !parcellepose ) {
+                parcelleCouleur = piocheParcelle.choisiParcelle( parcellePiochee, plateau.getPositionsDisponibles() [0]);
+                parcellepose=true;
+            }
+        }
+        if( !parcellepose ) {
+            parcelleCouleur = piocheParcelle.choisiParcelle(pioche[0], plateau.getPositionsDisponibles()[0]);
+        }
+        irrigueParcelle(parcelleCouleur,plateau);
+        plateau.poseParcelle(parcelleCouleur);
     }
 
+    /**
+     * pose un Bambou sir la parcelle est irriguee
+     * @param parcelleCouleur une parcelle couleur a savoir sont etat
+     * @param plateau le plateau
+     */
+    public void irrigueParcelle(ParcelleCouleur parcelleCouleur, Plateau plateau) {
+        if (parcelleCouleur.isIrriguee()) {
+            plateau.poseBambou(parcelleCouleur);
+        }
+    }
+    
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
-
+        Set<Irrigation> irrigationDisponible = plateau.getIrrigationsDisponibles();
+        List<Irrigation> irrigationDisponibleListe = irrigationDisponible.stream().toList();
+        plateau.addIrrigation(irrigationDisponibleListe.get(0).getPositions().get(0), irrigationDisponibleListe.get(0).getPositions().get(1));
     }
 
     @Override
@@ -57,7 +87,9 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda) {
+    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
+                               PiocheObjectifJardinier piocheObjectifJardinier,
+                               PiocheObjectifPanda piocheObjectifPanda) {
 
     }
 }

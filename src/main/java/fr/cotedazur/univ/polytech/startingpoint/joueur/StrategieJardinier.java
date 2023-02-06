@@ -1,10 +1,17 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Représente la stratégie de jeu favorisant la réalisation des objectifs de jardinier
@@ -41,13 +48,29 @@ public class StrategieJardinier implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) {
-
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleVideException, PiocheParcelleEnCoursException {
+        ParcellePioche[] pioche3parcelles = piocheParcelle.pioche();
+        Position positionChoisie  = plateau.getPositionsDisponibles()[0];
+        ParcelleCouleur parcelleChoisie = piocheParcelle.choisiParcelle(pioche3parcelles[0],positionChoisie);
+        plateau.poseParcelle(parcelleChoisie);
     }
 
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
-
+        Set<Irrigation> irrigationsDisponibles = plateau.getIrrigationsDisponibles();
+        Irrigation irrigationAAdd = null;
+        for (Irrigation irrigation: irrigationsDisponibles){
+            irrigationAAdd = irrigation;
+            for (Position positionIrrigation : irrigation.getPositions()){
+                Optional<Parcelle> optParcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), positionIrrigation);
+                if (optParcelle.isPresent()) {
+                    ParcelleCouleur pc = (ParcelleCouleur) optParcelle.get();
+                    if (!pc.isIrriguee()) irrigationAAdd = irrigation;
+                    break;
+                }
+            }
+        }
+        plateau.addIrrigation(irrigationAAdd.getPositions().get(0), irrigationAAdd.getPositions().get(1));
     }
 
     @Override

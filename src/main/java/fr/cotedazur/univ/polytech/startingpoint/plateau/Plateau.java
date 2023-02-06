@@ -262,6 +262,12 @@ public class Plateau {
         return ajoute;
     }
 
+    /**
+     * Pose du bambou uniquement si la parcelle est irriguée, ajoute une nouvelle section de bambou si il
+     * existe déja un bambou sur la parcelle, sinon crée un nouveau bambou puis ajoute une section de bambou
+     * @param parcelleCouleur parcelle sur laquelle on veut faire pousser du bambou
+     * @return true si le bambou a bien été posé, false sinon
+     */
     public boolean poseBambou(ParcelleCouleur parcelleCouleur){
         if (parcelleCouleur.isIrriguee()){
             Optional<Bambou> optionalBambou = GestionBambous.chercheBambou(getBambous(), parcelleCouleur.getPosition());
