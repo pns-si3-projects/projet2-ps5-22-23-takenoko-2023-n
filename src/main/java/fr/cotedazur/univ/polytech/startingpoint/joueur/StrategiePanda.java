@@ -68,7 +68,7 @@ public class StrategiePanda implements Strategie {
             plateau.poseBambou(parcelleCouleur);
         }
     }
-
+    
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
         Set<Irrigation> irrigationDisponible = plateau.getIrrigationsDisponibles();
