@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.motif;
 
-import fr.cotedazur.univ.polytech.startingpoint.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 
 import java.util.Objects;
@@ -82,13 +82,13 @@ public abstract class Motif {
         ParcelleCouleur[][] orientationMotifActuel = getOrientation();
         ParcelleCouleur[] motifOther = otherMotif.tabParcelles;
         for (int i = 0; i < orientationMotifActuel.length; i++) {
-            int differencePositionX = Math.abs(orientationMotifActuel[i][0].position().getX() - motifOther[0].position().getX());
-            int differencePositionY = Math.abs(orientationMotifActuel[i][0].position().getY() - motifOther[0].position().getY());
+            int differencePositionX = Math.abs(orientationMotifActuel[i][0].getPosition().getX() - motifOther[0].getPosition().getX());
+            int differencePositionY = Math.abs(orientationMotifActuel[i][0].getPosition().getY() - motifOther[0].getPosition().getY());
             boolean memeMotif = true;
 
             for (int j = 1; j < motifOther.length; j++) {
-                Position positionMotifActuel = orientationMotifActuel[i][j].position();
-                Position positionMotifOther = motifOther[j].position();
+                Position positionMotifActuel = orientationMotifActuel[i][j].getPosition();
+                Position positionMotifOther = motifOther[j].getPosition();
                 if (!comparePosition(positionMotifActuel, positionMotifOther, differencePositionX, differencePositionY)) {
                     memeMotif = false;
                 }

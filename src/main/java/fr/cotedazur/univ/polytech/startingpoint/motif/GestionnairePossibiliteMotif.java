@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.motif;
 
-import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -28,19 +28,19 @@ public class GestionnairePossibiliteMotif {
      */
     private static int nombreParcelleMotif(Parcelle[] tableauParcellePlateau, Parcelle parcelleACheck, Parcelle[] motifAFaire) {
         Position positionEtang = new Position(0, 0);
-        if(parcelleACheck.position().equals(positionEtang)) return 0;
+        if(parcelleACheck.getPosition().equals(positionEtang)) return 0;
 
-        int differenceX = parcelleACheck.position().getX() - motifAFaire[0].position().getX();
-        int differenceY = parcelleACheck.position().getY() - motifAFaire[0].position().getY();
+        int differenceX = parcelleACheck.getPosition().getX() - motifAFaire[0].getPosition().getX();
+        int differenceY = parcelleACheck.getPosition().getY() - motifAFaire[0].getPosition().getY();
         int nombreParcelleProcheMotif = 1;
 
         for (int i = 1; i < motifAFaire.length; i++) {
-            Position positionMotif = motifAFaire[i].position();
+            Position positionMotif = motifAFaire[i].getPosition();
             Position positionACheck = new Position(positionMotif.getX() + differenceX, positionMotif.getY() + differenceY);
 
             for (Parcelle parcellePlateau : tableauParcellePlateau) {
                 if ( positionEtang.equals(positionACheck) ) return 0; // impossible de le faire avec l'Etang dans le motif
-                if ( parcellePlateau.position().equals(positionACheck) && !parcelleACheck.position().equals(positionACheck) ) {
+                if ( parcellePlateau.getPosition().equals(positionACheck) && !parcelleACheck.getPosition().equals(positionACheck) ) {
                     nombreParcelleProcheMotif++;
                     break;
                 }
@@ -79,18 +79,18 @@ public class GestionnairePossibiliteMotif {
      * @return le tableau du Motif ressemblant au motif de l'objectif parcelle
      */
     public static Parcelle[] getMotifAFaire(Parcelle[] tableauParcellesPlateau, Parcelle parcelleMotifAFaire, Parcelle[] motifAFaire){
-        int differenceX = parcelleMotifAFaire.position().getX() - motifAFaire[0].position().getX();
-        int differenceY = parcelleMotifAFaire.position().getY() - motifAFaire[0].position().getY();
+        int differenceX = parcelleMotifAFaire.getPosition().getX() - motifAFaire[0].getPosition().getX();
+        int differenceY = parcelleMotifAFaire.getPosition().getY() - motifAFaire[0].getPosition().getY();
         Parcelle[] motifRessemblantAuMotifAFaire = new Parcelle[motifAFaire.length];
         motifRessemblantAuMotifAFaire[0] = parcelleMotifAFaire;
 
         for (int i = 1; i < motifAFaire.length; i++) {
-            Position positionMotif = motifAFaire[i].position();
+            Position positionMotif = motifAFaire[i].getPosition();
             Position positionACheck = new Position(positionMotif.getX() + differenceX, positionMotif.getY() + differenceY);
             Parcelle parcelleTrouve = null;
 
             for (Parcelle parcellePlateau : tableauParcellesPlateau) {
-                if (parcellePlateau.position().equals(positionACheck)) {
+                if (parcellePlateau.getPosition().equals(positionACheck)) {
                     parcelleTrouve = parcellePlateau;
                     break;
                 }
@@ -139,7 +139,7 @@ public class GestionnairePossibiliteMotif {
     public static Optional<Position> cherchePositionPossibilitePourFaireMotif(Position[] tableauPositionDisponible, Parcelle[] motifParcelle){
         for (int i = 1; i < motifParcelle.length; i++) {
             if (motifParcelle[i].getClass() == ParcelleDisponible.class) {
-                Optional<Position> positionPossible = cherchePositionPossibilite(tableauPositionDisponible, motifParcelle[i].position());
+                Optional<Position> positionPossible = cherchePositionPossibilite(tableauPositionDisponible, motifParcelle[i].getPosition());
                 if (positionPossible.isPresent()) return positionPossible;
             }
         }
@@ -190,8 +190,8 @@ public class GestionnairePossibiliteMotif {
     public static Optional<Position> cherchePositionARecuperer(Position[] positionDisponible, Parcelle[] motifParcelle) {
         for (int i = 1; i < motifParcelle.length; i++) {
             if ( motifParcelle[i].getClass() == ParcelleDisponible.class ) {
-                if (cherchePositionPossibilite(positionDisponible,motifParcelle[i].position()).isPresent()) return Optional.of(motifParcelle[i].position());
-                return Optional.ofNullable(cherchePositionPlusProcheParcelleAPoser(positionDisponible, motifParcelle[i].position()));
+                if (cherchePositionPossibilite(positionDisponible,motifParcelle[i].getPosition()).isPresent()) return Optional.of(motifParcelle[i].getPosition());
+                return Optional.ofNullable(cherchePositionPlusProcheParcelleAPoser(positionDisponible, motifParcelle[i].getPosition()));
             }
         }
         return Optional.empty();
@@ -204,7 +204,7 @@ public class GestionnairePossibiliteMotif {
      * @return <code>true</code> si le motif est sur le board
      */
     public static boolean checkMotifInBoard(Parcelle[] parcellesBoard, ObjectifParcelle objectifParcelle) {
-        ParcelleCouleur[][] allOrientations = objectifParcelle.getMotif().getOrientation();
+        ParcelleCouleur[][] allOrientations = objectifParcelle.getSchema().getOrientation();
 
         for(ParcelleCouleur[] orientation : allOrientations) {
             Parcelle parcelleMax = getParcellePlusProcheObjectif(parcellesBoard, orientation);
@@ -223,7 +223,7 @@ public class GestionnairePossibiliteMotif {
      * @return position possible pour créer un motif sur le Plateau
      */
     public static Optional<Position> positionPossiblePrendrePourMotif(Parcelle[] parcellesBoard, Position[] positionsDisponiblesBoard, ObjectifParcelle objectifParcelle) {
-        ParcelleCouleur[][] allOrientations = objectifParcelle.getMotif().getOrientationForIA();
+        ParcelleCouleur[][] allOrientations = objectifParcelle.getSchema().getOrientationForIA();
         int maxParcelleMotif = -1;
         Parcelle[] motifPlusRessemblant = new Parcelle[0];
 

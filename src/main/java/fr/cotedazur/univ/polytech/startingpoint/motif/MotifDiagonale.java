@@ -28,8 +28,8 @@ public class MotifDiagonale extends Motif{
         System.arraycopy(orientationBaseMotif, 0, orientationMotif, 0, 6);
         for (int i = 6, j = 0; j < 3; i++, j++) {
             orientationMotif[i][0] = tabParcelles[1];
-            orientationMotif[i][1] = getVoisin(j, tabParcelles[1].position(), tabParcelles[2].couleur());
-            orientationMotif[i][2] = getVoisin(j + 3, tabParcelles[1].position(), tabParcelles[0].couleur());
+            orientationMotif[i][1] = getVoisin(j, tabParcelles[1].getPosition(), tabParcelles[2].getCouleur());
+            orientationMotif[i][2] = getVoisin(j + 3, tabParcelles[1].getPosition(), tabParcelles[0].getCouleur());
         }
 
         return orientationMotif;
@@ -42,12 +42,12 @@ public class MotifDiagonale extends Motif{
 
         for (int i = 0; i < 6; i++) {
             orientationsMotif[i][0] = tabParcelles[0];
-            orientationsMotif[i][1] = getVoisin(i, tabParcelles[0].position(), tabParcelles[1].couleur());
+            orientationsMotif[i][1] = getVoisin(i, tabParcelles[0].getPosition(), tabParcelles[1].getCouleur());
         }
 
         if (tabParcelles.length == 3) {
             for (int i = 0; i < 6; i++) {
-                orientationsMotif[i][2] = getVoisin(i , orientationsMotif[i][1].position(), tabParcelles[2].couleur());
+                orientationsMotif[i][2] = getVoisin(i , orientationsMotif[i][1].getPosition(), tabParcelles[2].getCouleur());
             }
         }
 

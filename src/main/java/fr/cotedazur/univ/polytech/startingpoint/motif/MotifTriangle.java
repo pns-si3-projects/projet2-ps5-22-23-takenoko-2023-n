@@ -31,7 +31,7 @@ public class MotifTriangle extends Motif{
 
         for (int i = 1; i < 5; i++) {
             allOrientation[i][0] = tabParcelles[0];
-            allOrientation[i][1] = getVoisin(i + 1, tabParcelles[0].position(), tabParcelles[1].couleur());
+            allOrientation[i][1] = getVoisin(i + 1, tabParcelles[0].getPosition(), tabParcelles[1].getCouleur());
             allOrientation[i][2] = allOrientation[i - 1][1];
         }
 
