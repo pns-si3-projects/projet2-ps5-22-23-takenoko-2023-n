@@ -224,12 +224,32 @@ class PlateauTest {
         ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
         ParcelleCouleur pc31 = new ParcelleCouleur(position31, Couleur.VERTE);
         plateau.poseParcelle(pc11);
+
         plateau.poseParcelle(pc20);
         plateau.poseParcelle(pc31);
 
-        assertTrue(plateau.poseBambou(pc11));
-        Optional<Bambou> optionalBambou = GestionBambous.chercheBambou(plateau.getBambous(), position11);
-        if (optionalBambou.isPresent()) assertEquals(1, optionalBambou.get());
+        //autour de l'étang donc automatiquement irriguée et donc automatiquement un bambou
+        Optional<Bambou> optionalBambou11 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
+        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambou11.get());
+
+        Optional<Bambou> optionalBambou20 = GestionBambous.chercheBambou(plateau.getBambous(), position20);
+        if (optionalBambou20.isPresent()) assertEquals(1, optionalBambou20.get());
+
+        //n'ajoute pas de bambou si non irriguée
+        assertFalse(plateau.poseBambou(pc31));
+        plateau.addIrrigation(position11, position20);
+        plateau.addIrrigation(position11, position31);
+
+        //ajout si irriguée
+        assertTrue(pc31.isIrriguee());
+        assertTrue(plateau.poseParcelle(pc31));
+
+        Optional<Bambou> optionalBambou31 = GestionBambous.chercheBambou(plateau.getBambous(), position31);
+        if (optionalBambou31.isPresent()) assertEquals(1, optionalBambou31.get());
+
+        assertTrue(plateau.poseParcelle(pc11));
+        Optional<Bambou> optionalBambou11_2 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
+        if (optionalBambou11_2.isPresent()) assertEquals(2, optionalBambou11_2.get());
     }
 
 }
