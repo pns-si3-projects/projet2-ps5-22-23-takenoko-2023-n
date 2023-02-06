@@ -63,12 +63,12 @@ class PiocheObjectifParcelleTest {
         when(mockRandom.nextInt(anyInt())).thenReturn(14, 10, 11, 0, 0);
         piocheObjectifParcelle = new PiocheObjectifParcelle(mockRandom);
 
-        assertEquals(new ObjectifParcelle(3, 3), piocheObjectifParcelle.pioche());
-        assertEquals(new ObjectifParcelle(4, 3), piocheObjectifParcelle.pioche());
+        assertEquals(new ObjectifParcelle(3, null), piocheObjectifParcelle.pioche());
+        assertEquals(new ObjectifParcelle(4, null), piocheObjectifParcelle.pioche());
         // car en supprimant 10, les suivants sont décalés donc on prend ancien 12
-        assertEquals(new ObjectifParcelle(5, 4), piocheObjectifParcelle.pioche());
-        assertEquals(new ObjectifParcelle(2, 3), piocheObjectifParcelle.pioche());
+        assertEquals(new ObjectifParcelle(5, null), piocheObjectifParcelle.pioche());
+        assertEquals(new ObjectifParcelle(2, null), piocheObjectifParcelle.pioche());
         // car en supprimant 0, les suivants sont décalés donc on prend ancien 1
-        assertEquals(new ObjectifParcelle(3, 4), piocheObjectifParcelle.pioche());
+        assertEquals(new ObjectifParcelle(3, null), piocheObjectifParcelle.pioche());
     }
 }

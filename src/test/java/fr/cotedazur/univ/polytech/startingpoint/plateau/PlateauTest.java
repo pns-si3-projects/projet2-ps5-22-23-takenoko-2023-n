@@ -7,13 +7,11 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.AbstractSet;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -215,6 +213,43 @@ class PlateauTest {
         assertTrue(pc11.isIrriguee());
         assertFalse(pc31.isIrriguee());
         assertFalse(pc22.isIrriguee());
+    }
+
+    @Test
+    void poseBambou(){
+        Position position11 = new Position(1,1);
+        Position position20 = new Position(2,0);
+        Position position31 = new Position(3,1);
+        ParcelleCouleur pc11 = new ParcelleCouleur(position11, Couleur.JAUNE);
+        ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
+        ParcelleCouleur pc31 = new ParcelleCouleur(position31, Couleur.VERTE);
+        plateau.poseParcelle(pc11);
+
+        plateau.poseParcelle(pc20);
+        plateau.poseParcelle(pc31);
+
+        //autour de l'étang donc automatiquement irriguée et donc automatiquement un bambou
+        Optional<Bambou> optionalBambou11 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
+        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambou11.get());
+
+        Optional<Bambou> optionalBambou20 = GestionBambous.chercheBambou(plateau.getBambous(), position20);
+        if (optionalBambou20.isPresent()) assertEquals(1, optionalBambou20.get());
+
+        //n'ajoute pas de bambou si non irriguée
+        assertFalse(plateau.poseBambou(pc31));
+        plateau.addIrrigation(position11, position20);
+        plateau.addIrrigation(position11, position31);
+
+        //ajout si irriguée
+        assertTrue(pc31.isIrriguee());
+        assertTrue(plateau.poseParcelle(pc31));
+
+        Optional<Bambou> optionalBambou31 = GestionBambous.chercheBambou(plateau.getBambous(), position31);
+        if (optionalBambou31.isPresent()) assertEquals(1, optionalBambou31.get());
+
+        assertTrue(plateau.poseParcelle(pc11));
+        Optional<Bambou> optionalBambou11_2 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
+        if (optionalBambou11_2.isPresent()) assertEquals(2, optionalBambou11_2.get());
     }
 
 }
