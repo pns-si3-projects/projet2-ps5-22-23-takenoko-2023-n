@@ -58,6 +58,17 @@ class GestionParcellesTest {
     }
 
     @Test
+    void chercheParcelleCouleur() {
+        Optional<Parcelle> parcelleOpt2_0 = GestionParcelles.chercheParcelleCouleur(parcelles,verte);
+        Optional<Parcelle> parcelleOpt1_1 = GestionParcelles.chercheParcelleCouleur(parcelles, rose);
+        Optional<Parcelle> parcelleOpt1_m1 = GestionParcelles.chercheParcelleCouleur(parcelles,jaune);
+
+        assertTrue(parcelleOpt2_0.isPresent());
+        assertTrue(parcelleOpt1_1.isPresent());
+        assertTrue(parcelleOpt1_m1.isPresent());
+    }
+
+    @Test
     void futuresVoisines() {
         assertThrows(ParcelleExistanteException.class, () -> GestionParcelles.futuresVoisines(parcelles, etang));
         assertThrows(ParcelleExistanteException.class, () -> GestionParcelles.futuresVoisines(parcelles, pC1_m1J));

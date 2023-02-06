@@ -1,10 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -66,6 +64,24 @@ public class GestionParcelles {
         for (Parcelle parcelle : parcelles) {
             if (position.equals(parcelle.getPosition())) {
                 return Optional.of(parcelle);
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Renvoie la parcelle à la couleur demandée
+     * @param parcelles le tableau des parcellesCouleur posées
+     * @param couleur la couleur de la parcelleCouleur demandée
+     * @return la parcelleCouleur de la couleur demandée
+     */
+    public static Optional<Parcelle> chercheParcelleCouleur(@NotNull Parcelle[] parcelles, Couleur couleur){
+        for(Parcelle parcelle: parcelles){
+            if(!parcelle.getPosition().equals(ETANG.getPosition())) {
+                ParcelleCouleur parcelleCouleur=(ParcelleCouleur) parcelle;
+                if (couleur.equals(parcelleCouleur.getCouleur())) {
+                    return Optional.of(parcelleCouleur);
+                }
             }
         }
         return Optional.empty();
