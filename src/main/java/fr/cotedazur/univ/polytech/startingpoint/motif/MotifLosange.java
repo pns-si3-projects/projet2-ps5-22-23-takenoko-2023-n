@@ -32,9 +32,9 @@ public class MotifLosange extends Motif{
         allOrientation[0] = tabParcelles;
         for (int i = 1; i < 6; i++) {
             allOrientation[i][0] = allOrientation[0][0];
-            allOrientation[i][1] = getVoisin(i, allOrientation[i][0].position(), tabParcelles[1].couleur());
+            allOrientation[i][1] = getVoisin(i, allOrientation[i][0].getPosition(), tabParcelles[1].getCouleur());
             allOrientation[i][2] = allOrientation[i - 1][1];
-            allOrientation[i][3] = getVoisin(i - 1, allOrientation[i][1].position(), tabParcelles[3].couleur());
+            allOrientation[i][3] = getVoisin(i - 1, allOrientation[i][1].getPosition(), tabParcelles[3].getCouleur());
         }
         return allOrientation;
     }
