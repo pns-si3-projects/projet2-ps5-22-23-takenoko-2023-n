@@ -22,7 +22,7 @@ public class StrategieParcelle implements Strategie {
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[objectif.ordinal()]) {
+        if (!actionsRealiseesTour[parcelle.ordinal()]) {
             return parcelle;
         }
 

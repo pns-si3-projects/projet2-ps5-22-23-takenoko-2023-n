@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.jeu.MaitreDuJeu;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
@@ -18,17 +17,17 @@ public class StrategieJardinier implements Strategie {
                                                      Plateau plateau, boolean[] piochesVides) {
 
         Plaquette.ActionPossible jardinier = Plaquette.ActionPossible.JARDINIER;
-        if (!actionsRealiseesTour[jardinier.ordinal()] && MaitreDuJeu.PLATEAU.getParcelles().length > 3) {
+        if (!actionsRealiseesTour[jardinier.ordinal()] && plateau.getParcelles().length > 3) {
             return jardinier;
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && MaitreDuJeu.PLATEAU.getParcelles().length < 10) {
+        if (!actionsRealiseesTour[parcelle.ordinal()] && plateau.getParcelles().length < 10) {
             return parcelle;
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
-        if (!actionsRealiseesTour[irrigation.ordinal()] && MaitreDuJeu.PLATEAU.getParcelles().length > 4) {
+        if (!actionsRealiseesTour[irrigation.ordinal()] && plateau.getParcelles().length > 4) {
             return irrigation;
         }
 
