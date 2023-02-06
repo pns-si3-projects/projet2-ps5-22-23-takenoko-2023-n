@@ -78,7 +78,7 @@ public class StrategiePanda implements Strategie {
 
     @Override
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou) {
-        
+
     }
 
     @Override
