@@ -242,12 +242,12 @@ class PlateauTest {
 
         //ajout si irriguée
         assertTrue(pc31.isIrriguee());
-        assertTrue(plateau.poseParcelle(pc31));
+        assertTrue(plateau.poseBambou(pc31));
 
         Optional<Bambou> optionalBambou31 = GestionBambous.chercheBambou(plateau.getBambous(), position31);
         if (optionalBambou31.isPresent()) assertEquals(1, optionalBambou31.get());
 
-        assertTrue(plateau.poseParcelle(pc11));
+        assertTrue(plateau.poseBambou(pc11));
         Optional<Bambou> optionalBambou11_2 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
         if (optionalBambou11_2.isPresent()) assertEquals(2, optionalBambou11_2.get());
     }
