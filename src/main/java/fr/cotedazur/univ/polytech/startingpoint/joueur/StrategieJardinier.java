@@ -48,7 +48,7 @@ public class StrategieJardinier implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleEnCoursException, PiocheParcelleVideException {
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleVideException, PiocheParcelleEnCoursException {
         ParcellePioche[] pioche3parcelles = piocheParcelle.pioche();
         Position positionChoisie  = plateau.getPositionsDisponibles()[0];
         ParcelleCouleur parcelleChoisie = piocheParcelle.choisiParcelle(pioche3parcelles[0],positionChoisie);
@@ -57,7 +57,20 @@ public class StrategieJardinier implements Strategie {
 
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
-
+        Set<Irrigation> irrigationsDisponibles = plateau.getIrrigationsDisponibles();
+        Irrigation irrigationAAdd = null;
+        for (Irrigation irrigation: irrigationsDisponibles){
+            irrigationAAdd = irrigation;
+            for (Position positionIrrigation : irrigation.getPositions()){
+                Optional<Parcelle> optParcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), positionIrrigation);
+                if (optParcelle.isPresent()) {
+                    ParcelleCouleur pc = (ParcelleCouleur) optParcelle.get();
+                    if (!pc.isIrriguee()) irrigationAAdd = irrigation;
+                    break;
+                }
+            }
+        }
+        plateau.addIrrigation(irrigationAAdd.getPositions().get(0), irrigationAAdd.getPositions().get(1));
     }
 
     @Override
