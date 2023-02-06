@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
@@ -145,9 +146,40 @@ public class StrategieParcelle implements Strategie {
         return Plaquette.ActionPossible.PANDA;
     }
 
+    /**
+     * Renvoie une parcelle Couleur à la position mis en paramètre en piochant la première Parcelle de la Pioche Parcelle
+     * @param piocheParcelle La pioche de parcelle
+     * @param positionChoisi La position choisi
+     * @return une parcelle Couleur à la position mis en paramètre
+     */
+    private ParcelleCouleur choisirParcelle(PiocheParcelle piocheParcelle, Position positionChoisi) {
+        ParcellePioche[] tabChoixParcelles;
+
+        try {
+            tabChoixParcelles = piocheParcelle.pioche();
+            return piocheParcelle.choisiParcelle(tabChoixParcelles[0], positionChoisi);
+        }
+        catch (PiocheParcelleEnCoursException pPECE) {
+            assert false: "Ne doit pas être en demande 2 fois";
+        }
+        catch (PiocheParcelleVideException pPVE) {
+            assert false: "La pioche parcelle ne doit pas être vide car vérifié avant par d'ancienne méthode";
+        }
+
+        return null;
+    }
+
     @Override
     public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) {
+        Parcelle[] tableauParcellePlateau = plateau.getParcelles();
+        Position[] tableauPositionDisponible = plateau.getPositionsDisponibles();
+        Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(tableauParcellePlateau, tableauPositionDisponible, null);
+        Position positionChoisi;
 
+        positionChoisi = optPosition.orElseGet(() -> tableauPositionDisponible[0]);
+
+        ParcelleCouleur parcelleCouleurChoisi = choisirParcelle(piocheParcelle, positionChoisi);
+        plateau.poseParcelle(parcelleCouleurChoisi);
     }
 
     @Override
