@@ -9,6 +9,10 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
 
 import java.util.Optional;
 
+/**
+ * Classe qui permet de gérer les possibilités de Motifs possible
+ * @author equipe N
+ */
 public class GestionnairePossibiliteMotif {
 
     private GestionnairePossibiliteMotif() {
