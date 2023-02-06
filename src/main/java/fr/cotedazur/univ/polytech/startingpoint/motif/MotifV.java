@@ -6,7 +6,7 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
  * Classe représentant le motif Decalé
  * @author equipe N
  */
-public class MotifDecale extends Motif{
+public class MotifV extends Motif{
 
     /**
      * Constructeur par defaut
@@ -14,7 +14,7 @@ public class MotifDecale extends Motif{
      * @param parcelleCouleur11 Parcelle de couleur de coordonnees 1, 1 (par exemple, peut être 3, 1)
      * @param parcelleCouleur02 Parcelle de couleur de coordonnees 0, 2 (par exemple, peut être 2, 2)
      */
-    public MotifDecale(ParcelleCouleur parcelleCouleur00, ParcelleCouleur parcelleCouleur11, ParcelleCouleur parcelleCouleur02) {
+    public MotifV(ParcelleCouleur parcelleCouleur00, ParcelleCouleur parcelleCouleur11, ParcelleCouleur parcelleCouleur02) {
         if (parcelleCouleur00 == null || parcelleCouleur11 == null || parcelleCouleur02 == null) {
             throw new IllegalArgumentException("Les arguments ne doivent pas être null");
         }
@@ -31,12 +31,12 @@ public class MotifDecale extends Motif{
 
         for (int i = 1; i < 6; i++) {
             allOrientation[i][0] = tabParcelles[0];
-            allOrientation[i][1] = getVoisin(i, tabParcelles[0].position(), tabParcelles[1].couleur());
-            allOrientation[i][2] = getVoisin(i - 1, allOrientation[i][1].position(), tabParcelles[2].couleur());
+            allOrientation[i][1] = getVoisin(i, tabParcelles[0].getPosition(), tabParcelles[1].getCouleur());
+            allOrientation[i][2] = getVoisin(i - 1, allOrientation[i][1].getPosition(), tabParcelles[2].getCouleur());
         }
 
         allOrientation[6][0] = tabParcelles[0];
-        allOrientation[6][1] = getVoisin(4, allOrientation[0][1].position(), tabParcelles[1].couleur());
+        allOrientation[6][1] = getVoisin(4, allOrientation[0][1].getPosition(), tabParcelles[1].getCouleur());
         allOrientation[6][2] = tabParcelles[2];
 
         for (int i = 7; i < 12; i++) {
@@ -56,9 +56,9 @@ public class MotifDecale extends Motif{
         allOrientation[0][2] = tabParcelles[2];
 
         for (int i = 1; i < 6; i++) {
-            allOrientation[i][0] = getVoisin(i, tabParcelles[0].position(), tabParcelles[1].couleur());
+            allOrientation[i][0] = getVoisin(i, tabParcelles[0].getPosition(), tabParcelles[1].getCouleur());
             allOrientation[i][1] = tabParcelles[0];
-            allOrientation[i][2] = getVoisin(i - 1, allOrientation[i][0].position(), tabParcelles[2].couleur());
+            allOrientation[i][2] = getVoisin(i - 1, allOrientation[i][0].getPosition(), tabParcelles[2].getCouleur());
         }
 
         allOrientation[6][0] = allOrientation[5][0];
