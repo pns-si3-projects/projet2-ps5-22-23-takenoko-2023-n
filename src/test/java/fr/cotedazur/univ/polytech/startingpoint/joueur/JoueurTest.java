@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,8 @@ class JoueurTest {
     Joueur joueurParcelle;
     Joueur joueurPanda;
     Joueur joueurJardinier;
+    Plateau plateau;
+    boolean[] piochesVides;
 
 
     @BeforeEach
@@ -19,6 +22,8 @@ class JoueurTest {
         joueurParcelle = new Joueur("joueur1", Strategie.StrategiePossible.PARCELLE);
         joueurPanda = new Joueur("joueur2", Strategie.StrategiePossible.PANDA);
         joueurJardinier = new Joueur("joueur3", Strategie.StrategiePossible.JARDINIER);
+        plateau = new Plateau();
+        piochesVides = new boolean[] {false, false, false, false, false};
     }
 
 
@@ -75,14 +80,14 @@ class JoueurTest {
 
     @Test
     void choisiAction() {
-        assertEquals(Plaquette.ActionPossible.PARCELLE, joueurParcelle.choisiAction());
-        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurParcelle.choisiAction());
+        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurParcelle.choisiAction(plateau, piochesVides));
+        assertEquals(Plaquette.ActionPossible.PARCELLE, joueurParcelle.choisiAction(plateau, piochesVides));
 
-        assertEquals(Plaquette.ActionPossible.JARDINIER, joueurJardinier.choisiAction());
-        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurJardinier.choisiAction());
+        assertEquals(Plaquette.ActionPossible.PARCELLE, joueurJardinier.choisiAction(plateau, piochesVides));
+        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurJardinier.choisiAction(plateau, piochesVides));
 
-        assertEquals(Plaquette.ActionPossible.PANDA, joueurPanda.choisiAction());
-        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurPanda.choisiAction());
+        assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurPanda.choisiAction(plateau, piochesVides));
+        assertEquals(Plaquette.ActionPossible.PARCELLE, joueurPanda.choisiAction(plateau, piochesVides));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,31 +13,35 @@ import static org.junit.jupiter.api.Assertions.*;
 class StrategieJardinierTest {
     StrategieJardinier strategieJardinier;
     List<Objectif> objectifs;
+    Plateau plateau;
+    boolean[] piochesVides;
 
 
     @BeforeEach
     void setUp() {
         strategieJardinier = new StrategieJardinier();
         objectifs = new ArrayList<>();
+        plateau = new Plateau();
+        piochesVides = new boolean[] {false, false, false, false, false};
     }
 
 
     @Test
     void choisiActionTour() {
         boolean[] actionsRealiseesTour = new boolean[]{false, false, false, false, false};
-        assertEquals(Plaquette.ActionPossible.JARDINIER,
-                strategieJardinier.choisiActionTour(actionsRealiseesTour, objectifs));
-
-        actionsRealiseesTour[Plaquette.ActionPossible.JARDINIER.ordinal()] = true;
-        assertEquals(Plaquette.ActionPossible.OBJECTIF,
-                strategieJardinier.choisiActionTour(actionsRealiseesTour, objectifs));
-
-        actionsRealiseesTour[Plaquette.ActionPossible.OBJECTIF.ordinal()] = true;
         assertEquals(Plaquette.ActionPossible.PARCELLE,
-                strategieJardinier.choisiActionTour(actionsRealiseesTour, objectifs));
+                strategieJardinier.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
 
         actionsRealiseesTour[Plaquette.ActionPossible.PARCELLE.ordinal()] = true;
+        assertEquals(Plaquette.ActionPossible.OBJECTIF,
+                strategieJardinier.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
+
+        actionsRealiseesTour[Plaquette.ActionPossible.OBJECTIF.ordinal()] = true;
         assertEquals(Plaquette.ActionPossible.PANDA,
-                strategieJardinier.choisiActionTour(actionsRealiseesTour, objectifs));
+                strategieJardinier.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
+
+        actionsRealiseesTour[Plaquette.ActionPossible.PANDA.ordinal()] = true;
+        assertEquals(Plaquette.ActionPossible.PANDA,
+                strategieJardinier.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
     }
 }
