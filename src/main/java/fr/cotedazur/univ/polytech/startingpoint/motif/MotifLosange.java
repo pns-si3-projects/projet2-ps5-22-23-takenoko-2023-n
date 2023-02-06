@@ -2,6 +2,10 @@ package fr.cotedazur.univ.polytech.startingpoint.motif;
 
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 
+/**
+ * Classe représentant le motif Losange
+ * @author equipe N
+ */
 public class MotifLosange extends Motif{
 
     /**

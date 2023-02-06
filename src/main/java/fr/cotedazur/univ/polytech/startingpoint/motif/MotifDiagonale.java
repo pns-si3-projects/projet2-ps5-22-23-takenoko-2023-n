@@ -1,9 +1,11 @@
 package fr.cotedazur.univ.polytech.startingpoint.motif;
 
-import fr.cotedazur.univ.polytech.startingpoint.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 
+/**
+ * Classe représentant le motif Diagonale
+ * @author equipe N
+ */
 public class MotifDiagonale extends Motif{
 
     /**
