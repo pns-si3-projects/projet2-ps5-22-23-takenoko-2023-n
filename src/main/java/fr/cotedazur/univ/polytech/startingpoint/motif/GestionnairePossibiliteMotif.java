@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.motif;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
@@ -201,7 +202,7 @@ public class GestionnairePossibiliteMotif {
      * @param parcellesBoard Le tableau des parcelles sur le board
      * @param objectifParcelle L'objectif Parcelle à réaliser
      * @return <code>true</code> si le motif est sur le board
-     *//*
+     */
     public static boolean checkMotifInBoard(Parcelle[] parcellesBoard, ObjectifParcelle objectifParcelle) {
         ParcelleCouleur[][] allOrientations = objectifParcelle.getSchema().getOrientation();
 
@@ -215,12 +216,12 @@ public class GestionnairePossibiliteMotif {
 
         return false;
     }
-*/
+
     /**
      * Renvoie une des "meilleurs" position possible pour créer un motif sur le Plateau
      * @param objectifParcelle L'objectif à réaliser
      * @return position possible pour créer un motif sur le Plateau
-     *//*
+     */
     public static Optional<Position> positionPossiblePrendrePourMotif(Parcelle[] parcellesBoard, Position[] positionsDisponiblesBoard, ObjectifParcelle objectifParcelle) {
         ParcelleCouleur[][] allOrientations = objectifParcelle.getSchema().getOrientationForIA();
         int maxParcelleMotif = -1;
@@ -247,5 +248,5 @@ public class GestionnairePossibiliteMotif {
         Optional<Position> optPosition = GestionnairePossibiliteMotif.cherchePositionARecuperer(positionsDisponiblesBoard,motifPlusRessemblant);
         if(optPosition.isPresent()) return optPosition;
         else return Optional.of(positionsDisponiblesBoard[0]);
-    }*/
+    }
 }

@@ -35,7 +35,7 @@ public class GestionTours {
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
-        piocheSectionBambou = new PiocheSectionBambou(new Random());
+        piocheSectionBambou = new PiocheSectionBambou();
         piocheIrrigation = new PiocheIrrigation();
     }
 
