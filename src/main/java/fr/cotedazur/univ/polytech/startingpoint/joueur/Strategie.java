@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
 
@@ -17,7 +18,10 @@ public interface Strategie {
      * Renvoie l'action choisie pour le tour
      * @param actionsRealiseesTour le tableau des actions réalisées lors du tour
      * @param objectifs la liste des objectifs à réaliser
+     * @param plateau le plateau du jeu
+     * @param piochesVides un tableau pour savoir quelle pioche est vide
      * @return l'action choisie
      */
-    Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs);
+    Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs,
+                                              Plateau plateau, boolean[] piochesVides);
 }

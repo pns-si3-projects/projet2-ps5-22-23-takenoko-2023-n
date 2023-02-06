@@ -17,7 +17,9 @@ public class StrategiePanda implements Strategie {
     // Méthodes d'utilisation
 
     @Override
-    public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs) {
+    public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs,
+                                                     Plateau plateau, boolean[] piochesVides) {
+        
         Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
         /*if( plateau.getBambous().length > 0 ) {
             if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 3) {

@@ -145,11 +145,11 @@ public class Joueur {
     /**
      * Renvoie l'action à effectuer
      */
-    public Plaquette.ActionPossible choisiAction() {
+    public Plaquette.ActionPossible choisiAction(Plateau plateau, boolean[] piochesVides) {
         AfficheurJoueur.debutTour(this.getNom());
 
         Plaquette.ActionPossible actionChoisie =
-                strategie.choisiActionTour(plaquette.getActionsTour(), objectifEnMainList);
+                strategie.choisiActionTour(plaquette.getActionsTour(), objectifEnMainList, plateau, piochesVides);
         plaquette.joueActionTour(actionChoisie);
         AfficheurJoueur.actionChoisie(actionChoisie);
         return actionChoisie;
@@ -160,7 +160,7 @@ public class Joueur {
      * @param plateau le plateau du jeu
      * @param piocheParcelle la pioche de parcelles du jeu
      */
-    public void joueParcelle(Plateau plateau, PiocheParcelle piocheParcelle) {
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) {
 
     }
 
@@ -169,7 +169,7 @@ public class Joueur {
      * @param plateau le plateau du jeu
      * @param piocheIrrigation la pioche d'irrigation du jeu
      */
-    public void joueIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation) {
+    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
 
     }
 
@@ -177,7 +177,7 @@ public class Joueur {
      * Permet de déplacer le jardinier sur le plateau
      * @param plateau le plateau du jeu
      */
-    public void deplaceJardinier(Plateau plateau) {
+    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou) {
 
     }
 
@@ -185,7 +185,7 @@ public class Joueur {
      * Permet de déplacer le panda sur le plateau
      * @param plateau le plateau du jeu
      */
-    public void deplacePanda(Plateau plateau) {
+    public void actionPanda(Plateau plateau) {
 
     }
 
@@ -195,12 +195,15 @@ public class Joueur {
      * @param piocheObjectifJardinier la pioche d'objectifs de jardinier du jeu
      * @param piocheObjectifPanda la pioche d'objectifs de panda du jeu
      */
-    public void piocheObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
+    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
                                PiocheObjectifJardinier piocheObjectifJardinier,
                                PiocheObjectifPanda piocheObjectifPanda) {
 
     }
 
+    /**
+     * Termine le tour de {@code this}
+     */
     public void finDeTour() {
         plaquette.termineTour();
     }

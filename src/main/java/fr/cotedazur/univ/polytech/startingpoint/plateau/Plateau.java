@@ -8,6 +8,7 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.AjoutCouleurException;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
@@ -259,4 +260,35 @@ public class Plateau {
         }
         return ajoute;
     }
+
+    public boolean poseBambou(ParcelleCouleur parcelleCouleur){
+        if (parcelleCouleur.isIrriguee()){
+            Optional<Bambou> optionalBambou = GestionBambous.chercheBambou(getBambous(), parcelleCouleur.getPosition());
+            //1er cas: déja bambou
+            if (optionalBambou.isPresent()){
+                try {
+                    SectionBambou sectionBambou = new SectionBambou(parcelleCouleur.getCouleur());
+                    optionalBambou.get().ajouteSectionBambou(sectionBambou);
+                    return true;
+                } catch (AjoutCouleurException e) {
+                    System.out.println(e);
+                }
+            }
+
+            //2eme cas: pas encore de bambou
+            else {
+                Bambou bambou = new Bambou(parcelleCouleur);
+                try {
+                    SectionBambou sectionBambou = new SectionBambou(parcelleCouleur.getCouleur());
+                    bambou.ajouteSectionBambou(sectionBambou);
+                    return true;
+                }
+                catch (AjoutCouleurException e) {
+                    System.out.println(e);
+                }
+            }
+        }
+        return false;
+    }
+
 }
