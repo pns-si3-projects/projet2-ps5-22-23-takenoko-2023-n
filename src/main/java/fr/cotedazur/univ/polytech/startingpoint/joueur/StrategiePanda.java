@@ -1,12 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
-<<<<<<< HEAD
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
-=======
->>>>>>> c952ab0fa455d2533b8301457e78761c0d156312
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
@@ -44,7 +38,6 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-<<<<<<< HEAD
     public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleEnCoursException, PiocheParcelleVideException {
         boolean parcellepose = false;
         ParcelleCouleur parcelleCouleur=null;
