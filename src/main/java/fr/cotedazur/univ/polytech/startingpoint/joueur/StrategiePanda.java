@@ -1,11 +1,14 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Représente la stratégie de jeu favorisant la réalisation des objectifs de panda
@@ -65,10 +68,12 @@ public class StrategiePanda implements Strategie {
             plateau.poseBambou(parcelleCouleur);
         }
     }
-
+    
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
-
+        Set<Irrigation> irrigationDisponible = plateau.getIrrigationsDisponibles();
+        List<Irrigation> irrigationDisponibleListe = irrigationDisponible.stream().toList();
+        plateau.addIrrigation(irrigationDisponibleListe.get(0).getPositions().get(0), irrigationDisponibleListe.get(0).getPositions().get(1));
     }
 
     @Override

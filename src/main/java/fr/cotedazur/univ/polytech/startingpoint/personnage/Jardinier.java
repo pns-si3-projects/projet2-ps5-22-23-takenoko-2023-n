@@ -9,7 +9,7 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 public class Jardinier implements Personnage {
     // Définition des attributs
 
-    private final Position position;
+    private Position position;
 
 
     // Définition des constructeurs
@@ -33,6 +33,9 @@ public class Jardinier implements Personnage {
         return position;
     }
 
+    public void setPosition( Position nouvelPosition ) {
+        position=nouvelPosition;
+    }
 
     // Méthode toString
 
