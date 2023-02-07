@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.pieces;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.AfficheurJoueur;
+import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 
 import java.util.logging.Logger;
 
@@ -20,5 +21,14 @@ public class AfficheurPieces {
 
     // Méthodes d'utilisation
 
+    /**
+     * Affiche la pose d'une irrigation
+     * @param irrigation posée à afficher
+     */
+    public static void poseIrrigation(Irrigation irrigation) {
+        String str = SEPARATION + irrigation
+                + " posée";
+        LOGGER.info(str);
+    }
     // A compléter
 }
