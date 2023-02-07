@@ -10,6 +10,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -231,5 +232,36 @@ class StrategieParcelleTest {
         verify(spyPlateau, times(1)).poseIrrigation(new Irrigation(listPosition));
         assertEquals(1, spyPlateau.getIrrigationsPosees().length);
         assertEquals(0, spyPlateau.getIrrigationsDisponibles().length);
+    }
+
+    @Test
+    void choisiActionJardinier() {
+        PiocheSectionBambou piocheSectionBambou = new PiocheSectionBambou();
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        // Position
+        Position position1_1 = new Position(1,1);
+        Position position2_0 = new Position(2,0);
+        Position position1_m1 = new Position(1,-1);
+        Position positionm1_m1 = new Position(-1,-1);
+
+        // pose des parcelles
+        spyPlateau.poseParcelle(new ParcelleCouleur(position1_1, Couleur.VERTE));
+        spyPlateau.poseParcelle(new ParcelleCouleur(position2_0, Couleur.JAUNE));
+        spyPlateau.poseParcelle(new ParcelleCouleur(position1_m1, Couleur.ROSE));
+        spyPlateau.poseParcelle(new ParcelleCouleur(positionm1_m1, Couleur.ROSE));
+
+        //test
+        Position positionInitial = spyPlateau.getJardinier().getPosition();;
+        assertEquals(new Position(), positionInitial);
+
+        strategieParcelle.actionJardinier(spyPlateau,piocheSectionBambou,objectifs);
+        assertNotEquals(positionInitial, spyPlateau.getJardinier().getPosition());
+        try {
+            verify(spyPlateau, times(1)).deplacementJardinier(any(Position.class));
+        } catch (ParcelleNonPoseeException e) {
+            System.out.println(e);
+        }
+
     }
 }
