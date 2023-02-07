@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
@@ -12,6 +13,7 @@ import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -84,9 +86,20 @@ public class StrategiePanda implements Strategie {
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation,
                                  PiocheSectionBambou piocheSectionBambou) {
-        Set<Irrigation> irrigationDisponible = plateau.getIrrigationsDisponibles();
-        List<Irrigation> irrigationDisponibleListe = irrigationDisponible.stream().toList();
-        plateau.poseIrrigation(irrigationDisponibleListe.get(0).getPositions().get(0), irrigationDisponibleListe.get(0).getPositions().get(1));
+        Set<Irrigation> irrigationsDisponibles = plateau.getIrrigationsDisponibles();
+        Irrigation irrigationAAdd = null;
+        for (Irrigation irrigation: irrigationsDisponibles){
+            irrigationAAdd = irrigation;
+            for (Position positionIrrigation : irrigation.getPositions()){
+                Optional<Parcelle> optParcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), positionIrrigation);
+                if (optParcelle.isPresent()) {
+                    ParcelleCouleur pc = (ParcelleCouleur) optParcelle.get();
+                    if (!pc.isIrriguee()) irrigationAAdd = irrigation;
+                    break;
+                }
+            }
+        }
+        if(irrigationAAdd != null) plateau.poseIrrigation(irrigationAAdd.getPositions().get(0), irrigationAAdd.getPositions().get(1));
     }
 
     @Override
@@ -105,7 +118,11 @@ public class StrategiePanda implements Strategie {
 
     @Override
     public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
-
+        Objectif objectif = null;
+        if (!piocheObjectifPanda.isEmpty()) objectif = piocheObjectifPanda.pioche();
+        else if (!piocheObjectifParcelle.isEmpty()) objectif = piocheObjectifParcelle.pioche();
+        else objectif = piocheObjectifJardinier.pioche();
+        objectifs.add(objectif);
     }
 
 
