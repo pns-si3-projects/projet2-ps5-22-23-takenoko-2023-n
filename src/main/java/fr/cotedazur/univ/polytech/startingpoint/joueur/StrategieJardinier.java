@@ -6,7 +6,6 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
@@ -18,7 +17,6 @@ import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Représente la stratégie de jeu favorisant la réalisation des objectifs de jardinier
@@ -58,9 +56,9 @@ public class StrategieJardinier implements Strategie {
 
     @Override
     public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
-        ParcellePioche[] pioche3parcelles = null;
+        ParcellePioche[] pioche3parcelles;
         Position positionChoisie  = plateau.getPositionsDisponibles()[0];
-        ParcelleCouleur parcelleChoisie = null;
+        ParcelleCouleur parcelleChoisie;
         try {
             pioche3parcelles = piocheParcelle.pioche();
             parcelleChoisie = piocheParcelle.choisiParcelle(pioche3parcelles[0],positionChoisie);
@@ -73,20 +71,16 @@ public class StrategieJardinier implements Strategie {
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation,
                                  PiocheSectionBambou piocheSectionBambou) {
-        Set<Irrigation> irrigationsDisponibles = plateau.getIrrigationsDisponibles();
-        Irrigation irrigationAAdd = null;
-        for (Irrigation irrigation: irrigationsDisponibles){
-            irrigationAAdd = irrigation;
-            for (Position positionIrrigation : irrigation.getPositions()){
-                Optional<Parcelle> optParcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), positionIrrigation);
-                if (optParcelle.isPresent()) {
-                    ParcelleCouleur pc = (ParcelleCouleur) optParcelle.get();
-                    if (!pc.isIrriguee()) irrigationAAdd = irrigation;
-                    break;
-                }
+        Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
+        if (irrigationsDisponibles.length > 0){
+            Position positionIrrigation1 = irrigationsDisponibles[0].getPositions().get(0);
+            Position positionIrrigation2 = irrigationsDisponibles[0].getPositions().get(1);
+
+            if (!piocheIrrigation.isEmpty()) {
+                Irrigation irrigationAAdd = piocheIrrigation.pioche(positionIrrigation1, positionIrrigation2);
+                plateau.poseIrrigation(irrigationAAdd);
             }
         }
-        if (irrigationAAdd!=null) plateau.poseIrrigation(irrigationAAdd.getPositions().get(0), irrigationAAdd.getPositions().get(1));
     }
 
     @Override
@@ -104,19 +98,17 @@ public class StrategieJardinier implements Strategie {
         boolean parcellePourDeplacementTrouvee = false;
         for (Position position : deplacementsPossibles){
             Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
-            if (parcelle.isPresent()) {
-                if (parcelle.get().getClass().equals(ParcelleCouleur.class)) {
-                    futureParcelleCouleurJardinier = (ParcelleCouleur) parcelle.get();
-                    futurePositionJardinier = futureParcelleCouleurJardinier.getPosition();
-                    if (futureParcelleCouleurJardinier.isIrriguee()) {
-                        for (ObjectifJardinier objectifJardinier : objectifsJardinierList) {
-                            if (futureParcelleCouleurJardinier.getCouleur().equals(objectifJardinier.getCouleur())) {
-                                parcellePourDeplacementTrouvee = true;
-                                break;
-                            }
+            if (parcelle.isPresent() && parcelle.get().getClass().equals(ParcelleCouleur.class)) {
+                futureParcelleCouleurJardinier = (ParcelleCouleur) parcelle.get();
+                futurePositionJardinier = futureParcelleCouleurJardinier.getPosition();
+                if (futureParcelleCouleurJardinier.isIrriguee()) {
+                    for (ObjectifJardinier objectifJardinier : objectifsJardinierList) {
+                        if (futureParcelleCouleurJardinier.getCouleur().equals(objectifJardinier.getCouleur())) {
+                            parcellePourDeplacementTrouvee = true;
+                            break;
                         }
-                        if (parcellePourDeplacementTrouvee) break;
                     }
+                    if (parcellePourDeplacementTrouvee) break;
                 }
             }
         }
@@ -141,7 +133,7 @@ public class StrategieJardinier implements Strategie {
     public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
                                PiocheObjectifJardinier piocheObjectifJardinier,
                                PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
-        Objectif objectif = null;
+        Objectif objectif;
         if (!piocheObjectifJardinier.isEmpty()) objectif = piocheObjectifJardinier.pioche();
         else if (!piocheObjectifParcelle.isEmpty()) objectif = piocheObjectifParcelle.pioche();
         else objectif = piocheObjectifPanda.pioche();

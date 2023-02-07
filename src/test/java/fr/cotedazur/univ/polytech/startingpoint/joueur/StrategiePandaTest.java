@@ -2,9 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +20,6 @@ class StrategiePandaTest {
     List<Objectif> objectifs;
     Plateau plateau;
     boolean[] piochesVides;
-    ParcelleCouleur parcelleCouleur;
     PiocheParcelle piocheParcelle;
     PiocheSectionBambou piocheSectionBambou;
     PiocheIrrigation piocheIrrigation;
@@ -43,6 +40,7 @@ class StrategiePandaTest {
         piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
+        piocheIrrigation = new PiocheIrrigation();
         plaquette = new Plaquette();
     }
 
@@ -82,7 +80,7 @@ class StrategiePandaTest {
         for (int j =0; j<2; j++) {
             strategiePanda.actionIrrigation(plateau,piocheIrrigation, piocheSectionBambou);
         }
-        assertEquals(2,plateau.getIrrigationsPosees().size());
+        assertEquals(2,plateau.getIrrigationsPosees().length);
     }
     @Test
     void actionObjectif() {

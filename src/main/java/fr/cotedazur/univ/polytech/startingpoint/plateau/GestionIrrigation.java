@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
-import fr.cotedazur.univ.polytech.startingpoint.jeu.MaitreDuJeu;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;

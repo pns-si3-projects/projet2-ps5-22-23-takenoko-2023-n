@@ -39,7 +39,7 @@ public class Panda implements Personnage {
 
     @Override
     public String toString() {
-        return "Panda en " + position;
+        return "Panda";
     }
 
     @Override

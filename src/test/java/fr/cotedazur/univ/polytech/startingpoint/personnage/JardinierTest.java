@@ -38,7 +38,7 @@ class JardinierTest {
 
     @Test
     void testToString() {
-        assertEquals("Jardinier en (0,0)", jardinier1.toString());
-        assertEquals("Jardinier en (0,0)", jardinier2.toString());
+        assertEquals("Jardinier", jardinier1.toString());
+        assertEquals("Jardinier", jardinier2.toString());
     }
 }

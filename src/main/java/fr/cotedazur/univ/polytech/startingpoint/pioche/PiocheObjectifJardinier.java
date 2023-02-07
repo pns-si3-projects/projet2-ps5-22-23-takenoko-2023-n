@@ -75,7 +75,9 @@ public class PiocheObjectifJardinier implements PiocheObjectifInterface {
 
     @Override
     public Objectif pioche() {
-        assert !isEmpty() : "La pioche d'objectifs de jardinier est vide";
+        if (isEmpty()) {
+            throw new AssertionError("La pioche d'objectifs de jardinier est vide");
+        }
 
         int size = getNombreObjectifsRestants();
         int positionCarte = random.nextInt(size);

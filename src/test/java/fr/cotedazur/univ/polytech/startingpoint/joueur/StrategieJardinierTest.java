@@ -43,6 +43,7 @@ class StrategieJardinierTest {
         piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
+        piocheIrrigation = new PiocheIrrigation();
         piochesVides = new boolean[]{false, false, false, false, false};
         plaquette = new Plaquette();
     }
@@ -84,7 +85,7 @@ class StrategieJardinierTest {
         for (int j = 0; j < 2; j++) {
             strategieJardinier.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
         }
-        assertEquals(2, plateau.getIrrigationsPosees().size());
+        assertEquals(2, plateau.getIrrigationsPosees().length);
     }
 
     @Test

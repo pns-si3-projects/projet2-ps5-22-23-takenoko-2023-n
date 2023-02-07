@@ -3,13 +3,11 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
@@ -18,7 +16,6 @@ import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Représente la stratégie de jeu favorisant la réalisation des objectifs de panda
@@ -36,17 +33,21 @@ public class StrategiePanda implements Strategie {
                 && plateau.getBambous().length > 0) {
             return panda;
         }
+
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
         if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)) {
             return objectif;
         }
+
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
         if (!actionsRealiseesTour[parcelle.ordinal()] && (plateau.getParcelles().length < 10))
             return parcelle;
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
-        int irrigationPossable = plateau.getIrrigationsPosees().size()-plateau.getIrrigationsDisponibles().size();
+
+        int irrigationPossable = plateau.getIrrigationsPosees().length -plateau.getIrrigationsDisponibles().length;
         if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3))
             return irrigation;
+
         return Plaquette.ActionPossible.JARDINIER;
     }
 
@@ -54,7 +55,7 @@ public class StrategiePanda implements Strategie {
     public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs)  {
         boolean parcellepose = false;
         ParcelleCouleur parcelleCouleur=null;
-        ParcellePioche[] pioche = new ParcellePioche[0];
+        ParcellePioche[] pioche;
         try {
             pioche = piocheParcelle.pioche();
 
@@ -90,20 +91,16 @@ public class StrategiePanda implements Strategie {
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation,
                                  PiocheSectionBambou piocheSectionBambou) {
-        Set<Irrigation> irrigationsDisponibles = plateau.getIrrigationsDisponibles();
-        Irrigation irrigationAAdd = null;
-        for (Irrigation irrigation: irrigationsDisponibles){
-            irrigationAAdd = irrigation;
-            for (Position positionIrrigation : irrigation.getPositions()){
-                Optional<Parcelle> optParcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), positionIrrigation);
-                if (optParcelle.isPresent()) {
-                    ParcelleCouleur pc = (ParcelleCouleur) optParcelle.get();
-                    if (!pc.isIrriguee()) irrigationAAdd = irrigation;
-                    break;
-                }
+        Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
+        if (irrigationsDisponibles.length > 0){
+            Position positionIrrigation1 = irrigationsDisponibles[0].getPositions().get(0);
+            Position positionIrrigation2 = irrigationsDisponibles[0].getPositions().get(1);
+
+            if (!piocheIrrigation.isEmpty()) {
+                Irrigation irrigationAAdd = piocheIrrigation.pioche(positionIrrigation1, positionIrrigation2);
+                plateau.poseIrrigation(irrigationAAdd);
             }
         }
-        if(irrigationAAdd != null) plateau.poseIrrigation(irrigationAAdd.getPositions().get(0), irrigationAAdd.getPositions().get(1));
     }
 
     @Override
@@ -139,7 +136,7 @@ public class StrategiePanda implements Strategie {
         }
         for (Position position : listePositionPossibleAvecBambou) {
             Optional<Parcelle> parcelleRegarder = GestionParcelles.chercheParcelle(plateau.getParcelles(),position);
-            if(parcelleRegarder.get().getClass().equals(ParcelleCouleur.class)) {
+            if(parcelleRegarder.isPresent() && parcelleRegarder.get().getClass().equals(ParcelleCouleur.class)) {
                 ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelleRegarder.get();
                 if(parcelleCouleur.getCouleur().equals(couleurAManger)) {
                     positionDeplacer=position;
@@ -175,19 +172,18 @@ public class StrategiePanda implements Strategie {
         ObjectifPanda objectifPandaMax = null;
 
         for (Objectif objectif : objectifsPanda) {
-            if (objectif.getClass().equals(ObjectifPanda.class)) {
-                if (objectifPandaMax == null || objectifPandaMax.getNombrePoints() < objectif.getNombrePoints()) {
+            if (objectif.getClass().equals(ObjectifPanda.class) &&
+                    (objectifPandaMax == null || objectifPandaMax.getNombrePoints() < objectif.getNombrePoints())) {
                     objectifPandaMax = (ObjectifPanda) objectif;
                 }
             }
-        }
 
         return objectifPandaMax;
     }
 
     @Override
     public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
-        Objectif objectif = null;
+        Objectif objectif;
         if (!piocheObjectifPanda.isEmpty()) objectif = piocheObjectifPanda.pioche();
         else if (!piocheObjectifParcelle.isEmpty()) objectif = piocheObjectifParcelle.pioche();
         else objectif = piocheObjectifJardinier.pioche();

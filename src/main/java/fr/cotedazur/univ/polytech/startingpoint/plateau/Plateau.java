@@ -2,10 +2,11 @@ package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.AfficheurPersonnage;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.*;
@@ -133,16 +134,16 @@ public class Plateau {
      * Renvoie les irrigations posées sur le plateau
      * @return le set des irrigations posées sur le plateau
      */
-    public Set<Irrigation> getIrrigationsPosees(){
-        return irrigationsPosees;
+    public Irrigation[] getIrrigationsPosees(){
+        return irrigationsPosees.toArray(new Irrigation[0]);
     }
 
     /**
      * Renvoie les irrigations disponibles
      * @return le set des irrigations disponibles
      */
-    public Set<Irrigation> getIrrigationsDisponibles(){
-        return irrigationsDisponibles;
+    public Irrigation[] getIrrigationsDisponibles(){
+        return irrigationsDisponibles.toArray(new Irrigation[0]);
     }
 
     public void setIrrigationsDisponibles(Set<Irrigation> irrigationsDisponibles){
@@ -194,7 +195,7 @@ public class Plateau {
 
         // On met à jour le set d'irrigations disponible
         Optional<Set<Irrigation>> newIrrigationsDisponible = GestionIrrigation.checkIrrigationsAutour(this.parcelleEtVoisinesList, parcelle, this.irrigationsDisponibles, irrigationsPosees);
-        if (newIrrigationsDisponible.isPresent()) setIrrigationsDisponibles(newIrrigationsDisponible.get());
+        newIrrigationsDisponible.ifPresent(this::setIrrigationsDisponibles);
         return true;
     }
 
@@ -214,10 +215,11 @@ public class Plateau {
 
     /**
      * Ajoute une irrigation entre les parcelles aux positions données
-     * @param position1 position de la 1ere parcelle
-     * @param position2 position de la 2eme parcelle
+     * @param irrigationPioche Irrigation pioche à poser
      */
-    public boolean poseIrrigation(Position position1, Position position2){
+    public boolean poseIrrigation(Irrigation irrigationPioche){
+        Position position1 = irrigationPioche.getPositions().get(0);
+        Position position2 = irrigationPioche.getPositions().get(1);
         Optional<Parcelle> parcelle1 = GestionParcelles.chercheParcelle(getParcelles(),position1);
         Optional<Parcelle> parcelle2 = GestionParcelles.chercheParcelle(getParcelles(),position2);
         boolean ajoute = false;
@@ -256,7 +258,7 @@ public class Plateau {
                 }
                 //met a jour le set des irrigations disponibles avec les nouvelles possibilités
                 Optional<Set<Irrigation>> irrigationsDisponoblesSet = GestionIrrigation.addIrrigationDisponible(parcelleEtVoisinesList, irrigationAAdd, irrigationsDisponibles, irrigationsPosees);
-                if (irrigationsDisponoblesSet.isPresent()) setIrrigationsDisponibles(irrigationsDisponoblesSet.get());
+                irrigationsDisponoblesSet.ifPresent(this::setIrrigationsDisponibles);
             }
         }
         return ajoute;
@@ -314,6 +316,7 @@ public class Plateau {
      */
     public void deplacementPanda(Position position) {
         panda.move(position);
+        AfficheurPersonnage.deplacePersonnage(panda);
 
         Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(getParcelles(),position);
         if(parcelle.isPresent()) {
@@ -329,11 +332,12 @@ public class Plateau {
     /**
      * Déplace le jardinier et ajoute le bambous sur la parcelle et ses voisins irriguées et de la même couleur
      * @param position position de la parcelle où on veut déplavcer le jardinier
-     * @throws ParcelleNonPoseeException
+     * @throws ParcelleNonPoseeException Renvoi une erreur si existe une exception
      */
     public void deplacementJardinier(Position position) throws ParcelleNonPoseeException {
         // déplacement du jardinier
         jardinier.move(position);
+        AfficheurPersonnage.deplacePersonnage(jardinier);
 
         Optional<Parcelle> parcelleJardinier = GestionParcelles.chercheParcelle(getParcelles(),position);
         if (parcelleJardinier.isPresent() && parcelleJardinier.get().getClass().equals(ParcelleCouleur.class)){
