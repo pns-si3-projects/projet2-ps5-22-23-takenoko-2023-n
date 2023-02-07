@@ -2,9 +2,11 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
@@ -12,6 +14,7 @@ import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -105,10 +108,17 @@ public class StrategiePanda implements Strategie {
     @Override
 
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs)  {
-        Jardinier jardinier=plateau.getJardinier();
-        Position positionJardinier = jardinier.getPosition();
-        List<Position> listePositionPossible = GestionPersonnages.deplacementsPossibles( plateau.getParcelleEtVoisinesList(), positionJardinier);
-        jardinier.setPosition(listePositionPossible.get(0));
+        Jardinier jardinier = plateau.getJardinier();
+        List<Position> listPositionPossible = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),jardinier.getPosition());
+        jardinier.move(listPositionPossible.get(listPositionPossible.size()-1));
+        Optional<Parcelle> parcelleJardinier = GestionParcelles.chercheParcelle(plateau.getParcelles(),listPositionPossible.get(0));
+
+        if(parcelleJardinier.isPresent()) {
+            if(parcelleJardinier.get().getClass().equals(ParcelleCouleur.class)){
+                ParcelleCouleur parcelleCouleurJardinier = (ParcelleCouleur) parcelleJardinier.get();
+                plateau.poseBambou(parcelleCouleurJardinier,piocheSectionBambou.pioche(parcelleCouleurJardinier.getCouleur()));
+            }
+        }
     }
 
     @Override
