@@ -61,27 +61,28 @@ class StrategieJardinierTest {
 
     @Test
     void actionParcelle() {
-        for (int i=0; i<6; i++){
-            strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
+        for (int i = 0; i < 6; i++) {
+            strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou, objectifs);
         }
         assertEquals(7, plateau.getParcelles().length);
     }
 
     @Test
-    void actionIrrigation(){
-        for (int i=0; i<4; i++){
-            strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
+    void actionIrrigation() {
+        for (int i = 0; i < 4; i++) {
+            strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou, objectifs);
+
+            for (int j = 0; j < 2; j++) {
+                strategieJardinier.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
+            }
+            assertEquals(2, plateau.getIrrigationsPosees().size());
         }
-        for (int i=0;i<2;i++){
-            strategieJardinier.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
-        }
-        assertEquals(2, plateau.getIrrigationsPosees().size());
     }
 
     @Test
-    void actionObjectif(){
+    void actionObjectif() {
         assertFalse(piocheObjectifJardinier.isEmpty());
-        strategieJardinier.actionObjectif(piocheObjectifParcelle,piocheObjectifJardinier, piocheObjectifPanda, objectifs);
+        strategieJardinier.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda, objectifs);
         assertEquals(1, objectifs.size());
         assertEquals(ObjectifJardinier.class, objectifs.get(0).getClass());
     }

@@ -48,7 +48,7 @@ public class StrategieJardinier implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) {
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
         ParcellePioche[] pioche3parcelles = null;
         Position positionChoisie  = plateau.getPositionsDisponibles()[0];
         ParcelleCouleur parcelleChoisie = null;
@@ -81,12 +81,12 @@ public class StrategieJardinier implements Strategie {
     }
 
     @Override
-    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou) {
+    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
 
     }
 
     @Override
-    public void actionPanda(Plateau plateau) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
 
     }
 

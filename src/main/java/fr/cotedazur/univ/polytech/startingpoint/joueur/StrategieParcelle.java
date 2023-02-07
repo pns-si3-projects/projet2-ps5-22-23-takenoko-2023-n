@@ -172,7 +172,8 @@ public class StrategieParcelle implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) {
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle,
+                               PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
         Parcelle[] tableauParcellePlateau = plateau.getParcelles();
         Position[] tableauPositionDisponible = plateau.getPositionsDisponibles();
         Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(tableauParcellePlateau, tableauPositionDisponible, null);
@@ -194,12 +195,12 @@ public class StrategieParcelle implements Strategie {
     }
 
     @Override
-    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou) {
+    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
 
     }
 
     @Override
-    public void actionPanda(Plateau plateau) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
 
     }
 

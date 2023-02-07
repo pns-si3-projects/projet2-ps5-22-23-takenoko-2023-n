@@ -41,7 +41,8 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleEnCoursException, PiocheParcelleVideException {
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle,
+                               PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) throws PiocheParcelleEnCoursException, PiocheParcelleVideException {
         boolean parcellepose = false;
         ParcelleCouleur parcelleCouleur=null;
         ParcellePioche[] pioche = piocheParcelle.pioche() ;
@@ -78,12 +79,12 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou) {
+    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
 
     }
 
     @Override
-    public void actionPanda(Plateau plateau) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
 
     }
 
