@@ -28,6 +28,7 @@ class StrategiePandaTest {
     PiocheObjectifPanda piocheObjectifPanda;
     PiocheObjectifJardinier piocheObjectifJardinier;
     PiocheObjectifParcelle piocheObjectifParcelle;
+    Plaquette plaquette;
 
 
     @BeforeEach
@@ -41,6 +42,7 @@ class StrategiePandaTest {
         piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
+        plaquette = new Plaquette();
     }
 
 
@@ -99,6 +101,20 @@ class StrategiePandaTest {
             strategiePanda.actionJardinier(plateau,piocheSectionBambou,objectifs);
         }
         Position positionFinal = plateau.getJardinier().getPosition();
+        assertNotEquals(positionInitial,positionFinal);
+    }
+
+    @Test
+    void actionPanda () {
+        Position positionInitial = plateau.getJardinier().getPosition();
+        for (int i =0; i<4; i++) {
+            strategiePanda.actionParcelle(plateau,piocheParcelle,piocheSectionBambou,objectifs);
+        }
+        strategiePanda.actionObjectif(piocheObjectifParcelle,piocheObjectifJardinier,piocheObjectifPanda,objectifs);
+        for (int j =0; j<2; j++) {
+            strategiePanda.actionPanda(plateau,objectifs,plaquette.getReserveBambousManges());
+        }
+        Position positionFinal = plateau.getPanda().getPosition();
         assertNotEquals(positionInitial,positionFinal);
     }
 }

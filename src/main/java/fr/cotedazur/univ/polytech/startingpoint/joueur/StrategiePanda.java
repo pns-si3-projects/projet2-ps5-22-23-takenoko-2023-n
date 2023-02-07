@@ -130,7 +130,7 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionPanda(Plateau plateau, List<Objectif> objectifs,List<Bambou> listeBambouMange) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs,SectionBambou[] listeBambouMange) {
         List<Objectif> objectifPanda = recupreObjectifPanda(objectifs);
         List<Position> listePositionPossibleAvecBambou = new ArrayList<>();
 
@@ -180,7 +180,7 @@ public class StrategiePanda implements Strategie {
         ObjectifPanda objectifPandaMax = null;
 
         for (Objectif objectif : objectifsPanda) {
-            if (objectif.getClass().equals(ObjectifParcelle.class)) {
+            if (objectif.getClass().equals(ObjectifPanda.class)) {
                 if (objectifPandaMax == null || objectifPandaMax.getNombrePoints() < objectif.getNombrePoints()) {
                     objectifPandaMax = (ObjectifPanda) objectif;
                 }
