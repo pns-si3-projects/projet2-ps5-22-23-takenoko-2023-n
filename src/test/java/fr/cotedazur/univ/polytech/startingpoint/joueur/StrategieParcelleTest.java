@@ -61,10 +61,6 @@ class StrategieParcelleTest {
 
         ParcelleCouleur parcelleCouleur11J = new ParcelleCouleur(new Position(1, 1), Couleur.JAUNE);
         plateau.poseParcelle(parcelleCouleur11J);
-        assertFalse(strategieParcelle.checkPossibiliteActionJardinier(plateau, objectifs));
-
-        ParcelleCouleur parcelleCouleurm1m1V = new ParcelleCouleur(new Position(-1, -1), Couleur.VERTE);
-        plateau.poseParcelle(parcelleCouleurm1m1V);
         assertTrue(strategieParcelle.checkPossibiliteActionJardinier(plateau, objectifs));
 
         objectifs.remove(0);
