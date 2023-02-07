@@ -7,6 +7,8 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,7 @@ class JoueurTest {
         joueurParcelle = new Joueur("joueur1", Strategie.StrategiePossible.PARCELLE);
         joueurPanda = new Joueur("joueur2", Strategie.StrategiePossible.PANDA);
         joueurJardinier = new Joueur("joueur3", Strategie.StrategiePossible.JARDINIER);
-        plateau = new Plateau();
+        plateau = new Plateau(new PiocheSectionBambou());
         piochesVides = new boolean[] {false, false, false, false, false};
     }
 

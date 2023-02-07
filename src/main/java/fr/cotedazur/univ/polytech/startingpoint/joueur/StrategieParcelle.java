@@ -153,12 +153,28 @@ public class StrategieParcelle implements Strategie {
         return null;
     }
 
+    private ObjectifParcelle getMaxObjectifParcelle(List<Objectif> objectifs) {
+        ObjectifParcelle objectifParcelleMax = null;
+
+        for (Objectif objectif : objectifs) {
+            if (objectif.getClass().equals(ObjectifParcelle.class)) {
+                if (objectifParcelleMax == null || objectifParcelleMax.getNombrePoints() < objectif.getNombrePoints()) {
+                    objectifParcelleMax = (ObjectifParcelle) objectif;
+                }
+            }
+        }
+
+        return objectifParcelleMax;
+    }
+
     @Override
     public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle,
                                PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
         Parcelle[] tableauParcellePlateau = plateau.getParcelles();
         Position[] tableauPositionDisponible = plateau.getPositionsDisponibles();
-        Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(tableauParcellePlateau, tableauPositionDisponible, null);
+        ObjectifParcelle objectifParcelleChoisi = getMaxObjectifParcelle(objectifs);
+        Optional<Position> optPosition = GestionnairePossibiliteMotif
+                .positionPossiblePrendrePourMotif(tableauParcellePlateau, tableauPositionDisponible, objectifParcelleChoisi);
         Position positionChoisi = optPosition.orElseGet(() -> tableauPositionDisponible[0]);
 
         ParcelleCouleur parcelleCouleurChoisi = choisirParcelle(piocheParcelle, positionChoisi);

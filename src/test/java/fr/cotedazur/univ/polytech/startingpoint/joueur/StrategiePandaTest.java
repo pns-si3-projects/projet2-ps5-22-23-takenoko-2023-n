@@ -33,9 +33,9 @@ class StrategiePandaTest {
     void setUp() {
         strategiePanda = new StrategiePanda();
         objectifs = new ArrayList<>();
-        plateau = new Plateau();
         piocheParcelle = new PiocheParcelle(new Random());
         piocheSectionBambou = new PiocheSectionBambou();
+        plateau = new Plateau(piocheSectionBambou);
         piochesVides = new boolean[] {false, false, false, false, false};
         piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());

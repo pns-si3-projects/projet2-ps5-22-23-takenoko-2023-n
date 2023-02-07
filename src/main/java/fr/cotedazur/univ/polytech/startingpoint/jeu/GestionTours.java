@@ -30,13 +30,13 @@ public class GestionTours {
      * Construit le gestionnaire pour les tours
      */
     public GestionTours() {
-        plateau = new Plateau();
         piocheParcelle = new PiocheParcelle(new Random());
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
         piocheSectionBambou = new PiocheSectionBambou();
         piocheIrrigation = new PiocheIrrigation();
+        plateau = new Plateau(piocheSectionBambou);
     }
 
 

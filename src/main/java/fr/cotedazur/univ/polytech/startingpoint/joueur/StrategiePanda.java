@@ -6,6 +6,7 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
@@ -65,7 +66,9 @@ public class StrategiePanda implements Strategie {
         } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
             throw new AssertionError(e);
         }
-        irrigueParcelle(parcelleCouleur,plateau);
+
+        SectionBambou sectionBambou = piocheSectionBambou.pioche(parcelleCouleur.getCouleur());
+        irrigueParcelle(parcelleCouleur, plateau, sectionBambou);
         plateau.poseParcelle(parcelleCouleur);
     }
 
@@ -74,9 +77,9 @@ public class StrategiePanda implements Strategie {
      * @param parcelleCouleur une parcelle couleur a savoir sont etat
      * @param plateau le plateau
      */
-    public void irrigueParcelle(ParcelleCouleur parcelleCouleur, Plateau plateau) {
+    public void irrigueParcelle(ParcelleCouleur parcelleCouleur, Plateau plateau, SectionBambou sectionBambou) {
         if (parcelleCouleur.isIrriguee()) {
-            plateau.poseBambou(parcelleCouleur);
+            plateau.poseBambou(parcelleCouleur, sectionBambou);
         }
     }
 
