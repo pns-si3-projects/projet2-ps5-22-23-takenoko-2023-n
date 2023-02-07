@@ -1,17 +1,23 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class StrategieJardinierTest {
     StrategieJardinier strategieJardinier;
@@ -23,6 +29,7 @@ class StrategieJardinierTest {
     PiocheObjectifJardinier piocheObjectifJardinier;
     PiocheObjectifPanda piocheObjectifPanda;
     PiocheObjectifParcelle piocheObjectifParcelle;
+    Plaquette plaquette;
     boolean[] piochesVides;
 
 
@@ -38,6 +45,7 @@ class StrategieJardinierTest {
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piocheIrrigation = new PiocheIrrigation();
         piochesVides = new boolean[]{false, false, false, false, false};
+        plaquette = new Plaquette();
     }
 
 
@@ -78,6 +86,40 @@ class StrategieJardinierTest {
             strategieJardinier.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
         }
         assertEquals(2, plateau.getIrrigationsPosees().length);
+    }
+
+    @Test
+    void actionJardinier(){
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        for (int i = 0; i < 6; i++) {
+            strategieJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou, objectifs);
+        }
+        strategieJardinier.actionJardinier(spyPlateau, piocheSectionBambou, objectifs);
+        try {
+            verify(spyPlateau, times(1)).deplacementJardinier(any(Position.class));
+        } catch (ParcelleNonPoseeException e) {
+            System.out.println(e);
+        }
+    }
+
+    @Test
+    void actionPanda(){
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        for (int i = 0; i < 6; i++){
+            strategieJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou, objectifs);
+        }
+
+        Position positionDepart = spyPlateau.getPanda().getPosition();
+        assertEquals(new Position(), positionDepart);
+
+        strategieJardinier.actionPanda(spyPlateau, objectifs, plaquette.getReserveBambousManges());
+
+        Position positionFinale = spyPlateau.getPanda().getPosition();
+        assertNotEquals(positionDepart, positionFinale);
+
+        verify(spyPlateau, times(1)).deplacementPanda(any(Position.class));
     }
 
     @Test

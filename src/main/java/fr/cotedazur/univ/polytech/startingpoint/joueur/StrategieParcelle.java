@@ -10,6 +10,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
@@ -60,8 +61,8 @@ public class StrategieParcelle implements Strategie {
      * @param objectifs Les objectifs à réaliser
      * @return {@code true} si l'action Parcelle est possible
      */
-    public boolean checkPossibiliteActionParcelle(List<Objectif> objectifs) {
-        return countObjectifParcelle(objectifs) != 0;
+    public boolean checkPossibiliteActionParcelle(List<Objectif> objectifs, boolean[] piochesVides) {
+        return countObjectifParcelle(objectifs) != 0 && !piochesVides[GestionTours.PiochesPossibles.PARCELLE.ordinal()];
     }
 
     /**
@@ -110,7 +111,7 @@ public class StrategieParcelle implements Strategie {
                                                      Plateau plateau, boolean[] piochesVides) {
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && checkPossibiliteActionParcelle(objectifs)) {
+        if (!actionsRealiseesTour[parcelle.ordinal()] && checkPossibiliteActionParcelle(objectifs, piochesVides)) {
             return parcelle;
         }
 
@@ -204,7 +205,7 @@ public class StrategieParcelle implements Strategie {
     }
 
     @Override
-    public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs, SectionBambou[] listeBambouManger) {
 
     }
 

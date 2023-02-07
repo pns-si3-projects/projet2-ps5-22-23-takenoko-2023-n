@@ -34,9 +34,9 @@ public class MaitreDuJeu {
 
         this.joueurs = Arrays.copyOf(joueurs, nbJoueurs);
         gestionTours = new GestionTours();
-        nombreObjectifsDemandes = nombreObjectifsDemandes(joueurs.length);
+        nombreObjectifsDemandes = nombreObjectifsDemandes(nbJoueurs);
 
-        AfficheurJeu.initialisation();
+        AfficheurJeu.initialisation(nbJoueurs, nombreObjectifsDemandes);
     }
 
     /**
@@ -65,6 +65,7 @@ public class MaitreDuJeu {
     public void jeu() {
         Joueur joueurFinObjectifs = gestionTours.tours(joueurs, nombreObjectifsDemandes);
         joueurFinObjectifs.recoitEmpereur(new Empereur());
+        AfficheurJeu.recoitEmpereur(joueurFinObjectifs);
 
         gestionTours.dernierTour(joueurs, joueurFinObjectifs);
 

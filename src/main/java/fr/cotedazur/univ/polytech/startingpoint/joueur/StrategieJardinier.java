@@ -2,13 +2,20 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 /**
  * Représente la stratégie de jeu favorisant la réalisation des objectifs de jardinier
@@ -75,12 +82,48 @@ public class StrategieJardinier implements Strategie {
 
     @Override
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
+        List<ObjectifJardinier> objectifsJardinierList = new ArrayList<>();
+        Position futurePositionJardinier = null;
+        ParcelleCouleur futureParcelleCouleurJardinier = null;
+        //Liste des objectfsJardiniers
+        for (Objectif objectif: objectifs) {
+            if (objectif.getClass().equals(ObjectifJardinier.class)) objectifsJardinierList.add((ObjectifJardinier) objectif);
+        }
 
+        //Déplacements possibles
+        List<Position> deplacementsPossibles = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
+        boolean parcellePourDeplacementTrouvee = false;
+        for (Position position : deplacementsPossibles){
+            Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
+            if (parcelle.isPresent() && parcelle.get().getClass().equals(ParcelleCouleur.class)) {
+                futureParcelleCouleurJardinier = (ParcelleCouleur) parcelle.get();
+                futurePositionJardinier = futureParcelleCouleurJardinier.getPosition();
+                if (futureParcelleCouleurJardinier.isIrriguee()) {
+                    for (ObjectifJardinier objectifJardinier : objectifsJardinierList) {
+                        if (futureParcelleCouleurJardinier.getCouleur().equals(objectifJardinier.getCouleur())) {
+                            parcellePourDeplacementTrouvee = true;
+                            break;
+                        }
+                    }
+                    if (parcellePourDeplacementTrouvee) break;
+                }
+            }
+        }
+
+        //Déplacement du Jardinier
+        if (futurePositionJardinier!=null) {
+            try {
+                plateau.deplacementJardinier(futurePositionJardinier);
+            } catch (ParcelleNonPoseeException e) {
+                System.out.println(e);
+            }
+        }
     }
 
     @Override
-    public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
-
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs, SectionBambou[] listeBambouMange) {
+        List<Position> deplacementsPossibles = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
+        plateau.deplacementPanda(deplacementsPossibles.get(0));
     }
 
     @Override

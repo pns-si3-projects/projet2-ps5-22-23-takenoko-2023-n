@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class StrategiePandaTest {
     StrategiePanda strategiePanda;
@@ -25,6 +26,7 @@ class StrategiePandaTest {
     PiocheObjectifPanda piocheObjectifPanda;
     PiocheObjectifJardinier piocheObjectifJardinier;
     PiocheObjectifParcelle piocheObjectifParcelle;
+    Plaquette plaquette;
 
 
     @BeforeEach
@@ -39,6 +41,7 @@ class StrategiePandaTest {
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piocheIrrigation = new PiocheIrrigation();
+        plaquette = new Plaquette();
     }
 
 
@@ -98,5 +101,24 @@ class StrategiePandaTest {
         }
         Position positionFinal = plateau.getJardinier().getPosition();
         assertNotEquals(positionInitial,positionFinal);
+    }
+
+    @Test
+    void actionPanda () {
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        Position positionInitial = spyPlateau.getJardinier().getPosition();
+        for (int i =0; i<4; i++) {
+            strategiePanda.actionParcelle(spyPlateau,piocheParcelle,piocheSectionBambou,objectifs);
+        }
+        strategiePanda.actionObjectif(piocheObjectifParcelle,piocheObjectifJardinier,piocheObjectifPanda,objectifs);
+        for (int j =0; j<2; j++) {
+            strategiePanda.actionPanda(spyPlateau,objectifs,plaquette.getReserveBambousManges());
+            Position positionFinal = spyPlateau.getPanda().getPosition();
+            assertNotEquals(positionInitial,positionFinal);
+            positionInitial = positionFinal;
+        }
+        verify(spyPlateau, times(2)).deplacementPanda(any(Position.class));
+
     }
 }

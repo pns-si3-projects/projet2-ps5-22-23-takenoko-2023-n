@@ -27,8 +27,11 @@ public class AfficheurJeu {
     /**
      * Affiche l'état d'initialisation du jeu
      */
-    public static void initialisation() {
-        LOGGER.info("Initialisation du jeu : étang, panda et jardinier en (0,0).");
+    public static void initialisation(int nbJoueurs, int nbObjectifs) {
+        String str = "Nouvelle partie de " + nbJoueurs + " joueurs"
+                + ", il faut réaliser " + nbObjectifs + " objectifs.\n"
+                + "Initialisation du jeu : étang, panda et jardinier en (0,0).";
+        LOGGER.info(str);
     }
 
     /**
@@ -39,6 +42,16 @@ public class AfficheurJeu {
         String str = "\n\n" + SEPARATION +
                 "\tTour n°" + nbTours + "\t" +
                 SEPARATION;
+        LOGGER.info(str);
+    }
+
+    /**
+     * Affiche le premier joueur à finir les objectifs demandés
+     * @param joueurFinObjectifs le premier joueur à finir les objectifs demandés
+     */
+    public static void recoitEmpereur(Joueur joueurFinObjectifs) {
+        String str = joueurFinObjectifs.getNom()
+                + " est le premier joueur a finir le nombre d'objectifs demandé et reçoit la carte Empereur";
         LOGGER.info(str);
     }
 
@@ -66,6 +79,6 @@ public class AfficheurJeu {
      * Affiche le partage de la victoire par tous les joueurs
      */
     public static void victoire() {
-        LOGGER.info("\n\nBravo à tous les joueurs d'avoir participé et à bientôt pour une autre partie !");
+        LOGGER.info("\n\nBravo et merci à tous les joueurs d'avoir participé et à bientôt pour une autre partie !");
     }
 }

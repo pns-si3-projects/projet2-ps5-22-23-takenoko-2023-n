@@ -37,7 +37,7 @@ class StrategieParcelleTest {
     }
     @Test
     void checkPossibiliteActionParcelle() {
-        assertFalse(strategieParcelle.checkPossibiliteActionParcelle(objectifs));
+        assertFalse(strategieParcelle.checkPossibiliteActionParcelle(objectifs, piochesVides));
 
         ObjectifParcelle objectifParcelle = new ObjectifParcelle(3,
                 new MotifDiagonale(new ParcelleCouleur(new Position(-1, -1), Couleur.VERTE),
@@ -45,7 +45,7 @@ class StrategieParcelleTest {
                         new ParcelleCouleur(new Position(1, 1), Couleur.VERTE)));
 
         objectifs.add(objectifParcelle);
-        assertTrue(strategieParcelle.checkPossibiliteActionParcelle(objectifs));
+        assertTrue(strategieParcelle.checkPossibiliteActionParcelle(objectifs, piochesVides));
     }
 
     @Test

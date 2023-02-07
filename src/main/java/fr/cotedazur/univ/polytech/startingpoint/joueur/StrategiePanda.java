@@ -1,20 +1,21 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Représente la stratégie de jeu favorisant la réalisation des objectifs de panda
@@ -108,17 +109,76 @@ public class StrategiePanda implements Strategie {
         Jardinier jardinier = plateau.getJardinier();
         List<Position> listPositionPossible = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),jardinier.getPosition());
         jardinier.move(listPositionPossible.get(listPositionPossible.size()-1));
-        Optional<Parcelle> parcelleJardinier = GestionParcelles.chercheParcelle(plateau.getParcelles(),listPositionPossible.get(0));
-
-        if(parcelleJardinier.isPresent() && parcelleJardinier.get().getClass().equals(ParcelleCouleur.class)) {
-            ParcelleCouleur parcelleCouleurJardinier = (ParcelleCouleur) parcelleJardinier.get();
-            plateau.poseBambou(parcelleCouleurJardinier,piocheSectionBambou.pioche(parcelleCouleurJardinier.getCouleur()));
+        try {
+            plateau.deplacementJardinier(listPositionPossible.get(listPositionPossible.size()-1));
+        } catch (ParcelleNonPoseeException e) {
+            System.out.println(e);
         }
     }
 
     @Override
-    public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs,SectionBambou[] listeBambouMange) {
+        Position positionDeplacer=null;
+        boolean estDeplacer = false;
+        List<Objectif> objectifPanda = recupreObjectifPanda(objectifs);
+        List<Position> listePositionPossibleAvecBambou = new ArrayList<>();
 
+        ObjectifPanda objectifPandaMaxPoint = getMaxObjectifPanda(objectifPanda);
+        Couleur couleurAManger = objectifPandaMaxPoint.getCouleur();
+
+        Panda  panda = plateau.getPanda();
+        List<Position> listPositionPossibleDeplacement = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),panda.getPosition());
+
+        for ( Position positionPossible : listPositionPossibleDeplacement ) {
+            if (GestionBambous.chercheBambou(plateau.getBambous(), positionPossible).isPresent()) {
+                listePositionPossibleAvecBambou.add(positionPossible);
+            }
+        }
+        for (Position position : listePositionPossibleAvecBambou) {
+            Optional<Parcelle> parcelleRegarder = GestionParcelles.chercheParcelle(plateau.getParcelles(),position);
+            if(parcelleRegarder.isPresent() && parcelleRegarder.get().getClass().equals(ParcelleCouleur.class)) {
+                ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelleRegarder.get();
+                if(parcelleCouleur.getCouleur().equals(couleurAManger)) {
+                    positionDeplacer=position;
+                    break;
+                }
+            }
+        }
+        if(!estDeplacer) { positionDeplacer=listPositionPossibleDeplacement.get(0);}
+        plateau.deplacementPanda(positionDeplacer);
+    }
+
+    /**
+     * recupre la liste des ObjectifPanda que objectifs
+     * @param objectifs les objectifs du Joueur
+     * @return la liste des objectifPanda
+     */
+    public List<Objectif> recupreObjectifPanda(List<Objectif> objectifs) {
+        List<Objectif> objectifsPanda = new ArrayList<>();
+        for (Objectif objectif : objectifs) {
+            if(objectif.getClass().equals(ObjectifPanda.class)) {
+                objectifsPanda.add(objectif);
+            }
+        }
+        return objectifsPanda;
+    }
+
+    /**
+     * recupre l'objectidPanda valant le plus de point
+     * @param objectifsPanda la liste des objectifPanda
+     * @return l'objectifPanda valant le plus de point
+     */
+    private ObjectifPanda getMaxObjectifPanda(List<Objectif> objectifsPanda) {
+        ObjectifPanda objectifPandaMax = null;
+
+        for (Objectif objectif : objectifsPanda) {
+            if (objectif.getClass().equals(ObjectifPanda.class) &&
+                    (objectifPandaMax == null || objectifPandaMax.getNombrePoints() < objectif.getNombrePoints())) {
+                    objectifPandaMax = (ObjectifPanda) objectif;
+                }
+            }
+
+        return objectifPandaMax;
     }
 
     @Override
