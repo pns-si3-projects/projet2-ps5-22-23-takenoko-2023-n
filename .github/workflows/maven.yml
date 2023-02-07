@@ -1,16 +1,25 @@
-name: PR Build
+name: Java CI with Maven
 
-on: [push, pull_request]
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["development"]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout project
-      uses: actions/checkout@v2
-    - name: Set up JDK 1.17
-      uses: actions/setup-java@v1
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
       with
-        java-version: 1.17
-    - name: Maven build
-      run: mvn clean package
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with maven
+      run: mvn -B package --file pom.xml
+    - name:
+      run: mvn exec:java -Dexec.args="--demo"
