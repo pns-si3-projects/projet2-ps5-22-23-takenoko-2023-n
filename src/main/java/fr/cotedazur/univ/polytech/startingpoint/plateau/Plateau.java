@@ -8,10 +8,7 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.AjoutCouleurException;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.*;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
 import org.jetbrains.annotations.NotNull;
 
@@ -236,6 +233,7 @@ public class Plateau {
                 if (irrigationAAdd.equals(irrigationDisponible)){
                     irrigationsPosees.add(irrigationAAdd);
                     ajoute = true;
+                    AfficheurPieces.poseIrrigation(irrigationAAdd);
                     break;
                 }
             }
