@@ -66,6 +66,6 @@ public class AfficheurJeu {
      * Affiche le partage de la victoire par tous les joueurs
      */
     public static void victoire() {
-        LOGGER.info("\n\nBravo à tous les joueurs d'avoir participé et à bientôt pour une autre partie !");
+        LOGGER.info("\n\nBravo et merci à tous les joueurs d'avoir participé et à bientôt pour une autre partie !");
     }
 }
