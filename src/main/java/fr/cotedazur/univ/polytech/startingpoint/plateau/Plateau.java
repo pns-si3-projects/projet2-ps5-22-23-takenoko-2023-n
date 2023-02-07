@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -297,4 +298,32 @@ public class Plateau {
         return false;
     }
 
+    /**
+     * Déplace le jardinier et ajoute le bambous sur la parcelle et ses voisins irriguées et de la même couleur
+     * @param position position de la parcelle où on veut déplavcer le jardinier
+     * @throws ParcelleNonPoseeException
+     */
+    public void deplacementJardinier(Position position) throws ParcelleNonPoseeException {
+        // déplacement du jardinier
+        jardinier.move(position);
+
+        Optional<Parcelle> parcelleJardinier = GestionParcelles.chercheParcelle(getParcelles(),position);
+        if (parcelleJardinier.isPresent() && parcelleJardinier.get().getClass().equals(ParcelleCouleur.class)){
+            ParcelleCouleur parcelleCouleurJardinier = (ParcelleCouleur) parcelleJardinier.get();
+            Couleur couleurParcelleJardinier = parcelleCouleurJardinier.getCouleur();
+
+            //ajout du bambou sur la parcelle du Jardinier
+            if (parcelleCouleurJardinier.isIrriguee()) poseBambou(parcelleCouleurJardinier);
+
+            //ajout du bambou sur les parcelles voisines irriguées
+            Parcelle[] voisines = getVoisinesParcelle(parcelleCouleurJardinier);
+            for (Parcelle parcelle : voisines){
+                if (parcelle.getClass().equals(ParcelleCouleur.class)) {
+                    ParcelleCouleur parcelleVoisine = (ParcelleCouleur) parcelle;
+                    if (parcelleVoisine.isIrriguee() && parcelleVoisine.getCouleur().equals(couleurParcelleJardinier)) poseParcelle(parcelleVoisine);
+                }
+            }
+
+        }
+    }
 }
