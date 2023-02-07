@@ -111,6 +111,16 @@ class BambouTest {
         assertEquals(2, bambou1_1V.getTailleBambou());
         assertEquals(1, bambou2_0R.getTailleBambou());
 
+        try {
+            bambou1_1V.ajouteSectionBambou(sectionBambouVerte);
+            bambou1_1V.ajouteSectionBambou(sectionBambouVerte);
+        }
+        catch (AjoutCouleurException e) {
+            throw new AssertionError(e);
+        }
+        assertEquals(4, bambou1_1V.getTailleBambou());
+        assertThrows(AssertionError.class, () -> bambou1_1V.ajouteSectionBambou(sectionBambouVerte));
+
         assertEquals(sectionBambouVerte, bambou1_1V.prendSectionBambou());
         assertEquals(sectionBambouVerte, bambou1_1V.prendSectionBambou());
         assertEquals(sectionBambouRose, bambou2_0R.prendSectionBambou());
