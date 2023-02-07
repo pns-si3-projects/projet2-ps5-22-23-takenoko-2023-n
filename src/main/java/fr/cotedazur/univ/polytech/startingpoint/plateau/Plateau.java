@@ -219,7 +219,7 @@ public class Plateau {
      * @param position1 position de la 1ere parcelle
      * @param position2 position de la 2eme parcelle
      */
-    public boolean addIrrigation(Position position1, Position position2){
+    public boolean poseIrrigation(Position position1, Position position2){
         Optional<Parcelle> parcelle1 = GestionParcelles.chercheParcelle(getParcelles(),position1);
         Optional<Parcelle> parcelle2 = GestionParcelles.chercheParcelle(getParcelles(),position2);
         boolean ajoute = false;

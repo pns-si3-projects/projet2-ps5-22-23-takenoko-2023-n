@@ -9,7 +9,7 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 public class Panda implements Personnage {
     // Définition des attributs
 
-    private final Position position;
+    private Position position;
 
 
     // Définition des constructeurs
@@ -34,10 +34,22 @@ public class Panda implements Personnage {
     }
 
 
+
     // Méthode toString
 
     @Override
     public String toString() {
         return "Panda en " + position;
+    }
+
+    @Override
+    public boolean move(Position position) {
+        if( position == null ) {
+            return  false;
+        }
+        else {
+            this.position = position;
+            return true;
+        }
     }
 }

@@ -43,4 +43,15 @@ public class Jardinier implements Personnage {
     public String toString() {
         return "Jardinier en " + position;
     }
+
+    @Override
+    public boolean move(Position position) {
+        if ( position == null ) {
+            return false;
+        }
+        else {
+            this.position=position;
+            return true;
+        }
+    }
 }
