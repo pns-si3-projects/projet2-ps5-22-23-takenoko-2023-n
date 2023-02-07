@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
@@ -41,8 +42,10 @@ public class StrategieJardinier implements Strategie {
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
-        if (!actionsRealiseesTour[irrigation.ordinal()] && plateau.getParcelles().length > 4) {
+        if (!actionsRealiseesTour[irrigation.ordinal()] && plateau.getParcelles().length > 4 &&
+                !piochesVides[GestionTours.PiochesPossibles.IRRIGATION.ordinal()]) {
             return irrigation;
+
         }
 
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
