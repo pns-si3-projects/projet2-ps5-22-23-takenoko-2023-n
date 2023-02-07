@@ -28,7 +28,7 @@ class StrategieJardinierTest {
         objectifs = new ArrayList<>();
         plateau = new Plateau();
         piocheParcelle = new PiocheParcelle(new Random());
-        piocheSectionBambou = new PiocheSectionBambou(new Random());
+        piocheSectionBambou = new PiocheSectionBambou();
         piochesVides = new boolean[]{false, false, false, false, false};
     }
 
@@ -64,4 +64,19 @@ class StrategieJardinierTest {
         assertEquals(7, plateau.getParcelles().length);
     }
 
+    @Test
+    void actionIrrigation(){
+        try {
+            for (int i=0; i<4; i++){
+                strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
+            }
+        } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
+            System.out.println(e);
+        }
+
+        for (int i=0;i<2;i++){
+            strategieJardinier.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
+        }
+        assertEquals(2, plateau.getIrrigationsPosees().size());
+    }
 }
