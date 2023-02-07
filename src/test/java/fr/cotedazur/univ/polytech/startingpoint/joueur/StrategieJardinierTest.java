@@ -72,11 +72,11 @@ class StrategieJardinierTest {
         for (int i = 0; i < 4; i++) {
             strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou, objectifs);
 
-            for (int j = 0; j < 2; j++) {
-                strategieJardinier.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
-            }
-            assertEquals(2, plateau.getIrrigationsPosees().size());
         }
+        for (int j = 0; j < 2; j++) {
+            strategieJardinier.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
+        }
+        assertEquals(2, plateau.getIrrigationsPosees().size());
     }
 
     @Test
