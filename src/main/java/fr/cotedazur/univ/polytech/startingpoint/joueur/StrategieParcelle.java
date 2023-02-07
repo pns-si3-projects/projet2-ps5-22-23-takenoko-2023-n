@@ -9,11 +9,14 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
@@ -201,12 +204,23 @@ public class StrategieParcelle implements Strategie {
 
     @Override
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
-
+        Jardinier jardinier = plateau.getJardinier();
+        Position positionDeplacee = choixDeplacementPosition(plateau, jardinier.getPosition());
+        try {
+            plateau.deplacementJardinier(positionDeplacee);
+        } catch (ParcelleNonPoseeException e) {
+            System.out.println(e);
+        }
     }
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, SectionBambou[] listeBambouManger) {
 
+    }
+
+    public Position choixDeplacementPosition( Plateau plateau, Position position) {
+        List<Position> deplacementPossibles = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), position);
+        return deplacementPossibles.get(deplacementPossibles.size()-1);
     }
 
     @Override

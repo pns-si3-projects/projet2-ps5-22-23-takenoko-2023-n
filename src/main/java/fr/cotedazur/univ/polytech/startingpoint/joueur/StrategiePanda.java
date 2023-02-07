@@ -108,7 +108,6 @@ public class StrategiePanda implements Strategie {
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs)  {
         Jardinier jardinier = plateau.getJardinier();
         List<Position> listPositionPossible = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),jardinier.getPosition());
-        jardinier.move(listPositionPossible.get(listPositionPossible.size()-1));
         try {
             plateau.deplacementJardinier(listPositionPossible.get(listPositionPossible.size()-1));
         } catch (ParcelleNonPoseeException e) {
