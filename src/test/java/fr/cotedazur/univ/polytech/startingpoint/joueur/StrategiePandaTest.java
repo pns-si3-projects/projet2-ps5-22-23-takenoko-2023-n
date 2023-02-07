@@ -59,7 +59,7 @@ class StrategiePandaTest {
     @Test
     void actionParcelleTest() {
         for (int i = 0; i<6; i++) {
-            strategiePanda.actionParcelle(plateau,piocheParcelle,piocheSectionBambou);
+            strategiePanda.actionParcelle(plateau,piocheParcelle,piocheSectionBambou, objectifs);
         }
         assertEquals(7,plateau.getParcelles().length);
     }
