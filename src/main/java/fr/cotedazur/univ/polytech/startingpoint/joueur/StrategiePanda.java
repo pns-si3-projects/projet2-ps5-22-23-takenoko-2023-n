@@ -41,7 +41,8 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleEnCoursException, PiocheParcelleVideException {
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle,
+                               PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) throws PiocheParcelleEnCoursException, PiocheParcelleVideException {
         boolean parcellepose = false;
         ParcelleCouleur parcelleCouleur=null;
         ParcellePioche[] pioche = piocheParcelle.pioche() ;
@@ -70,26 +71,27 @@ public class StrategiePanda implements Strategie {
     }
     
     @Override
-    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
+    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation,
+                                 PiocheSectionBambou piocheSectionBambou) {
         Set<Irrigation> irrigationDisponible = plateau.getIrrigationsDisponibles();
         List<Irrigation> irrigationDisponibleListe = irrigationDisponible.stream().toList();
         plateau.addIrrigation(irrigationDisponibleListe.get(0).getPositions().get(0), irrigationDisponibleListe.get(0).getPositions().get(1));
     }
 
     @Override
-    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou) {
+    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
 
     }
 
     @Override
-    public void actionPanda(Plateau plateau) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
 
     }
 
     @Override
     public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
                                PiocheObjectifJardinier piocheObjectifJardinier,
-                               PiocheObjectifPanda piocheObjectifPanda) {
+                               PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
 
     }
 }
