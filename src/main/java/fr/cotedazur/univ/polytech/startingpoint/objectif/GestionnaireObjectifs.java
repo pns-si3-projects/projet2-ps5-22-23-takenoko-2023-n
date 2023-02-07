@@ -48,9 +48,15 @@ public class GestionnaireObjectifs {
         return GestionnairePossibiliteMotif.checkMotifInBoard(tableauParcellePlateau, objectifParcelle);
     }
 
-    private static int countCouleurSectionBambou(SectionBambou[] tabSectionBambou, Couleur couleur) {
+    /**
+     * Renvoie le nombre de section de bambou d'une certaine couleur
+     * @param reservesSectionBambous Le tableau contenant toutes les sections Bambous du joueur
+     * @param couleur La couleur à chercher
+     * @return le nombre de section de bambou d'une certaine couleur
+     */
+    private static int countCouleurSectionBambou(SectionBambou[] reservesSectionBambous, Couleur couleur) {
         int count = 0;
-        for (SectionBambou sectionBambou: tabSectionBambou) {
+        for (SectionBambou sectionBambou: reservesSectionBambous) {
             if (sectionBambou.couleur().equals(couleur)) {
                 count++;
             }
