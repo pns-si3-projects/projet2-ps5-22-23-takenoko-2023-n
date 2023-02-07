@@ -122,29 +122,49 @@ public class StrategiePanda implements Strategie {
         List<Objectif> objectifPanda = recupreObjectifPanda(objectifs);
         List<Position> listePositionPossibleAvecBambou = new ArrayList<>();
 
-        ObjectifPanda objectifPandaMaxPoint = getMaxObjectifPanda(objectifPanda);
-        Couleur couleurAManger = objectifPandaMaxPoint.getCouleur();
+        Optional<ObjectifPanda> objectifPandaMaxPointOpitionale = getMaxObjectifPanda(objectifPanda);
+        if(objectifPandaMaxPointOpitionale.isPresent()){
+            ObjectifPanda objectifPandaMaxPoint = (ObjectifPanda) objectifPandaMaxPointOpitionale.get();
+            Couleur couleurAManger = objectifPandaMaxPoint.getCouleur();
 
-        Panda  panda = plateau.getPanda();
-        List<Position> listPositionPossibleDeplacement = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),panda.getPosition());
+            Panda panda = plateau.getPanda();
+            List<Position> listPositionPossibleDeplacement = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), panda.getPosition());
 
-        for ( Position positionPossible : listPositionPossibleDeplacement ) {
+            listePositionPossibleAvecBambou = possitionDisponible(listPositionPossibleDeplacement,plateau);
+            for (Position position : listePositionPossibleAvecBambou) {
+                Optional<Parcelle> parcelleRegarder = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
+                if (parcelleRegarder.isPresent() && parcelleRegarder.get().getClass().equals(ParcelleCouleur.class)) {
+                    ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelleRegarder.get();
+                    if (parcelleCouleur.getCouleur().equals(couleurAManger)) {
+                        positionDeplacer = position;
+                        break;
+                    }
+                }
+            }
+            if (!estDeplacer) {
+                positionDeplacer = listPositionPossibleDeplacement.get(0);
+            }
+            plateau.deplacementPanda(positionDeplacer);
+        }
+        else {
+            plateau.deplacementPanda(listePositionPossibleAvecBambou.get(0));
+        }
+    }
+
+    /**
+     * recuper la lists des deplacement possibme
+     * @param listPositionPossibleDeplacement la liste des deplacement possible
+     * @param plateau le plateau
+     * @return une liste de possition qu ne continet que des bambou de certaine couleur
+     */
+    public List<Position> possitionDisponible(List<Position> listPositionPossibleDeplacement, Plateau plateau) {
+        List<Position> listePositionPossibleAvecBambou = new ArrayList<>();
+        for (Position positionPossible : listPositionPossibleDeplacement) {
             if (GestionBambous.chercheBambou(plateau.getBambous(), positionPossible).isPresent()) {
                 listePositionPossibleAvecBambou.add(positionPossible);
             }
         }
-        for (Position position : listePositionPossibleAvecBambou) {
-            Optional<Parcelle> parcelleRegarder = GestionParcelles.chercheParcelle(plateau.getParcelles(),position);
-            if(parcelleRegarder.isPresent() && parcelleRegarder.get().getClass().equals(ParcelleCouleur.class)) {
-                ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelleRegarder.get();
-                if(parcelleCouleur.getCouleur().equals(couleurAManger)) {
-                    positionDeplacer=position;
-                    break;
-                }
-            }
-        }
-        if(!estDeplacer) { positionDeplacer=listPositionPossibleDeplacement.get(0);}
-        plateau.deplacementPanda(positionDeplacer);
+        return listePositionPossibleAvecBambou;
     }
 
     /**
@@ -167,7 +187,7 @@ public class StrategiePanda implements Strategie {
      * @param objectifsPanda la liste des objectifPanda
      * @return l'objectifPanda valant le plus de point
      */
-    private ObjectifPanda getMaxObjectifPanda(List<Objectif> objectifsPanda) {
+    private Optional<ObjectifPanda> getMaxObjectifPanda(List<Objectif> objectifsPanda) {
         ObjectifPanda objectifPandaMax = null;
 
         for (Objectif objectif : objectifsPanda) {
@@ -177,7 +197,7 @@ public class StrategiePanda implements Strategie {
                 }
             }
 
-        return objectifPandaMax;
+        return Optional.ofNullable(objectifPandaMax);
     }
 
     @Override
