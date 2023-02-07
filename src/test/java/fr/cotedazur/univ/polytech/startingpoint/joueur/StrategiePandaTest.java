@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,15 +93,24 @@ class StrategiePandaTest {
 
     @Test
     void ationJardinierTest () {
-        Position positionInitial = plateau.getJardinier().getPosition();
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        Position positionInitial = spyPlateau.getPanda().getPosition();
         for (int i =0; i<4; i++) {
-            strategiePanda.actionParcelle(plateau,piocheParcelle,piocheSectionBambou,objectifs);
+            strategiePanda.actionParcelle(spyPlateau,piocheParcelle,piocheSectionBambou,objectifs);
         }
+        strategiePanda.actionObjectif(piocheObjectifParcelle,piocheObjectifJardinier,piocheObjectifPanda,objectifs);
         for (int j =0; j<2; j++) {
-            strategiePanda.actionJardinier(plateau,piocheSectionBambou,objectifs);
+            strategiePanda.actionJardinier(spyPlateau,piocheSectionBambou,objectifs);
+            Position positionFinal = spyPlateau.getJardinier().getPosition();
+            assertNotEquals(positionInitial,positionFinal);
+            positionInitial = positionFinal;
         }
-        Position positionFinal = plateau.getJardinier().getPosition();
-        assertNotEquals(positionInitial,positionFinal);
+        try {
+            verify(spyPlateau, times(2)).deplacementJardinier(any(Position.class));
+        } catch (ParcelleNonPoseeException e) {
+            System.out.println(e);
+        }
     }
 
     @Test
@@ -119,6 +129,5 @@ class StrategiePandaTest {
             positionInitial = positionFinal;
         }
         verify(spyPlateau, times(2)).deplacementPanda(any(Position.class));
-
     }
 }
