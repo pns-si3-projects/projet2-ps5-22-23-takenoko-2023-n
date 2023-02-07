@@ -2,10 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.AfficheurPersonnage;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
@@ -181,6 +178,7 @@ public class Plateau {
 
         // On ajoute la parcelle au plateau ainsi que toutes ses voisines
         Parcelle[] toutesVoisinesParcelle = GestionParcelles.ajouteVoisinesDisponibles(voisinesParcelle, parcelle);
+        AfficheurParcelle.parcellePose(parcelle.getCouleur(), parcelle.getPosition());
         parcelleEtVoisinesList.put(parcelle, toutesVoisinesParcelle);
 
         // On modifie les positions disponibles
