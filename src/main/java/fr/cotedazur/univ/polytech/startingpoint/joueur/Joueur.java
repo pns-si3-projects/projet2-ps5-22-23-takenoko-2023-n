@@ -162,8 +162,9 @@ public class Joueur {
      * @param plateau le plateau du jeu
      * @param piocheParcelle la pioche de parcelles du jeu
      */
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) {
-
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle,
+                               PiocheSectionBambou piocheSectionBambou) {
+        strategie.actionParcelle(plateau, piocheParcelle, piocheSectionBambou, objectifEnMainList);
     }
 
     /**
@@ -171,8 +172,9 @@ public class Joueur {
      * @param plateau le plateau du jeu
      * @param piocheIrrigation la pioche d'irrigation du jeu
      */
-    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
-
+    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation,
+                                 PiocheSectionBambou piocheSectionBambou) {
+        strategie.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
     }
 
     /**
@@ -180,7 +182,7 @@ public class Joueur {
      * @param plateau le plateau du jeu
      */
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou) {
-
+        strategie.actionJardinier(plateau, piocheSectionBambou, objectifEnMainList);
     }
 
     /**
@@ -188,7 +190,7 @@ public class Joueur {
      * @param plateau le plateau du jeu
      */
     public void actionPanda(Plateau plateau) {
-
+        strategie.actionPanda(plateau, objectifEnMainList);
     }
 
     /**
@@ -201,6 +203,8 @@ public class Joueur {
                                PiocheObjectifJardinier piocheObjectifJardinier,
                                PiocheObjectifPanda piocheObjectifPanda) {
 
+        strategie.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier,
+                piocheObjectifPanda, objectifEnMainList);
     }
 
     /**
