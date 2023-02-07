@@ -1,8 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,48 +17,37 @@ import java.util.Objects;
 public class ObjectifPanda extends Objectif {
     // Définition des attributs
 
-    private final int nombreBambousAManger;
-    private final Couleur couleur;
+    private final List<SectionBambou> bambousAManger;
 
 
     // Définition des constructeurs
 
     /**
-     * Construit un objectif de panda par le nombre de points, la couleur et le nombre de bambous à manger
+     * Construit un objectif de panda par le nombre de points et une liste de sections de bambou à manger
      * @param nbPoints le nombre de points de l'objectif
-     * @param nbBambous le nombre de bambous que le joueur doit posséder
-     * @param couleur la couleur demandée pour les bambous
+     * @param bambousAManger liste de sections de bambou à manger
      */
-    public ObjectifPanda(int nbPoints, int nbBambous, @NotNull Couleur couleur) {
+    public ObjectifPanda(int nbPoints, List<SectionBambou> bambousAManger) {
         if (nbPoints <= 0) {
             throw new IllegalArgumentException("Le nombre de points doit être supérieur à 0");
         }
-        if (nbBambous <= 0) {
+        if (bambousAManger.size() <= 0) {
             throw new IllegalArgumentException("Le nombre de bambous doit être supérieur à 0");
         }
 
-        nombrePoints = nbPoints;
-        nombreBambousAManger = nbBambous;
-        this.couleur = couleur;
+        this.nombrePoints = nbPoints;
+        this.bambousAManger = bambousAManger;
     }
 
 
     // Accesseurs
 
     /**
-     * Renvoie le nombre de bambous que le joueur doit posséder
-     * @return le nombre de bambous que le joueur doit posséder
+     * Renvoie la liste de sections de bambous que le panda doit manger
+     * @return la liste de sections bambous que le panda doit manger
      */
-    public int getNombreBambousAManger() {
-        return nombreBambousAManger;
-    }
-
-    /**
-     * Renvoie la couleur des bambous que le joueur doit faire manger au panda
-     * @return la couleur des bambous à faire manger au panda
-     */
-    public Couleur getCouleur() {
-        return couleur;
+    public  List<SectionBambou> getBambousAManger(){
+        return bambousAManger;
     }
 
 
@@ -62,21 +55,26 @@ public class ObjectifPanda extends Objectif {
 
     @Override
     public String toString() {
-        return super.toString() + " pour "
-                + nombreBambousAManger + " bambous de couleur " + couleur + " à posséder";
+        String couleur = "";
+        if (bambousAManger.size() == 2){
+            couleur = bambousAManger.get(0).getCouleur().toString();
+            return super.toString() + " pour " + bambousAManger.size() + " bambous de couleur " + couleur + " à posséder";
+        }
+        else {
+            return super.toString() + " pour 1 bambou de chaque couleur à posséder";
+        }
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ObjectifPanda that)) return false;
         if (!super.equals(o)) return false;
-        ObjectifPanda that = (ObjectifPanda) o;
-        return getNombreBambousAManger() == that.getNombreBambousAManger() && getCouleur() == that.getCouleur();
+        return Objects.equals(bambousAManger, that.bambousAManger);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getNombreBambousAManger(), getCouleur());
+        return Objects.hash(super.hashCode(), bambousAManger);
     }
 }
