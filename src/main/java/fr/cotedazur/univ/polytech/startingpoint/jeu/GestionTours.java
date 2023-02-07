@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
+import fr.cotedazur.univ.polytech.startingpoint.joueur.AfficheurJoueur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Plaquette;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
@@ -66,6 +67,7 @@ public class GestionTours {
      * @param joueur le joueur pour qui c'est le tour
      */
     private void joueTour(Joueur joueur) {
+        AfficheurJoueur.debutTour(joueur.getNom());
         Plaquette.ActionPossible actionChoisie;
 
         for (int i=0; i<2; i++) {

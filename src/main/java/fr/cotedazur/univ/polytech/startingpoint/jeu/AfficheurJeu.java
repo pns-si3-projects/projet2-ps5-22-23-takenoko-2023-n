@@ -12,7 +12,7 @@ public class AfficheurJeu {
     // Définition des attributs
 
     private static final Logger LOGGER = Logger.getLogger(AfficheurJeu.class.getPackageName());
-    private static final String SEPARATION = "**********".repeat(6);
+    private static final String SEPARATION = "**********".repeat(5);
 
 
     // Définition d'un constructeur privé pour éviter les instanciations

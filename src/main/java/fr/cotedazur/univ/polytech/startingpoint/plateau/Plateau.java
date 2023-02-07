@@ -277,8 +277,9 @@ public class Plateau {
             Optional<Bambou> optionalBambou = GestionBambous.chercheBambou(getBambous(), parcelleCouleur.getPosition());
             //1er cas: déja bambou
             if (optionalBambou.isPresent()){
+                Bambou bambou = optionalBambou.get();
                 try {
-                    optionalBambou.get().ajouteSectionBambou(sectionBambou);
+                    if (!bambou.isTailleMaximum()) bambou.ajouteSectionBambou(sectionBambou);
                     return true;
                 } catch (AjoutCouleurException e) {
                     System.out.println(e);
@@ -321,7 +322,9 @@ public class Plateau {
         if(parcelle.isPresent()) {
             if (parcelle.get().getClass().equals(ParcelleCouleur.class)) {
                 Optional<Bambou> bambou = GestionBambous.chercheBambou(getBambous(), position);
-                bambou.ifPresent(this::mangeBambou);
+                if (bambou.isPresent() && !bambou.get().isEmpty()) {
+                    mangeBambou(bambou.get());
+                }
             }
         }
     }

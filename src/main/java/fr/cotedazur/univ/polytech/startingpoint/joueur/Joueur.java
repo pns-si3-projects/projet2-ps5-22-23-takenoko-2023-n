@@ -148,8 +148,6 @@ public class Joueur {
      * @param piochesVides un tableau pour savoir quelle pioche est vide
      */
     public Plaquette.ActionPossible choisiAction(Plateau plateau, boolean[] piochesVides) {
-        AfficheurJoueur.debutTour(this.getNom());
-
         Plaquette.ActionPossible actionChoisie =
                 strategie.choisiActionTour(plaquette.getActionsTour(), objectifEnMainList, plateau, piochesVides);
         plaquette.joueActionTour(actionChoisie);
