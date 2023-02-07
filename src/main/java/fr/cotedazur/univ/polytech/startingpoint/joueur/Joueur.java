@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.jetbrains.annotations.NotNull;
@@ -203,9 +204,23 @@ public class Joueur {
                 piocheObjectifPanda, objectifEnMainList);
     }
 
+    /**
+     * Supprime les objectifs terminés
+     * @param listObjectifSup La liste des objectifs à supprimer
+     */
     private void supprimerObjectifs(List<Objectif> listObjectifSup) {
         for (Objectif objectif : listObjectifSup) {
             objectifEnMainList.remove(objectif);
+        }
+    }
+
+    /**
+     * Supprime les sections bambous après avoir réalisé un objectif
+     * @param listSectionBambouASupp La liste de section de bambous à supprimer
+     */
+    private void supprimeSectionBambou(List<SectionBambou> listSectionBambouASupp) {
+        for (SectionBambou sectionBambou : listSectionBambouASupp) {
+            plaquette.enleveSectionBambouList(sectionBambou);
         }
     }
 
@@ -214,7 +229,7 @@ public class Joueur {
      * @param plateau Le plateau du jeu
      */
     public void gestionObjectif(Plateau plateau) {
-        List<Objectif> objectifsASupprimer = new ArrayList<>();
+        List<Objectif> objectifsASupprimer = new ArrayList<>(5);
 
         for (Objectif objectif : objectifEnMainList) {
             boolean objectifValide;
@@ -228,7 +243,12 @@ public class Joueur {
                         (ObjectifJardinier) objectif);
             }
             else {
-                objectifValide = false;
+                ObjectifPanda objectifPanda = (ObjectifPanda) objectif;
+                objectifValide = GestionnaireObjectifs.checkObjectifPanda(plaquette.getReserveBambousManges(), objectifPanda);
+
+                if (objectifValide) {
+                    supprimeSectionBambou(objectifPanda.getBambousAManger());
+                }
             }
 
             if (objectifValide) {
