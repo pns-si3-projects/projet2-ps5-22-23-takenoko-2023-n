@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 
 public class GestionnaireObjectifs {
 
@@ -45,5 +46,33 @@ public class GestionnaireObjectifs {
      */
     public static boolean checkObjectifParcelle(Parcelle[] tableauParcellePlateau, ObjectifParcelle objectifParcelle) {
         return GestionnairePossibiliteMotif.checkMotifInBoard(tableauParcellePlateau, objectifParcelle);
+    }
+
+    private static int countCouleurSectionBambou(SectionBambou[] tabSectionBambou, Couleur couleur) {
+        int count = 0;
+        for (SectionBambou sectionBambou: tabSectionBambou) {
+            if (sectionBambou.couleur().equals(couleur)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    /**
+     * Renvoie {@code true} si l'objectif parcelle est bien réaliser
+     * @param reservesSectionBambous Le tableau contenant toutes les sections Bambous du joueur
+     * @param objectifPanda L'objectif panda à réaliser
+     * @return {@code true} si l'objectif parcelle est bien réaliser
+     */
+    public static boolean checkObjectifPanda(SectionBambou[] reservesSectionBambous, ObjectifPanda objectifPanda) {
+        if (objectifPanda.getBambousAManger().size() == 3) {
+            return countCouleurSectionBambou(reservesSectionBambous, Couleur.VERTE) >= 1 &&
+                    countCouleurSectionBambou(reservesSectionBambous, Couleur.ROSE) >= 1 &&
+                    countCouleurSectionBambou(reservesSectionBambous, Couleur.JAUNE) >= 1;
+        }
+
+        Couleur couleurSectionBambou = objectifPanda.getBambousAManger().get(0).getCouleur();
+        return countCouleurSectionBambou(reservesSectionBambous, couleurSectionBambou) >= 2;
     }
 }
