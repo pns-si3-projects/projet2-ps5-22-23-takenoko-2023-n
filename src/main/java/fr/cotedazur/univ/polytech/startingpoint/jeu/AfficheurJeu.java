@@ -70,7 +70,7 @@ public class AfficheurJeu {
      * @param joueur le joueur gagnant
      */
     public static void victoire(Joueur joueur) {
-        String str = "\n\nBravo à " + joueur.getNom() + " d'avoir remporté la partie avec "
+        String str = "\n\nBravo à " + joueur.toString() + " d'avoir remporté la partie avec "
                 + joueur.nombreObjectifsTermines() + " objectifs terminés pour " + joueur.nombrePoints() + " points !";
         LOGGER.info(str);
     }
