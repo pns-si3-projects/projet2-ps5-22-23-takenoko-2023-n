@@ -49,8 +49,10 @@ public class PiocheIrrigation {
      * @param position2 La position n°2 de l'irrigation
      * @implNote la pioche ne doit pas être vide
      */
-    public Irrigation pioche(Position position1, Position position2){
-        assert !isEmpty() : "La pioche d'objectifs d'irrigation est vide";
+    public Irrigation pioche(Position position1, Position position2) {
+        if (isEmpty()) {
+            throw new AssertionError("La pioche d'objectifs d'irrigation est vide");
+        }
         nombreIrrigation--;
         List<Position> listPosition = new ArrayList<>(2);
         listPosition.add(position1);
