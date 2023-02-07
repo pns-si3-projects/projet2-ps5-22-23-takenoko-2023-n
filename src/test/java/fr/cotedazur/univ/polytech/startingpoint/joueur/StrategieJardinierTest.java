@@ -56,7 +56,7 @@ class StrategieJardinierTest {
     void actionParcelle() {
         try {
             for (int i=0; i<6; i++){
-                strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
+                strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou, objectifs);
             }
         } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
             System.out.println(e);
@@ -68,7 +68,7 @@ class StrategieJardinierTest {
     void actionIrrigation(){
         try {
             for (int i=0; i<4; i++){
-                strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
+                strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou, objectifs);
             }
         } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
             System.out.println(e);
