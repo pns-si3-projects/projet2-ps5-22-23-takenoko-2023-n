@@ -102,7 +102,7 @@ public class StrategieJardinier implements Strategie {
         for (Position position : deplacementsPossibles){
             Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
             if (parcelle.isPresent()) {
-                if (parcelle.get().getClass().equals(ParcelleCouleur.class) {
+                if (parcelle.get().getClass().equals(ParcelleCouleur.class)) {
                     futureParcelleCouleurJardinier = (ParcelleCouleur) parcelle.get();
                     futurePositionJardinier = futureParcelleCouleurJardinier.getPosition();
                     if (futureParcelleCouleurJardinier.isIrriguee()) {
