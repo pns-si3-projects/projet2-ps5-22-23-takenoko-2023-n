@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlateauTest {
     Plateau plateau;
 
-
     @BeforeEach
     void setUp() {
         plateau = new Plateau(new PiocheSectionBambou());
@@ -252,6 +251,40 @@ class PlateauTest {
         assertTrue(plateau.poseBambou(pc11, new SectionBambou(pc11.getCouleur())));
         Optional<Bambou> optionalBambou11_2 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
         if (optionalBambou11_2.isPresent()) assertEquals(2, optionalBambou11_2.get().getTailleBambou());
+    }
+
+    @Test
+    void deplacementPandaTest () {
+        //position des pracelles
+        Position position1_1 = new Position(1, 1);
+        Position position2_0 = new Position(2, 0);
+        Position position1_m1 = new Position(1, -1);
+        Position positionm1_m1 = new Position(-1, -1);
+
+        //parcelles
+        ParcelleCouleur parcelleCouleur1_1 = new ParcelleCouleur(position1_1, Couleur.JAUNE);
+        ParcelleCouleur parcelleCouleur2_0 = new ParcelleCouleur(position2_0, Couleur.ROSE);
+        ParcelleCouleur parcelleCouleur1_m1 = new ParcelleCouleur(position1_m1, Couleur.ROSE);
+        ParcelleCouleur parcelleCouleurm1_m1 = new ParcelleCouleur(positionm1_m1, Couleur.VERTE);
+
+        //pose des parcelles
+        plateau.poseParcelle(parcelleCouleur1_1);
+        plateau.poseParcelle(parcelleCouleur2_0);
+        plateau.poseParcelle(parcelleCouleur1_m1);
+        plateau.poseParcelle(parcelleCouleurm1_m1);
+
+
+        //deplacement du panda
+        assertEquals(plateau.getPanda().getPosition(), new Position());
+
+        Position positionInitial = plateau.getPanda().getPosition();
+        plateau.deplacementPanda(position1_1);
+
+        assertEquals(position1_1, plateau.getPanda().getPosition());
+        Optional<Bambou> optBamboou1_1 = GestionBambous.chercheBambou(plateau.getBambous(), position1_1);
+        if (optBamboou1_1.isPresent()) {
+            assertEquals(0, optBamboou1_1.get().getTailleBambou());
+        }
     }
 
     @Test

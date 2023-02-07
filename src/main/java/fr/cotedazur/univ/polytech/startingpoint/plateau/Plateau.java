@@ -301,6 +301,33 @@ public class Plateau {
     }
 
     /**
+     * eleve un bambou de la parcelle
+     * @param bambou un bambou
+     * @return une sectionBambou
+     */
+    public SectionBambou mangeBambou (Bambou bambou) {
+        return bambou.prendSectionBambou();
+    }
+
+    /**
+     * deplacement du Panda
+     * @param position la position du panda
+     */
+    public void deplacementPanda(Position position) {
+        panda.move(position);
+
+        Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(getParcelles(),position);
+        if(parcelle.isPresent()) {
+            if (parcelle.get().getClass().equals(ParcelleCouleur.class)) {
+                Optional<Bambou> bambou = GestionBambous.chercheBambou(getBambous(), position);
+                if (bambou.isPresent()) {
+                    mangeBambou(bambou.get());
+                }
+            }
+        }
+    }
+
+    /**
      * Déplace le jardinier et ajoute le bambous sur la parcelle et ses voisins irriguées et de la même couleur
      * @param position position de la parcelle où on veut déplavcer le jardinier
      * @throws ParcelleNonPoseeException

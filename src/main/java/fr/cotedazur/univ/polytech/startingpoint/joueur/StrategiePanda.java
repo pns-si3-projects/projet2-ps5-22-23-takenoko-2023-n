@@ -13,10 +13,7 @@ import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionBambous;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,22 +112,17 @@ public class StrategiePanda implements Strategie {
         Jardinier jardinier = plateau.getJardinier();
         List<Position> listPositionPossible = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),jardinier.getPosition());
         jardinier.move(listPositionPossible.get(listPositionPossible.size()-1));
-        Optional<Parcelle> parcelleJardinier = GestionParcelles.chercheParcelle(plateau.getParcelles(),listPositionPossible.get(0));
-
-        if(parcelleJardinier.isPresent()) {
-            if(parcelleJardinier.get().getClass().equals(ParcelleCouleur.class)){
-                ParcelleCouleur parcelleCouleurJardinier = (ParcelleCouleur) parcelleJardinier.get();
-                plateau.poseBambou(parcelleCouleurJardinier,piocheSectionBambou.pioche(parcelleCouleurJardinier.getCouleur()));
-            }
+        try {
+            plateau.deplacementJardinier(listPositionPossible.get(listPositionPossible.size()-1));
+        } catch (ParcelleNonPoseeException e) {
+            System.out.println(e);
         }
-    }
-
-    public void deplacePossible() {
-
     }
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs,SectionBambou[] listeBambouMange) {
+        Position positionDeplacer=null;
+        boolean estDeplacer = false;
         List<Objectif> objectifPanda = recupreObjectifPanda(objectifs);
         List<Position> listePositionPossibleAvecBambou = new ArrayList<>();
 
@@ -150,10 +142,13 @@ public class StrategiePanda implements Strategie {
             if(parcelleRegarder.get().getClass().equals(ParcelleCouleur.class)) {
                 ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelleRegarder.get();
                 if(parcelleCouleur.getCouleur().equals(couleurAManger)) {
-                    panda.move(parcelleCouleur.getPosition());
+                    positionDeplacer=position;
+                    break;
                 }
             }
         }
+        if(!estDeplacer) { positionDeplacer=listPositionPossibleDeplacement.get(0);}
+        plateau.deplacementPanda(positionDeplacer);
     }
 
     /**
