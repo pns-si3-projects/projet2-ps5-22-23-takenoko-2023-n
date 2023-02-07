@@ -1,13 +1,19 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -41,21 +47,28 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle,
-                               PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) throws PiocheParcelleEnCoursException, PiocheParcelleVideException {
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs)  {
         boolean parcellepose = false;
         ParcelleCouleur parcelleCouleur=null;
-        ParcellePioche[] pioche = piocheParcelle.pioche() ;
-        for ( ParcellePioche parcellePiochee : pioche ) {
-            if ( GestionParcelles.chercheParcelleCouleur( plateau.getParcelles(), parcellePiochee.getCouleur()).isEmpty() && !parcellepose ) {
-                parcelleCouleur = piocheParcelle.choisiParcelle( parcellePiochee, plateau.getPositionsDisponibles() [0]);
-                parcellepose=true;
+        ParcellePioche[] pioche = new ParcellePioche[0];
+        try {
+            pioche = piocheParcelle.pioche();
+
+            for ( ParcellePioche parcellePiochee : pioche ) {
+                if ( GestionParcelles.chercheParcelleCouleur( plateau.getParcelles(), parcellePiochee.getCouleur()).isEmpty() && !parcellepose ) {
+                    parcelleCouleur = piocheParcelle.choisiParcelle( parcellePiochee, plateau.getPositionsDisponibles() [0]);
+                    parcellepose=true;
+                }
             }
+            if( !parcellepose ) {
+                parcelleCouleur = piocheParcelle.choisiParcelle(pioche[0], plateau.getPositionsDisponibles()[0]);
+            }
+        } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
+            throw new AssertionError(e);
         }
-        if( !parcellepose ) {
-            parcelleCouleur = piocheParcelle.choisiParcelle(pioche[0], plateau.getPositionsDisponibles()[0]);
-        }
-        irrigueParcelle(parcelleCouleur,plateau);
+
+        SectionBambou sectionBambou = piocheSectionBambou.pioche(parcelleCouleur.getCouleur());
+        irrigueParcelle(parcelleCouleur, plateau, sectionBambou);
         plateau.poseParcelle(parcelleCouleur);
     }
 
@@ -64,23 +77,38 @@ public class StrategiePanda implements Strategie {
      * @param parcelleCouleur une parcelle couleur a savoir sont etat
      * @param plateau le plateau
      */
-    public void irrigueParcelle(ParcelleCouleur parcelleCouleur, Plateau plateau) {
+    public void irrigueParcelle(ParcelleCouleur parcelleCouleur, Plateau plateau, SectionBambou sectionBambou) {
         if (parcelleCouleur.isIrriguee()) {
-            plateau.poseBambou(parcelleCouleur);
+            plateau.poseBambou(parcelleCouleur, sectionBambou);
         }
     }
-    
+
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation,
                                  PiocheSectionBambou piocheSectionBambou) {
-        Set<Irrigation> irrigationDisponible = plateau.getIrrigationsDisponibles();
-        List<Irrigation> irrigationDisponibleListe = irrigationDisponible.stream().toList();
-        plateau.addIrrigation(irrigationDisponibleListe.get(0).getPositions().get(0), irrigationDisponibleListe.get(0).getPositions().get(1));
+        Set<Irrigation> irrigationsDisponibles = plateau.getIrrigationsDisponibles();
+        Irrigation irrigationAAdd = null;
+        for (Irrigation irrigation: irrigationsDisponibles){
+            irrigationAAdd = irrigation;
+            for (Position positionIrrigation : irrigation.getPositions()){
+                Optional<Parcelle> optParcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), positionIrrigation);
+                if (optParcelle.isPresent()) {
+                    ParcelleCouleur pc = (ParcelleCouleur) optParcelle.get();
+                    if (!pc.isIrriguee()) irrigationAAdd = irrigation;
+                    break;
+                }
+            }
+        }
+        if(irrigationAAdd != null) plateau.poseIrrigation(irrigationAAdd.getPositions().get(0), irrigationAAdd.getPositions().get(1));
     }
 
     @Override
-    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
 
+    public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs)  {
+        Jardinier jardinier=plateau.getJardinier();
+        Position positionJardinier = jardinier.getPosition();
+        List<Position> listePositionPossible = GestionPersonnages.deplacementsPossibles( plateau.getParcelleEtVoisinesList(), positionJardinier);
+        jardinier.setPosition(listePositionPossible.get(0));
     }
 
     @Override
@@ -89,9 +117,13 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
-                               PiocheObjectifJardinier piocheObjectifJardinier,
-                               PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
-
+    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
+        Objectif objectif = null;
+        if (!piocheObjectifPanda.isEmpty()) objectif = piocheObjectifPanda.pioche();
+        else if (!piocheObjectifParcelle.isEmpty()) objectif = piocheObjectifParcelle.pioche();
+        else objectif = piocheObjectifJardinier.pioche();
+        objectifs.add(objectif);
     }
+
+
 }

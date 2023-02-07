@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
-import fr.cotedazur.univ.polytech.startingpoint.jeu.MaitreDuJeu;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -12,6 +11,7 @@ import fr.cotedazur.univ.polytech.startingpoint.pieces.AjoutCouleurException;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -29,8 +29,9 @@ public class Plateau {
     private final Set<Bambou> bambouList;
     private final Panda panda;
     private final Jardinier jardinier;
-    private Set<Irrigation> irrigationsPosees;
+    private final Set<Irrigation> irrigationsPosees;
     private Set<Irrigation> irrigationsDisponibles;
+    private final PiocheSectionBambou piocheBambou;
 
 
     // Définition des constructeurs
@@ -39,7 +40,7 @@ public class Plateau {
      * Construit le plateau du jeu
      * Place l'étang, le panda et le jardinier en (0,0)
      */
-    public Plateau() {
+    public Plateau(PiocheSectionBambou piocheSectionBambou) {
         // Initialisation des attributs
         parcelleEtVoisinesList = new HashMap<>();
         positionsDisponibles = new HashSet<>(6);
@@ -48,7 +49,7 @@ public class Plateau {
         jardinier = new Jardinier();
         irrigationsPosees = new HashSet<>();
         irrigationsDisponibles = new HashSet<>();
-
+        piocheBambou = piocheSectionBambou;
         // Ajout de l'étang dans la liste des parcelles
         poseEtang();
     }
@@ -190,7 +191,7 @@ public class Plateau {
         // Si voisine de l'étang, la parcelle est irriguée et a une section de bambou
         if (voisinesParcelle.contains(GestionParcelles.ETANG)){
             parcelle.setIrriguee(true);
-            poseBambou(parcelle);
+            poseBambou(parcelle, piocheBambou.pioche(parcelle.getCouleur()));
         }
 
         // On met à jour le set d'irrigations disponible
@@ -218,7 +219,7 @@ public class Plateau {
      * @param position1 position de la 1ere parcelle
      * @param position2 position de la 2eme parcelle
      */
-    public boolean addIrrigation(Position position1, Position position2){
+    public boolean poseIrrigation(Position position1, Position position2){
         Optional<Parcelle> parcelle1 = GestionParcelles.chercheParcelle(getParcelles(),position1);
         Optional<Parcelle> parcelle2 = GestionParcelles.chercheParcelle(getParcelles(),position2);
         boolean ajoute = false;
@@ -247,12 +248,12 @@ public class Plateau {
                 //irrige et pose un bambou si la parcelle n'est pas irrigée
                 if (!parcelleC1.isIrriguee()){
                     parcelleC1.setIrriguee(true);
-                    poseBambou(parcelleC1);
+                    poseBambou(parcelleC1, piocheBambou.pioche(parcelleC1.getCouleur()));
                 }
                 //irrige et pose un bambou si la parcelle n'est pas irrigée
                 if (!parcelleC2.isIrriguee()){
                     parcelleC2.setIrriguee(true);
-                    poseBambou(parcelleC2);
+                    poseBambou(parcelleC2, piocheBambou.pioche(parcelleC2.getCouleur()));
                 }
                 //met a jour le set des irrigations disponibles avec les nouvelles possibilités
                 Optional<Set<Irrigation>> irrigationsDisponoblesSet = GestionIrrigation.addIrrigationDisponible(parcelleEtVoisinesList, irrigationAAdd, irrigationsDisponibles, irrigationsPosees);
@@ -266,15 +267,15 @@ public class Plateau {
      * Pose du bambou uniquement si la parcelle est irriguée, ajoute une nouvelle section de bambou si il
      * existe déja un bambou sur la parcelle, sinon crée un nouveau bambou puis ajoute une section de bambou
      * @param parcelleCouleur parcelle sur laquelle on veut faire pousser du bambou
+     * @param sectionBambou sectionBambou pioché dans la Pioche Bamboou
      * @return true si le bambou a bien été posé, false sinon
      */
-    public boolean poseBambou(ParcelleCouleur parcelleCouleur){
+    public boolean poseBambou(ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou){
         if (parcelleCouleur.isIrriguee()){
             Optional<Bambou> optionalBambou = GestionBambous.chercheBambou(getBambous(), parcelleCouleur.getPosition());
             //1er cas: déja bambou
             if (optionalBambou.isPresent()){
                 try {
-                    SectionBambou sectionBambou = new SectionBambou(parcelleCouleur.getCouleur());
                     optionalBambou.get().ajouteSectionBambou(sectionBambou);
                     return true;
                 } catch (AjoutCouleurException e) {
@@ -286,8 +287,8 @@ public class Plateau {
             else {
                 Bambou bambou = new Bambou(parcelleCouleur);
                 try {
-                    SectionBambou sectionBambou = new SectionBambou(parcelleCouleur.getCouleur());
                     bambou.ajouteSectionBambou(sectionBambou);
+                    bambouList.add(bambou);
                     return true;
                 }
                 catch (AjoutCouleurException e) {

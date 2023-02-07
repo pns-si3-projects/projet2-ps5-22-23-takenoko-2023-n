@@ -8,6 +8,8 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +23,7 @@ class PlateauTest {
 
     @BeforeEach
     void setUp() {
-        plateau = new Plateau();
+        plateau = new Plateau(new PiocheSectionBambou());
     }
 
 
@@ -150,7 +152,7 @@ class PlateauTest {
         assertEquals(0, plateau.getIrrigationsPosees().size());
         assertEquals(1, plateau.getIrrigationsDisponibles().size());
 
-        assertTrue(plateau.addIrrigation(position11, position20));
+        assertTrue(plateau.poseIrrigation(position11, position20));
         assertEquals(1, plateau.getIrrigationsPosees().size());
         assertEquals(0, plateau.getIrrigationsDisponibles().size());
 
@@ -166,12 +168,12 @@ class PlateauTest {
         assertEquals(1, plateau.getIrrigationsPosees().size());
         assertEquals(2, plateau.getIrrigationsDisponibles().size());
 
-        assertTrue(plateau.addIrrigation(position11, position31));
+        assertTrue(plateau.poseIrrigation(position11, position31));
         assertTrue(pc31.isIrriguee());
         assertEquals(2, plateau.getIrrigationsPosees().size());
         assertEquals(3, plateau.getIrrigationsDisponibles().size());
 
-        assertTrue(plateau.addIrrigation(position20, position31));
+        assertTrue(plateau.poseIrrigation(position20, position31));
         assertEquals(3, plateau.getIrrigationsPosees().size());
         assertEquals(2, plateau.getIrrigationsDisponibles().size());
     }
@@ -198,7 +200,7 @@ class PlateauTest {
         ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
         plateau.poseParcelle(pc11);
         plateau.poseParcelle(pc20);
-        plateau.addIrrigation(position11, position20);
+        plateau.poseIrrigation(position11, position20);
 
         ParcelleCouleur pc31 = new ParcelleCouleur(position31, Couleur.VERTE);
         ParcelleCouleur pc22 = new ParcelleCouleur(position22, Couleur.JAUNE);
@@ -206,7 +208,7 @@ class PlateauTest {
         plateau.poseParcelle(pc22);
 
         //Ajout de l'irrigation alors qu'il n'y a pas d'irrigation avant : donc l'ajout est impossible et les set ne sont pas modifiés
-        assertFalse(plateau.addIrrigation(position11,position22));
+        assertFalse(plateau.poseIrrigation(position11,position22));
         assertEquals(1, plateau.getIrrigationsPosees().size());
         assertEquals(2, plateau.getIrrigationsDisponibles().size());
         assertTrue(pc20.isIrriguee());
@@ -230,26 +232,26 @@ class PlateauTest {
 
         //autour de l'étang donc automatiquement irriguée et donc automatiquement un bambou
         Optional<Bambou> optionalBambou11 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
-        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambou11.get());
+        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambou11.get().getTailleBambou());
 
         Optional<Bambou> optionalBambou20 = GestionBambous.chercheBambou(plateau.getBambous(), position20);
-        if (optionalBambou20.isPresent()) assertEquals(1, optionalBambou20.get());
+        if (optionalBambou20.isPresent()) assertEquals(1, optionalBambou20.get().getTailleBambou());
 
         //n'ajoute pas de bambou si non irriguée
-        assertFalse(plateau.poseBambou(pc31));
-        plateau.addIrrigation(position11, position20);
-        plateau.addIrrigation(position11, position31);
+        assertFalse(plateau.poseBambou(pc31, new SectionBambou(pc31.getCouleur())));
+        plateau.poseIrrigation(position11, position20);
+        plateau.poseIrrigation(position11, position31);
 
         //ajout si irriguée
         assertTrue(pc31.isIrriguee());
-        assertTrue(plateau.poseBambou(pc31));
+        assertTrue(plateau.poseBambou(pc31, new SectionBambou(pc31.getCouleur())));
 
         Optional<Bambou> optionalBambou31 = GestionBambous.chercheBambou(plateau.getBambous(), position31);
-        if (optionalBambou31.isPresent()) assertEquals(1, optionalBambou31.get());
+        if (optionalBambou31.isPresent()) assertEquals(2, optionalBambou31.get().getTailleBambou());
 
-        assertTrue(plateau.poseBambou(pc11));
+        assertTrue(plateau.poseBambou(pc11, new SectionBambou(pc11.getCouleur())));
         Optional<Bambou> optionalBambou11_2 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
-        if (optionalBambou11_2.isPresent()) assertEquals(2, optionalBambou11_2.get());
+        if (optionalBambou11_2.isPresent()) assertEquals(2, optionalBambou11_2.get().getTailleBambou());
     }
 
 }

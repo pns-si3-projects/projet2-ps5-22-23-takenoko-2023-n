@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ class StrategieParcelleTest {
     void setUp() {
         strategieParcelle = new StrategieParcelle();
         objectifs = new ArrayList<>();
-        plateau = new Plateau();
+        plateau = new Plateau(new PiocheSectionBambou());
         piochesVides = new boolean[] {false, false, false, false, false};
     }
     @Test
@@ -61,10 +62,6 @@ class StrategieParcelleTest {
 
         ParcelleCouleur parcelleCouleur11J = new ParcelleCouleur(new Position(1, 1), Couleur.JAUNE);
         plateau.poseParcelle(parcelleCouleur11J);
-        assertFalse(strategieParcelle.checkPossibiliteActionJardinier(plateau, objectifs));
-
-        ParcelleCouleur parcelleCouleurm1m1V = new ParcelleCouleur(new Position(-1, -1), Couleur.VERTE);
-        plateau.poseParcelle(parcelleCouleurm1m1V);
         assertTrue(strategieParcelle.checkPossibiliteActionJardinier(plateau, objectifs));
 
         objectifs.remove(0);
@@ -113,5 +110,9 @@ class StrategieParcelleTest {
         actionsRealiseesTour[Plaquette.ActionPossible.JARDINIER.ordinal()] = true;
         assertEquals(Plaquette.ActionPossible.PANDA,
                 strategieParcelle.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
+    }
+
+    @Test
+    void choisiActionParcelle() {
     }
 }
