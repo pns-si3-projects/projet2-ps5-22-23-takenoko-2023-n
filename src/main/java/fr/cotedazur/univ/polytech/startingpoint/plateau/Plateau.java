@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
-import fr.cotedazur.univ.polytech.startingpoint.jeu.MaitreDuJeu;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -218,7 +217,7 @@ public class Plateau {
      * @param position1 position de la 1ere parcelle
      * @param position2 position de la 2eme parcelle
      */
-    public boolean addIrrigation(Position position1, Position position2){
+    public boolean poseIrrigation(Position position1, Position position2){
         Optional<Parcelle> parcelle1 = GestionParcelles.chercheParcelle(getParcelles(),position1);
         Optional<Parcelle> parcelle2 = GestionParcelles.chercheParcelle(getParcelles(),position2);
         boolean ajoute = false;
@@ -262,6 +261,12 @@ public class Plateau {
         return ajoute;
     }
 
+    /**
+     * Pose du bambou uniquement si la parcelle est irriguée, ajoute une nouvelle section de bambou si il
+     * existe déja un bambou sur la parcelle, sinon crée un nouveau bambou puis ajoute une section de bambou
+     * @param parcelleCouleur parcelle sur laquelle on veut faire pousser du bambou
+     * @return true si le bambou a bien été posé, false sinon
+     */
     public boolean poseBambou(ParcelleCouleur parcelleCouleur){
         if (parcelleCouleur.isIrriguee()){
             Optional<Bambou> optionalBambou = GestionBambous.chercheBambou(getBambous(), parcelleCouleur.getPosition());

@@ -17,6 +17,12 @@ public class GestionBambous {
 
     // Méthodes d'utilisation
 
+    /**
+     * Cherche un bambou à une certaine position
+     * @param bambouList la liste de bambou posés sur le plateau
+     * @param position position à laquelle on cherche le bambou
+     * @return un optional de bambou si trouvé, sinon un optional vide
+     */
     public static Optional<Bambou> chercheBambou(@NotNull Bambou[] bambouList, Position position){
         for (Bambou bambou : bambouList){
             if (bambou.getPosition().equals(position)) return Optional.of(bambou);

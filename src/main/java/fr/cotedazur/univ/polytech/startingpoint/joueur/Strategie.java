@@ -31,7 +31,9 @@ public interface Strategie {
      * @param plateau le plateau du jeu
      * @param piocheParcelle la pioche de parcelles du jeu
      */
-    void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) ;
+
+    void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) ;
+
     /**
      * Pioche une irrigation et choisi où la placer (plateau ou plaquette)
      * @param plateau le plateau du jeu
@@ -43,13 +45,13 @@ public interface Strategie {
      * Permet de déplacer le jardinier sur le plateau
      * @param plateau le plateau du jeu
      */
-    void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou);
+    void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs);
 
     /**
      * Permet de déplacer le panda sur le plateau
      * @param plateau le plateau du jeu
      */
-    void actionPanda(Plateau plateau);
+    void actionPanda(Plateau plateau, List<Objectif> objectifs);
 
     /**
      * Pioche l'objectif de son choix
@@ -59,5 +61,5 @@ public interface Strategie {
      */
     void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
                                PiocheObjectifJardinier piocheObjectifJardinier,
-                               PiocheObjectifPanda piocheObjectifPanda);
+                               PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs);
 }

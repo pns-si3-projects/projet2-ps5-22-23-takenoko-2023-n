@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,9 @@ class StrategieJardinierTest {
     PiocheParcelle piocheParcelle;
     PiocheSectionBambou piocheSectionBambou;
     PiocheIrrigation piocheIrrigation;
+    PiocheObjectifJardinier piocheObjectifJardinier;
+    PiocheObjectifPanda piocheObjectifPanda;
+    PiocheObjectifParcelle piocheObjectifParcelle;
     boolean[] piochesVides;
 
 
@@ -28,7 +32,10 @@ class StrategieJardinierTest {
         objectifs = new ArrayList<>();
         plateau = new Plateau();
         piocheParcelle = new PiocheParcelle(new Random());
-        piocheSectionBambou = new PiocheSectionBambou(new Random());
+        piocheSectionBambou = new PiocheSectionBambou();
+        piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
+        piocheObjectifPanda = new PiocheObjectifPanda(new Random());
+        piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piochesVides = new boolean[]{false, false, false, false, false};
     }
 
@@ -54,14 +61,29 @@ class StrategieJardinierTest {
 
     @Test
     void actionParcelle() {
-        try {
-            for (int i=0; i<6; i++){
-                strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
-            }
-        } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
-            System.out.println(e);
+        for (int i = 0; i < 6; i++) {
+            strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou, objectifs);
         }
         assertEquals(7, plateau.getParcelles().length);
     }
 
+    @Test
+    void actionIrrigation() {
+        for (int i = 0; i < 4; i++) {
+            strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou, objectifs);
+
+            for (int j = 0; j < 2; j++) {
+                strategieJardinier.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
+            }
+            assertEquals(2, plateau.getIrrigationsPosees().size());
+        }
+    }
+
+    @Test
+    void actionObjectif() {
+        assertFalse(piocheObjectifJardinier.isEmpty());
+        strategieJardinier.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda, objectifs);
+        assertEquals(1, objectifs.size());
+        assertEquals(ObjectifJardinier.class, objectifs.get(0).getClass());
+    }
 }

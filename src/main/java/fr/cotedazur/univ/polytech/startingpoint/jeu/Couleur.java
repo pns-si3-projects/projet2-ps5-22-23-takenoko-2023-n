@@ -35,15 +35,7 @@ public enum Couleur {
      * @param couleur la couleur demandée
      */
     Couleur(String couleur) {
-        if (couleur.equalsIgnoreCase("verte")
-                || couleur.equalsIgnoreCase("rose")
-                || couleur.equalsIgnoreCase("jaune")) {
-            this.couleur = couleur;
-        }
-        else {
-            throw new IllegalArgumentException(
-                    "La couleur demandée ne correspond pas aux possibilités de couleur (vert, rose, jaune)");
-        }
+        this.couleur = couleur;
     }
 
 
