@@ -41,7 +41,7 @@ public class Jardinier implements Personnage {
 
     @Override
     public String toString() {
-        return "Jardinier ";
+        return "Jardinier";
     }
 
     @Override

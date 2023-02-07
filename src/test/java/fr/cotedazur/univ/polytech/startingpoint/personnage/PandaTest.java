@@ -39,7 +39,7 @@ class PandaTest {
 
     @Test
     void testToString() {
-        assertEquals("Panda en (0,0)", panda1.toString());
-        assertEquals("Panda en (0,0)", panda2.toString());
+        assertEquals("Panda", panda1.toString());
+        assertEquals("Panda", panda2.toString());
     }
 }
