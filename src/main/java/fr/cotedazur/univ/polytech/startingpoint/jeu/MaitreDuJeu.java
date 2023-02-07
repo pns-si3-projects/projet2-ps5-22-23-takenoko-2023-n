@@ -65,6 +65,7 @@ public class MaitreDuJeu {
     public void jeu() {
         Joueur joueurFinObjectifs = gestionTours.tours(joueurs, nombreObjectifsDemandes);
         joueurFinObjectifs.recoitEmpereur(new Empereur());
+        AfficheurJeu.recoitEmpereur(joueurFinObjectifs);
 
         gestionTours.dernierTour(joueurs, joueurFinObjectifs);
 

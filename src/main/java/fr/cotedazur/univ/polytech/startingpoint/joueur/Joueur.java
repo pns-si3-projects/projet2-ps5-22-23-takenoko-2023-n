@@ -190,7 +190,7 @@ public class Joueur {
      * @param plateau le plateau du jeu
      */
     public void actionPanda(Plateau plateau) {
-        strategie.actionPanda(plateau, objectifEnMainList,plaquette.getReserveBambousManges());
+        strategie.actionPanda(plateau, objectifEnMainList, plaquette.getReserveBambousManges());
     }
 
     /**
