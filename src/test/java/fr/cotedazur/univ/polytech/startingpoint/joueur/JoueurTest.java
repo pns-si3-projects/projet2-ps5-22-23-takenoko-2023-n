@@ -87,7 +87,7 @@ class JoueurTest {
     @Test
     void choisiAction() {
         assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurParcelle.choisiAction(plateau, piochesVides));
-        assertEquals(Plaquette.ActionPossible.IRRIGATION, joueurParcelle.choisiAction(plateau, piochesVides));
+        assertEquals(Plaquette.ActionPossible.PANDA, joueurParcelle.choisiAction(plateau, piochesVides));
 
         assertEquals(Plaquette.ActionPossible.PARCELLE, joueurJardinier.choisiAction(plateau, piochesVides));
         assertEquals(Plaquette.ActionPossible.OBJECTIF, joueurJardinier.choisiAction(plateau, piochesVides));
