@@ -171,7 +171,7 @@ public class StrategieParcelle implements Strategie {
 
         for (Irrigation irrigation : setIrrigation) {
             List<Position> positionIrrigation = irrigation.getPositions();
-            plateau.addIrrigation(positionIrrigation.get(0), positionIrrigation.get(1));
+            plateau.poseIrrigation(positionIrrigation.get(0), positionIrrigation.get(1));
             break;
         }
     }

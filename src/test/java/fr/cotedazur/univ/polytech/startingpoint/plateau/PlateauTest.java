@@ -150,7 +150,7 @@ class PlateauTest {
         assertEquals(0, plateau.getIrrigationsPosees().size());
         assertEquals(1, plateau.getIrrigationsDisponibles().size());
 
-        assertTrue(plateau.addIrrigation(position11, position20));
+        assertTrue(plateau.poseIrrigation(position11, position20));
         assertEquals(1, plateau.getIrrigationsPosees().size());
         assertEquals(0, plateau.getIrrigationsDisponibles().size());
 
@@ -166,12 +166,12 @@ class PlateauTest {
         assertEquals(1, plateau.getIrrigationsPosees().size());
         assertEquals(2, plateau.getIrrigationsDisponibles().size());
 
-        assertTrue(plateau.addIrrigation(position11, position31));
+        assertTrue(plateau.poseIrrigation(position11, position31));
         assertTrue(pc31.isIrriguee());
         assertEquals(2, plateau.getIrrigationsPosees().size());
         assertEquals(3, plateau.getIrrigationsDisponibles().size());
 
-        assertTrue(plateau.addIrrigation(position20, position31));
+        assertTrue(plateau.poseIrrigation(position20, position31));
         assertEquals(3, plateau.getIrrigationsPosees().size());
         assertEquals(2, plateau.getIrrigationsDisponibles().size());
     }
@@ -198,7 +198,7 @@ class PlateauTest {
         ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
         plateau.poseParcelle(pc11);
         plateau.poseParcelle(pc20);
-        plateau.addIrrigation(position11, position20);
+        plateau.poseIrrigation(position11, position20);
 
         ParcelleCouleur pc31 = new ParcelleCouleur(position31, Couleur.VERTE);
         ParcelleCouleur pc22 = new ParcelleCouleur(position22, Couleur.JAUNE);
@@ -206,7 +206,7 @@ class PlateauTest {
         plateau.poseParcelle(pc22);
 
         //Ajout de l'irrigation alors qu'il n'y a pas d'irrigation avant : donc l'ajout est impossible et les set ne sont pas modifiés
-        assertFalse(plateau.addIrrigation(position11,position22));
+        assertFalse(plateau.poseIrrigation(position11,position22));
         assertEquals(1, plateau.getIrrigationsPosees().size());
         assertEquals(2, plateau.getIrrigationsDisponibles().size());
         assertTrue(pc20.isIrriguee());
@@ -237,8 +237,8 @@ class PlateauTest {
 
         //n'ajoute pas de bambou si non irriguée
         assertFalse(plateau.poseBambou(pc31));
-        plateau.addIrrigation(position11, position20);
-        plateau.addIrrigation(position11, position31);
+        plateau.poseIrrigation(position11, position20);
+        plateau.poseIrrigation(position11, position31);
 
         //ajout si irriguée
         assertTrue(pc31.isIrriguee());

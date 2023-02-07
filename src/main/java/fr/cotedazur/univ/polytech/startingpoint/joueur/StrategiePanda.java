@@ -75,7 +75,7 @@ public class StrategiePanda implements Strategie {
                                  PiocheSectionBambou piocheSectionBambou) {
         Set<Irrigation> irrigationDisponible = plateau.getIrrigationsDisponibles();
         List<Irrigation> irrigationDisponibleListe = irrigationDisponible.stream().toList();
-        plateau.addIrrigation(irrigationDisponibleListe.get(0).getPositions().get(0), irrigationDisponibleListe.get(0).getPositions().get(1));
+        plateau.poseIrrigation(irrigationDisponibleListe.get(0).getPositions().get(0), irrigationDisponibleListe.get(0).getPositions().get(1));
     }
 
     @Override

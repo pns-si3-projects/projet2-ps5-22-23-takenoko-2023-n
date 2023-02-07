@@ -77,7 +77,7 @@ public class StrategieJardinier implements Strategie {
                 }
             }
         }
-        plateau.addIrrigation(irrigationAAdd.getPositions().get(0), irrigationAAdd.getPositions().get(1));
+        plateau.poseIrrigation(irrigationAAdd.getPositions().get(0), irrigationAAdd.getPositions().get(1));
     }
 
     @Override
