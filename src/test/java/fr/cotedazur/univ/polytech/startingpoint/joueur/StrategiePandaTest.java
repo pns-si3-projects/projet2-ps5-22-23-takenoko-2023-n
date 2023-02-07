@@ -1,11 +1,10 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheParcelle;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheParcelleEnCoursException;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheParcelleVideException;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +23,10 @@ class StrategiePandaTest {
     ParcelleCouleur parcelleCouleur;
     PiocheParcelle piocheParcelle;
     PiocheSectionBambou piocheSectionBambou;
+    PiocheIrrigation piocheIrrigation;
+    PiocheObjectifPanda piocheObjectifPanda;
+    PiocheObjectifJardinier piocheObjectifJardinier;
+    PiocheObjectifParcelle piocheObjectifParcelle;
 
 
     @BeforeEach
@@ -34,6 +37,9 @@ class StrategiePandaTest {
         piocheParcelle = new PiocheParcelle(new Random());
         piocheSectionBambou = new PiocheSectionBambou();
         piochesVides = new boolean[] {false, false, false, false, false};
+        piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
+        piocheObjectifPanda = new PiocheObjectifPanda(new Random());
+        piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
     }
 
 
@@ -66,5 +72,19 @@ class StrategiePandaTest {
 
     @Test
     void actionIrrigationTest () {
+        for (int i =0; i<4; i++) {
+            strategiePanda.actionParcelle(plateau,piocheParcelle,piocheSectionBambou,objectifs);
+        }
+        for (int j =0; j<2; j++) {
+            strategiePanda.actionIrrigation(plateau,piocheIrrigation, piocheSectionBambou);
+        }
+        assertEquals(2,plateau.getIrrigationsPosees().size());
+    }
+    @Test
+    void actionObjectif() {
+        assertFalse(piocheObjectifPanda.isEmpty());
+        strategiePanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda, objectifs);
+        assertEquals(1, objectifs.size());
+        assertEquals(ObjectifPanda.class, objectifs.get(0).getClass());
     }
 }
