@@ -315,14 +315,15 @@ public class Plateau {
             Couleur couleurParcelleJardinier = parcelleCouleurJardinier.getCouleur();
 
             //ajout du bambou sur la parcelle du Jardinier
-            if (parcelleCouleurJardinier.isIrriguee()) poseBambou(parcelleCouleurJardinier);
+            if (parcelleCouleurJardinier.isIrriguee()) poseBambou(parcelleCouleurJardinier, piocheBambou.pioche(parcelleCouleurJardinier.getCouleur()));
 
             //ajout du bambou sur les parcelles voisines irriguées
             Parcelle[] voisines = getVoisinesParcelle(parcelleCouleurJardinier);
             for (Parcelle parcelle : voisines){
                 if (parcelle.getClass().equals(ParcelleCouleur.class)) {
                     ParcelleCouleur parcelleVoisine = (ParcelleCouleur) parcelle;
-                    if (parcelleVoisine.isIrriguee() && parcelleVoisine.getCouleur().equals(couleurParcelleJardinier)) poseParcelle(parcelleVoisine);
+                    if (parcelleVoisine.isIrriguee() && parcelleVoisine.getCouleur().equals(couleurParcelleJardinier))
+                        poseBambou(parcelleVoisine, piocheBambou.pioche(parcelleCouleurJardinier.getCouleur()));
                 }
             }
 

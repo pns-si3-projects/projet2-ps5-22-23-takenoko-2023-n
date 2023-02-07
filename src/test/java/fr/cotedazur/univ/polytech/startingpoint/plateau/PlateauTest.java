@@ -284,19 +284,19 @@ class PlateauTest {
 
         //état des bambous avant le déplacement
         Optional<Bambou> optionalBambou11 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
-        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambou11.get());
+        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambou11.get().getTailleBambou());
 
         Optional<Bambou> optionalBambou20 = GestionBambous.chercheBambou(plateau.getBambous(), position20);
-        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambou20.get());
+        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambou20.get().getTailleBambou());
 
         Optional<Bambou> optionalBambou31 = GestionBambous.chercheBambou(plateau.getBambous(), position31);
-        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambou31.get());
+        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambou31.get().getTailleBambou());
 
         Optional<Bambou> optionalBambou22 = GestionBambous.chercheBambou(plateau.getBambous(), position22);
         assertTrue(optionalBambou22.isEmpty());
 
         Optional<Bambou> optionalBambouM11 = GestionBambous.chercheBambou(plateau.getBambous(), positionM11);
-        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambouM11.get());
+        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambouM11.get().getTailleBambou());
 
         Optional<Bambou> optionalBambou02 = GestionBambous.chercheBambou(plateau.getBambous(), position02);
         assertTrue(optionalBambou22.isEmpty());
@@ -314,19 +314,19 @@ class PlateauTest {
 
         //état des bambous après le déplacement du jardinier
         Optional<Bambou> optionalBambou11_apres = GestionBambous.chercheBambou(plateau.getBambous(), position11);
-        if (optionalBambou11.isPresent()) assertEquals(2, optionalBambou11_apres.get());
+        if (optionalBambou11.isPresent()) assertEquals(2, optionalBambou11_apres.get().getTailleBambou());
 
         Optional<Bambou> optionalBambou20_apres = GestionBambous.chercheBambou(plateau.getBambous(), position20);
-        if (optionalBambou11.isPresent()) assertEquals(2, optionalBambou20_apres.get());
+        if (optionalBambou11.isPresent()) assertEquals(2, optionalBambou20_apres.get().getTailleBambou());
 
         Optional<Bambou> optionalBambou31_apres = GestionBambous.chercheBambou(plateau.getBambous(), position31);
-        if (optionalBambou11.isPresent()) assertEquals(2, optionalBambou31_apres.get());
+        if (optionalBambou11.isPresent()) assertEquals(2, optionalBambou31_apres.get().getTailleBambou());
 
         Optional<Bambou> optionalBambou22_apres = GestionBambous.chercheBambou(plateau.getBambous(), position22);
         assertTrue(optionalBambou22_apres.isEmpty());
 
         Optional<Bambou> optionalBambouM11_apres = GestionBambous.chercheBambou(plateau.getBambous(), positionM11);
-        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambouM11_apres.get());
+        if (optionalBambou11.isPresent()) assertEquals(1, optionalBambouM11_apres.get().getTailleBambou());
 
         Optional<Bambou> optionalBambou02_apres = GestionBambous.chercheBambou(plateau.getBambous(), position02);
         assertTrue(optionalBambou02_apres.isEmpty());
