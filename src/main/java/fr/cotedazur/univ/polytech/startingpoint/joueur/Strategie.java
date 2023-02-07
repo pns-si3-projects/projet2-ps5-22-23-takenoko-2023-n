@@ -1,6 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
@@ -51,7 +53,7 @@ public interface Strategie {
      * Permet de déplacer le panda sur le plateau
      * @param plateau le plateau du jeu
      */
-    void actionPanda(Plateau plateau, List<Objectif> objectifs);
+    void actionPanda(Plateau plateau, List<Objectif> objectifs, SectionBambou[] listeBambouMange);
 
     /**
      * Pioche l'objectif de son choix
