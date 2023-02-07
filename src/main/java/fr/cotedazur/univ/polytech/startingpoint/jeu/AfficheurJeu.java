@@ -2,19 +2,33 @@ package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 
+import java.util.logging.Logger;
+
 /**
  * Affiche les changements dans le jeu.
  * @author equipe N
  */
 public class AfficheurJeu {
+    // Définition des attributs
+
+    private static final Logger LOGGER = Logger.getLogger(AfficheurJeu.class.getPackageName());
     private static final String SEPARATION = "**********".repeat(6);
 
+
+    // Définition d'un constructeur privé pour éviter les instanciations
+
+    private AfficheurJeu() {
+        throw new IllegalStateException("Utility class");
+    }
+    
+
+    // Méthodes d'utilisation
 
     /**
      * Affiche l'état d'initialisation du jeu
      */
     public static void initialisation() {
-        System.out.println("Initialisation du jeu : étang, panda et jardinier en (0,0).");
+        LOGGER.info("Initialisation du jeu : étang, panda et jardinier en (0,0).");
     }
 
     /**
@@ -25,7 +39,7 @@ public class AfficheurJeu {
         String str = "\n\n" + SEPARATION +
                 "\tTour n°" + nbTours + "\t" +
                 SEPARATION;
-        System.out.println(str);
+        LOGGER.info(str);
     }
 
     /**
@@ -35,7 +49,7 @@ public class AfficheurJeu {
         String str = "\n\n" + SEPARATION +
                 "\tDernier tour\t" +
                 SEPARATION;
-        System.out.println(str);
+        LOGGER.info(str);
     }
 
     /**
@@ -43,14 +57,15 @@ public class AfficheurJeu {
      * @param joueur le joueur gagnant
      */
     public static void victoire(Joueur joueur) {
-        System.out.println("\n\nBravo à " + joueur.getNom() + " d'avoir remporté la partie avec "
-                + joueur.nombreObjectifsTermines() + " objectifs terminés pour " + joueur.nombrePoints() + " points !");
+        String str = "\n\nBravo à " + joueur.getNom() + " d'avoir remporté la partie avec "
+                + joueur.nombreObjectifsTermines() + " objectifs terminés pour " + joueur.nombrePoints() + " points !";
+        LOGGER.info(str);
     }
 
     /**
      * Affiche le partage de la victoire par tous les joueurs
      */
     public static void victoire() {
-        System.out.println("\n\nBravo à tous les joueurs d'avoir participé et à bientôt pour une autre partie !");
+        LOGGER.info("\n\nBravo à tous les joueurs d'avoir participé et à bientôt pour une autre partie !");
     }
 }
