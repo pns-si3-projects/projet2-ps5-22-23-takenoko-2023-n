@@ -6,12 +6,10 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleExistanteException;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.AfficheurPersonnage;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.AjoutCouleurException;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.*;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
 import org.jetbrains.annotations.NotNull;
 
@@ -237,6 +235,7 @@ public class Plateau {
                 if (irrigationAAdd.equals(irrigationDisponible)){
                     irrigationsPosees.add(irrigationAAdd);
                     ajoute = true;
+                    AfficheurPieces.poseIrrigation(irrigationAAdd);
                     break;
                 }
             }
@@ -317,6 +316,7 @@ public class Plateau {
      */
     public void deplacementPanda(Position position) {
         panda.move(position);
+        AfficheurPersonnage.deplacePersonnage(panda);
 
         Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(getParcelles(),position);
         if(parcelle.isPresent()) {
@@ -337,6 +337,7 @@ public class Plateau {
     public void deplacementJardinier(Position position) throws ParcelleNonPoseeException {
         // déplacement du jardinier
         jardinier.move(position);
+        AfficheurPersonnage.deplacePersonnage(jardinier);
 
         Optional<Parcelle> parcelleJardinier = GestionParcelles.chercheParcelle(getParcelles(),position);
         if (parcelleJardinier.isPresent() && parcelleJardinier.get().getClass().equals(ParcelleCouleur.class)){

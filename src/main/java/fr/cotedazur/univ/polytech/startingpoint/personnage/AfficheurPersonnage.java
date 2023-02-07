@@ -19,6 +19,13 @@ public class AfficheurPersonnage {
 
 
     // Méthodes d'utilisation
+    /**
+     * Affiche le deplacement d'un presonnage
+     * @param personnage le personnage deplacé
+     */
+    public static void deplacePersonnage(Personnage personnage) {
+        String str =  SEPARATION +"Le " + personnage + " est déplacé a la position : " + personnage.getPosition() + ". ";
+        LOGGER.info(str);
 
-    // A compléter
+    }
 }
