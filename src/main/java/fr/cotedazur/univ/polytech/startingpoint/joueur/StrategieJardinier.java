@@ -128,7 +128,8 @@ public class StrategieJardinier implements Strategie {
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, SectionBambou[] listeBambouMange) {
-
+        List<Position> deplacementsPossibles = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
+        plateau.deplacementPanda(deplacementsPossibles.get(0));
     }
 
     @Override
