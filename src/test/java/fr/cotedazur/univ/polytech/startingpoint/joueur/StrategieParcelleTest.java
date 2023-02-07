@@ -171,4 +171,25 @@ class StrategieParcelleTest {
             assert false : "Erreur de pioche";
         }
     }
+
+    @Test
+    void choisiActionObjectif() {
+        PiocheObjectifParcelle spyPiocheObjectifParcelle = spy(new PiocheObjectifParcelle(new Random()));
+        PiocheObjectifJardinier spyPiocheObjectifJardinier = spy(new PiocheObjectifJardinier(new Random()));
+        PiocheObjectifPanda spyPiocheObjectifPanda = spy(new PiocheObjectifPanda(new Random()));
+
+        for (int i = 0; i < 3; i++) {
+            strategieParcelle.actionObjectif(spyPiocheObjectifParcelle, spyPiocheObjectifJardinier,
+                    spyPiocheObjectifPanda, objectifs);
+        }
+        verify(spyPiocheObjectifParcelle, times(3)).pioche();
+
+        strategieParcelle.actionObjectif(spyPiocheObjectifParcelle, spyPiocheObjectifJardinier,
+                spyPiocheObjectifPanda, objectifs);
+        verify(spyPiocheObjectifJardinier, times(1)).pioche();
+
+        strategieParcelle.actionObjectif(spyPiocheObjectifParcelle, spyPiocheObjectifJardinier,
+                spyPiocheObjectifPanda, objectifs);
+        verify(spyPiocheObjectifPanda, times(1)).pioche();
+    }
 }
