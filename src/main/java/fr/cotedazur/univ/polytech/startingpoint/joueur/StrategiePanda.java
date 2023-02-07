@@ -1,10 +1,13 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
@@ -41,18 +44,24 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleEnCoursException, PiocheParcelleVideException {
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou)  {
         boolean parcellepose = false;
         ParcelleCouleur parcelleCouleur=null;
-        ParcellePioche[] pioche = piocheParcelle.pioche() ;
-        for ( ParcellePioche parcellePiochee : pioche ) {
-            if ( GestionParcelles.chercheParcelleCouleur( plateau.getParcelles(), parcellePiochee.getCouleur()).isEmpty() && !parcellepose ) {
-                parcelleCouleur = piocheParcelle.choisiParcelle( parcellePiochee, plateau.getPositionsDisponibles() [0]);
-                parcellepose=true;
+        ParcellePioche[] pioche = new ParcellePioche[0];
+        try {
+            pioche = piocheParcelle.pioche();
+
+            for ( ParcellePioche parcellePiochee : pioche ) {
+                if ( GestionParcelles.chercheParcelleCouleur( plateau.getParcelles(), parcellePiochee.getCouleur()).isEmpty() && !parcellepose ) {
+                    parcelleCouleur = piocheParcelle.choisiParcelle( parcellePiochee, plateau.getPositionsDisponibles() [0]);
+                    parcellepose=true;
+                }
             }
-        }
-        if( !parcellepose ) {
-            parcelleCouleur = piocheParcelle.choisiParcelle(pioche[0], plateau.getPositionsDisponibles()[0]);
+            if( !parcellepose ) {
+                parcelleCouleur = piocheParcelle.choisiParcelle(pioche[0], plateau.getPositionsDisponibles()[0]);
+            }
+        } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
+            throw new AssertionError(e);
         }
         irrigueParcelle(parcelleCouleur,plateau);
         plateau.poseParcelle(parcelleCouleur);
@@ -68,7 +77,7 @@ public class StrategiePanda implements Strategie {
             plateau.poseBambou(parcelleCouleur);
         }
     }
-    
+
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
         Set<Irrigation> irrigationDisponible = plateau.getIrrigationsDisponibles();
@@ -78,7 +87,10 @@ public class StrategiePanda implements Strategie {
 
     @Override
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou) {
-
+        Jardinier jardinier=plateau.getJardinier();
+        Position positionJardinier = jardinier.getPosition();
+        List<Position> listePositionPossible = GestionPersonnages.deplacementsPossibles( plateau.getParcelleEtVoisinesList(), positionJardinier);
+        jardinier.setPosition(listePositionPossible.get(0));
     }
 
     @Override
