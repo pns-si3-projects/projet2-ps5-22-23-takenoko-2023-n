@@ -46,6 +46,16 @@ public class AfficheurJeu {
     }
 
     /**
+     * Affiche le premier joueur à finir les objectifs demandés
+     * @param joueurFinObjectifs le premier joueur à finir les objectifs demandés
+     */
+    public static void recoitEmpereur(Joueur joueurFinObjectifs) {
+        String str = joueurFinObjectifs.getNom()
+                + " est le premier joueur a finir le nombre d'objectifs demandé et reçoit la carte Empereur";
+        LOGGER.info(str);
+    }
+
+    /**
      * Affiche le début du dernier tour
      */
     public static void debutDernierTour() {
