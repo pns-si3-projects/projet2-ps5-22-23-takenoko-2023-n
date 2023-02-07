@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
@@ -16,7 +17,6 @@ import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Représente la stratégie de jeu favorisant la réalisation des objectifs de parcelle
@@ -67,10 +67,11 @@ public class StrategieParcelle implements Strategie {
     /**
      * Renvoie {@code true} si l'action Irrigation est possible
      * @param piochesVides Le tableau boolean des piochesVides
+     * @param irrigationDisponible Les irrigations disponibles dans le plateau
      * @return {@code true} si l'action Irrigation est possible
      */
-    public boolean checkPossibiliteActionIrrigation(boolean[] piochesVides) { // Vérifier Irrigation Possible
-        return !piochesVides[4];
+    public boolean checkPossibiliteActionIrrigation(boolean[] piochesVides, Irrigation[] irrigationDisponible) {
+        return !piochesVides[GestionTours.PiochesPossibles.IRRIGATION.ordinal()] && irrigationDisponible.length != 0;
     }
 
     /**
@@ -119,7 +120,7 @@ public class StrategieParcelle implements Strategie {
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
-        if (!actionsRealiseesTour[irrigation.ordinal()] && checkPossibiliteActionIrrigation(piochesVides)) {
+        if (!actionsRealiseesTour[irrigation.ordinal()] && checkPossibiliteActionIrrigation(piochesVides, plateau.getIrrigationsDisponibles())) {
             return irrigation;
         }
 
@@ -137,12 +138,12 @@ public class StrategieParcelle implements Strategie {
      * @param positionChoisi La position choisi
      * @return une parcelle Couleur à la position mis en paramètre
      */
-    private ParcelleCouleur choisirParcelle(PiocheParcelle piocheParcelle, Position positionChoisi) {
+    private Optional<ParcelleCouleur> choisirParcelle(PiocheParcelle piocheParcelle, Position positionChoisi) {
         ParcellePioche[] tabChoixParcelles;
 
         try {
             tabChoixParcelles = piocheParcelle.pioche();
-            return piocheParcelle.choisiParcelle(tabChoixParcelles[0], positionChoisi);
+            return Optional.of(piocheParcelle.choisiParcelle(tabChoixParcelles[0], positionChoisi));
         }
         catch (PiocheParcelleEnCoursException pPECE) {
             assert false: "Ne doit pas être en demande 2 fois";
@@ -151,17 +152,17 @@ public class StrategieParcelle implements Strategie {
             assert false: "La pioche parcelle ne doit pas être vide car vérifié avant par d'ancienne méthode";
         }
 
-        return null;
+        return Optional.empty();
     }
 
     private ObjectifParcelle getMaxObjectifParcelle(List<Objectif> objectifs) {
         ObjectifParcelle objectifParcelleMax = null;
 
         for (Objectif objectif : objectifs) {
-            if (objectif.getClass().equals(ObjectifParcelle.class)) {
-                if (objectifParcelleMax == null || objectifParcelleMax.getNombrePoints() < objectif.getNombrePoints()) {
-                    objectifParcelleMax = (ObjectifParcelle) objectif;
-                }
+            if (objectif.getClass().equals(ObjectifParcelle.class) &&
+                    ( objectifParcelleMax == null || objectifParcelleMax.getNombrePoints() < objectif.getNombrePoints() ) ){
+
+                objectifParcelleMax = (ObjectifParcelle) objectif;
             }
         }
 
@@ -171,25 +172,29 @@ public class StrategieParcelle implements Strategie {
     @Override
     public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle,
                                PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
+
         Parcelle[] tableauParcellePlateau = plateau.getParcelles();
         Position[] tableauPositionDisponible = plateau.getPositionsDisponibles();
         ObjectifParcelle objectifParcelleChoisi = getMaxObjectifParcelle(objectifs);
         Optional<Position> optPosition = GestionnairePossibiliteMotif
                 .positionPossiblePrendrePourMotif(tableauParcellePlateau, tableauPositionDisponible, objectifParcelleChoisi);
-        Position positionChoisi = optPosition.orElseGet(() -> tableauPositionDisponible[0]);
 
-        ParcelleCouleur parcelleCouleurChoisi = choisirParcelle(piocheParcelle, positionChoisi);
-        plateau.poseParcelle(parcelleCouleurChoisi);
+        Position positionChoisi = optPosition.orElseGet(() -> tableauPositionDisponible[0]);
+        Optional<ParcelleCouleur> parcelleCouleurChoisi = choisirParcelle(piocheParcelle, positionChoisi);
+        parcelleCouleurChoisi.ifPresent(plateau::poseParcelle);
     }
 
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
-        Set<Irrigation> setIrrigation = plateau.getIrrigationsDisponibles();
+        Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
 
-        for (Irrigation irrigation : setIrrigation) {
-            List<Position> positionIrrigation = irrigation.getPositions();
-            plateau.poseIrrigation(positionIrrigation.get(0), positionIrrigation.get(1));
-            break;
+        if (irrigationsDisponibles.length > 0) {
+            List<Position> positionIrrigation = irrigationsDisponibles[0].getPositions();
+            Irrigation irrigationPioche = piocheIrrigation.pioche(positionIrrigation.get(0), positionIrrigation.get(1));
+            plateau.poseIrrigation(irrigationPioche);
+        }
+        else {
+            assert false : "Aucune irrigation impossible";
         }
     }
 
@@ -208,11 +213,11 @@ public class StrategieParcelle implements Strategie {
                                PiocheObjectifJardinier piocheObjectifJardinier,
                                PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
 
-        if (!piocheObjectifParcelle.isEmpty() && countObjectifParcelle(objectifs) < 3) {
+        if (!piocheObjectifParcelle.isEmpty()) {
             ObjectifParcelle objectifParcellePioche = piocheObjectifParcelle.pioche();
             objectifs.add(objectifParcellePioche);
         }
-        else if (!piocheObjectifJardinier.isEmpty() && countObjectifJardinier(objectifs) == 0) {
+        else if (!piocheObjectifJardinier.isEmpty()) {
             ObjectifJardinier objectifJardinier = (ObjectifJardinier) piocheObjectifJardinier.pioche();
             objectifs.add(objectifJardinier);
         }
