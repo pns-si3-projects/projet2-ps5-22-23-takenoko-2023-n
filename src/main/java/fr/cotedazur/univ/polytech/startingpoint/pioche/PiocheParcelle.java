@@ -125,7 +125,9 @@ public class PiocheParcelle {
      *      et la pioche ne doit pas être vide
      */
     public ParcellePioche[] pioche() throws PiocheParcelleEnCoursException {
-        assert !isEmpty() : "La pioche de bambous est vide";
+        if (isEmpty()) {
+            throw new AssertionError("La pioche de bambous est vide");
+        }
 
         if (getNombreParcellesRestantes() <= 3) {
             return random1Parcelle();
