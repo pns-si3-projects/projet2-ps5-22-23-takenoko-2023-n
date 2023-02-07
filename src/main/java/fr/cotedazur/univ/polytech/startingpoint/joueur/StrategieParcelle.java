@@ -4,10 +4,13 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
@@ -198,7 +201,7 @@ public class StrategieParcelle implements Strategie {
     }
 
     @Override
-    public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs, SectionBambou[] listeBambouManger) {
 
     }
 
@@ -207,5 +210,17 @@ public class StrategieParcelle implements Strategie {
                                PiocheObjectifJardinier piocheObjectifJardinier,
                                PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
 
+        if (!piocheObjectifParcelle.isEmpty() && countObjectifParcelle(objectifs) < 3) {
+            ObjectifParcelle objectifParcellePioche = piocheObjectifParcelle.pioche();
+            objectifs.add(objectifParcellePioche);
+        }
+        else if (!piocheObjectifJardinier.isEmpty() && countObjectifJardinier(objectifs) == 0) {
+            ObjectifJardinier objectifJardinier = (ObjectifJardinier) piocheObjectifJardinier.pioche();
+            objectifs.add(objectifJardinier);
+        }
+        else {
+            ObjectifPanda objectifPanda = (ObjectifPanda) piocheObjectifPanda.pioche();
+            objectifs.add(objectifPanda);
+        }
     }
 }
