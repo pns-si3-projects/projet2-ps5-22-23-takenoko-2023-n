@@ -135,16 +135,16 @@ public class Plateau {
      * Renvoie les irrigations posées sur le plateau
      * @return le set des irrigations posées sur le plateau
      */
-    public Set<Irrigation> getIrrigationsPosees(){
-        return irrigationsPosees;
+    public Irrigation[] getIrrigationsPosees(){
+        return irrigationsPosees.toArray(new Irrigation[0]);
     }
 
     /**
      * Renvoie les irrigations disponibles
      * @return le set des irrigations disponibles
      */
-    public Set<Irrigation> getIrrigationsDisponibles(){
-        return irrigationsDisponibles;
+    public Irrigation[] getIrrigationsDisponibles(){
+        return irrigationsDisponibles.toArray(new Irrigation[0]);
     }
 
     public void setIrrigationsDisponibles(Set<Irrigation> irrigationsDisponibles){
@@ -216,10 +216,11 @@ public class Plateau {
 
     /**
      * Ajoute une irrigation entre les parcelles aux positions données
-     * @param position1 position de la 1ere parcelle
-     * @param position2 position de la 2eme parcelle
+     * @param irrigationPioche Irrigation pioche à poser
      */
-    public boolean poseIrrigation(Position position1, Position position2){
+    public boolean poseIrrigation(Irrigation irrigationPioche){
+        Position position1 = irrigationPioche.getPositions().get(0);
+        Position position2 = irrigationPioche.getPositions().get(1);
         Optional<Parcelle> parcelle1 = GestionParcelles.chercheParcelle(getParcelles(),position1);
         Optional<Parcelle> parcelle2 = GestionParcelles.chercheParcelle(getParcelles(),position2);
         boolean ajoute = false;
