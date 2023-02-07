@@ -26,7 +26,7 @@ class StrategieJardinierTest {
     void setUp() {
         strategieJardinier = new StrategieJardinier();
         objectifs = new ArrayList<>();
-        plateau = new Plateau();
+        plateau = new Plateau(new PiocheSectionBambou());
         piocheParcelle = new PiocheParcelle(new Random());
         piocheSectionBambou = new PiocheSectionBambou();
         piochesVides = new boolean[]{false, false, false, false, false};
