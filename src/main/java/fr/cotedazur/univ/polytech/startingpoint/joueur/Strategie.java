@@ -31,7 +31,8 @@ public interface Strategie {
      * @param plateau le plateau du jeu
      * @param piocheParcelle la pioche de parcelles du jeu
      */
-    void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleEnCoursException, PiocheParcelleVideException;
+    void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou)
+            throws PiocheParcelleEnCoursException, PiocheParcelleVideException;
 
     /**
      * Pioche une irrigation et choisi où la placer (plateau ou plaquette)
@@ -60,5 +61,5 @@ public interface Strategie {
      */
     void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
                                PiocheObjectifJardinier piocheObjectifJardinier,
-                               PiocheObjectifPanda piocheObjectifPanda);
+                               PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs);
 }

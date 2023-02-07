@@ -204,7 +204,9 @@ public class StrategieParcelle implements Strategie {
     }
 
     @Override
-    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda) {
+    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
+                               PiocheObjectifJardinier piocheObjectifJardinier,
+                               PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
 
     }
 }

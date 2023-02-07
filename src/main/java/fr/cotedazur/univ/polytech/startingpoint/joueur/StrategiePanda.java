@@ -70,7 +70,8 @@ public class StrategiePanda implements Strategie {
     }
     
     @Override
-    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
+    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation,
+                                 PiocheSectionBambou piocheSectionBambou) {
         Set<Irrigation> irrigationDisponible = plateau.getIrrigationsDisponibles();
         List<Irrigation> irrigationDisponibleListe = irrigationDisponible.stream().toList();
         plateau.addIrrigation(irrigationDisponibleListe.get(0).getPositions().get(0), irrigationDisponibleListe.get(0).getPositions().get(1));
@@ -89,7 +90,7 @@ public class StrategiePanda implements Strategie {
     @Override
     public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
                                PiocheObjectifJardinier piocheObjectifJardinier,
-                               PiocheObjectifPanda piocheObjectifPanda) {
+                               PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
 
     }
 }
