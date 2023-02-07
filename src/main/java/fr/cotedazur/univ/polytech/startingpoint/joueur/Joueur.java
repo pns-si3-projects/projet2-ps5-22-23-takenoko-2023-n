@@ -1,8 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.jetbrains.annotations.NotNull;
@@ -203,6 +201,43 @@ public class Joueur {
 
         strategie.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier,
                 piocheObjectifPanda, objectifEnMainList);
+    }
+
+    private void supprimerObjectifs(List<Objectif> listObjectifSup) {
+        for (Objectif objectif : listObjectifSup) {
+            objectifEnMainList.remove(objectif);
+        }
+    }
+
+    /**
+     * Gère les objectifs en main
+     * @param plateau Le plateau du jeu
+     */
+    public void gestionObjectif(Plateau plateau) {
+        List<Objectif> objectifsASupprimer = new ArrayList<>();
+
+        for (Objectif objectif : objectifEnMainList) {
+            boolean objectifValide;
+
+            if (objectif.getClass() == ObjectifParcelle.class) {
+                objectifValide = GestionnaireObjectifs.checkObjectifParcelle(plateau.getParcelles(),
+                        (ObjectifParcelle) objectif);
+            }
+            else if (objectif.getClass() == ObjectifJardinier.class) {
+                objectifValide =  GestionnaireObjectifs.checkObjectifJardinier(plateau.getBambous(),
+                        (ObjectifJardinier) objectif);
+            }
+            else {
+                objectifValide = false;
+            }
+
+            if (objectifValide) {
+                objectifTermineList.add(objectif);
+                objectifsASupprimer.add(objectif);
+            }
+        }
+
+        supprimerObjectifs(objectifsASupprimer);
     }
 
     /**
