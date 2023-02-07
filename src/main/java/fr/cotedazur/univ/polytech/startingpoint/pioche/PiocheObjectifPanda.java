@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -37,17 +38,37 @@ public class PiocheObjectifPanda implements PiocheObjectifInterface {
      * Initialise la pioche en lui ajoutant les objectifs de panda
      */
     private void creePiocheObjectifsPanda() {
+
         for (int i=0; i<5; i++) { // les 5 objectifs de panda vert
-            objectifPandaList.add(new ObjectifPanda(3, 2, Couleur.VERTE));
+            List<SectionBambou> bambousAManger = new ArrayList<>();
+            for (int j=0; j < 2; j++){
+                bambousAManger.add(new SectionBambou(Couleur.VERTE));
+            }
+            objectifPandaList.add(new ObjectifPanda(3, bambousAManger));
         }
+
         for (int i=0; i<4; i++) { // les 4 objectifs de panda jaune
-            objectifPandaList.add(new ObjectifPanda(4, 2, Couleur.JAUNE));
+            List<SectionBambou> bambousAManger = new ArrayList<>();
+            for (int j=0; j < 2;j++){
+                bambousAManger.add(new SectionBambou(Couleur.JAUNE));
+            }
+            objectifPandaList.add(new ObjectifPanda(4, bambousAManger));
         }
+
         for (int i=0; i<3; i++) { // les 3 objectifs de panda rose
-            objectifPandaList.add(new ObjectifPanda(5, 2, Couleur.ROSE));
+            List<SectionBambou> bambousAManger = new ArrayList<>();
+            for (int j=0; j < 2;j++){
+                bambousAManger.add(new SectionBambou(Couleur.ROSE));
+            }
+            objectifPandaList.add(new ObjectifPanda(5, bambousAManger));
         }
-        for (int i=0; i<3; i++) { // les 3 objectifs de panda des trois couleurs (à faire)
-            objectifPandaList.add(new ObjectifPanda(6, 3, Couleur.VERTE));
+
+        for (int i=0; i<3; i++) { // les 3 objectifs de panda des trois couleurs
+            List<SectionBambou> bambousAManger = new ArrayList<>();
+            bambousAManger.add(new SectionBambou(Couleur.VERTE));
+            bambousAManger.add(new SectionBambou(Couleur.JAUNE));
+            bambousAManger.add(new SectionBambou(Couleur.ROSE));
+            objectifPandaList.add(new ObjectifPanda(6, bambousAManger));
         }
     }
 

@@ -124,9 +124,14 @@ public class StrategiePanda implements Strategie {
         List<Position> listePositionPossibleAvecBambou = new ArrayList<>();
 
         ObjectifPanda objectifPandaMaxPoint = getMaxObjectifPanda(objectifPanda);
-        Couleur couleurAManger = objectifPandaMaxPoint.getCouleur();
+        Couleur couleurAManger;
+        if (objectifPandaMaxPoint.getBambousAManger().size()==2)
+            couleurAManger = objectifPandaMaxPoint.getBambousAManger().get(0).getCouleur();
+        else {
+            couleurAManger = getCouleurManquante(listeBambouMange);
+        }
 
-        Panda  panda = plateau.getPanda();
+        Panda panda = plateau.getPanda();
         List<Position> listPositionPossibleDeplacement = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),panda.getPosition());
 
         for ( Position positionPossible : listPositionPossibleDeplacement ) {
@@ -146,6 +151,30 @@ public class StrategiePanda implements Strategie {
         }
         if(!estDeplacer) { positionDeplacer=listPositionPossibleDeplacement.get(0);}
         plateau.deplacementPanda(positionDeplacer);
+    }
+
+    /**
+     * Renvoie la couleur manquante dans la liste des bambous mangés
+     * @param listeBambouManges liste de sections de bambous mangés
+     * @return la couleur qu'il manque dans la liste
+     */
+    public Couleur getCouleurManquante(SectionBambou[] listeBambouManges){
+        List<Couleur> couleurList = new ArrayList<>();
+        couleurList.add(Couleur.VERTE);
+        couleurList.add(Couleur.JAUNE);
+        couleurList.add(Couleur.ROSE);
+
+        for (Couleur couleur : couleurList){
+            boolean dejaMange = false;
+            for (SectionBambou sectionBambou : listeBambouManges){
+                if (sectionBambou.getCouleur().equals(couleur)) {
+                    dejaMange = true;
+                    break;
+                }
+                if (!dejaMange) return couleur;
+            }
+        }
+        return couleurList.get(0);
     }
 
     /**
