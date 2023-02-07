@@ -26,7 +26,7 @@ public class StrategieParcelle implements Strategie {
 
     /**
      * Renvoie le nombre d'objectif Parcelle
-     * @param objectifs
+     * @param objectifs Les objectifs à réalisées
      * @return le nombre d'objectif Parcelle
      */
     private int countObjectifParcelle(List<Objectif> objectifs) {
@@ -41,7 +41,7 @@ public class StrategieParcelle implements Strategie {
 
     /**
      * Renvoie le nombre d'objectif Jardinier
-     * @param objectifs
+     * @param objectifs Les objectifs à réalisées
      * @return le nombre d'objectif Jardinier
      */
     private int countObjectifJardinier(List<Objectif> objectifs) {
@@ -52,24 +52,6 @@ public class StrategieParcelle implements Strategie {
             }
         }
         return count;
-    }
-
-    /**
-     * Renvoie {@code true} si la parcelle est de même couleur que celle des objectifs
-     * @param objectifs Les objectifs à réaliser
-     * @return {@code true} si la parcelle est de même couleur que celle des objectifs
-     */
-    private boolean checkCouleurObjectifs(ParcelleCouleur parcelleCouleur, List<Objectif> objectifs) {
-        for (Objectif objectif : objectifs) {
-            if (objectif.getClass() == ObjectifJardinier.class) {
-                ObjectifJardinier objectifJardinier = (ObjectifJardinier) objectif;
-
-                if (objectifJardinier.getCouleur() == parcelleCouleur.getCouleur()) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -111,7 +93,7 @@ public class StrategieParcelle implements Strategie {
                 if (optParcelle.isPresent()) {
                     ParcelleCouleur parcelleCouleur = (ParcelleCouleur) optParcelle.get();
 
-                    if (parcelleCouleur.isIrriguee() && checkCouleurObjectifs(parcelleCouleur, objectifs)) {
+                    if (parcelleCouleur.isIrriguee()) {
                         return true;
                     }
                 }
