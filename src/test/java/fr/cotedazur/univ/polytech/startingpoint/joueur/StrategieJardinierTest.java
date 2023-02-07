@@ -54,26 +54,17 @@ class StrategieJardinierTest {
 
     @Test
     void actionParcelle() {
-        try {
-            for (int i=0; i<6; i++){
-                strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
-            }
-        } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
-            System.out.println(e);
+        for (int i=0; i<6; i++){
+            strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
         }
         assertEquals(7, plateau.getParcelles().length);
     }
 
     @Test
     void actionIrrigation(){
-        try {
-            for (int i=0; i<4; i++){
-                strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
-            }
-        } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException e) {
-            System.out.println(e);
+        for (int i=0; i<4; i++){
+            strategieJardinier.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
         }
-
         for (int i=0;i<2;i++){
             strategieJardinier.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
         }
