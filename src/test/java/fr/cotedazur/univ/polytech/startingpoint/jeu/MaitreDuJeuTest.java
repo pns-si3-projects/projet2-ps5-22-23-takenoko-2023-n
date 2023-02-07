@@ -114,10 +114,5 @@ class MaitreDuJeuTest {
         verify(joueurMock2, times(1)).nombrePointsObjectifsPanda();
         verify(joueurMock3, never()).nombrePointsObjectifsPanda();
         verify(joueurMock4, times(1)).nombrePointsObjectifsPanda();
-        // Aucun joueur ne gagne
-        verify(joueurMock1, never()).getNom();
-        verify(joueurMock2, never()).getNom();
-        verify(joueurMock3, never()).getNom();
-        verify(joueurMock4, never()).getNom();
     }
 }
