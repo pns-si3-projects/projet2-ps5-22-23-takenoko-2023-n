@@ -93,7 +93,7 @@ public class StrategiePanda implements Strategie {
         Position positionJardinier = jardinier.getPosition();
         List<Position> listePositionPossible = GestionPersonnages.deplacementsPossibles( plateau.getParcelleEtVoisinesList(), positionJardinier);
         jardinier.setPosition(listePositionPossible.get(0));
-
+    }
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
@@ -101,9 +101,9 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
-                               PiocheObjectifJardinier piocheObjectifJardinier,
-                               PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
+    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
 
     }
+
+
 }
