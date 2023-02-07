@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
@@ -207,5 +208,17 @@ public class StrategieParcelle implements Strategie {
                                PiocheObjectifJardinier piocheObjectifJardinier,
                                PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
 
+        if (!piocheObjectifParcelle.isEmpty() && countObjectifParcelle(objectifs) < 3) {
+            ObjectifParcelle objectifParcellePioche = piocheObjectifParcelle.pioche();
+            objectifs.add(objectifParcellePioche);
+        }
+        else if (!piocheObjectifJardinier.isEmpty() && countObjectifJardinier(objectifs) == 0) {
+            ObjectifJardinier objectifJardinier = (ObjectifJardinier) piocheObjectifJardinier.pioche();
+            objectifs.add(objectifJardinier);
+        }
+        else {
+            ObjectifPanda objectifPanda = (ObjectifPanda) piocheObjectifPanda.pioche();
+            objectifs.add(objectifPanda);
+        }
     }
 }
