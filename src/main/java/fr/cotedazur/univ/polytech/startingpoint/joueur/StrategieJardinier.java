@@ -48,11 +48,17 @@ public class StrategieJardinier implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) throws PiocheParcelleVideException, PiocheParcelleEnCoursException {
-        ParcellePioche[] pioche3parcelles = piocheParcelle.pioche();
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou) {
+        ParcellePioche[] pioche3parcelles = null;
         Position positionChoisie  = plateau.getPositionsDisponibles()[0];
-        ParcelleCouleur parcelleChoisie = piocheParcelle.choisiParcelle(pioche3parcelles[0],positionChoisie);
-        plateau.poseParcelle(parcelleChoisie);
+        ParcelleCouleur parcelleChoisie = null;
+        try {
+            pioche3parcelles = piocheParcelle.pioche();
+            parcelleChoisie = piocheParcelle.choisiParcelle(pioche3parcelles[0],positionChoisie);
+            plateau.poseParcelle(parcelleChoisie);
+        } catch (PiocheParcelleEnCoursException | PiocheParcelleVideException  e) {
+            throw new AssertionError(e);
+        }
     }
 
     @Override
@@ -85,6 +91,10 @@ public class StrategieJardinier implements Strategie {
 
     @Override
     public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda) {
-
+        Objectif objectif = null;
+        if (!piocheObjectifJardinier.isEmpty()) objectif = piocheObjectifJardinier.pioche();
+        else if (!piocheObjectifParcelle.isEmpty()) objectif = piocheObjectifParcelle.pioche();
+        else objectif = piocheObjectifPanda.pioche();
+        /*objectifs.add(objectif)*/;
     }
 }
