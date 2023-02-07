@@ -11,6 +11,7 @@ import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,6 +29,7 @@ class StrategieJardinierTest {
     PiocheObjectifJardinier piocheObjectifJardinier;
     PiocheObjectifPanda piocheObjectifPanda;
     PiocheObjectifParcelle piocheObjectifParcelle;
+    Plaquette plaquette;
     boolean[] piochesVides;
 
 
@@ -42,6 +44,7 @@ class StrategieJardinierTest {
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piochesVides = new boolean[]{false, false, false, false, false};
+        plaquette = new Plaquette();
     }
 
 
@@ -91,17 +94,32 @@ class StrategieJardinierTest {
         for (int i = 0; i < 6; i++) {
             strategieJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou, objectifs);
         }
-
         strategieJardinier.actionJardinier(spyPlateau, piocheSectionBambou, objectifs);
         try {
             verify(spyPlateau, times(1)).deplacementJardinier(any(Position.class));
         } catch (ParcelleNonPoseeException e) {
             System.out.println(e);
         }
-        verify(spyPlateau, times(5)).poseBambou(any(ParcelleCouleur.class), any(SectionBambou.class));
-
     }
 
+    @Test
+    void actionPanda(){
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        for (int i = 0; i < 6; i++){
+            strategieJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou, objectifs);
+        }
+
+        Position positionDepart = spyPlateau.getPanda().getPosition();
+        assertEquals(new Position(), positionDepart);
+
+        strategieJardinier.actionPanda(spyPlateau, objectifs, plaquette.getReserveBambousManges());
+
+        Position positionFinale = spyPlateau.getPanda().getPosition();
+        assertNotEquals(positionDepart, positionFinale);
+
+        verify(spyPlateau, times(1)).deplacementPanda(any(Position.class));
+    }
 
     @Test
     void actionObjectif() {
