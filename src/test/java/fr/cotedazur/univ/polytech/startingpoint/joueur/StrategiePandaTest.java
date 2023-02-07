@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
@@ -86,5 +87,18 @@ class StrategiePandaTest {
         strategiePanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda, objectifs);
         assertEquals(1, objectifs.size());
         assertEquals(ObjectifPanda.class, objectifs.get(0).getClass());
+    }
+
+    @Test
+    void ationJardinierTest () {
+        Position positionInitial = plateau.getJardinier().getPosition();
+        for (int i =0; i<4; i++) {
+            strategiePanda.actionParcelle(plateau,piocheParcelle,piocheSectionBambou,objectifs);
+        }
+        for (int j =0; j<2; j++) {
+            strategiePanda.actionJardinier(plateau,piocheSectionBambou,objectifs);
+        }
+        Position positionFinal = plateau.getJardinier().getPosition();
+        assertNotEquals(positionInitial,positionFinal);
     }
 }
