@@ -2,10 +2,13 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -68,12 +71,33 @@ class PiocheObjectifPandaTest {
         piocheObjectifPanda = new PiocheObjectifPanda(mockRandom);
 
         // Les objectifs avec 3 couleurs ne sont pas encore fait
-        assertEquals(new ObjectifPanda(6, 3, Couleur.VERTE), piocheObjectifPanda.pioche());
-        assertEquals(new ObjectifPanda(3, 2, Couleur.VERTE), piocheObjectifPanda.pioche());
+        List<SectionBambou> bambousAManger6_3 = new ArrayList<>();
+        bambousAManger6_3.add(new SectionBambou(Couleur.VERTE));
+        bambousAManger6_3.add(new SectionBambou(Couleur.JAUNE));
+        bambousAManger6_3.add(new SectionBambou(Couleur.ROSE));
+
+        assertEquals(new ObjectifPanda(6, bambousAManger6_3), piocheObjectifPanda.pioche());
+
+        List<SectionBambou> bambousAManger3_2 = new ArrayList<>();
+        for (int j=0; j < 2;j++){
+            bambousAManger3_2.add(new SectionBambou(Couleur.VERTE));
+        }
+
+        assertEquals(new ObjectifPanda(3, bambousAManger3_2), piocheObjectifPanda.pioche());
         // car en supprimant 1, les suivants sont décalés donc on prend ancien 4
-        assertEquals(new ObjectifPanda(3, 2, Couleur.VERTE), piocheObjectifPanda.pioche());
-        assertEquals(new ObjectifPanda(4, 2, Couleur.JAUNE), piocheObjectifPanda.pioche());
-        assertEquals(new ObjectifPanda(5, 2, Couleur.ROSE), piocheObjectifPanda.pioche());
+        assertEquals(new ObjectifPanda(3, bambousAManger3_2), piocheObjectifPanda.pioche());
+
+        List<SectionBambou> bambousAManger4_2 = new ArrayList<>();
+        for (int j=0; j < 2;j++){
+            bambousAManger4_2.add(new SectionBambou(Couleur.JAUNE));
+        }
+        assertEquals(new ObjectifPanda(4, bambousAManger4_2), piocheObjectifPanda.pioche());
+
+        List<SectionBambou> bambousAManger5_2 = new ArrayList<>();
+        for (int j=0; j < 2; j++){
+            bambousAManger5_2.add(new SectionBambou(Couleur.ROSE));
+        }
+        assertEquals(new ObjectifPanda(5, bambousAManger5_2), piocheObjectifPanda.pioche());
     }
 
 
