@@ -320,7 +320,7 @@ public class Plateau {
         if(parcelle.isPresent()) {
             if (parcelle.get().getClass().equals(ParcelleCouleur.class)) {
                 Optional<Bambou> bambou = GestionBambous.chercheBambou(getBambous(), position);
-                if (bambou.isPresent()) {
+                if (bambou.isPresent() && !bambou.isEmpty()) {
                     mangeBambou(bambou.get());
                 }
             }

@@ -82,7 +82,9 @@ public class Bambou implements Positionable, Colorable {
      * @implNote le bambou doit contenir au moins une section de bambou
      */
     public SectionBambou prendSectionBambou() {
-        assert !isEmpty() : "Le bambou ne contient pas de section de bambou";
+        if (isEmpty()) {
+            throw new AssertionError("Le bambou ne contient pas de section de bambou");
+        }
         return sectionsBambou[--tailleBambou];
     }
 
@@ -92,7 +94,9 @@ public class Bambou implements Positionable, Colorable {
      * @implNote le bambou ne doit pas être à sa taille maximum
      */
     public void ajouteSectionBambou(@NotNull SectionBambou sectionBambou) throws AjoutCouleurException {
-        assert !isTailleMaximum() : "Le bambou a atteint sa taille maximum";
+        if (isTailleMaximum()) {
+            throw new AssertionError("Le bambou a atteint sa taille maximum");
+        }
         if (sectionBambou.getCouleur() != getCouleur()) {
             throw new AjoutCouleurException(this, sectionBambou);
         }
