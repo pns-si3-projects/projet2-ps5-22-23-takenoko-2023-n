@@ -102,16 +102,18 @@ public class StrategieJardinier implements Strategie {
         for (Position position : deplacementsPossibles){
             Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
             if (parcelle.isPresent()) {
-                futureParcelleCouleurJardinier = (ParcelleCouleur) parcelle.get();
-                futurePositionJardinier = futureParcelleCouleurJardinier.getPosition();
-                if (futureParcelleCouleurJardinier.isIrriguee()) {
-                    for (ObjectifJardinier objectifJardinier : objectifsJardinierList) {
-                        if (futureParcelleCouleurJardinier.getCouleur().equals(objectifJardinier.getCouleur())) {
-                            parcellePourDeplacementTrouvee = true;
-                            break;
+                if (parcelle.get().getClass().equals(ParcelleCouleur.class) {
+                    futureParcelleCouleurJardinier = (ParcelleCouleur) parcelle.get();
+                    futurePositionJardinier = futureParcelleCouleurJardinier.getPosition();
+                    if (futureParcelleCouleurJardinier.isIrriguee()) {
+                        for (ObjectifJardinier objectifJardinier : objectifsJardinierList) {
+                            if (futureParcelleCouleurJardinier.getCouleur().equals(objectifJardinier.getCouleur())) {
+                                parcellePourDeplacementTrouvee = true;
+                                break;
+                            }
                         }
+                        if (parcellePourDeplacementTrouvee) break;
                     }
-                    if (parcellePourDeplacementTrouvee) break;
                 }
             }
         }
