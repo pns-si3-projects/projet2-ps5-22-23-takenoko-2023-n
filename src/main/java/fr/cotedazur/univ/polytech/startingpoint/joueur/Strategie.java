@@ -34,7 +34,8 @@ public interface Strategie {
      * @param piocheParcelle la pioche de parcelles du jeu
      */
 
-    void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) ;
+    void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle,
+                        PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs);
 
     /**
      * Pioche une irrigation et choisi où la placer (plateau ou plaquette)
