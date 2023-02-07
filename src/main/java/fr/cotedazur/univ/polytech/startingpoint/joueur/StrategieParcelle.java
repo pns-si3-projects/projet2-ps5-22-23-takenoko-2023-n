@@ -215,7 +215,9 @@ public class StrategieParcelle implements Strategie {
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, SectionBambou[] listeBambouManger) {
-
+        Panda panda = plateau.getPanda();
+        Position positionDeplacee = choixDeplacementPosition(plateau, panda.getPosition());
+        plateau.deplacementPanda(positionDeplacee);
     }
 
     public Position choixDeplacementPosition( Plateau plateau, Position position) {
