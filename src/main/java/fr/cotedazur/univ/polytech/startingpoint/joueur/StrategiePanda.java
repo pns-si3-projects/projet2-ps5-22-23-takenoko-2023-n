@@ -1,15 +1,19 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionBambous;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
@@ -121,9 +125,69 @@ public class StrategiePanda implements Strategie {
         }
     }
 
-    @Override
-    public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
+    public void deplacePossible() {
 
+    }
+
+    @Override
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs,List<Bambou> listeBambouMange) {
+        List<Objectif> objectifPanda = recupreObjectifPanda(objectifs);
+        List<Position> listePositionPossibleAvecBambou = new ArrayList<>();
+
+        ObjectifPanda objectifPandaMaxPoint = getMaxObjectifPanda(objectifPanda);
+        Couleur couleurAManger = objectifPandaMaxPoint.getCouleur();
+
+        Panda  panda = plateau.getPanda();
+        List<Position> listPositionPossibleDeplacement = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),panda.getPosition());
+
+        for ( Position positionPossible : listPositionPossibleDeplacement ) {
+            if (GestionBambous.chercheBambou(plateau.getBambous(), positionPossible).isPresent()) {
+                listePositionPossibleAvecBambou.add(positionPossible);
+            }
+        }
+        for (Position position : listePositionPossibleAvecBambou) {
+            Optional<Parcelle> parcelleRegarder = GestionParcelles.chercheParcelle(plateau.getParcelles(),position);
+            if(parcelleRegarder.get().getClass().equals(ParcelleCouleur.class)) {
+                ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelleRegarder.get();
+                if(parcelleCouleur.getCouleur().equals(couleurAManger)) {
+                    panda.move(parcelleCouleur.getPosition());
+                }
+            }
+        }
+    }
+
+    /**
+     * recupre la liste des ObjectifPanda que objectifs
+     * @param objectifs les objectifs du Joueur
+     * @return la liste des objectifPanda
+     */
+    public List<Objectif> recupreObjectifPanda(List<Objectif> objectifs) {
+        List<Objectif> objectifsPanda = new ArrayList<>();
+        for (Objectif objectif : objectifs) {
+            if(objectif.getClass().equals(ObjectifPanda.class)) {
+                objectifsPanda.add(objectif);
+            }
+        }
+        return objectifsPanda;
+    }
+
+    /**
+     * recupre l'objectidPanda valant le plus de point
+     * @param objectifsPanda la liste des objectifPanda
+     * @return l'objectifPanda valant le plus de point
+     */
+    private ObjectifPanda getMaxObjectifPanda(List<Objectif> objectifsPanda) {
+        ObjectifPanda objectifPandaMax = null;
+
+        for (Objectif objectif : objectifsPanda) {
+            if (objectif.getClass().equals(ObjectifParcelle.class)) {
+                if (objectifPandaMax == null || objectifPandaMax.getNombrePoints() < objectif.getNombrePoints()) {
+                    objectifPandaMax = (ObjectifPanda) objectif;
+                }
+            }
+        }
+
+        return objectifPandaMax;
     }
 
     @Override

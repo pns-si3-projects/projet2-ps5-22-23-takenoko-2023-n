@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
@@ -86,7 +87,7 @@ public class StrategieJardinier implements Strategie {
     }
 
     @Override
-    public void actionPanda(Plateau plateau, List<Objectif> objectifs) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs, List<Bambou> listeBambouMange) {
 
     }
 
