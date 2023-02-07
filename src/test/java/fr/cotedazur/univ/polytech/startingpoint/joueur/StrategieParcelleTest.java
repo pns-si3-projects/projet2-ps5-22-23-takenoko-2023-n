@@ -262,6 +262,32 @@ class StrategieParcelleTest {
         } catch (ParcelleNonPoseeException e) {
             System.out.println(e);
         }
+    }
+
+    @Test
+    void choisirActionPanda() {
+        PiocheSectionBambou piocheSectionBambou = new PiocheSectionBambou();
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+        Plaquette plaquette = new Plaquette();
+
+        // Position
+        Position position1_1 = new Position(1,1);
+        Position position2_0 = new Position(2,0);
+        Position position1_m1 = new Position(1,-1);
+        Position positionm1_m1 = new Position(-1,-1);
+
+        // pose des parcelles
+        spyPlateau.poseParcelle(new ParcelleCouleur(position1_1, Couleur.VERTE));
+        spyPlateau.poseParcelle(new ParcelleCouleur(position2_0, Couleur.JAUNE));
+        spyPlateau.poseParcelle(new ParcelleCouleur(position1_m1, Couleur.ROSE));
+        spyPlateau.poseParcelle(new ParcelleCouleur(positionm1_m1, Couleur.ROSE));
+
+        //test
+        Position positionInitial = spyPlateau.getPanda().getPosition();
+        assertEquals(new Position(), positionInitial);
+
+        strategieParcelle.actionPanda(spyPlateau,objectifs, plaquette.getReserveBambousManges());
+        verify(spyPlateau, times(1)).deplacementPanda(any(Position.class));
 
     }
 }
