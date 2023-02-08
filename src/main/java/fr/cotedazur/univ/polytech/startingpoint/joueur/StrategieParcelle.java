@@ -3,10 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
@@ -14,10 +11,7 @@ import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,9 +24,9 @@ public class StrategieParcelle implements Strategie {
     // Méthodes d'utilisation
 
     /**
-     * Renvoie le nombre d'objectif Parcelle
+     * Renvoie le nombre d'objectifs de parcelle
      * @param objectifs Les objectifs à réalisées
-     * @return le nombre d'objectif Parcelle
+     * @return le nombre d'objectifs de parcelle
      */
     private int countObjectifParcelle(List<Objectif> objectifs) {
         int count = 0;
@@ -45,9 +39,9 @@ public class StrategieParcelle implements Strategie {
     }
 
     /**
-     * Renvoie le nombre d'objectif Jardinier
+     * Renvoie le nombre d'objectifs de jardinier
      * @param objectifs Les objectifs à réalisées
-     * @return le nombre d'objectif Jardinier
+     * @return le nombre d'objectifs de jardinier
      */
     private int countObjectifJardinier(List<Objectif> objectifs) {
         int count = 0;
@@ -89,8 +83,8 @@ public class StrategieParcelle implements Strategie {
             return false;
         }
 
-        List<Position> listDeplacementPossible = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),
-                plateau.getJardinier().getPosition());
+        List<Position> listDeplacementPossible = GestionPersonnages
+                .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
 
         for (Position position : listDeplacementPossible) {
             if (!position.equals(new Position())) {
@@ -124,7 +118,8 @@ public class StrategieParcelle implements Strategie {
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
-        if (!actionsRealiseesTour[irrigation.ordinal()] && checkPossibiliteActionIrrigation(piochesVides, plateau.getIrrigationsDisponibles())) {
+        if (!actionsRealiseesTour[irrigation.ordinal()]
+                && checkPossibiliteActionIrrigation(piochesVides, plateau.getIrrigationsDisponibles())) {
             return irrigation;
         }
 
@@ -147,10 +142,10 @@ public class StrategieParcelle implements Strategie {
     }
 
     /**
-     * Renvoie une parcelle Couleur à la position mis en paramètre en piochant la première Parcelle de la Pioche Parcelle
+     * Renvoie une parcelle Couleur à la position donnée en piochant la première Parcelle de la Pioche Parcelle
      * @param piocheParcelle La pioche de parcelle
      * @param positionChoisi La position choisi
-     * @return une parcelle Couleur à la position mis en paramètre
+     * @return une parcelle Couleur à la position donnée
      */
     private Optional<ParcelleCouleur> choisirParcelle(PiocheParcelle piocheParcelle, Position positionChoisi) {
         ParcellePioche[] tabChoixParcelles;
@@ -173,8 +168,8 @@ public class StrategieParcelle implements Strategie {
         ObjectifParcelle objectifParcelleMax = null;
 
         for (Objectif objectif : objectifs) {
-            if (objectif.getClass().equals(ObjectifParcelle.class) &&
-                    ( objectifParcelleMax == null || objectifParcelleMax.getNombrePoints() < objectif.getNombrePoints() ) ){
+            if (objectif.getClass().equals(ObjectifParcelle.class)
+                    && (objectifParcelleMax == null || objectifParcelleMax.getNombrePoints() < objectif.getNombrePoints())){
 
                 objectifParcelleMax = (ObjectifParcelle) objectif;
             }
@@ -190,8 +185,8 @@ public class StrategieParcelle implements Strategie {
         Parcelle[] tableauParcellePlateau = plateau.getParcelles();
         Position[] tableauPositionDisponible = plateau.getPositionsDisponibles();
         ObjectifParcelle objectifParcelleChoisi = getMaxObjectifParcelle(objectifs);
-        Optional<Position> optPosition = GestionnairePossibiliteMotif
-                .positionPossiblePrendrePourMotif(tableauParcellePlateau, tableauPositionDisponible, objectifParcelleChoisi);
+        Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(
+                tableauParcellePlateau, tableauPositionDisponible, objectifParcelleChoisi);
 
         Position positionChoisi = optPosition.orElseGet(() -> tableauPositionDisponible[0]);
         Optional<ParcelleCouleur> parcelleCouleurChoisi = choisirParcelle(piocheParcelle, positionChoisi);
@@ -223,7 +218,7 @@ public class StrategieParcelle implements Strategie {
         try {
             plateau.deplacementJardinier(positionDeplacee);
         } catch (ParcelleNonPoseeException e) {
-            System.out.println(e);
+            throw new AssertionError(e);
         }
     }
 

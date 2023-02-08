@@ -9,6 +9,6 @@ public class PiocheParcelleEnCoursException extends Exception {
      * Construit le message de l'exception
      */
     public PiocheParcelleEnCoursException() {
-        super("Une pioche de parcelles est déjà en cours");
+        super("Une pioche de parcelles est deja en cours");
     }
 }

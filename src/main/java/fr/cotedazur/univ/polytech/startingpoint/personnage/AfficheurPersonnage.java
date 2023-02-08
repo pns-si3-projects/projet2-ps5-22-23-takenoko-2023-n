@@ -4,6 +4,10 @@ import fr.cotedazur.univ.polytech.startingpoint.joueur.AfficheurJoueur;
 
 import java.util.logging.Logger;
 
+/**
+ * Affiche les changements effectués sur les personnages.
+ * @author equipe N
+ */
 public class AfficheurPersonnage {
     // Définition des attributs
 
@@ -19,13 +23,13 @@ public class AfficheurPersonnage {
 
 
     // Méthodes d'utilisation
+
     /**
-     * Affiche le deplacement d'un presonnage
-     * @param personnage le personnage deplacé
+     * Affiche le déplacement d'un personnage
+     * @param personnage le personnage déplacé
      */
     public static void deplacePersonnage(Personnage personnage) {
-        String str =  SEPARATION +"Le " + personnage + " est déplacé a la position : " + personnage.getPosition() + ". ";
+        String str =  SEPARATION + "Le " + personnage + " est deplace en " + personnage.getPosition();
         LOGGER.info(str);
-
     }
 }

@@ -14,7 +14,8 @@ public class MotifTriangle extends Motif{
      * @param parcelleCouleur11 Parcelle de couleur de coordonnees 1, 1 (par exemple, peut être 3, 1)
      * @param parcelleCouleur20 Parcelle de couleur de coordonnees 2, 0 (par exemple, peut être 4, 0)
      */
-    public MotifTriangle(ParcelleCouleur parcelleCouleur00, ParcelleCouleur parcelleCouleur20, ParcelleCouleur parcelleCouleur11) {
+    public MotifTriangle(ParcelleCouleur parcelleCouleur00, ParcelleCouleur parcelleCouleur20,
+                         ParcelleCouleur parcelleCouleur11) {
         if (parcelleCouleur00 == null || parcelleCouleur20 == null || parcelleCouleur11 == null) {
             throw new IllegalArgumentException("Les arguments ne doivent pas être nuls");
         }
@@ -31,7 +32,8 @@ public class MotifTriangle extends Motif{
 
         for (int i = 1; i < 5; i++) {
             allOrientation[i][0] = tabParcelles[0];
-            allOrientation[i][1] = getVoisin(i + 1, tabParcelles[0].getPosition(), tabParcelles[1].getCouleur());
+            allOrientation[i][1] =
+                    getVoisin(i + 1, tabParcelles[0].getPosition(), tabParcelles[1].getCouleur());
             allOrientation[i][2] = allOrientation[i - 1][1];
         }
 

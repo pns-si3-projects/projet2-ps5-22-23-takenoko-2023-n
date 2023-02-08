@@ -11,7 +11,7 @@ public class WriteCSV {
     private static final Path cheminFichier = FileSystems.getDefault().getPath("stats", "data.csv");
 
     public static void main(String[] args) {
-        CSVWriter writer = null;
+        CSVWriter writer;
         try {
             writer = new CSVWriter(new FileWriter(cheminFichier.toFile()));
         } catch (IOException e) {

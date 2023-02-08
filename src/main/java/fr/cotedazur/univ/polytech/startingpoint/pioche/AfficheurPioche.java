@@ -2,8 +2,6 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.AfficheurJoueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 
 import java.util.logging.Logger;
 
@@ -22,15 +20,13 @@ public class AfficheurPioche {
 
 
     // Méthodes d'utilisation
-    public static void piocheObjectif(Objectif objectifPiochee){
-        Class classObjectif = objectifPiochee.getClass();
-        String typeObjectif;
-        if (classObjectif.equals(ObjectifPanda.class)) typeObjectif = "Panda";
-        else if (classObjectif.equals(ObjectifJardinier.class)) typeObjectif = "Jardinier";
-        else typeObjectif = "Parcelle";
-        String str = SEPARATION + "Un objectif " + typeObjectif + " est pioché";
+
+    /**
+     * Affiche l'objectif pioché
+     * @param objectifPioche l'objectif pioché
+     */
+    public static void piocheObjectif(Objectif objectifPioche) {
+        String str = SEPARATION + "L'" + objectifPioche + " est pioche";
         LOGGER.info(str);
     }
-
-    // A compléter
 }

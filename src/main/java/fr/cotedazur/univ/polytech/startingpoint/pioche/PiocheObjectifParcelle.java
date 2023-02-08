@@ -3,7 +3,6 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.*;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.AfficheurObjectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import org.jetbrains.annotations.NotNull;
@@ -21,10 +20,10 @@ public class PiocheObjectifParcelle implements PiocheObjectifInterface {
 
     private final List<ObjectifParcelle> objectifParcelleList;
     private final Random random;
-    private Motif motifDiagonale;
-    private Motif motifTriangle;
-    private Motif motifLosange;
-    private Motif motifDecale;
+    private final Motif motifDiagonale;
+    private final Motif motifTriangle;
+    private final Motif motifLosange;
+    private final Motif motifDecale;
 
 
     // Définition des constructeurs

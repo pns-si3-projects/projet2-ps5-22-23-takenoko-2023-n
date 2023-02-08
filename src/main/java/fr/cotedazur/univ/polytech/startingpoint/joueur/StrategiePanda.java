@@ -103,28 +103,26 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs)  {
         Jardinier jardinier = plateau.getJardinier();
         List<Position> listPositionPossible = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),jardinier.getPosition());
         try {
             plateau.deplacementJardinier(listPositionPossible.get(listPositionPossible.size()-1));
         } catch (ParcelleNonPoseeException e) {
-            System.out.println(e);
+            throw new AssertionError(e);
         }
     }
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
-        Position positionDeplacer=null;
-        boolean estDeplacer = false;
+        Position positionDeplacer;
         List<Objectif> objectifPanda = recupreObjectifPanda(objectifs);
-        List<Position> listePositionPossibleAvecBambou = new ArrayList<>();
+        List<Position> listePositionPossibleAvecBambou;
 
         Optional<ObjectifPanda> objectifPandaMaxPointOpitionale = getMaxObjectifPanda(objectifPanda);
         Couleur couleurAManger = Couleur.JAUNE;
         if(objectifPandaMaxPointOpitionale.isPresent()){
-            ObjectifPanda objectifPandaMaxPoint = (ObjectifPanda) objectifPandaMaxPointOpitionale.get();
+            ObjectifPanda objectifPandaMaxPoint = objectifPandaMaxPointOpitionale.get();
             if (objectifPandaMaxPoint.getBambousAManger().size()==2)
                 couleurAManger = objectifPandaMaxPoint.getBambousAManger().get(0).getCouleur();
             else {
@@ -141,23 +139,15 @@ public class StrategiePanda implements Strategie {
             if (parcelleRegarder.isPresent() && parcelleRegarder.get().getClass().equals(ParcelleCouleur.class)) {
                 ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelleRegarder.get();
                 if (parcelleCouleur.getCouleur().equals(couleurAManger)) {
-                    positionDeplacer = position;
                     break;
                 }
             }
         }
-        if (!estDeplacer) {
-            positionDeplacer = listPositionPossibleDeplacement.get(0);
-            Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(positionDeplacer);
-            if (sectionBambou.isPresent()) {
-                plaquette.mangeSectionBambou(sectionBambou.get());
-            }
-        }
-        else {
-            Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(listePositionPossibleAvecBambou.get(0));
-            if (sectionBambou.isPresent()) {
-                plaquette.mangeSectionBambou(sectionBambou.get());
-            }
+
+        positionDeplacer = listPositionPossibleDeplacement.get(0);
+        Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(positionDeplacer);
+        if (sectionBambou.isPresent()) {
+            plaquette.mangeSectionBambou(sectionBambou.get());
         }
     }
 
@@ -182,23 +172,19 @@ public class StrategiePanda implements Strategie {
      * @param listeBambouManges liste de sections de bambous mangés
      * @return la couleur qu'il manque dans la liste
      */
-    public Couleur getCouleurManquante(SectionBambou[] listeBambouManges){
-        List<Couleur> couleurList = new ArrayList<>();
-        couleurList.add(Couleur.VERTE);
-        couleurList.add(Couleur.JAUNE);
-        couleurList.add(Couleur.ROSE);
+    public Couleur getCouleurManquante(SectionBambou[] listeBambouManges) {
+        boolean[] couleurs = new boolean[Couleur.values().length];
 
-        for (Couleur couleur : couleurList){
-            boolean dejaMange = false;
-            for (SectionBambou sectionBambou : listeBambouManges){
-                if (sectionBambou.getCouleur().equals(couleur)) {
-                    dejaMange = true;
-                    break;
-                }
-                if (!dejaMange) return couleur;
+        for (SectionBambou sectionBambou : listeBambouManges) {
+            if (!couleurs[sectionBambou.getCouleur().ordinal()]) {
+                couleurs[sectionBambou.getCouleur().ordinal()] = true;
             }
         }
-        return couleurList.get(0);
+
+        for (Couleur couleur : Couleur.values()) {
+            if (couleurs[couleur.ordinal()]) return couleur;
+        }
+        return Couleur.VERTE;
     }
 
     /**
@@ -235,13 +221,13 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
+    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle,
+                               PiocheObjectifJardinier piocheObjectifJardinier,
+                               PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
         Objectif objectif;
         if (!piocheObjectifPanda.isEmpty()) objectif = piocheObjectifPanda.pioche();
         else if (!piocheObjectifParcelle.isEmpty()) objectif = piocheObjectifParcelle.pioche();
         else objectif = piocheObjectifJardinier.pioche();
         objectifs.add(objectif);
     }
-
-
 }

@@ -40,7 +40,8 @@ public class Irrigation {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Irrigation that)) return false;
-        return Objects.equals(positions, that.positions) || (positions.get(0).equals(that.positions.get(1)) && positions.get(1).equals(that.positions.get(0)));
+        return Objects.equals(positions, that.positions) || (positions.get(0).equals(that.positions.get(1))
+                && positions.get(1).equals(that.positions.get(0)));
     }
 
     @Override

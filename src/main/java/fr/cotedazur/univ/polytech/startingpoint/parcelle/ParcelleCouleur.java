@@ -3,14 +3,11 @@ package fr.cotedazur.univ.polytech.startingpoint.parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Colorable;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 /**
  * Représente une parcelle posée sur le plateau.
- * @param position la position de la parcelle
- * @param couleur la couleur de la parcelle
  * @author equipe N
  */
 public final class ParcelleCouleur implements Parcelle, Colorable {
@@ -70,6 +67,7 @@ public final class ParcelleCouleur implements Parcelle, Colorable {
     public void setIrriguee(boolean irriguee) {
         this.irriguee = irriguee;
     }
+
 
     // Méthodes toString et equals
 

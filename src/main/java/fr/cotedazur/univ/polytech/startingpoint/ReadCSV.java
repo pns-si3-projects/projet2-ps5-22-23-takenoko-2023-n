@@ -22,7 +22,7 @@ public class ReadCSV {
                 .withIgnoreQuotations(true)
                 .build();
 
-        CSVReader csvReader = null;
+        CSVReader csvReader;
         try {
             csvReader = new CSVReaderBuilder(new FileReader(cheminFichier.toFile()))
                     .withCSVParser(csvParser)

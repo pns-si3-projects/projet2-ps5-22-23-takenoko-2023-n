@@ -2,6 +2,9 @@ package fr.cotedazur.univ.polytech.startingpoint;
 
 import com.beust.jcommander.IStringConverter;
 
+/**
+ * Permet de convertir les options du Main
+ */
 public class ArgumentConverter implements IStringConverter<ArgumentPossibleMain> {
     @Override
     public ArgumentPossibleMain convert(String value) {

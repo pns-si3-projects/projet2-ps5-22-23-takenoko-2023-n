@@ -7,6 +7,7 @@ import java.util.Objects;
 
 /**
  * Représente un emplacement de parcelle disponible.
+ * @param position la position de la parcelle
  * @author N
  */
 public record ParcelleDisponible(@NotNull Position position) implements Parcelle {

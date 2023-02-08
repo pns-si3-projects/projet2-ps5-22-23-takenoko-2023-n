@@ -14,7 +14,7 @@ public class AjoutCouleurException extends Exception {
      */
     public AjoutCouleurException(@NotNull Bambou bambou, @NotNull SectionBambou sectionBambou){
         super("La couleur du bambou (" + bambou.getCouleur()
-                + ") n'est pas la même que celle de la section de bambou à ajouter ("
+                + ") n'est pas la meme que celle de la section de bambou a ajouter ("
                 + sectionBambou.getCouleur() + ")");
     }
 }

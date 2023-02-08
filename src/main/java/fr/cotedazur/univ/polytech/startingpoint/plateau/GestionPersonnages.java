@@ -77,7 +77,7 @@ public class GestionPersonnages {
             Parcelle[] voisines = GestionParcelles.getVoisinesParcelle(parcellesEtVoisines, parcelle);
             return GestionParcelles.parcelleSuivante(voisines, indiceDirection);
         } catch (ParcelleNonPoseeException e) {
-            throw new AssertionError("La parcelle doit être sur le plateau");
+            throw new AssertionError("La parcelle doit etre sur le plateau");
         }
     }
 }
