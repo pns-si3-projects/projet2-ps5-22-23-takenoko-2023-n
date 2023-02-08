@@ -126,7 +126,7 @@ public class GestionTours {
         AfficheurJeu.debutDernierTour();
         for (Joueur joueur : joueurs) {
             if (!joueur.equals(joueurFinObjectifs)) {
-                joueur.choisiAction(plateau, piochesVides());
+                joueTour(joueur);
             }
         }
     }

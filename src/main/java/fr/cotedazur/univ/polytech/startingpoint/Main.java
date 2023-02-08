@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import com.beust.jcommander.JCommander;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.AfficheurJeu;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.MaitreDuJeu;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Strategie;
@@ -13,13 +14,14 @@ import java.util.logging.Logger;
 public class Main {
     // Définition des attributs
 
-    private static ArgumentPossibleMain argumentMain;
     private static final Logger LOGGER = Logger.getLogger(Main.class.getPackageName());
 
 
     // Méthode d'exécution
 
     public static void main(String... args) {
+        ArgumentPossibleMain argumentMain;
+
         if (args.length > 0) {
             ArgumentsMain argsMain = new ArgumentsMain();
             JCommander.newBuilder()
@@ -50,7 +52,7 @@ public class Main {
         LOGGER.addHandler(handler);
 
         if (argumentMain.isThousands()) {
-            LOGGER.setLevel(Level.WARNING);
+            LOGGER.setLevel(Level.INFO);
         } else {
             LOGGER.setLevel(Level.INFO);
         }
@@ -75,7 +77,6 @@ public class Main {
      * 1000 parties entre le meilleur bot et lui-même
      */
     private static void joue2Thousands() {
-        System.out.println("testé");
         LOGGER.warning("Début mode 2thousands");
         Joueur joueur1 = new Joueur("joueurPar1", Strategie.StrategiePossible.PARCELLE);
         Joueur joueur2 = new Joueur("joueurPar2", Strategie.StrategiePossible.PARCELLE);
@@ -83,6 +84,7 @@ public class Main {
         Joueur joueur4 = new Joueur("joueurPar4", Strategie.StrategiePossible.PARCELLE);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
+        AfficheurJeu.etatJeu(maitreDuJeu);
     }
 
     /**
@@ -95,6 +97,7 @@ public class Main {
         Joueur joueur4 = new Joueur("joueurJar4", Strategie.StrategiePossible.JARDINIER);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
+        AfficheurJeu.etatJeu(maitreDuJeu);
     }
 
     /**
@@ -107,6 +110,7 @@ public class Main {
         Joueur joueur4 = new Joueur("joueurPan4", Strategie.StrategiePossible.PANDA);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
+        AfficheurJeu.etatJeu(maitreDuJeu);
     }
 
     /**
@@ -118,5 +122,6 @@ public class Main {
         Joueur joueur3 = new Joueur("joueur3", Strategie.StrategiePossible.PANDA);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3);
         maitreDuJeu.jeu();
+        AfficheurJeu.etatJeu(maitreDuJeu);
     }
 }

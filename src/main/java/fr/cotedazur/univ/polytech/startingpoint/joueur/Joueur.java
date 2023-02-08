@@ -285,6 +285,6 @@ public class Joueur {
 
     @Override
     public String toString() {
-        return nom;
+        return nom + " : " + nombreObjectifsTermines() + " objectifs terminés pour " + nombrePoints() + " points";
     }
 }
