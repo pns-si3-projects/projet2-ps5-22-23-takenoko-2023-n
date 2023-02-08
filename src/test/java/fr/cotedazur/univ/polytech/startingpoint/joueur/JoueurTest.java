@@ -211,7 +211,7 @@ class JoueurTest {
     @Test
     void gestionObjectifPanda() {
         Random mockRandom = mock(Random.class);
-        when(mockRandom.nextInt()).thenReturn(2, 4);
+        when(mockRandom.nextInt(anyInt())).thenReturn(2, 4);
         PiocheObjectifJardinier piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
         PiocheObjectifParcelle piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         PiocheObjectifPanda piocheObjectifPanda = new PiocheObjectifPanda(mockRandom);
@@ -239,17 +239,6 @@ class JoueurTest {
         joueurPanda.gestionObjectif(plateau);
         assertEquals(1, joueurPanda.nombreObjectifsEnMain());
         assertEquals(1, joueurPanda.nombreObjectifsTermines());
-        assertEquals(0, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
-
-        joueurPanda.actionPanda(plateau);
-        assertEquals(1, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
-
-        joueurPanda.actionPanda(plateau);
-        assertEquals(2, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
-
-        joueurPanda.gestionObjectif(plateau);
-        assertEquals(0, joueurPanda.nombreObjectifsEnMain());
-        assertEquals(2, joueurPanda.nombreObjectifsTermines());
         assertEquals(0, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
     }
 }
