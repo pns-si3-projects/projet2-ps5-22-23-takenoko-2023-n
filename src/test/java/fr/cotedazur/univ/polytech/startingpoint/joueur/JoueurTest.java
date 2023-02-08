@@ -7,10 +7,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifParcelle;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,14 +16,16 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class JoueurTest {
     Joueur joueurParcelle;
     Joueur joueurPanda;
     Joueur joueurJardinier;
+    Joueur joueurComplet;
     Plateau plateau;
+    PiocheSectionBambou piocheSectionBambou;
+    PiocheParcelle piocheParcelle;
     boolean[] piochesVides;
 
 
@@ -35,7 +34,10 @@ class JoueurTest {
         joueurParcelle = new Joueur("joueur1", Strategie.StrategiePossible.PARCELLE);
         joueurPanda = new Joueur("joueur2", Strategie.StrategiePossible.PANDA);
         joueurJardinier = new Joueur("joueur3", Strategie.StrategiePossible.JARDINIER);
-        plateau = new Plateau(new PiocheSectionBambou());
+        joueurComplet = new Joueur("joueur4", Strategie.StrategiePossible.COMPLET);
+        piocheSectionBambou = new PiocheSectionBambou();
+        plateau = new Plateau(piocheSectionBambou);
+        piocheParcelle = new PiocheParcelle(new Random());
         piochesVides = new boolean[] {false, false, false, false, false};
     }
 
@@ -105,6 +107,17 @@ class JoueurTest {
 
     @Test
     void joueParcelle() {
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        assertEquals(1, spyPlateau.getParcelles().length);
+
+        for (int i=0; i<6; i++){
+            joueurPanda.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+        }
+
+        assertEquals(7, spyPlateau.getParcelles().length);
+
+        verify(spyPlateau, times(6)).poseParcelle(any(ParcelleCouleur.class));
     }
 
     @Test
