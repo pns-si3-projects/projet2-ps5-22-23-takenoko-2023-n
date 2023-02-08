@@ -1,10 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -113,6 +115,29 @@ class StrategieCompleteTest {
         }
         verify(spyPlateau, times(6)).poseParcelle(any(ParcelleCouleur.class));
         assertEquals(7, spyPlateau.getParcelles().length);
+    }
+
+    @Test
+    void actionJardinier(){
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        //Pose de parcelles
+        for (int i=0; i<6; i++){
+            strategieComplete.actionParcelle(spyPlateau,piocheParcelle,piocheSectionBambou,objectifs);
+        }
+
+        for (int i=0; i<2; i++){
+            strategieComplete.actionJardinier(spyPlateau,piocheSectionBambou,objectifs);
+            try {
+                verify(spyPlateau, times(i+1)).deplacementJardinier(any(Position.class));
+            } catch (ParcelleNonPoseeException e) {
+                throw new AssertionError(e);
+            }
+        }
+
+
+
+
     }
 
 }
