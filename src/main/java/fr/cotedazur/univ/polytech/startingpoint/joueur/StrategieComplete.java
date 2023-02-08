@@ -1,10 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
@@ -45,7 +47,56 @@ public class StrategieComplete implements Strategie {
 
     @Override
     public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
+        try {
+            //récupère l'objectifParcelle avec le plus de points
+            ObjectifParcelle objectifParcellesMax = getObjectifParcelleMaxPts(objectifs);
 
+            //positions disponibles pour poser la parcelle
+            Position[] positionsDisponible = plateau.getPositionsDisponibles();
+
+            Optional<Position> optPosition = GestionnairePossibiliteMotif
+                    .positionPossiblePrendrePourMotif(plateau.getParcelles(), positionsDisponible, objectifParcellesMax);
+
+            Position positionChoisie = null;
+            if (optPosition.isPresent()) positionChoisie = optPosition.get();
+
+            //si positionChoisie == null, alors pas de possibilités pour compléter le motif donc 1er position disponible
+            if (positionChoisie == null) positionChoisie = positionsDisponible[0];
+
+            //pioche 3 parcelles
+            ParcellePioche[] pioche3parcelles = piocheParcelle.pioche();
+
+            //Ajouter une condition avec la couleur de l'objectif
+
+            ParcelleCouleur parcelleCouleurChoisie = piocheParcelle.choisiParcelle(pioche3parcelles[0], positionChoisie);
+
+            //pose de la parcelle choisie
+            plateau.poseParcelle(parcelleCouleurChoisie);
+
+        } catch (PiocheParcelleVideException | PiocheParcelleEnCoursException e) {
+            throw new AssertionError(e);
+        }
+
+    }
+
+    /**
+     * Retourne l'objectif Parcelle de la liste ayant le nombre de points le plus élevé
+     * @param objectifs la liste des objectifs
+     * @return l'objectif Parcelle de nombre de points le plus élevé
+     */
+    public ObjectifParcelle getObjectifParcelleMaxPts(List<Objectif> objectifs) {
+        ObjectifParcelle objectifParcelleMax = null;
+        int maxPtsObjectifsParcelle = 0;
+
+        for (Objectif objectif : objectifs) {
+            if (objectif.getClass().equals(ObjectifParcelle.class)) {
+                if (objectifParcelleMax == null || maxPtsObjectifsParcelle < objectif.getNombrePoints()) {
+                    objectifParcelleMax = (ObjectifParcelle) objectif;
+                    maxPtsObjectifsParcelle = objectifParcelleMax.getNombrePoints();
+                }
+            }
+        }
+        return objectifParcelleMax;
     }
 
     @Override
