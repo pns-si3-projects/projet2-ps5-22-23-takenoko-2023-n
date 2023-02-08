@@ -1,14 +1,21 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.GestionnaireObjectifs;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class StrategieComplete implements Strategie {
     @Override
@@ -56,7 +63,57 @@ public class StrategieComplete implements Strategie {
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
+        List<ObjectifPanda> objectifPandas = getObjectifPanda(objectifs);
+        for (ObjectifPanda objectifPanda : objectifPandas) {
+            if(objectifPanda.getBambousAManger().size() == 3) {
+                Couleur couleurVoulue = plaquetteCouleurManquante(plaquette);
+                plateau.deplacementPanda(parcelleCouleurVoulue(plateau, couleurVoulue));
+            }
+            else {
+                Couleur couleur = objectifPanda.getBambousAManger().get(0).getCouleur();
+                plateau.deplacementPanda(parcelleCouleurVoulue(plateau, couleur));
 
+            }
+        }
+
+    }
+
+
+    public Position parcelleCouleurVoulue(Plateau plateau, Couleur couleur) {
+        Position positionVoulue = null;
+        for(Position position : plateau.getPositionsDisponibles()) {
+            Optional<Parcelle> parcelleOptional = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
+            if(parcelleOptional.isPresent()) {
+                ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelleOptional.get();
+                if(parcelleCouleur.getCouleur().equals(couleur)) {
+                    positionVoulue = parcelleCouleur.getPosition();
+                }
+            }
+        }
+        return positionVoulue;
+    }
+    public Couleur plaquetteCouleurManquante(Plaquette plaquette) {
+        if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.VERTE) == 0) {return Couleur.VERTE; }
+        if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.ROSE) == 0) {return Couleur.ROSE; }
+        if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.JAUNE) == 0) {return Couleur.JAUNE; }
+        return null;
+
+
+    }
+
+    /**
+     * retourne les objectifPandas d'une liste d'objectif
+     * @param objectifs la liste des objectifs mis en parametre
+     * @return la liste des objectifPanda issu de la liste d'objectif
+     */
+    public List<ObjectifPanda> getObjectifPanda(List<Objectif> objectifs) {
+        List<ObjectifPanda> objectifsPandas = new ArrayList<>();
+        for (Objectif objectif : objectifs) {
+            if(objectif.getClass().equals(ObjectifPanda.class)) {
+                objectifsPandas.add((ObjectifPanda) objectif);
+            }
+        }
+        return objectifsPandas;
     }
 
     @Override

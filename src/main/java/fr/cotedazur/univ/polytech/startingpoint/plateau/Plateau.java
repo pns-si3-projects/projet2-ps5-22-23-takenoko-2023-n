@@ -309,13 +309,12 @@ public class Plateau {
      * @return une sectionBambou
      */
     public SectionBambou mangeBambou (Bambou bambou) {
-        SectionBambou sectionBambou = bambou.prendSectionBambou();
-        return sectionBambou;
+        return bambou.prendSectionBambou();
     }
 
     /**
      * deplacement du Panda
-     * @param position la position du panda
+     * @param position la nouvelle position du panda
      * @return la sectionBambou mangé
      */
     public Optional<SectionBambou> deplacementPanda(Position position) {
