@@ -116,7 +116,7 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionPanda(Plateau plateau, List<Objectif> objectifs,SectionBambou[] listeBambouMange) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
         Position positionDeplacer=null;
         boolean estDeplacer = false;
         List<Objectif> objectifPanda = recupreObjectifPanda(objectifs);
@@ -129,7 +129,7 @@ public class StrategiePanda implements Strategie {
             if (objectifPandaMaxPoint.getBambousAManger().size()==2)
                 couleurAManger = objectifPandaMaxPoint.getBambousAManger().get(0).getCouleur();
             else {
-                couleurAManger = getCouleurManquante(listeBambouMange);
+                couleurAManger = getCouleurManquante(plaquette.getReserveBambousManges());
             }
         }
 
@@ -149,10 +149,16 @@ public class StrategiePanda implements Strategie {
         }
         if (!estDeplacer) {
             positionDeplacer = listPositionPossibleDeplacement.get(0);
-            plateau.deplacementPanda(positionDeplacer);
+            Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(positionDeplacer);
+            if (sectionBambou.isPresent()) {
+                plaquette.mangeSectionBambou(sectionBambou.get());
+            }
         }
         else {
-            plateau.deplacementPanda(listePositionPossibleAvecBambou.get(0));
+            Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(listePositionPossibleAvecBambou.get(0));
+            if (sectionBambou.isPresent()) {
+                plaquette.mangeSectionBambou(sectionBambou.get());
+            }
         }
     }
 
