@@ -210,6 +210,7 @@ public class Joueur {
      */
     private void supprimerObjectifs(List<Objectif> listObjectifSup) {
         for (Objectif objectif : listObjectifSup) {
+            AfficheurObjectif.finObjectif(objectif);
             objectifEnMainList.remove(objectif);
         }
     }
