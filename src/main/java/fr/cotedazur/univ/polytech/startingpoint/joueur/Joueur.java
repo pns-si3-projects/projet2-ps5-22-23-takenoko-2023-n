@@ -170,9 +170,8 @@ public class Joueur {
      * @param plateau le plateau du jeu
      * @param piocheIrrigation la pioche d'irrigation du jeu
      */
-    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation,
-                                 PiocheSectionBambou piocheSectionBambou) {
-        strategie.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
+    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation) {
+        strategie.actionIrrigation(plateau, piocheIrrigation, plaquette);
     }
 
     /**

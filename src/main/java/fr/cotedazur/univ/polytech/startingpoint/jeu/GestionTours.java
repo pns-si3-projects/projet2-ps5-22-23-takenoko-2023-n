@@ -76,7 +76,7 @@ public class GestionTours {
 
             switch (actionChoisie) {
                 case PARCELLE -> joueur.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
-                case IRRIGATION -> joueur.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
+                case IRRIGATION -> joueur.actionIrrigation(plateau, piocheIrrigation);
                 case JARDINIER -> joueur.actionJardinier(plateau, piocheSectionBambou);
                 case PANDA -> joueur.actionPanda(plateau);
                 case OBJECTIF -> joueur.actionObjectif(piocheObjectifParcelle,

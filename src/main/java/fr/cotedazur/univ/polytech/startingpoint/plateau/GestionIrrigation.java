@@ -26,15 +26,25 @@ public class GestionIrrigation {
     public static Optional<Set<Irrigation>> addIrrigationDisponible(@NotNull Map<Parcelle, Parcelle[]> parcellesEtVoisines,
                                                Irrigation irrigation, @NotNull Set<Irrigation> irrigationsDisponibles,
                                                 @NotNull Set<Irrigation> irrigationsPosees) {
+        if (irrigation.getPositions().isEmpty()) {
+            return Optional.empty();
+        }
 
-        List<Position> positionsIrrigation = irrigation.getPositions();
+        List<Position> positionsIrrigation = irrigation.getPositions().get();
         Position position1 = positionsIrrigation.get(0);
         Position position2 = positionsIrrigation.get(1);
-        ParcelleCouleur parcelle1 = (ParcelleCouleur) GestionParcelles.chercheParcelle(GestionParcelles.getParcelles(parcellesEtVoisines), position1).get();
-        ParcelleCouleur parcelle2 = (ParcelleCouleur) GestionParcelles.chercheParcelle(GestionParcelles.getParcelles(parcellesEtVoisines), position2).get();
+        ParcelleCouleur parcelle1;
+        ParcelleCouleur parcelle2;
+        Optional<Parcelle> optP1 = GestionParcelles.chercheParcelle(GestionParcelles.getParcelles(parcellesEtVoisines), position1);
+        Optional<Parcelle> optP2 = GestionParcelles.chercheParcelle(GestionParcelles.getParcelles(parcellesEtVoisines), position2);
+        if (optP1.isEmpty() || optP2.isEmpty()) {
+            throw new AssertionError("La parcelle devrait etre existante");
+        }
+        parcelle1 = (ParcelleCouleur) optP1.get();
+        parcelle2 = (ParcelleCouleur) optP2.get();
 
         try {
-            //on récupere les voisins des 2 parcelles
+            //on récupère les voisins des 2 parcelles
             Parcelle[] voisinsP1 = GestionParcelles.getVoisinesParcelle(parcellesEtVoisines, parcelle1);
             Parcelle[] voisinsP2 =GestionParcelles.getVoisinesParcelle(parcellesEtVoisines, parcelle2);
             List<Parcelle> parcellesPossiblePourIrrigation = new ArrayList<>();

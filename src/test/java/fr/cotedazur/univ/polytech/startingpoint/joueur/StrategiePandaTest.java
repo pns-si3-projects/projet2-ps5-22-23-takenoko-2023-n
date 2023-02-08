@@ -79,7 +79,7 @@ class StrategiePandaTest {
             strategiePanda.actionParcelle(plateau,piocheParcelle,piocheSectionBambou,objectifs);
         }
         for (int j =0; j<2; j++) {
-            strategiePanda.actionIrrigation(plateau,piocheIrrigation, piocheSectionBambou);
+            strategiePanda.actionIrrigation(plateau,piocheIrrigation, plaquette);
         }
         assertEquals(2,plateau.getIrrigationsPosees().length);
     }

@@ -40,7 +40,7 @@ public interface Strategie {
      * @param plateau le plateau du jeu
      * @param piocheIrrigation la pioche d'irrigation du jeu
      */
-    void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou);
+    void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, Plaquette plaquette);
 
     /**
      * Permet de déplacer le jardinier sur le plateau

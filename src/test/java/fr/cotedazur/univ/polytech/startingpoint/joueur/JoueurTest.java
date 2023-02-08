@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -184,7 +185,7 @@ class JoueurTest {
     @Test
     void gestionObjectifJardinier() {
         Random mockRandom = mock(Random.class);
-        when(mockRandom.nextInt()).thenReturn(2, 4);
+        when(mockRandom.nextInt(anyInt())).thenReturn(1, 8);
         PiocheObjectifJardinier piocheObjectifJardinier = new PiocheObjectifJardinier(mockRandom);
         PiocheObjectifParcelle piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         PiocheObjectifPanda piocheObjectifPanda = new PiocheObjectifPanda(new Random());
@@ -205,5 +206,39 @@ class JoueurTest {
         joueurJardinier.gestionObjectif(plateau);
         assertEquals(0, joueurJardinier.nombreObjectifsEnMain());
         assertEquals(2, joueurJardinier.nombreObjectifsTermines());
+    }
+
+    @Test
+    void gestionObjectifPanda() {
+        Random mockRandom = mock(Random.class);
+        when(mockRandom.nextInt(anyInt())).thenReturn(2, 4);
+        PiocheObjectifJardinier piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
+        PiocheObjectifParcelle piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
+        PiocheObjectifPanda piocheObjectifPanda = new PiocheObjectifPanda(mockRandom);
+        PiocheSectionBambou piocheSectionBambou = new PiocheSectionBambou();
+
+        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        assertEquals(2, joueurPanda.nombreObjectifsEnMain());
+        assertEquals(0, joueurPanda.nombreObjectifsTermines());
+        assertEquals(0, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
+
+        plateau.poseParcelle(new ParcelleCouleur(new Position(1,1), Couleur.VERTE));
+        plateau.poseParcelle(new ParcelleCouleur(new Position(2, 0), Couleur.VERTE));
+
+        for (int i = 0; i < 5; i++) {
+            joueurJardinier.actionJardinier(plateau, piocheSectionBambou);
+        }
+
+        joueurPanda.actionPanda(plateau);
+        assertEquals(1, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
+
+        joueurPanda.actionPanda(plateau);
+        assertEquals(2, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
+
+        joueurPanda.gestionObjectif(plateau);
+        assertEquals(1, joueurPanda.nombreObjectifsEnMain());
+        assertEquals(1, joueurPanda.nombreObjectifsTermines());
+        assertEquals(0, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
     }
 }

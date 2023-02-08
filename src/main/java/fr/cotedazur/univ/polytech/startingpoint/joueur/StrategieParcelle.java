@@ -3,10 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
@@ -14,10 +11,7 @@ import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -134,7 +128,17 @@ public class StrategieParcelle implements Strategie {
             return jardinier;
         }
 
-        return Plaquette.ActionPossible.PANDA;
+        else{
+            Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
+            if (!actionsRealiseesTour[panda.ordinal()]) {
+                return Plaquette.ActionPossible.PANDA;
+            }
+            else {
+                return Plaquette.ActionPossible.JARDINIER;
+            }
+
+        }
+
     }
 
     /**
@@ -190,14 +194,17 @@ public class StrategieParcelle implements Strategie {
     }
 
     @Override
-    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation,
-                                 PiocheSectionBambou piocheSectionBambou) {
+    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, Plaquette plaquette) {
         Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
 
         if (irrigationsDisponibles.length > 0) {
-            List<Position> positionIrrigation = irrigationsDisponibles[0].getPositions();
-            Irrigation irrigationPioche = piocheIrrigation.pioche(positionIrrigation.get(0), positionIrrigation.get(1));
-            plateau.poseIrrigation(irrigationPioche);
+            Optional<List<Position>> positionIrrigation = irrigationsDisponibles[0].getPositions();
+
+            if (positionIrrigation.isPresent()) {
+                Irrigation irrigationPioche = piocheIrrigation.pioche(positionIrrigation.get());
+                plateau.poseIrrigation(irrigationPioche);
+            }
+
         }
         else {
             assert false : "Aucune irrigation impossible";
@@ -224,9 +231,8 @@ public class StrategieParcelle implements Strategie {
     }
 
     public Position choixDeplacementPosition( Plateau plateau, Position position) {
-        List<Position> deplacementPossibles = GestionPersonnages
-                .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), position);
-        return deplacementPossibles.get(deplacementPossibles.size()-1);
+        List<Position> deplacementPossibles = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), position);
+        return deplacementPossibles.get(deplacementPossibles.size()/2);
     }
 
     @Override
