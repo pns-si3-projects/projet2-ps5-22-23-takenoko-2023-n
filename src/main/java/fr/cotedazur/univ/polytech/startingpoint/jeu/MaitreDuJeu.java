@@ -70,11 +70,9 @@ public class MaitreDuJeu {
         gestionTours.dernierTour(joueurs, joueurFinObjectifs);
 
         Optional<Joueur> joueurOpt = gestionTours.gagnant(joueurs);
-        if (joueurOpt.isPresent()) {
-            AfficheurJeu.victoire(joueurOpt.get());
-        } else {
-            AfficheurJeu.victoire();
-        }
+        joueurOpt.ifPresent(AfficheurJeu::victoire);
+
+        AfficheurJeu.victoire();
     }
 
 

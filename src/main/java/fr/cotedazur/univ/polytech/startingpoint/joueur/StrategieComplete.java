@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -32,9 +33,8 @@ public class StrategieComplete implements Strategie {
 
         Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
         if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 3) {
-            //jardinier et panda adversai  --> faire dans actionPanda
+            //jardinier et panda adversai --> faire dans actionPanda
             return panda;
-
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
@@ -100,8 +100,9 @@ public class StrategieComplete implements Strategie {
     }
 
     @Override
-    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
-
+    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, Plaquette plaquette) {
+        Irrigation irrigation = piocheIrrigation.pioche(new ArrayList<>());
+        plaquette.ajoutIrrigation(irrigation);
     }
 
     @Override

@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
@@ -118,26 +119,29 @@ class StrategieCompleteTest {
     }
 
     @Test
-    void actionJardinier(){
+    void actionJardinier() {
         Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
 
         //Pose de parcelles
-        for (int i=0; i<6; i++){
-            strategieComplete.actionParcelle(spyPlateau,piocheParcelle,piocheSectionBambou,objectifs);
+        for (int i = 0; i < 6; i++) {
+            strategieComplete.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou, objectifs);
         }
 
-        for (int i=0; i<2; i++){
-            strategieComplete.actionJardinier(spyPlateau,piocheSectionBambou,objectifs);
+        for (int i = 0; i < 2; i++) {
+            strategieComplete.actionJardinier(spyPlateau, piocheSectionBambou, objectifs);
             try {
-                verify(spyPlateau, times(i+1)).deplacementJardinier(any(Position.class));
+                verify(spyPlateau, times(i + 1)).deplacementJardinier(any(Position.class));
             } catch (ParcelleNonPoseeException e) {
                 throw new AssertionError(e);
             }
         }
-
-
-
-
     }
 
+    @Test
+    void actionIrrigationTest() {
+        Plaquette spyPlaquette = spy(new Plaquette());
+        strategieComplete.actionIrrigation(plateau,piocheIrrigation,spyPlaquette);
+        
+        verify(spyPlaquette, times(1)).ajoutIrrigation(any(Irrigation.class));
+    }
 }

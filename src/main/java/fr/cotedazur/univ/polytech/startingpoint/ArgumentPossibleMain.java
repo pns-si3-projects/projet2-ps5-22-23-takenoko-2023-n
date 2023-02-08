@@ -19,7 +19,7 @@ public enum ArgumentPossibleMain {
             return true;
         }
     },
-    CSV("--CSV") {
+    CSV("--csv") {
         @Override
         public boolean isCsv() {
             return true;
@@ -46,14 +46,6 @@ public enum ArgumentPossibleMain {
 
 
     // Accesseurs
-
-    /**
-     * Renvoie le mode de jeu
-     * @return le mode de jeu
-     */
-    public String getMode() {
-        return mode;
-    }
 
     /**
      * Renvoie si le mode de jeu demandé est "2 thousands"

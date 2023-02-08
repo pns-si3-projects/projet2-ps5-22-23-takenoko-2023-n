@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.personnage;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Représente le jardinier.
@@ -33,9 +34,6 @@ public class Jardinier implements Personnage {
         return position;
     }
 
-    public void setPosition( Position nouvelPosition ) {
-        position=nouvelPosition;
-    }
 
     // Méthode toString
 
@@ -45,13 +43,7 @@ public class Jardinier implements Personnage {
     }
 
     @Override
-    public boolean move(Position position) {
-        if ( position == null ) {
-            return false;
-        }
-        else {
-            this.position=position;
-            return true;
-        }
+    public void move(@NotNull Position position) {
+        this.position = position;
     }
 }

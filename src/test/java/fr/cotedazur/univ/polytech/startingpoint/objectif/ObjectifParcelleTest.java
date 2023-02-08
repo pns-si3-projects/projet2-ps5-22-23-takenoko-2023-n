@@ -55,12 +55,10 @@ class ObjectifParcelleTest {
     @Test
     void testToString() {
         ParcelleCouleur[] tabParMotifTr = objP2_Tr.getSchema().getTableauParcelles();
-        assertEquals("Objectif de 2 points pour ce schema-ci : Motif : " + tabParMotifTr[0] + " " + tabParMotifTr[1]
-                + " " + tabParMotifTr[2] + " ", objP2_Tr.toString());
+        assertEquals("Objectif de parcelle de 2 points", objP2_Tr.toString());
 
         ParcelleCouleur[] tabParMotifD = objP3_D.getSchema().getTableauParcelles();
-        assertEquals("Objectif de 3 points pour ce schema-ci : Motif : " + tabParMotifD[0] + " " + tabParMotifD[1]
-                        + " " +tabParMotifD[2] + " ",  objP3_D.toString());
+        assertEquals("Objectif de parcelle de 3 points",  objP3_D.toString());
     }
 
     @Test

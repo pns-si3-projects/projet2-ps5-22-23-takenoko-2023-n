@@ -29,8 +29,8 @@ public class AfficheurJeu {
      */
     public static void initialisation(int nbJoueurs, int nbObjectifs) {
         String str = "Nouvelle partie de " + nbJoueurs + " joueurs"
-                + ", il faut réaliser " + nbObjectifs + " objectifs.\n"
-                + "Initialisation du jeu : étang, panda et jardinier en (0,0).";
+                + ", il faut realiser " + nbObjectifs + " objectifs.\n"
+                + "Initialisation du jeu : etang, panda et jardinier en (0,0).";
         LOGGER.info(str);
     }
 
@@ -40,7 +40,7 @@ public class AfficheurJeu {
      */
     public static void debutTour(int nbTours) {
         String str = "\n\n" + SEPARATION +
-                "\tTour n°" + nbTours + "\t" +
+                "\tTour " + nbTours + "\t" +
                 SEPARATION;
         LOGGER.info(str);
     }
@@ -51,7 +51,7 @@ public class AfficheurJeu {
      */
     public static void recoitEmpereur(Joueur joueurFinObjectifs) {
         String str = "\n\n" + joueurFinObjectifs.getNom()
-                + " est le premier joueur a finir le nombre d'objectifs demandé et reçoit la carte Empereur";
+                + " est le premier joueur a finir le nombre d'objectifs demande et remporte la carte Empereur";
         LOGGER.info(str);
     }
 
@@ -70,8 +70,8 @@ public class AfficheurJeu {
      * @param joueur le joueur gagnant
      */
     public static void victoire(Joueur joueur) {
-        String str = "\n\nBravo à " + joueur.toString() + " d'avoir remporté la partie avec "
-                + joueur.nombreObjectifsTermines() + " objectifs terminés pour " + joueur.nombrePoints() + " points !";
+        String str = "\n\nBravo a " + joueur.toString() + " d'avoir remporte la partie avec "
+                + joueur.nombreObjectifsTermines() + " objectifs termines pour " + joueur.nombrePoints() + " points !";
         LOGGER.info(str);
     }
 
@@ -79,7 +79,7 @@ public class AfficheurJeu {
      * Affiche le partage de la victoire par tous les joueurs
      */
     public static void victoire() {
-        LOGGER.info("\n\nBravo et merci à tous les joueurs d'avoir participé et à bientôt pour une autre partie !");
+        LOGGER.info("\n\nBravo et merci a tous les joueurs d'avoir participe et a bientot pour une autre partie !");
     }
 
     public static void etatJeu(MaitreDuJeu maitreDuJeu) {

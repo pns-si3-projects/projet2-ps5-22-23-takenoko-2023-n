@@ -13,7 +13,9 @@ public class MotifDiagonale extends Motif{
      * @param parcellesCouleurs liste de Parcelles pour le motifs
      */
     public MotifDiagonale(ParcelleCouleur... parcellesCouleurs) {
-        if (parcellesCouleurs.length < 2 || parcellesCouleurs.length > 3) throw new IllegalArgumentException("Trop d'arguments en paramètres");
+        if (parcellesCouleurs.length < 2 || parcellesCouleurs.length > 3) {
+            throw new IllegalArgumentException("Trop d'arguments en paramètres");
+        }
         tabParcelles = parcellesCouleurs;
     }
 
@@ -28,8 +30,10 @@ public class MotifDiagonale extends Motif{
         System.arraycopy(orientationBaseMotif, 0, orientationMotif, 0, 6);
         for (int i = 6, j = 0; j < 3; i++, j++) {
             orientationMotif[i][0] = tabParcelles[1];
-            orientationMotif[i][1] = getVoisin(j, tabParcelles[1].getPosition(), tabParcelles[2].getCouleur());
-            orientationMotif[i][2] = getVoisin(j + 3, tabParcelles[1].getPosition(), tabParcelles[0].getCouleur());
+            orientationMotif[i][1] =
+                    getVoisin(j, tabParcelles[1].getPosition(), tabParcelles[2].getCouleur());
+            orientationMotif[i][2] =
+                    getVoisin(j + 3, tabParcelles[1].getPosition(), tabParcelles[0].getCouleur());
         }
 
         return orientationMotif;
@@ -47,7 +51,8 @@ public class MotifDiagonale extends Motif{
 
         if (tabParcelles.length == 3) {
             for (int i = 0; i < 6; i++) {
-                orientationsMotif[i][2] = getVoisin(i , orientationsMotif[i][1].getPosition(), tabParcelles[2].getCouleur());
+                orientationsMotif[i][2] =
+                        getVoisin(i, orientationsMotif[i][1].getPosition(), tabParcelles[2].getCouleur());
             }
         }
 
