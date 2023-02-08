@@ -1,9 +1,12 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StrategieComplete implements Strategie {
@@ -57,6 +60,21 @@ public class StrategieComplete implements Strategie {
 
     @Override
     public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
+        List<Objectif> objectifsPandaList = new ArrayList<>();
+        List<Objectif> objectifParcelleList = new ArrayList<>();
+        List<Objectif> objectifsJardinierList = new ArrayList<>();
+        for (Objectif objectif : objectifs){
+            if (objectif.getClass().equals(ObjectifPanda.class)) objectifsPandaList.add(objectif);
+            else if (objectif.getClass().equals(ObjectifParcelle.class)) objectifParcelleList.add(objectif);
+            else objectifsJardinierList.add(objectif);
+        }
 
+        Objectif objectif;
+        if (objectifsPandaList.size() < 2) objectif = piocheObjectifPanda.pioche();
+        else if (objectifParcelleList.size() < 2) objectif = piocheObjectifParcelle.pioche();
+        else objectif = piocheObjectifJardinier.pioche();
+
+        objectifs.add(objectif);
     }
+
 }
