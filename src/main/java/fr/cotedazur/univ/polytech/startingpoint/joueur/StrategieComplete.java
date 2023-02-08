@@ -4,13 +4,11 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.GestionnaireObjectifs;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
@@ -23,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class StrategieComplete implements Strategie {
+    private boolean premierTour = true;
     @Override
     public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs, Plateau plateau, boolean[] piochesVides) {
 
@@ -32,7 +31,8 @@ public class StrategieComplete implements Strategie {
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
-        if ( plateau.getBambous().length == 0 /* ou parcelle adversaire autre methode en plus */ && !actionsRealiseesTour[irrigation.ordinal()] ) {
+        if ( (plateau.getBambous().length == 0 /* ou parcelle adversaire autre methode en plus */ && !actionsRealiseesTour[irrigation.ordinal()]) || premierTour ) {
+            if(premierTour) premierTour = false;
             return irrigation;
         }
 
@@ -43,7 +43,7 @@ public class StrategieComplete implements Strategie {
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] ) {
+        if (!actionsRealiseesTour[parcelle.ordinal()] && !getObjectifParcelle(objectifs).isEmpty() ) {
             return parcelle;
         }
 
@@ -136,13 +136,15 @@ public class StrategieComplete implements Strategie {
         for (ObjectifPanda objectifPanda : objectifPandas) {
             if(objectifPanda.getBambousAManger().size() == 3) {
                 Couleur couleurVoulue = plaquetteCouleurManquante(plaquette);
-                plateau.deplacementPanda(parcelleCouleurVoulue(plateau, couleurVoulue));
+                Position positionDeplacer = parcelleCouleurVoulue(plateau, couleurVoulue);
+                plateau.deplacementPanda(positionDeplacer);
             }
             else {
                 Couleur couleur = objectifPanda.getBambousAManger().get(0).getCouleur();
-                plateau.deplacementPanda(parcelleCouleurVoulue(plateau, couleur));
-
+                Position positionDeplacer = parcelleCouleurVoulue(plateau, couleur);
+                plateau.deplacementPanda(positionDeplacer);
             }
+            break;
         }
 
     }
@@ -150,15 +152,18 @@ public class StrategieComplete implements Strategie {
 
     public Position parcelleCouleurVoulue(Plateau plateau, Couleur couleur) {
         Position positionVoulue = null;
-        for(Position position : plateau.getPositionsDisponibles()) {
+        List<Position> possitionPossible = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),plateau.getPanda().getPosition());
+        for(Position position : possitionPossible) {
             Optional<Parcelle> parcelleOptional = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
-            if(parcelleOptional.isPresent()) {
+            if(parcelleOptional.isPresent() && !parcelleOptional.get().getClass().equals(Etang.class)) {
                 ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelleOptional.get();
                 if(parcelleCouleur.getCouleur().equals(couleur)) {
                     positionVoulue = parcelleCouleur.getPosition();
+                    break;
                 }
             }
         }
+        positionVoulue = possitionPossible.get(0);
         return positionVoulue;
     }
     public Couleur plaquetteCouleurManquante(Plaquette plaquette) {
@@ -183,6 +188,36 @@ public class StrategieComplete implements Strategie {
             }
         }
         return objectifsPandas;
+    }
+
+    /**
+     * retourne les objectifJardiniers d'une liste d'objectif
+     * @param objectifs la liste des objectifs mis en parametre
+     * @return la liste des objectifJardinier issu de la liste d'objectif
+     */
+    public List<ObjectifJardinier> getObjectifJardinier(List<Objectif> objectifs) {
+        List<ObjectifJardinier> objectifsJardiniers = new ArrayList<>();
+        for (Objectif objectif : objectifs) {
+            if(objectif.getClass().equals(ObjectifJardinier.class)) {
+                objectifsJardiniers.add((ObjectifJardinier) objectif);
+            }
+        }
+        return objectifsJardiniers;
+    }
+
+    /**
+     * retourne les objectifParcelles d'une liste d'objectif
+     * @param objectifs la liste des objectifs mis en parametre
+     * @return la liste des objectifParcelle issu de la liste d'objectif
+     */
+    public List<ObjectifParcelle> getObjectifParcelle(List<Objectif> objectifs) {
+        List<ObjectifParcelle> objectifsParcelle = new ArrayList<>();
+        for (Objectif objectif : objectifs) {
+            if(objectif.getClass().equals(ObjectifParcelle.class)) {
+                objectifsParcelle.add((ObjectifParcelle) objectif);
+            }
+        }
+        return objectifsParcelle;
     }
 
     @Override

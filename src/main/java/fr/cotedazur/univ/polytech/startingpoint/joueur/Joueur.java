@@ -40,6 +40,7 @@ public class Joueur {
             case PARCELLE -> new StrategieParcelle();
             case PANDA -> new StrategiePanda();
             case JARDINIER -> new StrategieJardinier();
+            case COMPLET -> new StrategieComplete();
         };
     }
 

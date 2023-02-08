@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface Strategie {
     /** L'ensemble des stratégies de jeu possibles */
-    enum StrategiePossible {PARCELLE, JARDINIER, PANDA}
+    enum StrategiePossible {PARCELLE, JARDINIER, PANDA, COMPLET}
 
 
     /**
