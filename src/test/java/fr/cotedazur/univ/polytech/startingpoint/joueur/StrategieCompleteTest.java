@@ -144,4 +144,19 @@ class StrategieCompleteTest {
         
         verify(spyPlaquette, times(1)).ajoutIrrigation(any(Irrigation.class));
     }
+
+    @Test
+    void actionPanda () {
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        Position positionInitial = spyPlateau.getJardinier().getPosition();
+        for (int i =0; i<4; i++) {
+            strategieComplete.actionParcelle(spyPlateau,piocheParcelle,piocheSectionBambou,objectifs);
+        }
+        strategieComplete.actionObjectif(piocheObjectifParcelle,piocheObjectifJardinier,piocheObjectifPanda,objectifs);
+        strategieComplete.actionPanda(spyPlateau,objectifs,plaquette);
+        Position positionFinal = spyPlateau.getPanda().getPosition();
+        assertNotEquals(positionInitial,positionFinal);
+        verify(spyPlateau, times(1)).deplacementPanda(any(Position.class));
+    }
 }
