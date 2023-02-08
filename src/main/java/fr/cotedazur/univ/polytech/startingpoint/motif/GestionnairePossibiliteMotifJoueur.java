@@ -34,6 +34,7 @@ public class GestionnairePossibiliteMotif {
         int differenceY = parcelleACheck.getPosition().getY() - motifAFaire[0].getPosition().getY();
         int nombreParcelleProcheMotif = 1;
 
+
         for (int i = 1; i < motifAFaire.length; i++) {
             Position positionMotif = motifAFaire[i].getPosition();
             Position positionACheck = new Position(positionMotif.getX() + differenceX, positionMotif.getY() + differenceY);
@@ -71,14 +72,7 @@ public class GestionnairePossibiliteMotif {
         return parcelleMaxMotif;
     }
 
-    /**
-     * Crée le Motif avec la Parcelle qui est la plus proche de finir l'objectif
-     * @param tableauParcellesPlateau Tableau des parcelles du plateau
-     * @param parcelleMotifAFaire Parcelle qui est la plus proche de finir l'objectif
-     * @param motifAFaire Motif à faire avec la parcelle
-     * @return le tableau du Motif ressemblant au motif de l'objectif parcelle
-     */
-    public static Parcelle[] getMotifAFaire(Parcelle[] tableauParcellesPlateau, Parcelle parcelleMotifAFaire, Parcelle[] motifAFaire){
+    /*public static Parcelle[] getMotifAFaire(Parcelle[] tableauParcellesPlateau, Parcelle parcelleMotifAFaire, Parcelle[] motifAFaire){
         int differenceX = parcelleMotifAFaire.getPosition().getX() - motifAFaire[0].getPosition().getX();
         int differenceY = parcelleMotifAFaire.getPosition().getY() - motifAFaire[0].getPosition().getY();
         Parcelle[] motifRessemblantAuMotifAFaire = new Parcelle[motifAFaire.length];
@@ -100,7 +94,7 @@ public class GestionnairePossibiliteMotif {
             motifRessemblantAuMotifAFaire[i] = parcelleTrouve;
         }
         return motifRessemblantAuMotifAFaire;
-    }
+    }*/
 
     /**
      * Renvoie le nombre de Parcelle Couleur dans le motif
