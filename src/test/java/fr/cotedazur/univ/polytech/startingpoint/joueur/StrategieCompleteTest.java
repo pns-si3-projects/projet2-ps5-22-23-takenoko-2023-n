@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class StrategieCompleteTest {
     StrategieComplete strategieComplete;
@@ -67,13 +69,13 @@ class StrategieCompleteTest {
     }
 
     @Test
-    void actionObjectif(){
-        strategieComplete.actionObjectif(piocheObjectifParcelle,piocheObjectifJardinier,piocheObjectifPanda,objectifs);
+    void actionObjectif() {
+        strategieComplete.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda, objectifs);
 
         List<Objectif> objectifsPandaList = new ArrayList<>();
         List<Objectif> objectifParcelleList = new ArrayList<>();
         List<Objectif> objectifsJardinierList = new ArrayList<>();
-        for (Objectif objectif : objectifs){
+        for (Objectif objectif : objectifs) {
             if (objectif.getClass().equals(ObjectifPanda.class)) objectifsPandaList.add(objectif);
             else if (objectif.getClass().equals(ObjectifParcelle.class)) objectifParcelleList.add(objectif);
             else objectifsJardinierList.add(objectif);
@@ -83,20 +85,34 @@ class StrategieCompleteTest {
         assertEquals(1, objectifParcelleList.size());
         assertEquals(1, objectifsJardinierList.size());
 
-        strategieComplete.actionObjectif(piocheObjectifParcelle,piocheObjectifJardinier,piocheObjectifPanda,objectifs);
+        strategieComplete.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda, objectifs);
 
         List<Objectif> objectifsPandaList_2 = new ArrayList<>();
         List<Objectif> objectifParcelleList_2 = new ArrayList<>();
         List<Objectif> objectifsJardinierList_2 = new ArrayList<>();
-        for (Objectif objectif : objectifs){
+        for (Objectif objectif : objectifs) {
             if (objectif.getClass().equals(ObjectifPanda.class)) objectifsPandaList_2.add(objectif);
             else if (objectif.getClass().equals(ObjectifParcelle.class)) objectifParcelleList_2.add(objectif);
             else objectifsJardinierList_2.add(objectif);
         }
-        
+
         assertEquals(2, objectifsPandaList_2.size());
         assertEquals(2, objectifParcelleList_2.size());
         assertEquals(1, objectifsJardinierList_2.size());
+    }
+
+    @Test
+    void actionParcelle(){
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        assertEquals(1, spyPlateau.getParcelles().length);
+
+        //pose des parcelles
+        for (int i=0; i<6; i++){
+            strategieComplete.actionParcelle(spyPlateau,piocheParcelle,piocheSectionBambou,objectifs);
+        }
+        verify(spyPlateau, times(6)).poseParcelle(any(ParcelleCouleur.class));
+        assertEquals(7, spyPlateau.getParcelles().length);
     }
 
 }
