@@ -53,7 +53,7 @@ public interface Strategie {
      * Permet de déplacer le panda sur le plateau
      * @param plateau le plateau du jeu
      */
-    void actionPanda(Plateau plateau, List<Objectif> objectifs, SectionBambou[] listeBambouMange);
+    void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette);
 
     /**
      * Pioche l'objectif de son choix

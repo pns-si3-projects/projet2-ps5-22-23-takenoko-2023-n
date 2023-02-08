@@ -114,7 +114,7 @@ class StrategieJardinierTest {
         Position positionDepart = spyPlateau.getPanda().getPosition();
         assertEquals(new Position(), positionDepart);
 
-        strategieJardinier.actionPanda(spyPlateau, objectifs, plaquette.getReserveBambousManges());
+        strategieJardinier.actionPanda(spyPlateau, objectifs, plaquette);
 
         Position positionFinale = spyPlateau.getPanda().getPosition();
         assertNotEquals(positionDepart, positionFinale);

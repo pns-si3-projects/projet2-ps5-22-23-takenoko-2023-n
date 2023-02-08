@@ -305,14 +305,16 @@ public class Plateau {
      * @return une sectionBambou
      */
     public SectionBambou mangeBambou (Bambou bambou) {
-        return bambou.prendSectionBambou();
+        SectionBambou sectionBambou = bambou.prendSectionBambou();
+        return sectionBambou;
     }
 
     /**
      * deplacement du Panda
      * @param position la position du panda
+     * @return la sectionBambou mangé
      */
-    public void deplacementPanda(Position position) {
+    public Optional<SectionBambou> deplacementPanda(Position position) {
         panda.move(position);
         AfficheurPersonnage.deplacePersonnage(panda);
 
@@ -321,10 +323,11 @@ public class Plateau {
             if (parcelle.get().getClass().equals(ParcelleCouleur.class)) {
                 Optional<Bambou> bambou = GestionBambous.chercheBambou(getBambous(), position);
                 if (bambou.isPresent() && !bambou.get().isEmpty()) {
-                    mangeBambou(bambou.get());
+                     return Optional.of(mangeBambou(bambou.get()));
                 }
             }
         }
+        return Optional.empty();
     }
 
     /**
