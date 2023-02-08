@@ -104,13 +104,23 @@ public class Main {
      * Joue un nombre limité de parties en enregistrant des statistiques dans un fichier CSV
      */
     private static void joueCSV() {
-        Joueur joueur1 = new Joueur("joueurPan1", Strategie.StrategiePossible.PANDA);
-        Joueur joueur2 = new Joueur("joueurPan2", Strategie.StrategiePossible.PANDA);
-        Joueur joueur3 = new Joueur("joueurPan3", Strategie.StrategiePossible.PANDA);
-        Joueur joueur4 = new Joueur("joueurPan4", Strategie.StrategiePossible.PANDA);
+        String totalPointPartiePrecedente = ReadCSV.main(null);
+        Joueur joueur1 = new Joueur("joueurPar1", Strategie.StrategiePossible.PARCELLE);
+        Joueur joueur2 = new Joueur("joueurPar2", Strategie.StrategiePossible.JARDINIER);
+        Joueur joueur3 = new Joueur("joueurPar3", Strategie.StrategiePossible.PANDA);
+        Joueur joueur4 = new Joueur("joueurPar4", Strategie.StrategiePossible.COMPLET);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
+
+        int nbrPtsJ1 = joueur1.nombrePoints();
+        int nbrPtsJ2 = joueur2.nombrePoints();
+        int nbrPtsJ3 = joueur3.nombrePoints();
+        int nbrPtsJ4 = joueur4.nombrePoints();
+        int totalPts = nbrPtsJ1 + nbrPtsJ2 +nbrPtsJ3 + nbrPtsJ4;
+        int totalPointsToutesParties = Integer.parseInt(totalPointPartiePrecedente) + totalPts;
+        WriteCSV.main(new String[]{String.valueOf(nbrPtsJ1), String.valueOf(nbrPtsJ2), String.valueOf(nbrPtsJ3),
+                String.valueOf(nbrPtsJ4), String.valueOf(totalPts), String.valueOf(totalPointsToutesParties) });
     }
 
     /**
