@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.pioche;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.*;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.AfficheurObjectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import org.jetbrains.annotations.NotNull;
@@ -97,6 +98,7 @@ public class PiocheObjectifParcelle implements PiocheObjectifInterface {
             throw new ArithmeticException("Erreur objet random");
         }
 
+        AfficheurPioche.piocheObjectif(objectifParcelleList.get(positionCarte));
         return objectifParcelleList.remove(positionCarte);
     }
 
