@@ -52,7 +52,7 @@ public class Main {
         LOGGER.addHandler(handler);
 
         if (argumentMain.isThousands()) {
-            LOGGER.setLevel(Level.INFO);
+            LOGGER.setLevel(Level.WARNING);
         } else {
             LOGGER.setLevel(Level.INFO);
         }
