@@ -228,7 +228,7 @@ class StrategieParcelleTest {
         listPosition.add(position20);
         listPosition.add(position11);
 
-        verify(spyPiocheIrrigation, times(1)).pioche(position20, position11);
+        verify(spyPiocheIrrigation, times(1)).pioche(listPosition);
         verify(spyPlateau, times(1)).poseIrrigation(new Irrigation(listPosition));
         assertEquals(1, spyPlateau.getIrrigationsPosees().length);
         assertEquals(0, spyPlateau.getIrrigationsDisponibles().length);

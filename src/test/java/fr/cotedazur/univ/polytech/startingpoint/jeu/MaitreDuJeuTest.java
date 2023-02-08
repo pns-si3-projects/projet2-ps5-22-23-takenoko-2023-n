@@ -54,10 +54,9 @@ class MaitreDuJeuTest {
         maitreDuJeu.jeu();
         verify(joueurMock1, times(1)).recoitEmpereur(new Empereur()); // Premier pour objectifs
         verify(joueurMock1, times(1)).nombrePoints();
-        verify(joueurMock2, atLeastOnce()).nombrePoints();
+        verify(joueurMock2, times(2)).nombrePoints(); // joueur2 gagne la partie
         verify(joueurMock1, never()).nombrePointsObjectifsPanda();
         verify(joueurMock2, never()).nombrePointsObjectifsPanda();
-        verify(joueurMock2, times(1)).getNom(); // joueur2 gagne la partie
     }
 
     @Test
@@ -79,11 +78,10 @@ class MaitreDuJeuTest {
         verify(joueurMock2, times(1)).recoitEmpereur(new Empereur()); // Premier pour objectifs
         verify(joueurMock1, times(1)).nombrePoints();
         verify(joueurMock2, times(1)).nombrePoints();
-        verify(joueurMock3, atLeastOnce()).nombrePoints();
+        verify(joueurMock3, times(2)).nombrePoints(); // joueur3 gagne la partie
         verify(joueurMock1, never()).nombrePointsObjectifsPanda();
         verify(joueurMock2, times(1)).nombrePointsObjectifsPanda();
         verify(joueurMock3, times(1)).nombrePointsObjectifsPanda();
-        verify(joueurMock3, times(1)).getNom(); // joueur3 gagne la partie
     }
 
     @Test

@@ -30,12 +30,12 @@ public class StrategieJardinier implements Strategie {
                                                      Plateau plateau, boolean[] piochesVides) {
 
         Plaquette.ActionPossible jardinier = Plaquette.ActionPossible.JARDINIER;
-        if (!actionsRealiseesTour[jardinier.ordinal()] && plateau.getParcelles().length > 3) {
+        if (!actionsRealiseesTour[jardinier.ordinal()] && plateau.getParcelles().length > 2) {
             return jardinier;
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && plateau.getParcelles().length < 10) {
+        if (!actionsRealiseesTour[parcelle.ordinal()] && plateau.getParcelles().length < 2) {
             return parcelle;
         }
 
@@ -73,11 +73,10 @@ public class StrategieJardinier implements Strategie {
                                  PiocheSectionBambou piocheSectionBambou) {
         Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
         if (irrigationsDisponibles.length > 0){
-            Position positionIrrigation1 = irrigationsDisponibles[0].getPositions().get(0);
-            Position positionIrrigation2 = irrigationsDisponibles[0].getPositions().get(1);
+            Optional<List<Position>> positionIrrigation = irrigationsDisponibles[0].getPositions();
 
-            if (!piocheIrrigation.isEmpty()) {
-                Irrigation irrigationAAdd = piocheIrrigation.pioche(positionIrrigation1, positionIrrigation2);
+            if (!piocheIrrigation.isEmpty() && positionIrrigation.isPresent()) {
+                Irrigation irrigationAAdd = piocheIrrigation.pioche(positionIrrigation.get());
                 plateau.poseIrrigation(irrigationAAdd);
             }
         }

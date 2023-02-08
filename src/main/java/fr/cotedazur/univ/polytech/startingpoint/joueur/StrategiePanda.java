@@ -29,7 +29,7 @@ public class StrategiePanda implements Strategie {
                                                      Plateau plateau, boolean[] piochesVides) {
         
         Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
-        if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 3
+        if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 2
                 && plateau.getBambous().length > 0) {
             return panda;
         }
@@ -40,13 +40,14 @@ public class StrategiePanda implements Strategie {
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && (plateau.getParcelles().length < 10))
+        if (!actionsRealiseesTour[parcelle.ordinal()] && (plateau.getParcelles().length < 2))
             return parcelle;
-        Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
 
+        Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
         int irrigationPossable = plateau.getIrrigationsPosees().length -plateau.getIrrigationsDisponibles().length;
-        if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3))
+        if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3)) {
             return irrigation;
+        }
 
         return Plaquette.ActionPossible.JARDINIER;
     }
@@ -93,11 +94,10 @@ public class StrategiePanda implements Strategie {
                                  PiocheSectionBambou piocheSectionBambou) {
         Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
         if (irrigationsDisponibles.length > 0){
-            Position positionIrrigation1 = irrigationsDisponibles[0].getPositions().get(0);
-            Position positionIrrigation2 = irrigationsDisponibles[0].getPositions().get(1);
+            Optional<List<Position>> positionIrrigation = irrigationsDisponibles[0].getPositions();
 
-            if (!piocheIrrigation.isEmpty()) {
-                Irrigation irrigationAAdd = piocheIrrigation.pioche(positionIrrigation1, positionIrrigation2);
+            if (!piocheIrrigation.isEmpty() && positionIrrigation.isPresent()) {
+                Irrigation irrigationAAdd = piocheIrrigation.pioche(positionIrrigation.get());
                 plateau.poseIrrigation(irrigationAAdd);
             }
         }

@@ -2,24 +2,23 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
-import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
-import fr.cotedazur.univ.polytech.startingpoint.motif.MotifTriangle;
 import fr.cotedazur.univ.polytech.startingpoint.motif.MotifV;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -144,10 +143,15 @@ class JoueurTest {
 
     @Test
     void testToString() {
-        assertEquals(joueurParcelle.getNom(), joueurParcelle.toString());
-        assertEquals(joueurPanda.getNom(), joueurPanda.toString());
-        assertEquals(joueurJardinier.getNom(), joueurJardinier.toString());
-        assertNotEquals(joueurParcelle.getNom(), joueurPanda.toString());
+        assertEquals(joueurParcelle.getNom() + " : "
+                + joueurParcelle.nombreObjectifsTermines() + " objectifs terminés pour "
+                + joueurParcelle.nombrePoints() + " points", joueurParcelle.toString());
+        assertEquals(joueurPanda.getNom() + " : "
+                + joueurPanda.nombreObjectifsTermines() + " objectifs terminés pour "
+                + joueurPanda.nombrePoints() + " points", joueurPanda.toString());
+        assertEquals(joueurJardinier.getNom() + " : "
+                + joueurJardinier.nombreObjectifsTermines() + " objectifs terminés pour "
+                + joueurJardinier.nombrePoints() + " points", joueurJardinier.toString());
     }
 
     @Test
@@ -181,7 +185,7 @@ class JoueurTest {
     @Test
     void gestionObjectifJardinier() {
         Random mockRandom = mock(Random.class);
-        when(mockRandom.nextInt()).thenReturn(2, 4);
+        when(mockRandom.nextInt(anyInt())).thenReturn(1, 8);
         PiocheObjectifJardinier piocheObjectifJardinier = new PiocheObjectifJardinier(mockRandom);
         PiocheObjectifParcelle piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         PiocheObjectifPanda piocheObjectifPanda = new PiocheObjectifPanda(new Random());
@@ -202,5 +206,39 @@ class JoueurTest {
         joueurJardinier.gestionObjectif(plateau);
         assertEquals(0, joueurJardinier.nombreObjectifsEnMain());
         assertEquals(2, joueurJardinier.nombreObjectifsTermines());
+    }
+
+    @Test
+    void gestionObjectifPanda() {
+        Random mockRandom = mock(Random.class);
+        when(mockRandom.nextInt(anyInt())).thenReturn(2, 4);
+        PiocheObjectifJardinier piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
+        PiocheObjectifParcelle piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
+        PiocheObjectifPanda piocheObjectifPanda = new PiocheObjectifPanda(mockRandom);
+        PiocheSectionBambou piocheSectionBambou = new PiocheSectionBambou();
+
+        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        assertEquals(2, joueurPanda.nombreObjectifsEnMain());
+        assertEquals(0, joueurPanda.nombreObjectifsTermines());
+        assertEquals(0, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
+
+        plateau.poseParcelle(new ParcelleCouleur(new Position(1,1), Couleur.VERTE));
+        plateau.poseParcelle(new ParcelleCouleur(new Position(2, 0), Couleur.VERTE));
+
+        for (int i = 0; i < 5; i++) {
+            joueurJardinier.actionJardinier(plateau, piocheSectionBambou);
+        }
+
+        joueurPanda.actionPanda(plateau);
+        assertEquals(1, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
+
+        joueurPanda.actionPanda(plateau);
+        assertEquals(2, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
+
+        joueurPanda.gestionObjectif(plateau);
+        assertEquals(1, joueurPanda.nombreObjectifsEnMain());
+        assertEquals(1, joueurPanda.nombreObjectifsTermines());
+        assertEquals(0, joueurPanda.getPlaquette().nombreBambouCouleur(Couleur.VERTE));
     }
 }

@@ -133,7 +133,17 @@ public class StrategieParcelle implements Strategie {
             return jardinier;
         }
 
-        return Plaquette.ActionPossible.PANDA;
+        else{
+            Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
+            if (!actionsRealiseesTour[panda.ordinal()]) {
+                return Plaquette.ActionPossible.PANDA;
+            }
+            else {
+                return Plaquette.ActionPossible.JARDINIER;
+            }
+
+        }
+
     }
 
     /**
@@ -193,9 +203,13 @@ public class StrategieParcelle implements Strategie {
         Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
 
         if (irrigationsDisponibles.length > 0) {
-            List<Position> positionIrrigation = irrigationsDisponibles[0].getPositions();
-            Irrigation irrigationPioche = piocheIrrigation.pioche(positionIrrigation.get(0), positionIrrigation.get(1));
-            plateau.poseIrrigation(irrigationPioche);
+            Optional<List<Position>> positionIrrigation = irrigationsDisponibles[0].getPositions();
+
+            if (positionIrrigation.isPresent()) {
+                Irrigation irrigationPioche = piocheIrrigation.pioche(positionIrrigation.get());
+                plateau.poseIrrigation(irrigationPioche);
+            }
+
         }
         else {
             assert false : "Aucune irrigation impossible";
@@ -225,7 +239,7 @@ public class StrategieParcelle implements Strategie {
 
     public Position choixDeplacementPosition( Plateau plateau, Position position) {
         List<Position> deplacementPossibles = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), position);
-        return deplacementPossibles.get(deplacementPossibles.size()-1);
+        return deplacementPossibles.get(deplacementPossibles.size()/2);
     }
 
     @Override

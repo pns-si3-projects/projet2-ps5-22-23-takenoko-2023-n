@@ -25,7 +25,11 @@ public class GestionIrrigation {
     public static Optional<Set<Irrigation>> addIrrigationDisponible(@NotNull Map<Parcelle, Parcelle[]> parcellesEtVoisines,
                                                Irrigation irrigation, @NotNull Set<Irrigation> irrigationsDisponibles,
                                                                     @NotNull Set<Irrigation> irrigationsPosees) { //map parcelles, irrigationsDisponibles
-        List<Position> positionsIrrigation = irrigation.getPositions();
+        if (irrigation.getPositions().isEmpty()) {
+            return Optional.empty();
+        }
+
+        List<Position> positionsIrrigation = irrigation.getPositions().get();
         Position position1 = positionsIrrigation.get(0);
         Position position2 = positionsIrrigation.get(1);
         ParcelleCouleur parcelle1 = (ParcelleCouleur) GestionParcelles.chercheParcelle(GestionParcelles.getParcelles(parcellesEtVoisines), position1).get();
