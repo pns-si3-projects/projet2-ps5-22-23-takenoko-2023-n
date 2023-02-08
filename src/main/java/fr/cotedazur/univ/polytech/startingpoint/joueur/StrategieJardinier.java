@@ -30,12 +30,12 @@ public class StrategieJardinier implements Strategie {
                                                      Plateau plateau, boolean[] piochesVides) {
 
         Plaquette.ActionPossible jardinier = Plaquette.ActionPossible.JARDINIER;
-        if (!actionsRealiseesTour[jardinier.ordinal()] && plateau.getParcelles().length > 3) {
+        if (!actionsRealiseesTour[jardinier.ordinal()] && plateau.getParcelles().length > 2) {
             return jardinier;
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && plateau.getParcelles().length < 10) {
+        if (!actionsRealiseesTour[parcelle.ordinal()] && plateau.getParcelles().length < 2) {
             return parcelle;
         }
 

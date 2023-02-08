@@ -29,7 +29,7 @@ public class StrategiePanda implements Strategie {
                                                      Plateau plateau, boolean[] piochesVides) {
         
         Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
-        if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 3
+        if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 2
                 && plateau.getBambous().length > 0) {
             return panda;
         }
@@ -40,13 +40,14 @@ public class StrategiePanda implements Strategie {
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && (plateau.getParcelles().length < 10))
+        if (!actionsRealiseesTour[parcelle.ordinal()] && (plateau.getParcelles().length < 2))
             return parcelle;
-        Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
 
+        Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
         int irrigationPossable = plateau.getIrrigationsPosees().length -plateau.getIrrigationsDisponibles().length;
-        if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3))
+        if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3)) {
             return irrigation;
+        }
 
         return Plaquette.ActionPossible.JARDINIER;
     }
