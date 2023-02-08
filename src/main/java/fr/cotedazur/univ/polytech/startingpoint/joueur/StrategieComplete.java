@@ -61,7 +61,7 @@ public class StrategieComplete implements Strategie {
             //positions disponibles pour poser la parcelle
             Position[] positionsDisponible = plateau.getPositionsDisponibles();
 
-            Optional<Position> optPosition = GestionnairePossibiliteMotifJoueur.positionPossiblePrendrePourMotif(plateau.getParcelles(), positionsDisponible, objectifParcellesMax);
+            Optional<Position> optPosition = GestionnairePossibiliteMotifJoueur.cherchePositionPossibilitePourFaireMotif(plateau.getPositionsDisponibles(), objectifParcellesMax.getSchema().getTableauParcelles());
 
             Position positionChoisie = null;
             if (optPosition.isPresent()) positionChoisie = optPosition.get();
@@ -72,7 +72,20 @@ public class StrategieComplete implements Strategie {
             //pioche 3 parcelles
             ParcellePioche[] pioche3parcelles = piocheParcelle.pioche();
 
+            //couleur des parcelles du motif
+            Parcelle[] parcellesMotif = objectifParcellesMax.getSchema().getTableauParcelles();
+            Couleur[] couleursMotif = new Couleur[parcellesMotif.length];
+            for (int i=0; i < parcellesMotif.length; i++){
+                if (parcellesMotif[i].getClass().equals(ParcelleCouleur.class)) {
+                    ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcellesMotif[i];
+                    couleursMotif[i] = parcelleCouleur.getCouleur();
+                }
+            }
+
             //Ajouter une condition avec la couleur de l'objectif
+            //for (ParcellePioche parcellePioche : pioche3parcelles){
+            //    if (parcellePioche.getCouleur().equals());
+            //}
 
             ParcelleCouleur parcelleCouleurChoisie = piocheParcelle.choisiParcelle(pioche3parcelles[0], positionChoisie);
 
