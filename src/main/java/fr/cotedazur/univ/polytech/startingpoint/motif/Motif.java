@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -28,14 +29,16 @@ public abstract class Motif {
 
 
     /**
-     * Verifie si la parcelle se trouve a la même position que celle dans l'autre motifs mais avec une distance de <code> differencePosition </code>
+     * Verifie si la parcelle se trouve a la même position que celle dans l'autre motif,
+     * mais avec une distance de {@code differencePosition}
      * @param positionParcelleMotif      La position de la parcelle où se situe dans le motif-ci
      * @param positionParcelleOtherMotif La position de la parcelle où se situe dans l'autre motif
      * @param differencePositionX        la distance en X calculé auparavant entre les 2 motifs
      * @param differencePositionY        la distance en Y calculé auparavant entre les 2 motifs
      * @return <code> true </code> si les parcelles sont à la même position mais pas au même endroit
      */
-    private boolean comparePosition(Position positionParcelleMotif, Position positionParcelleOtherMotif, int differencePositionX, int differencePositionY) {
+    private boolean comparePosition(Position positionParcelleMotif, Position positionParcelleOtherMotif,
+                                    int differencePositionX, int differencePositionY) {
         int xM = positionParcelleMotif.getX();
         int yM = positionParcelleMotif.getY();
         int xOM = positionParcelleOtherMotif.getX();
@@ -45,13 +48,15 @@ public abstract class Motif {
     }
 
     /**
-     * Renvoie une nouvelle parcelle de Couleur en fonction de l'indice du voisin, de la position de la Parcelle et la couleur de la parcelle suivante
+     * Renvoie une nouvelle parcelle de Couleur en fonction de l'indice du voisin,
+     * de la position de la Parcelle et la couleur de la parcelle suivante
      * @param indiceVoisin Indice du voisin compris entre 1 et 6
      * @param positionParcelleCible La position de la parcelle d'origin
      * @param couleurParcelleVoisine La couleur de la Parcelle Voisine
      * @return une nouvelle parcelle de Couleur
      */
-    protected ParcelleCouleur getVoisin(int indiceVoisin, Position positionParcelleCible, Couleur couleurParcelleVoisine) {
+    protected ParcelleCouleur getVoisin(int indiceVoisin, Position positionParcelleCible,
+                                        Couleur couleurParcelleVoisine) {
         int xPC = positionParcelleCible.getX();
         int yPC = positionParcelleCible.getY();
 
@@ -81,20 +86,23 @@ public abstract class Motif {
 
         ParcelleCouleur[][] orientationMotifActuel = getOrientation();
         ParcelleCouleur[] motifOther = otherMotif.tabParcelles;
-        for (int i = 0; i < orientationMotifActuel.length; i++) {
-            int differencePositionX = Math.abs(orientationMotifActuel[i][0].getPosition().getX() - motifOther[0].getPosition().getX());
-            int differencePositionY = Math.abs(orientationMotifActuel[i][0].getPosition().getY() - motifOther[0].getPosition().getY());
+        for (ParcelleCouleur[] parcelleCouleurs : orientationMotifActuel) {
+            int differencePositionX =
+                    Math.abs(parcelleCouleurs[0].getPosition().getX() - motifOther[0].getPosition().getX());
+            int differencePositionY =
+                    Math.abs(parcelleCouleurs[0].getPosition().getY() - motifOther[0].getPosition().getY());
             boolean memeMotif = true;
 
             for (int j = 1; j < motifOther.length; j++) {
-                Position positionMotifActuel = orientationMotifActuel[i][j].getPosition();
+                Position positionMotifActuel = parcelleCouleurs[j].getPosition();
                 Position positionMotifOther = motifOther[j].getPosition();
-                if (!comparePosition(positionMotifActuel, positionMotifOther, differencePositionX, differencePositionY)) {
+                if (!comparePosition(positionMotifActuel, positionMotifOther,
+                        differencePositionX, differencePositionY)) {
                     memeMotif = false;
                 }
             }
 
-            if (memeMotif){
+            if (memeMotif) {
                 return true;
             }
         }
@@ -106,9 +114,7 @@ public abstract class Motif {
      * @return une copie du tableau de Parcelle du motif
      */
     public ParcelleCouleur[] getTableauParcelles() {
-        ParcelleCouleur[] copyParcelleCouleur = new ParcelleCouleur[tabParcelles.length];
-        System.arraycopy(tabParcelles, 0, copyParcelleCouleur, 0, tabParcelles.length);
-        return tabParcelles;
+        return Arrays.copyOf(tabParcelles, tabParcelles.length);
     }
 
     @Override
@@ -130,10 +136,6 @@ public abstract class Motif {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("Motif : ");
-        for (ParcelleCouleur parcelleCouleur : tabParcelles) {
-            stringBuilder.append(parcelleCouleur + " ");
-        }
-        return stringBuilder.toString();
+        return "Motif de " + tabParcelles.length + " parcelles de couleur";
     }
 }

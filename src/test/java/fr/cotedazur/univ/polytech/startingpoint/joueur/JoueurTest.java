@@ -144,13 +144,13 @@ class JoueurTest {
     @Test
     void testToString() {
         assertEquals(joueurParcelle.getNom() + " : "
-                + joueurParcelle.nombreObjectifsTermines() + " objectifs terminés pour "
+                + joueurParcelle.nombreObjectifsTermines() + " objectifs termines pour "
                 + joueurParcelle.nombrePoints() + " points", joueurParcelle.toString());
         assertEquals(joueurPanda.getNom() + " : "
-                + joueurPanda.nombreObjectifsTermines() + " objectifs terminés pour "
+                + joueurPanda.nombreObjectifsTermines() + " objectifs termines pour "
                 + joueurPanda.nombrePoints() + " points", joueurPanda.toString());
         assertEquals(joueurJardinier.getNom() + " : "
-                + joueurJardinier.nombreObjectifsTermines() + " objectifs terminés pour "
+                + joueurJardinier.nombreObjectifsTermines() + " objectifs termines pour "
                 + joueurJardinier.nombrePoints() + " points", joueurJardinier.toString());
     }
 

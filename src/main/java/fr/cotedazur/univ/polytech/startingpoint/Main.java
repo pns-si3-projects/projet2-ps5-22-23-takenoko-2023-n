@@ -52,7 +52,7 @@ public class Main {
         LOGGER.addHandler(handler);
 
         if (argumentMain.isThousands()) {
-            LOGGER.setLevel(Level.INFO);
+            LOGGER.setLevel(Level.WARNING);
         } else {
             LOGGER.setLevel(Level.INFO);
         }
@@ -120,7 +120,8 @@ public class Main {
         Joueur joueur1 = new Joueur("joueur1", Strategie.StrategiePossible.PARCELLE);
         Joueur joueur2 = new Joueur("joueur2", Strategie.StrategiePossible.JARDINIER);
         Joueur joueur3 = new Joueur("joueur3", Strategie.StrategiePossible.PANDA);
-        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3);
+        Joueur joueur4 = new Joueur("joueur4",Strategie.StrategiePossible.COMPLET);
+        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
     }

@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public interface Strategie {
     /** L'ensemble des stratégies de jeu possibles */
-    enum StrategiePossible {PARCELLE, JARDINIER, PANDA}
+    enum StrategiePossible {PARCELLE, JARDINIER, PANDA, COMPLET}
 
 
     /**
@@ -41,7 +40,7 @@ public interface Strategie {
      * @param plateau le plateau du jeu
      * @param piocheIrrigation la pioche d'irrigation du jeu
      */
-    void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou);
+    void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, Plaquette plaquette);
 
     /**
      * Permet de déplacer le jardinier sur le plateau

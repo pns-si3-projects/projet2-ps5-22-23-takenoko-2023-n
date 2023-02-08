@@ -4,6 +4,10 @@ import fr.cotedazur.univ.polytech.startingpoint.joueur.AfficheurJoueur;
 
 import java.util.logging.Logger;
 
+/**
+ * Affiche les changements effectués sur les objectifs.
+ * @author equipe N
+ */
 public class AfficheurObjectif {
     // Définition des attributs
 
@@ -20,8 +24,12 @@ public class AfficheurObjectif {
 
     // Méthodes d'utilisation
 
+    /**
+     * Affiche l'objectif terminé
+     * @param objectifRealise l'objectif réalisé
+     */
     public static void finObjectif(Objectif objectifRealise) {
-        String str = SEPARATION + "L'" + objectifRealise + " est réalisé";
+        String str = SEPARATION + "L'" + objectifRealise + " est realise";
         LOGGER.info(str);
     }
 }

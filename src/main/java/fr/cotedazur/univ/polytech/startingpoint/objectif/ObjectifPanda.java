@@ -1,11 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
-import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,7 +27,7 @@ public class ObjectifPanda extends Objectif {
         if (nbPoints <= 0) {
             throw new IllegalArgumentException("Le nombre de points doit être supérieur à 0");
         }
-        if (bambousAManger.size() <= 0) {
+        if (bambousAManger.isEmpty()) {
             throw new IllegalArgumentException("Le nombre de bambous doit être supérieur à 0");
         }
 
@@ -46,7 +42,7 @@ public class ObjectifPanda extends Objectif {
      * Renvoie la liste de sections de bambous que le panda doit manger
      * @return la liste de sections bambous que le panda doit manger
      */
-    public  List<SectionBambou> getBambousAManger(){
+    public List<SectionBambou> getBambousAManger(){
         return bambousAManger;
     }
 
@@ -55,14 +51,7 @@ public class ObjectifPanda extends Objectif {
 
     @Override
     public String toString() {
-        String couleur = "";
-        if (bambousAManger.size() == 2){
-            couleur = bambousAManger.get(0).getCouleur().toString();
-            return super.toString() + " pour " + bambousAManger.size() + " bambous de couleur " + couleur + " à posséder";
-        }
-        else {
-            return super.toString() + " pour 1 bambou de chaque couleur à posséder";
-        }
+        return "Objectif de panda de " + nombrePoints + " points";
     }
 
     @Override

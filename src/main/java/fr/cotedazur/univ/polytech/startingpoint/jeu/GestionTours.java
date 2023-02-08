@@ -15,7 +15,7 @@ import java.util.*;
 public class GestionTours {
     // Définition des attributs
 
-    public enum PiochesPossibles {PARCELLE, OBJ_PARCELLE, OBJ_PANDA, OBJ_JARDINIER, IRRIGATION};
+    public enum PiochesPossibles {PARCELLE, OBJ_PARCELLE, OBJ_PANDA, OBJ_JARDINIER, IRRIGATION}
     private final Plateau plateau;
     private final PiocheParcelle piocheParcelle;
     private final PiocheObjectifParcelle piocheObjectifParcelle;
@@ -76,7 +76,7 @@ public class GestionTours {
 
             switch (actionChoisie) {
                 case PARCELLE -> joueur.actionParcelle(plateau, piocheParcelle, piocheSectionBambou);
-                case IRRIGATION -> joueur.actionIrrigation(plateau, piocheIrrigation, piocheSectionBambou);
+                case IRRIGATION -> joueur.actionIrrigation(plateau, piocheIrrigation);
                 case JARDINIER -> joueur.actionJardinier(plateau, piocheSectionBambou);
                 case PANDA -> joueur.actionPanda(plateau);
                 case OBJECTIF -> joueur.actionObjectif(piocheObjectifParcelle,

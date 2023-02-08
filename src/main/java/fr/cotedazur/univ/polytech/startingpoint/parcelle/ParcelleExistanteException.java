@@ -12,6 +12,6 @@ public class ParcelleExistanteException extends Exception {
      * @param parcelle la parcelle qui doit être ajoutée au plateau
      */
     public ParcelleExistanteException(@NotNull Parcelle parcelle) {
-        super("La " + parcelle + " demandée est déjà placée sur le plateau");
+        super("La " + parcelle + " demandee est deja placee sur le plateau");
     }
 }

@@ -32,7 +32,8 @@ public class MotifV extends Motif{
         for (int i = 1; i < 6; i++) {
             allOrientation[i][0] = tabParcelles[0];
             allOrientation[i][1] = getVoisin(i, tabParcelles[0].getPosition(), tabParcelles[1].getCouleur());
-            allOrientation[i][2] = getVoisin(i - 1, allOrientation[i][1].getPosition(), tabParcelles[2].getCouleur());
+            allOrientation[i][2] =
+                    getVoisin(i - 1, allOrientation[i][1].getPosition(), tabParcelles[2].getCouleur());
         }
 
         allOrientation[6][0] = tabParcelles[0];
@@ -58,7 +59,8 @@ public class MotifV extends Motif{
         for (int i = 1; i < 6; i++) {
             allOrientation[i][0] = getVoisin(i, tabParcelles[0].getPosition(), tabParcelles[1].getCouleur());
             allOrientation[i][1] = tabParcelles[0];
-            allOrientation[i][2] = getVoisin(i - 1, allOrientation[i][0].getPosition(), tabParcelles[2].getCouleur());
+            allOrientation[i][2] =
+                    getVoisin(i - 1, allOrientation[i][0].getPosition(), tabParcelles[2].getCouleur());
         }
 
         allOrientation[6][0] = allOrientation[5][0];

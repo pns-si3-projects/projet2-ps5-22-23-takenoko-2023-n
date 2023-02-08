@@ -9,6 +9,6 @@ public class PiocheParcelleVideException extends Exception {
      * Construit le message de l'exception
      */
     public PiocheParcelleVideException() {
-        super("Aucune pioche de parcelle n'a été effectuée, veuillez commencer par piocher");
+        super("Aucune pioche de parcelle n'a ete effectuee, veuillez commencer par piocher");
     }
 }

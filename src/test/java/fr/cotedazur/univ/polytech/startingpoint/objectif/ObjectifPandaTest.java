@@ -6,10 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class ObjectifPandaTest {
     ObjectifPanda objP3_2;
@@ -92,11 +92,11 @@ class ObjectifPandaTest {
 
     @Test
     void testToString() {
-        assertEquals("Objectif de 3 points pour 2 bambous de couleur verte à posséder",
+        assertEquals("Objectif de panda de 3 points",
                 objP3_2.toString());
-        assertEquals("Objectif de 4 points pour 2 bambous de couleur jaune à posséder",
+        assertEquals("Objectif de panda de 4 points",
                 objP4_2.toString());
-        assertEquals("Objectif de 6 points pour 1 bambou de chaque couleur à posséder",
+        assertEquals("Objectif de panda de 6 points",
                 objP6_3.toString());
     }
 
