@@ -48,14 +48,6 @@ public enum ArgumentPossibleMain {
     // Accesseurs
 
     /**
-     * Renvoie le mode de jeu
-     * @return le mode de jeu
-     */
-    public String getMode() {
-        return mode;
-    }
-
-    /**
      * Renvoie si le mode de jeu demandé est "2 thousands"
      * @return {@code true} si le mode de jeu demandé est "2 thousands"
      */

@@ -15,7 +15,7 @@ import java.util.*;
 public class GestionTours {
     // Définition des attributs
 
-    public enum PiochesPossibles {PARCELLE, OBJ_PARCELLE, OBJ_PANDA, OBJ_JARDINIER, IRRIGATION};
+    public enum PiochesPossibles {PARCELLE, OBJ_PARCELLE, OBJ_PANDA, OBJ_JARDINIER, IRRIGATION}
     private final Plateau plateau;
     private final PiocheParcelle piocheParcelle;
     private final PiocheObjectifParcelle piocheObjectifParcelle;

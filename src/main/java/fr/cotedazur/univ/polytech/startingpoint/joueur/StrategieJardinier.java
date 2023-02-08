@@ -55,10 +55,12 @@ public class StrategieJardinier implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle,
+                               PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
         ParcellePioche[] pioche3parcelles;
         Position positionChoisie  = plateau.getPositionsDisponibles()[0];
         ParcelleCouleur parcelleChoisie;
+
         try {
             pioche3parcelles = piocheParcelle.pioche();
             parcelleChoisie = piocheParcelle.choisiParcelle(pioche3parcelles[0],positionChoisie);
@@ -87,19 +89,22 @@ public class StrategieJardinier implements Strategie {
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
         List<ObjectifJardinier> objectifsJardinierList = new ArrayList<>();
         Position futurePositionJardinier = null;
-        ParcelleCouleur futureParcelleCouleurJardinier = null;
+
         //Liste des objectfsJardiniers
         for (Objectif objectif: objectifs) {
-            if (objectif.getClass().equals(ObjectifJardinier.class)) objectifsJardinierList.add((ObjectifJardinier) objectif);
+            if (objectif.getClass().equals(ObjectifJardinier.class)) {
+                objectifsJardinierList.add((ObjectifJardinier) objectif);
+            }
         }
 
         //Déplacements possibles
-        List<Position> deplacementsPossibles = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
+        List<Position> deplacementsPossibles = GestionPersonnages
+                .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
         boolean parcellePourDeplacementTrouvee = false;
         for (Position position : deplacementsPossibles){
             Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
             if (parcelle.isPresent() && parcelle.get().getClass().equals(ParcelleCouleur.class)) {
-                futureParcelleCouleurJardinier = (ParcelleCouleur) parcelle.get();
+                ParcelleCouleur futureParcelleCouleurJardinier = (ParcelleCouleur) parcelle.get();
                 futurePositionJardinier = futureParcelleCouleurJardinier.getPosition();
                 if (futureParcelleCouleurJardinier.isIrriguee()) {
                     for (ObjectifJardinier objectifJardinier : objectifsJardinierList) {
@@ -118,19 +123,18 @@ public class StrategieJardinier implements Strategie {
             try {
                 plateau.deplacementJardinier(futurePositionJardinier);
             } catch (ParcelleNonPoseeException e) {
-                System.out.println(e);
+                throw new AssertionError(e);
             }
         }
     }
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
-        List<Position> deplacementsPossibles = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
-        Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(deplacementsPossibles.get(0));
-        if (sectionBambou.isPresent()) {
-            plaquette.mangeSectionBambou(sectionBambou.get());
-        }
+        List<Position> deplacementsPossibles = GestionPersonnages
+                .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
 
+        Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(deplacementsPossibles.get(0));
+        sectionBambou.ifPresent(plaquette::mangeSectionBambou);
     }
 
     @Override

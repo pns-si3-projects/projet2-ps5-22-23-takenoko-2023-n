@@ -150,6 +150,7 @@ public class Joueur {
         Plaquette.ActionPossible actionChoisie =
                 strategie.choisiActionTour(plaquette.getActionsTour(), objectifEnMainList, plateau, piochesVides);
         plaquette.joueActionTour(actionChoisie);
+
         AfficheurJoueur.actionChoisie(actionChoisie);
         return actionChoisie;
     }
@@ -206,7 +207,7 @@ public class Joueur {
 
     /**
      * Supprime les objectifs terminés
-     * @param listObjectifSup La liste des objectifs à supprimer
+     * @param listObjectifSup la liste des objectifs à supprimer
      */
     private void supprimerObjectifs(List<Objectif> listObjectifSup) {
         for (Objectif objectif : listObjectifSup) {
@@ -217,7 +218,7 @@ public class Joueur {
 
     /**
      * Supprime les sections bambous après avoir réalisé un objectif
-     * @param listSectionBambouASupp La liste de section de bambous à supprimer
+     * @param listSectionBambouASupp la liste de section de bambous à supprimer
      */
     private void supprimeSectionBambou(List<SectionBambou> listSectionBambouASupp) {
         for (SectionBambou sectionBambou : listSectionBambouASupp) {
@@ -227,7 +228,7 @@ public class Joueur {
 
     /**
      * Gère les objectifs en main
-     * @param plateau Le plateau du jeu
+     * @param plateau le plateau du jeu
      */
     public void gestionObjectif(Plateau plateau) {
         List<Objectif> objectifsASupprimer = new ArrayList<>(5);
@@ -276,7 +277,7 @@ public class Joueur {
         if (empereur instanceof Empereur) {
             objectifTermineList.add(empereur);
         } else {
-            throw new IllegalArgumentException("L'objectif donné n'est pas la carte Empereur");
+            throw new IllegalArgumentException("La carte donnee n'est pas la carte Empereur");
         }
     }
 
@@ -285,6 +286,6 @@ public class Joueur {
 
     @Override
     public String toString() {
-        return nom + " : " + nombreObjectifsTermines() + " objectifs terminés pour " + nombrePoints() + " points";
+        return nom + " : " + nombreObjectifsTermines() + " objectifs termines pour " + nombrePoints() + " points";
     }
 }

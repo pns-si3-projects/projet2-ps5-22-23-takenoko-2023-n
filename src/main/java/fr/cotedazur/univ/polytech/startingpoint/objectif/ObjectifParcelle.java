@@ -51,7 +51,7 @@ public class ObjectifParcelle extends Objectif {
 
     @Override
     public String toString() {
-        return super.toString() + " pour ce schema-ci : " + motifARealiser;
+        return "Objectif de parcelle de " + nombrePoints + " points";
     }
 
     @Override

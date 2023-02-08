@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 

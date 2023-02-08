@@ -106,11 +106,6 @@ public class Plateau {
         return bambouList.toArray(new Bambou[0]);
     }
 
-    /* *************************************************************************************************************
-     * Ajouter getBambou(Position position)
-     * Ajouter getBambousCouleur(Couleur couleur)
-     **************************************************************************************************************/
-
     /**
      * Renvoie le panda
      * @return le panda
@@ -178,7 +173,7 @@ public class Plateau {
 
         // On ajoute la parcelle au plateau ainsi que toutes ses voisines
         Parcelle[] toutesVoisinesParcelle = GestionParcelles.ajouteVoisinesDisponibles(voisinesParcelle, parcelle);
-        AfficheurParcelle.parcellePose(parcelle.getCouleur(), parcelle.getPosition());
+        AfficheurParcelle.parcellePose(parcelle);
         parcelleEtVoisinesList.put(parcelle, toutesVoisinesParcelle);
 
         // On modifie les positions disponibles
@@ -192,7 +187,8 @@ public class Plateau {
         }
 
         // On met à jour le set d'irrigations disponible
-        Optional<Set<Irrigation>> newIrrigationsDisponible = GestionIrrigation.checkIrrigationsAutour(this.parcelleEtVoisinesList, parcelle, this.irrigationsDisponibles, irrigationsPosees);
+        Optional<Set<Irrigation>> newIrrigationsDisponible = GestionIrrigation.checkIrrigationsAutour(
+                this.parcelleEtVoisinesList, parcelle, this.irrigationsDisponibles, irrigationsPosees);
         newIrrigationsDisponible.ifPresent(this::setIrrigationsDisponibles);
         return true;
     }
@@ -229,7 +225,7 @@ public class Plateau {
             positions.add(position2);
             Irrigation irrigationAAdd = new Irrigation(positions);
             //pose l'irrigation si elle est présente dans les irrigations disponibles
-            for (Irrigation irrigationDisponible : irrigationsDisponibles){
+            for (Irrigation irrigationDisponible : irrigationsDisponibles) {
                 if (irrigationAAdd.equals(irrigationDisponible)){
                     irrigationsPosees.add(irrigationAAdd);
                     ajoute = true;
@@ -255,7 +251,8 @@ public class Plateau {
                     poseBambou(parcelleC2, piocheBambou.pioche(parcelleC2.getCouleur()));
                 }
                 //met a jour le set des irrigations disponibles avec les nouvelles possibilités
-                Optional<Set<Irrigation>> irrigationsDisponoblesSet = GestionIrrigation.addIrrigationDisponible(parcelleEtVoisinesList, irrigationAAdd, irrigationsDisponibles, irrigationsPosees);
+                Optional<Set<Irrigation>> irrigationsDisponoblesSet =GestionIrrigation.addIrrigationDisponible(
+                        parcelleEtVoisinesList, irrigationAAdd, irrigationsDisponibles, irrigationsPosees);
                 irrigationsDisponoblesSet.ifPresent(this::setIrrigationsDisponibles);
             }
         }
@@ -272,6 +269,7 @@ public class Plateau {
     public boolean poseBambou(ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou){
         if (parcelleCouleur.isIrriguee()){
             Optional<Bambou> optionalBambou = GestionBambous.chercheBambou(getBambous(), parcelleCouleur.getPosition());
+
             //1er cas: déja bambou
             if (optionalBambou.isPresent()){
                 Bambou bambou = optionalBambou.get();
@@ -279,7 +277,7 @@ public class Plateau {
                     if (!bambou.isTailleMaximum()) bambou.ajouteSectionBambou(sectionBambou);
                     return true;
                 } catch (AjoutCouleurException e) {
-                    System.out.println(e);
+                    throw new AssertionError(e);
                 }
             }
 
@@ -292,7 +290,7 @@ public class Plateau {
                     return true;
                 }
                 catch (AjoutCouleurException e) {
-                    System.out.println(e);
+                    throw new AssertionError(e);
                 }
             }
         }
@@ -305,8 +303,7 @@ public class Plateau {
      * @return une sectionBambou
      */
     public SectionBambou mangeBambou (Bambou bambou) {
-        SectionBambou sectionBambou = bambou.prendSectionBambou();
-        return sectionBambou;
+        return bambou.prendSectionBambou();
     }
 
     /**
@@ -319,12 +316,11 @@ public class Plateau {
         AfficheurPersonnage.deplacePersonnage(panda);
 
         Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(getParcelles(),position);
-        if(parcelle.isPresent()) {
-            if (parcelle.get().getClass().equals(ParcelleCouleur.class)) {
-                Optional<Bambou> bambou = GestionBambous.chercheBambou(getBambous(), position);
-                if (bambou.isPresent() && !bambou.get().isEmpty()) {
-                     return Optional.of(mangeBambou(bambou.get()));
-                }
+        if(parcelle.isPresent() && parcelle.get().getClass().equals(ParcelleCouleur.class)) {
+            Optional<Bambou> bambou = GestionBambous.chercheBambou(getBambous(), position);
+
+            if (bambou.isPresent() && !bambou.get().isEmpty()) {
+                 return Optional.of(mangeBambou(bambou.get()));
             }
         }
         return Optional.empty();

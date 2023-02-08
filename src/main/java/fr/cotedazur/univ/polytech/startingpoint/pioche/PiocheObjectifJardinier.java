@@ -1,7 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.AfficheurObjectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import org.jetbrains.annotations.NotNull;
