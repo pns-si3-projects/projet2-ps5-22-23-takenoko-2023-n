@@ -2,8 +2,9 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
-import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
+import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotifJoueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -43,7 +44,7 @@ public class StrategieComplete implements Strategie {
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && !getObjectifParcelle(objectifs).isEmpty() ) {
+        if (!actionsRealiseesTour[parcelle.ordinal()] && !getObjectifParcelle(objectifs).isEmpty() && !piochesVides[GestionTours.PiochesPossibles.PARCELLE.ordinal()]) {
             return parcelle;
         }
 
@@ -59,7 +60,7 @@ public class StrategieComplete implements Strategie {
             //positions disponibles pour poser la parcelle
             Position[] positionsDisponible = plateau.getPositionsDisponibles();
 
-            Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(plateau.getParcelles(), positionsDisponible, objectifParcellesMax);
+            Optional<Position> optPosition = GestionnairePossibiliteMotifJoueur.positionPossiblePrendrePourMotif(plateau.getParcelles(), positionsDisponible, objectifParcellesMax);
 
             Position positionChoisie = null;
             if (optPosition.isPresent()) positionChoisie = optPosition.get();
@@ -134,11 +135,13 @@ public class StrategieComplete implements Strategie {
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
         List<ObjectifPanda> objectifPandas = getObjectifPanda(objectifs);
         for (ObjectifPanda objectifPanda : objectifPandas) {
+            // si objectifPanda est de trois sections bambou de different couleur
             if(objectifPanda.getBambousAManger().size() == 3) {
                 Couleur couleurVoulue = plaquetteCouleurManquante(plaquette);
                 Position positionDeplacer = parcelleCouleurVoulue(plateau, couleurVoulue);
                 plateau.deplacementPanda(positionDeplacer);
             }
+            // objectifPanda avec deux sectionBambou de meme couleur
             else {
                 Couleur couleur = objectifPanda.getBambousAManger().get(0).getCouleur();
                 Position positionDeplacer = parcelleCouleurVoulue(plateau, couleur);
@@ -146,12 +149,18 @@ public class StrategieComplete implements Strategie {
             }
             break;
         }
-
     }
 
-
+    /**
+     * retourne une position disponible pour le deplacement a la couleur souhaitee
+     * @param plateau le plateau
+     * @param couleur la couleur voulue
+     * @return la position qui et disponible pour le deplecement et de la couleur voulue.
+     * Si aucune parcelle de la couluer voulue n'est disponible on renvoie le premier position
+     */
     public Position parcelleCouleurVoulue(Plateau plateau, Couleur couleur) {
         Position positionVoulue = null;
+        //recuperation des deplacement possible
         List<Position> possitionPossible = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(),plateau.getPanda().getPosition());
         for(Position position : possitionPossible) {
             Optional<Parcelle> parcelleOptional = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
@@ -163,9 +172,16 @@ public class StrategieComplete implements Strategie {
                 }
             }
         }
+        // si aucune parcelle de la couleur voulue n'est disponible
         positionVoulue = possitionPossible.get(0);
         return positionVoulue;
     }
+
+    /**
+     * renvoie la couleur manquante pour objectifPanda de 3 bambou
+     * @param plaquette la plaquette
+     * @return la couleur manquante
+     */
     public Couleur plaquetteCouleurManquante(Plaquette plaquette) {
         if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.VERTE) == 0) {return Couleur.VERTE; }
         if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.ROSE) == 0) {return Couleur.ROSE; }

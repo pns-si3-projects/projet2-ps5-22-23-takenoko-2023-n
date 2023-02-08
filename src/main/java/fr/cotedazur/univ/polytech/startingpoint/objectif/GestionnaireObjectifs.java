@@ -2,7 +2,8 @@ package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
+import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotifJoueur;
+import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotifVerification;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
@@ -45,7 +46,7 @@ public class GestionnaireObjectifs {
      * @return {@code true} si l'objectif parcelle est bien réaliser
      */
     public static boolean checkObjectifParcelle(Parcelle[] tableauParcellePlateau, ObjectifParcelle objectifParcelle) {
-        return GestionnairePossibiliteMotif.checkMotifInBoard(tableauParcellePlateau, objectifParcelle);
+        return GestionnairePossibiliteMotifVerification.checkMotifInBoard(tableauParcellePlateau, objectifParcelle);
     }
 
     /**

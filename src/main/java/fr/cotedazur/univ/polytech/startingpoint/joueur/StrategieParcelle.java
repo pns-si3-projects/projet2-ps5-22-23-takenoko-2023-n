@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
-import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
+import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotifJoueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
@@ -185,7 +185,7 @@ public class StrategieParcelle implements Strategie {
         Parcelle[] tableauParcellePlateau = plateau.getParcelles();
         Position[] tableauPositionDisponible = plateau.getPositionsDisponibles();
         ObjectifParcelle objectifParcelleChoisi = getMaxObjectifParcelle(objectifs);
-        Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(
+        Optional<Position> optPosition = GestionnairePossibiliteMotifJoueur.positionPossiblePrendrePourMotif(
                 tableauParcellePlateau, tableauPositionDisponible, objectifParcelleChoisi);
 
         Position positionChoisi = optPosition.orElseGet(() -> tableauPositionDisponible[0]);
