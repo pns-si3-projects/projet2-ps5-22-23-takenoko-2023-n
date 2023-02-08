@@ -160,24 +160,36 @@ class JoueurTest {
         PiocheObjectifParcelle piocheObjectifParcelle = new PiocheObjectifParcelle(mockRandom);
         PiocheObjectifJardinier piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
         PiocheObjectifPanda piocheObjectifPanda = new PiocheObjectifPanda(new Random());
-        when(mockRandom.nextInt()).thenReturn(0, 0);
+        when(mockRandom.nextInt(anyInt())).thenReturn(0, 0);
 
         joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
         joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
 
-        plateau.poseParcelle(new ParcelleCouleur(new Position(1, 1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1, 1), Couleur.VERTE);
+        plateau.poseParcelle(parcelleCouleur11);
         joueurParcelle.gestionObjectif(plateau);
         assertEquals(0, joueurParcelle.nombreObjectifsTermines());
 
-        plateau.poseParcelle(new ParcelleCouleur(new Position(2, 0), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(new Position(2, 0), Couleur.VERTE);
+        plateau.poseParcelle(parcelleCouleur20);
         joueurParcelle.gestionObjectif(plateau);
         assertEquals(0, joueurParcelle.nombreObjectifsTermines());
 
-        plateau.poseParcelle(new ParcelleCouleur(new Position(3, 1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur31 = new ParcelleCouleur(new Position(3, 1), Couleur.VERTE);
+        plateau.poseParcelle(parcelleCouleur31);
+        joueurParcelle.gestionObjectif(plateau);
+        assertEquals(0, joueurParcelle.nombreObjectifsTermines());
+
+        parcelleCouleur11.setIrriguee(true);
+        parcelleCouleur20.setIrriguee(true);
+        parcelleCouleur31.setIrriguee(true);
+
         joueurParcelle.gestionObjectif(plateau);
         assertEquals(1, joueurParcelle.nombreObjectifsTermines());
 
-        plateau.poseParcelle(new ParcelleCouleur(new Position(-1, 1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur40 = new ParcelleCouleur(new Position(4, 0), Couleur.VERTE);
+        plateau.poseParcelle(parcelleCouleur40);
+        parcelleCouleur40.setIrriguee(true);
         joueurParcelle.gestionObjectif(plateau);
         assertEquals(2, joueurParcelle.nombreObjectifsTermines());
     }

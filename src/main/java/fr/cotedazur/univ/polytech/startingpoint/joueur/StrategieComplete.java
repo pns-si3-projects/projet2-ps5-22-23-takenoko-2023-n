@@ -4,7 +4,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
-import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotif;
+import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotifJoueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Etang;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
@@ -60,7 +60,7 @@ public class StrategieComplete implements Strategie {
             //positions disponibles pour poser la parcelle
             Position[] positionsDisponible = plateau.getPositionsDisponibles();
 
-            Optional<Position> optPosition = GestionnairePossibiliteMotif.positionPossiblePrendrePourMotif(plateau.getParcelles(), positionsDisponible, objectifParcellesMax);
+            Optional<Position> optPosition = GestionnairePossibiliteMotifJoueur.positionPossiblePrendrePourMotif(plateau.getParcelles(), positionsDisponible, objectifParcellesMax);
 
             Position positionChoisie = null;
             if (optPosition.isPresent()) positionChoisie = optPosition.get();
