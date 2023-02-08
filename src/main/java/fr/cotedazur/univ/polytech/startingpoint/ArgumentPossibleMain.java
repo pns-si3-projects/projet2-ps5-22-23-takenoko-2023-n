@@ -19,7 +19,7 @@ public enum ArgumentPossibleMain {
             return true;
         }
     },
-    CSV("--CSV") {
+    CSV("--csv") {
         @Override
         public boolean isCsv() {
             return true;
