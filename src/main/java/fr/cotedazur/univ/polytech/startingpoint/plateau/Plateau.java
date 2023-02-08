@@ -215,9 +215,13 @@ public class Plateau {
      * Ajoute une irrigation entre les parcelles aux positions données
      * @param irrigationPioche Irrigation pioche à poser
      */
-    public boolean poseIrrigation(Irrigation irrigationPioche){
-        Position position1 = irrigationPioche.getPositions().get(0);
-        Position position2 = irrigationPioche.getPositions().get(1);
+    public boolean poseIrrigation(Irrigation irrigationPioche) {
+        if ( irrigationPioche.getPositions().isEmpty() ) {
+            return false;
+        }
+        List<Position> positionIrrigationPioche = irrigationPioche.getPositions().get();
+        Position position1 = positionIrrigationPioche.get(0);
+        Position position2 = positionIrrigationPioche.get(1);
         Optional<Parcelle> parcelle1 = GestionParcelles.chercheParcelle(getParcelles(),position1);
         Optional<Parcelle> parcelle2 = GestionParcelles.chercheParcelle(getParcelles(),position2);
         boolean ajoute = false;
