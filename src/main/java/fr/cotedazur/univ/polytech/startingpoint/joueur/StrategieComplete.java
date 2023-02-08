@@ -27,7 +27,8 @@ public class StrategieComplete implements Strategie {
     public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs, Plateau plateau, boolean[] piochesVides) {
 
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
-        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size()<Joueur.NOMBRE_OBJECTIFS_MAX)) {
+        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size()<Joueur.NOMBRE_OBJECTIFS_MAX) && (!piochesVides[GestionTours.PiochesPossibles.OBJ_PANDA.ordinal()]  |
+                !piochesVides[GestionTours.PiochesPossibles.OBJ_PARCELLE.ordinal()] | !piochesVides[GestionTours.PiochesPossibles.OBJ_JARDINIER.ordinal()] )) {
             return objectif;
         }
 
@@ -248,8 +249,8 @@ public class StrategieComplete implements Strategie {
         }
 
         Objectif objectif;
-        if (objectifsPandaList.size() < 2) objectif = piocheObjectifPanda.pioche();
-        else if (objectifParcelleList.size() < 2) objectif = piocheObjectifParcelle.pioche();
+        if (objectifsPandaList.size() < 2 && !piocheObjectifPanda.isEmpty()) objectif = piocheObjectifPanda.pioche();
+        else if (objectifParcelleList.size() < 2 && !piocheObjectifParcelle.isEmpty()) objectif = piocheObjectifParcelle.pioche();
         else objectif = piocheObjectifJardinier.pioche();
 
         objectifs.add(objectif);
