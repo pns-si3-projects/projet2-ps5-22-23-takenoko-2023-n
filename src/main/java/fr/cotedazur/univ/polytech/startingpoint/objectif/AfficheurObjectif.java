@@ -20,5 +20,8 @@ public class AfficheurObjectif {
 
     // Méthodes d'utilisation
 
-    // A compléter
+    public static void finObjectif(Objectif objectifRealise) {
+        String str = SEPARATION + "L'" + objectifRealise + " est réalisé";
+        LOGGER.info(str);
+    }
 }

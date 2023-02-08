@@ -124,4 +124,41 @@ class PlaquetteTest {
         plaquette.termineTour();
         assertFalse(plaquette.isActionTour(irrigation));
     }
+
+    @Test
+    void enleveSectionBambouList() {
+        SectionBambou sectionBambouJaune = new SectionBambou(Couleur.JAUNE);
+        SectionBambou sectionBambouRose = new SectionBambou(Couleur.ROSE);
+        SectionBambou sectionBambouVerte = new SectionBambou(Couleur.VERTE);
+
+        plaquette.mangeSectionBambou(sectionBambouJaune);
+        plaquette.mangeSectionBambou(sectionBambouJaune);
+        plaquette.mangeSectionBambou(sectionBambouVerte);
+        plaquette.mangeSectionBambou(sectionBambouVerte);
+        plaquette.mangeSectionBambou(sectionBambouRose);
+
+        assertEquals(2, plaquette.nombreBambouCouleur(sectionBambouJaune.getCouleur()));
+        assertEquals(2, plaquette.nombreBambouCouleur(sectionBambouVerte.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouRose.getCouleur()));
+
+        plaquette.enleveSectionBambouList(sectionBambouJaune);
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouJaune.getCouleur()));
+        assertEquals(2, plaquette.nombreBambouCouleur(sectionBambouVerte.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouRose.getCouleur()));
+
+        plaquette.enleveSectionBambouList(sectionBambouVerte);
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouJaune.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouVerte.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouRose.getCouleur()));
+
+        plaquette.enleveSectionBambouList(sectionBambouRose);
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouJaune.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouVerte.getCouleur()));
+        assertEquals(0, plaquette.nombreBambouCouleur(sectionBambouRose.getCouleur()));
+
+        plaquette.enleveSectionBambouList(sectionBambouRose);
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouJaune.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouVerte.getCouleur()));
+        assertEquals(0, plaquette.nombreBambouCouleur(sectionBambouRose.getCouleur()));
+    }
 }

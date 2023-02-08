@@ -200,4 +200,39 @@ class GestionnaireObjectifsTest {
         assertTrue(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleLosange));
     }
+
+    @Test
+    void checkObjectifPanda() {
+        SectionBambou sectionBambouRose = new SectionBambou(Couleur.ROSE);
+        SectionBambou sectionBambouJaune = new SectionBambou(Couleur.JAUNE);
+        SectionBambou sectionBambouVert = new SectionBambou(Couleur.VERTE);
+
+        List<SectionBambou> sectionBambouList3Couleur = new ArrayList<>();
+        sectionBambouList3Couleur.add(sectionBambouVert);
+        sectionBambouList3Couleur.add(sectionBambouRose);
+        sectionBambouList3Couleur.add(sectionBambouJaune);
+        ObjectifPanda objectifPanda6pt = new ObjectifPanda(6, sectionBambouList3Couleur);
+
+        List<SectionBambou> sectionBambousList2Couleur = new ArrayList<>();
+        sectionBambousList2Couleur.add(sectionBambouJaune);
+        sectionBambousList2Couleur.add(sectionBambouJaune);
+        ObjectifPanda objectifPanda4pt = new ObjectifPanda(4, sectionBambousList2Couleur);
+
+        SectionBambou[] reservesBambous = new SectionBambou[3];
+        reservesBambous[0] = sectionBambouJaune;
+        reservesBambous[1] = sectionBambouVert;
+        reservesBambous[2] = sectionBambouVert;
+
+        assertFalse(GestionnaireObjectifs.checkObjectifPanda(reservesBambous, objectifPanda4pt));
+        assertFalse(GestionnaireObjectifs.checkObjectifPanda(reservesBambous, objectifPanda6pt));
+
+        reservesBambous[1] = sectionBambouJaune;
+        assertTrue(GestionnaireObjectifs.checkObjectifPanda(reservesBambous, objectifPanda4pt));
+        assertFalse(GestionnaireObjectifs.checkObjectifPanda(reservesBambous, objectifPanda6pt));
+
+        reservesBambous[1] = sectionBambouVert;
+        reservesBambous[2] = sectionBambouRose;
+        assertFalse(GestionnaireObjectifs.checkObjectifPanda(reservesBambous, objectifPanda4pt));
+        assertTrue(GestionnaireObjectifs.checkObjectifPanda(reservesBambous, objectifPanda6pt));
+    }
 }

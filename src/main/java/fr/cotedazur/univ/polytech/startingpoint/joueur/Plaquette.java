@@ -94,6 +94,24 @@ public class Plaquette {
     }
 
     /**
+     * Supprime la section de Bambou de la liste
+     * @param sectionBambou la section Bambou à supprimer
+     */
+    public void enleveSectionBambouList(SectionBambou sectionBambou) {
+        int i = 0;
+
+        for (; i < reserveBambousManges.size(); i++) {
+            if ( sectionBambou.couleur().equals(reserveBambousManges.get(i).couleur()) ) {
+                break;
+            }
+        }
+
+        if (i != reserveBambousManges.size()) {
+            reserveBambousManges.remove(i);
+        }
+    }
+
+    /**
      * Permet de jouer une action
      * @param actionJouee l'action à jouer
      * @return {@code true} si l'action est jouée

@@ -71,6 +71,7 @@ public class GestionTours {
         Plaquette.ActionPossible actionChoisie;
 
         for (int i=0; i<2; i++) {
+            joueur.gestionObjectif(plateau);
             actionChoisie = joueur.choisiAction(plateau, piochesVides());
 
             switch (actionChoisie) {
@@ -81,6 +82,8 @@ public class GestionTours {
                 case OBJECTIF -> joueur.actionObjectif(piocheObjectifParcelle,
                         piocheObjectifJardinier, piocheObjectifPanda);
             }
+
+            joueur.gestionObjectif(plateau);
         }
 
         joueur.finDeTour();
