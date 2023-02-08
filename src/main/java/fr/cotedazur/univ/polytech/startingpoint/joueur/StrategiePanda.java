@@ -90,8 +90,7 @@ public class StrategiePanda implements Strategie {
     }
 
     @Override
-    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation,
-                                 PiocheSectionBambou piocheSectionBambou) {
+    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, Plaquette plaquette) {
         Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
         if (irrigationsDisponibles.length > 0){
             Optional<List<Position>> positionIrrigation = irrigationsDisponibles[0].getPositions();

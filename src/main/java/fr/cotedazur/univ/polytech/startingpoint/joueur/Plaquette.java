@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ public class Plaquette {
     public enum ActionPossible {PARCELLE, IRRIGATION, JARDINIER, PANDA, OBJECTIF}
     private final List<SectionBambou> reserveBambousManges;
     private final boolean[] actionsTour;
+    private final List<Irrigation> reserveIrrigation;
 
 
     // Définition des constructeurs
@@ -28,6 +30,7 @@ public class Plaquette {
     public Plaquette() {
         reserveBambousManges = new ArrayList<>();
         actionsTour = new boolean[]{false, false, false, false, false};
+        reserveIrrigation = new ArrayList<>();
     }
 
 
@@ -46,6 +49,20 @@ public class Plaquette {
         }
 
         return bambous;
+    }
+
+    /**
+     * Renvoie les irrigations en possetion du joueur
+     * @return un tableau d'irrigation
+     */
+    public Irrigation[] getReserveIrrigation() {
+        int nbIrrigation = reserveIrrigation.size();
+        Irrigation[] irrigations = new Irrigation[nbIrrigation];
+
+        for (int i=0; i<nbIrrigation; i++) {
+            irrigations[i] =reserveIrrigation.get(i);
+        }
+        return irrigations;
     }
 
     /**
@@ -91,6 +108,14 @@ public class Plaquette {
      */
     public void mangeSectionBambou(@NotNull SectionBambou sectionBambou) {
         reserveBambousManges.add(sectionBambou);
+    }
+
+    /**
+     * Ajout l'irrigation a la réserve dans la plaquette
+     * @param irrigation l'irrigation a ajouter dans la reserve de la plaquette
+     */
+    public void ajoutIrrigation(@NotNull Irrigation irrigation) {
+        reserveIrrigation.add(irrigation);
     }
 
     /**

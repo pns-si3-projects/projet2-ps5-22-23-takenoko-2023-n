@@ -199,7 +199,7 @@ public class StrategieParcelle implements Strategie {
     }
 
     @Override
-    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, PiocheSectionBambou piocheSectionBambou) {
+    public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, Plaquette plaquette) {
         Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
 
         if (irrigationsDisponibles.length > 0) {
@@ -232,9 +232,7 @@ public class StrategieParcelle implements Strategie {
         Panda panda = plateau.getPanda();
         Position positionDeplacee = choixDeplacementPosition(plateau, panda.getPosition());
         Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(positionDeplacee);
-        if (sectionBambou.isPresent()) {
-            plaquette.mangeSectionBambou(sectionBambou.get());
-        }
+        sectionBambou.ifPresent(plaquette::mangeSectionBambou);
     }
 
     public Position choixDeplacementPosition( Plateau plateau, Position position) {
