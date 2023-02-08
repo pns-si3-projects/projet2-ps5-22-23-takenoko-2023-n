@@ -30,12 +30,12 @@ public class StrategieJardinier implements Strategie {
                                                      Plateau plateau, boolean[] piochesVides) {
 
         Plaquette.ActionPossible jardinier = Plaquette.ActionPossible.JARDINIER;
-        if (!actionsRealiseesTour[jardinier.ordinal()] && plateau.getParcelles().length > 3) {
+        if (!actionsRealiseesTour[jardinier.ordinal()] && plateau.getParcelles().length > 2) {
             return jardinier;
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && plateau.getParcelles().length < 10) {
+        if (!actionsRealiseesTour[parcelle.ordinal()] && plateau.getParcelles().length < 2) {
             return parcelle;
         }
 
@@ -123,9 +123,13 @@ public class StrategieJardinier implements Strategie {
     }
 
     @Override
-    public void actionPanda(Plateau plateau, List<Objectif> objectifs, SectionBambou[] listeBambouMange) {
+    public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
         List<Position> deplacementsPossibles = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
-        plateau.deplacementPanda(deplacementsPossibles.get(0));
+        Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(deplacementsPossibles.get(0));
+        if (sectionBambou.isPresent()) {
+            plaquette.mangeSectionBambou(sectionBambou.get());
+        }
+
     }
 
     @Override

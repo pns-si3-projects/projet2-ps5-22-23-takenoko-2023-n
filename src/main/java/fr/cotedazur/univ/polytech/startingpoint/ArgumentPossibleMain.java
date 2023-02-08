@@ -24,6 +24,12 @@ public enum ArgumentPossibleMain {
         public boolean isCsv() {
             return true;
         }
+    },
+    PRESENTATION("--presentation") {
+        @Override
+        public boolean isPresentation() {
+            return true;
+        }
     };
     private final String mode;
 
@@ -70,6 +76,14 @@ public enum ArgumentPossibleMain {
      * @return {@code true} si le mode de jeu demandé est "csv"
      */
     public boolean isCsv() {
+        return false;
+    }
+
+    /**
+     * Renvoie si le mode de jeu demandé est "présentation"
+     * @return {@code true} si le mode de jeu demandé est "présentation"
+     */
+    public boolean isPresentation() {
         return false;
     }
 

@@ -123,7 +123,7 @@ class StrategiePandaTest {
         }
         strategiePanda.actionObjectif(piocheObjectifParcelle,piocheObjectifJardinier,piocheObjectifPanda,objectifs);
         for (int j =0; j<2; j++) {
-            strategiePanda.actionPanda(spyPlateau,objectifs,plaquette.getReserveBambousManges());
+            strategiePanda.actionPanda(spyPlateau,objectifs,plaquette);
             Position positionFinal = spyPlateau.getPanda().getPosition();
             assertNotEquals(positionInitial,positionFinal);
             positionInitial = positionFinal;

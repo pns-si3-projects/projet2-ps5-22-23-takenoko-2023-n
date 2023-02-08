@@ -286,7 +286,7 @@ class StrategieParcelleTest {
         Position positionInitial = spyPlateau.getPanda().getPosition();
         assertEquals(new Position(), positionInitial);
 
-        strategieParcelle.actionPanda(spyPlateau,objectifs, plaquette.getReserveBambousManges());
+        strategieParcelle.actionPanda(spyPlateau,objectifs, plaquette);
         verify(spyPlateau, times(1)).deplacementPanda(any(Position.class));
 
     }

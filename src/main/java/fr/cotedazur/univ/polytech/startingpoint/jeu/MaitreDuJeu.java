@@ -76,4 +76,16 @@ public class MaitreDuJeu {
             AfficheurJeu.victoire();
         }
     }
+
+
+    // Méthode toString
+
+    @Override
+    public String toString() {
+        StringBuilder sB = new StringBuilder();
+        for (Joueur joueur : joueurs) {
+            sB.append(joueur.toString()).append("\n");
+        }
+        return sB.toString();
+    }
 }

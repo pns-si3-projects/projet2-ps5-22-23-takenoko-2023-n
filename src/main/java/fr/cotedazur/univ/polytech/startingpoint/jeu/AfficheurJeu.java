@@ -50,7 +50,7 @@ public class AfficheurJeu {
      * @param joueurFinObjectifs le premier joueur à finir les objectifs demandés
      */
     public static void recoitEmpereur(Joueur joueurFinObjectifs) {
-        String str = joueurFinObjectifs.getNom()
+        String str = "\n\n" + joueurFinObjectifs.getNom()
                 + " est le premier joueur a finir le nombre d'objectifs demandé et reçoit la carte Empereur";
         LOGGER.info(str);
     }
@@ -80,5 +80,10 @@ public class AfficheurJeu {
      */
     public static void victoire() {
         LOGGER.info("\n\nBravo et merci à tous les joueurs d'avoir participé et à bientôt pour une autre partie !");
+    }
+
+    public static void etatJeu(MaitreDuJeu maitreDuJeu) {
+        String str = "\n\n" + maitreDuJeu.toString();
+        LOGGER.info(str);
     }
 }

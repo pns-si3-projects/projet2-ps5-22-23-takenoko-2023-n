@@ -14,6 +14,6 @@ public class ArgumentConverter implements IStringConverter<ArgumentPossibleMain>
         if (value.equals("--csv")) {
             return ArgumentPossibleMain.CSV;
         }
-        throw new IllegalArgumentException("Le mode de jeu demandé n'existe pas");
+        return ArgumentPossibleMain.PRESENTATION;
     }
 }

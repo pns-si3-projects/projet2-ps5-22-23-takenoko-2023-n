@@ -187,7 +187,7 @@ public class Joueur {
      * @param plateau le plateau du jeu
      */
     public void actionPanda(Plateau plateau) {
-        strategie.actionPanda(plateau, objectifEnMainList, plaquette.getReserveBambousManges());
+        strategie.actionPanda(plateau, objectifEnMainList, plaquette);
     }
 
     /**
@@ -285,6 +285,6 @@ public class Joueur {
 
     @Override
     public String toString() {
-        return nom;
+        return nom + " : " + nombreObjectifsTermines() + " objectifs terminés pour " + nombrePoints() + " points";
     }
 }

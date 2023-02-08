@@ -2,20 +2,18 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
-import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
-import fr.cotedazur.univ.polytech.startingpoint.motif.MotifTriangle;
 import fr.cotedazur.univ.polytech.startingpoint.motif.MotifV;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import java.util.Random;
 
@@ -145,10 +143,15 @@ class JoueurTest {
 
     @Test
     void testToString() {
-        assertEquals(joueurParcelle.getNom(), joueurParcelle.toString());
-        assertEquals(joueurPanda.getNom(), joueurPanda.toString());
-        assertEquals(joueurJardinier.getNom(), joueurJardinier.toString());
-        assertNotEquals(joueurParcelle.getNom(), joueurPanda.toString());
+        assertEquals(joueurParcelle.getNom() + " : "
+                + joueurParcelle.nombreObjectifsTermines() + " objectifs terminés pour "
+                + joueurParcelle.nombrePoints() + " points", joueurParcelle.toString());
+        assertEquals(joueurPanda.getNom() + " : "
+                + joueurPanda.nombreObjectifsTermines() + " objectifs terminés pour "
+                + joueurPanda.nombrePoints() + " points", joueurPanda.toString());
+        assertEquals(joueurJardinier.getNom() + " : "
+                + joueurJardinier.nombreObjectifsTermines() + " objectifs terminés pour "
+                + joueurJardinier.nombrePoints() + " points", joueurJardinier.toString());
     }
 
     @Test

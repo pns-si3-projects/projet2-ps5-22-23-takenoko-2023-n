@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.startingpoint.jeu;
 
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Plaquette;
+import fr.cotedazur.univ.polytech.startingpoint.joueur.Strategie;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -140,13 +141,17 @@ class GestionToursTest {
 
     @Test
     void dernierTour() {
-        joueurs = new Joueur[]{joueurMock1, joueurMock2, joueurMock3, joueurMock4};
+        Joueur joueur1 = spy(new Joueur("joueur1", Strategie.StrategiePossible.PARCELLE));
+        Joueur joueur2 = spy(new Joueur("joueur2", Strategie.StrategiePossible.PARCELLE));
+        Joueur joueur3 = spy(new Joueur("joueur3", Strategie.StrategiePossible.JARDINIER));
+        Joueur joueur4 = spy(new Joueur("joueur4", Strategie.StrategiePossible.PANDA));
+        joueurs = new Joueur[]{joueur1, joueur2, joueur3, joueur4};
 
-        gestionTours.dernierTour(joueurs, joueurMock2);
-        verify(joueurMock1, times(1)).choisiAction(any(Plateau.class), any());
-        verify(joueurMock2, never()).choisiAction(any(Plateau.class), any());
-        verify(joueurMock3, times(1)).choisiAction(any(Plateau.class), any());
-        verify(joueurMock4, times(1)).choisiAction(any(Plateau.class), any());
+        gestionTours.dernierTour(joueurs, joueur2);
+        verify(joueur1, times(2)).choisiAction(any(Plateau.class), any());
+        verify(joueur2, never()).choisiAction(any(Plateau.class), any());
+        verify(joueur3, times(2)).choisiAction(any(Plateau.class), any());
+        verify(joueur4, times(2)).choisiAction(any(Plateau.class), any());
     }
 
     @Test
