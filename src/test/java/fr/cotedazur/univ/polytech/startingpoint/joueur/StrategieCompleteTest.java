@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class StrategieCompleteTest {
     StrategieComplete strategieComplete;
@@ -97,6 +99,14 @@ class StrategieCompleteTest {
         assertEquals(2, objectifsPandaList_2.size());
         assertEquals(2, objectifParcelleList_2.size());
         assertEquals(1, objectifsJardinierList_2.size());
+    }
+
+    @Test
+    void actionIrrigationTest() {
+        Plaquette spyPlaquette = spy(new Plaquette());
+        strategieComplete.actionIrrigation(plateau,piocheIrrigation,spyPlaquette);
+        
+        verify(spyPlaquette, times(1)).ajoutIrrigation(any(Irrigation.class));
     }
 
 }

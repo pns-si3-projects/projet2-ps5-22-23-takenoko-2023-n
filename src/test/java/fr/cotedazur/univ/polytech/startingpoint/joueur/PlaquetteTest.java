@@ -35,6 +35,9 @@ class PlaquetteTest {
     }
 
     @Test
+    void getReserveIrrigation() { assertEquals(0, plaquette.getReserveIrrigation().length);}
+
+    @Test
     void getActionsTour() {
         boolean[] actionsTour = plaquette.getActionsTour();
 

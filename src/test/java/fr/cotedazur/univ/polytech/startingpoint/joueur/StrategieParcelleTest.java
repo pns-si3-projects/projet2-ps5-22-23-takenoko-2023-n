@@ -27,6 +27,7 @@ class StrategieParcelleTest {
     List<Objectif> objectifs;
     Plateau plateau;
     boolean[] piochesVides;
+    Plaquette plaquette;
 
 
     @BeforeEach
@@ -35,6 +36,7 @@ class StrategieParcelleTest {
         objectifs = new ArrayList<>();
         plateau = new Plateau(new PiocheSectionBambou());
         piochesVides = new boolean[] {false, false, false, false, false};
+        plaquette = new Plaquette();
     }
     @Test
     void checkPossibiliteActionParcelle() {
@@ -218,12 +220,11 @@ class StrategieParcelleTest {
     void choisiActionIrrigation() {
         PiocheIrrigation spyPiocheIrrigation = spy(new PiocheIrrigation());
         Plateau spyPlateau = spy(new Plateau(new PiocheSectionBambou()));
-        PiocheSectionBambou piocheSectionBambou = new PiocheSectionBambou();
         Position position11 = new Position(1, 1);
         Position position20 = new Position(2, 0);
         spyPlateau.poseParcelle(new ParcelleCouleur(position11, Couleur.JAUNE));
         spyPlateau.poseParcelle(new ParcelleCouleur(position20, Couleur.VERTE));
-        strategieParcelle.actionIrrigation(spyPlateau, spyPiocheIrrigation, piocheSectionBambou);
+        strategieParcelle.actionIrrigation(spyPlateau, spyPiocheIrrigation, plaquette);
         List<Position> listPosition = new ArrayList<>();
         listPosition.add(position20);
         listPosition.add(position11);
