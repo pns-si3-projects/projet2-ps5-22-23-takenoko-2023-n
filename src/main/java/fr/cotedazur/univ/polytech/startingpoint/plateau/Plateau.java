@@ -383,7 +383,7 @@ public class Plateau {
                 ParcelleCouleur parcelleVoisine = (ParcelleCouleur) parcelle;
 
                 if (parcelleVoisine.isIrriguee() && parcelleVoisine.getCouleur().equals(couleurParcelleJardinier)) {
-                    poseBambou(parcelleVoisine, piocheBambou.pioche(parcelleCouleur.getCouleur()));
+                    poseBambou(parcelleVoisine, piocheBambou.pioche(couleurParcelleJardinier));
                 }
             }
         }

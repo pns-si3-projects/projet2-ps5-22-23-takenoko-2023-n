@@ -1,19 +1,21 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -154,5 +156,57 @@ class StrategieCompleteTest {
         Position positionFinal = spyPlateau.getPanda().getPosition();
         assertNotEquals(positionInitial,positionFinal);
         verify(spyPlateau, times(1)).deplacementPanda(any(Position.class));
+    }
+
+    @Test
+    void actionParcelleAutre() {
+        Plateau spyPlateau = spy(new Plateau(new PiocheSectionBambou()));
+        ObjectifParcelle objectifParcelle = new ObjectifParcelle(3, new MotifDiagonale(
+                new ParcelleCouleur(new Position(-1, -1), Couleur.VERTE),
+                new ParcelleCouleur(new Position(0, 0), Couleur.VERTE),
+                new ParcelleCouleur(new Position(1, 1), Couleur.VERTE)));
+        List<Objectif> listObjectif = new ArrayList<>();
+        listObjectif.add(objectifParcelle);
+        Position positionRecup = strategieComplete.actionParcelleAutre(spyPlateau, listObjectif);
+        Position position11 = new Position(1,1);
+        verify(spyPlateau, times(1)).getPositionsDisponibles();
+        assertEquals(position11, positionRecup);
+    }
+
+    @Test
+    void actionParcelleEtang() {
+        Parcelle[] parcellesVoisines = new Parcelle[6];
+        ParcelleDisponible parcelleDisponible11 = new ParcelleDisponible(new Position(1, 1));
+        ParcelleDisponible parcelleDisponible20 = new ParcelleDisponible(new Position(2, 0));
+        ParcelleDisponible parcelleDisponible1m1 = new ParcelleDisponible(new Position(1, -1));
+        ParcelleDisponible parcelleDisponiblem1m1 = new ParcelleDisponible(new Position(-1, -1));
+        ParcelleDisponible parcelleDisponiblem20 = new ParcelleDisponible(new Position(2, 0));
+        ParcelleDisponible parcelleDisponiblem11 = new ParcelleDisponible(new Position(-1, 1));
+        parcellesVoisines[0] = parcelleDisponible11;
+        parcellesVoisines[1] = parcelleDisponible20;
+        parcellesVoisines[2] = parcelleDisponible1m1;
+        parcellesVoisines[3] = parcelleDisponiblem1m1;
+        parcellesVoisines[4] = parcelleDisponiblem20;
+        parcellesVoisines[5] = parcelleDisponiblem11;
+
+        ParcellePioche[] parcellePioches = new ParcellePioche[3];
+        parcellePioches[0] = new ParcellePioche(Couleur.ROSE);
+        parcellePioches[1] = new ParcellePioche(Couleur.VERTE);
+        parcellePioches[2] = new ParcellePioche(Couleur.JAUNE);
+
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(parcelleDisponible11.getPosition(), Couleur.VERTE);
+        assertEquals(Optional.of(parcelleCouleur11),
+                strategieComplete.actionParcelleEtang(parcellesVoisines, parcellePioches));
+
+        parcellesVoisines[0] = parcelleCouleur11;
+        parcellePioches[0] = new ParcellePioche(Couleur.VERTE);
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(parcelleDisponible20.getPosition(), Couleur.JAUNE);
+        assertEquals(Optional.of(parcelleCouleur20),
+                strategieComplete.actionParcelleEtang(parcellesVoisines, parcellePioches));
+
+        parcellesVoisines[1] = parcelleCouleur20;
+        parcellePioches[0] = new ParcellePioche(Couleur.VERTE);
+        assertEquals(Optional.empty(),
+                strategieComplete.actionParcelleEtang(parcellesVoisines, parcellePioches));
     }
 }

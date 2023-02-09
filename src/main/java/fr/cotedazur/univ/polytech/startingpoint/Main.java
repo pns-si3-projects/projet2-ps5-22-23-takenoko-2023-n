@@ -102,7 +102,7 @@ public class Main {
      * Joue un nombre limité de parties en enregistrant des statistiques dans un fichier CSV
      */
     private static void joueCSV() {
-        String totalPointPartiePrecedente = ReadCSV.read();
+        String totalPointPartiePrecedente = ReadCSV.lireCSV();
         Joueur joueurCom = joueurComplet;
         Joueur joueurPar = joueurParcelle;
         Joueur joueurJar = joueurJardinier;

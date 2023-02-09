@@ -28,7 +28,7 @@ public class ReadCSV {
 
     // Méthodes d'utilisation
 
-    public static String read() {
+    public static String lireCSV() {
         CSVParser csvParser = new CSVParserBuilder()
                 .withSeparator(',')
                 .withIgnoreQuotations(true)
