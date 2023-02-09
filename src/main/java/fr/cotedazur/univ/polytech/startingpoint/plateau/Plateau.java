@@ -326,7 +326,7 @@ public class Plateau {
 
     /**
      * deplacement du Panda
-     * @param position la position du panda
+     * @param position la nouvelle position du panda
      * @return la sectionBambou mangé
      */
     public Optional<SectionBambou> deplacementPanda(Position position) {

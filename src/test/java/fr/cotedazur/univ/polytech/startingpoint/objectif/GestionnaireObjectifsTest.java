@@ -104,19 +104,31 @@ class GestionnaireObjectifsTest {
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleDiagonale));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(-1, -1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleurm1m1 = new ParcelleCouleur(new Position(-1, -1), Couleur.VERTE);
+        listParcellesPlateau.add(parcelleCouleurm1m1);
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleDiagonale));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(1, -1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur1m1 = new ParcelleCouleur(new Position(1, -1), Couleur.VERTE);
+        listParcellesPlateau.add(parcelleCouleur1m1);
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleDiagonale));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(2, 0), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(new Position(2, 0), Couleur.VERTE);
+        listParcellesPlateau.add(parcelleCouleur20);
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleDiagonale));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(3, -1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur3m1 = new ParcelleCouleur(new Position(3, -1), Couleur.VERTE);
+        listParcellesPlateau.add(parcelleCouleur3m1);
+        assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
+                objectifParcelleDiagonale));
+
+        parcelleCouleurm1m1.setIrriguee(true);
+        parcelleCouleur1m1.setIrriguee(true);
+        parcelleCouleur3m1.setIrriguee(true);
+        parcelleCouleur20.setIrriguee(true);
+
         assertTrue(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleDiagonale));
     }
@@ -124,24 +136,34 @@ class GestionnaireObjectifsTest {
     @Test
     void checkObjectifParcelleTriangle() {
         ObjectifParcelle objectifParcelleTriangle = new ObjectifParcelle(2,
-                new MotifTriangle(new ParcelleCouleur(new Position(0, 0), Couleur.VERTE),
-                        new ParcelleCouleur(new Position(2, 0), Couleur.VERTE),
-                        new ParcelleCouleur(new Position(1, 1), Couleur.VERTE)));
+                new MotifTriangle(new ParcelleCouleur(new Position(0, 0), Couleur.JAUNE),
+                        new ParcelleCouleur(new Position(2, 0), Couleur.JAUNE),
+                        new ParcelleCouleur(new Position(1, 1), Couleur.JAUNE)));
 
         List<Parcelle> listParcellesPlateau = new ArrayList<>(4);
         listParcellesPlateau.add(new Etang());
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleTriangle));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(-2, 0), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleurm20 = new ParcelleCouleur(new Position(-2, 0), Couleur.JAUNE);
+        listParcellesPlateau.add(parcelleCouleurm20);
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleTriangle));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(-1, 1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleurm11 = new ParcelleCouleur(new Position(-1, 1), Couleur.JAUNE);
+        listParcellesPlateau.add(parcelleCouleurm11);
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleTriangle));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(-3, 1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleurm31 = new ParcelleCouleur(new Position(-3, 1), Couleur.JAUNE);
+        listParcellesPlateau.add(parcelleCouleurm31);
+        assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
+                objectifParcelleTriangle));
+
+        parcelleCouleurm20.setIrriguee(true);
+        parcelleCouleurm11.setIrriguee(true);
+        parcelleCouleurm31.setIrriguee(true);
+
         assertTrue(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleTriangle));
     }
@@ -149,54 +171,76 @@ class GestionnaireObjectifsTest {
     @Test
     void checkObjectifParcelleV() {
         ObjectifParcelle objectifParcelleV = new ObjectifParcelle(2,
-                new MotifV(new ParcelleCouleur(new Position(0, 0), Couleur.VERTE),
-                        new ParcelleCouleur(new Position(1, 1), Couleur.VERTE),
-                        new ParcelleCouleur(new Position(0, 2), Couleur.VERTE)));
+                new MotifV(new ParcelleCouleur(new Position(0, 0), Couleur.ROSE),
+                        new ParcelleCouleur(new Position(1, 1), Couleur.ROSE),
+                        new ParcelleCouleur(new Position(0, 2), Couleur.ROSE)));
 
         List<Parcelle> listParcellesPlateau = new ArrayList<>(4);
         listParcellesPlateau.add(new Etang());
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleV));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(-1, -1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleurm1m1 = new ParcelleCouleur(new Position(-1, -1), Couleur.ROSE);
+        listParcellesPlateau.add(parcelleCouleurm1m1);
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleV));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(-1, 1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleurm11 = new ParcelleCouleur(new Position(-1, 1), Couleur.ROSE);
+        listParcellesPlateau.add(parcelleCouleurm11);
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleV));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(-2, 0), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleurm20 = new ParcelleCouleur(new Position(-2, 0), Couleur.ROSE);
+        listParcellesPlateau.add(parcelleCouleurm20);
+        assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
+                objectifParcelleV));
+
+        parcelleCouleurm1m1.setIrriguee(true);
+        parcelleCouleurm11.setIrriguee(true);
+        parcelleCouleurm20.setIrriguee(true);
+
         assertTrue(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleV));
     }
 
     @Test
     void checkObjectifParcelleLosange() {
-        ObjectifParcelle objectifParcelleLosange = new ObjectifParcelle(2,
-                new MotifLosange(new ParcelleCouleur(new Position(0, 0), Couleur.VERTE),
-                        new ParcelleCouleur(new Position(1, 1), Couleur.VERTE),
-                        new ParcelleCouleur(new Position(-1, 1), Couleur.VERTE),
-                        new ParcelleCouleur(new Position(0, 2), Couleur.VERTE)));
+        ObjectifParcelle objectifParcelleLosange = new ObjectifParcelle(5,
+                new MotifLosange(new ParcelleCouleur(new Position(0, 0), Couleur.JAUNE),
+                        new ParcelleCouleur(new Position(1, 1), Couleur.ROSE),
+                        new ParcelleCouleur(new Position(-1, 1), Couleur.JAUNE),
+                        new ParcelleCouleur(new Position(0, 2), Couleur.ROSE)));
 
         List<Parcelle> listParcellesPlateau = new ArrayList<>(5);
         listParcellesPlateau.add(new Etang());
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleLosange));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(1, -1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur1m1 = new ParcelleCouleur(new Position(1, -1), Couleur.JAUNE);
+        listParcellesPlateau.add(parcelleCouleur1m1);
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleLosange));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(2, 0), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(new Position(2, 0), Couleur.JAUNE);
+        listParcellesPlateau.add(parcelleCouleur20);
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleLosange));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(3, -1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur3m1 = new ParcelleCouleur(new Position(3, -1), Couleur.ROSE);
+        listParcellesPlateau.add(parcelleCouleur3m1);
         assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleLosange));
 
-        listParcellesPlateau.add(new ParcelleCouleur(new Position(4, 0), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur40 = new ParcelleCouleur(new Position(4, 0), Couleur.ROSE);
+        listParcellesPlateau.add(parcelleCouleur40);
+        assertFalse(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
+                objectifParcelleLosange));
+
+        parcelleCouleur1m1.setIrriguee(true);
+        parcelleCouleur20.setIrriguee(true);
+        parcelleCouleur3m1.setIrriguee(true);
+        parcelleCouleur40.setIrriguee(true);
+
         assertTrue(GestionnaireObjectifs.checkObjectifParcelle(listParcellesPlateau.toArray(new Parcelle[0]),
                 objectifParcelleLosange));
     }

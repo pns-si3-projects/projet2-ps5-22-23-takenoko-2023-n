@@ -122,12 +122,9 @@ class StrategiePandaTest {
             strategiePanda.actionParcelle(spyPlateau,piocheParcelle,piocheSectionBambou,objectifs);
         }
         strategiePanda.actionObjectif(piocheObjectifParcelle,piocheObjectifJardinier,piocheObjectifPanda,objectifs);
-        for (int j =0; j<2; j++) {
-            strategiePanda.actionPanda(spyPlateau,objectifs,plaquette);
-            Position positionFinal = spyPlateau.getPanda().getPosition();
-            assertNotEquals(positionInitial,positionFinal);
-            positionInitial = positionFinal;
-        }
-        verify(spyPlateau, times(2)).deplacementPanda(any(Position.class));
+        strategiePanda.actionPanda(spyPlateau,objectifs,plaquette);
+        Position positionFinal = spyPlateau.getPanda().getPosition();
+        assertNotEquals(positionInitial,positionFinal);
+        verify(spyPlateau, times(1)).deplacementPanda(any(Position.class));
     }
 }

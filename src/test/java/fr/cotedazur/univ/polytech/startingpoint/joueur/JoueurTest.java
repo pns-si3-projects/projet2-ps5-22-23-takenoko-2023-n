@@ -7,10 +7,8 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheObjectifParcelle;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,14 +17,20 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class JoueurTest {
     Joueur joueurParcelle;
     Joueur joueurPanda;
     Joueur joueurJardinier;
+    Joueur joueurComplet;
     Plateau plateau;
+    PiocheSectionBambou piocheSectionBambou;
+    PiocheParcelle piocheParcelle;
+    PiocheIrrigation piocheIrrigation;
+    PiocheObjectifParcelle piocheObjectifParcelle;
+    PiocheObjectifPanda piocheObjectifPanda;
+    PiocheObjectifJardinier piocheObjectifJardinier;
     boolean[] piochesVides;
 
 
@@ -35,7 +39,14 @@ class JoueurTest {
         joueurParcelle = new Joueur("joueur1", Strategie.StrategiePossible.PARCELLE);
         joueurPanda = new Joueur("joueur2", Strategie.StrategiePossible.PANDA);
         joueurJardinier = new Joueur("joueur3", Strategie.StrategiePossible.JARDINIER);
-        plateau = new Plateau(new PiocheSectionBambou());
+        joueurComplet = new Joueur("joueur4", Strategie.StrategiePossible.COMPLET);
+        piocheSectionBambou = new PiocheSectionBambou();
+        plateau = new Plateau(piocheSectionBambou);
+        piocheParcelle = new PiocheParcelle(new Random());
+        piocheIrrigation = new PiocheIrrigation();
+        piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
+        piocheObjectifPanda = new PiocheObjectifPanda(new Random());
+        piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piochesVides = new boolean[] {false, false, false, false, false};
     }
 
@@ -105,10 +116,40 @@ class JoueurTest {
 
     @Test
     void joueParcelle() {
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurJardinier.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurComplet.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+
+        assertEquals(1, spyPlateau.getParcelles().length);
+
+        for (int i=0; i<2; i++){
+            joueurPanda.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurParcelle.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurComplet.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+        }
+
+        assertEquals(9, spyPlateau.getParcelles().length);
+
+        verify(spyPlateau, times(8)).poseParcelle(any(ParcelleCouleur.class));
     }
 
     @Test
     void joueIrrigation() {
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+        assertEquals(0, spyPlateau.getIrrigationsPosees().length);
+        for (int i=0; i<2; i++){
+            joueurPanda.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurComplet.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+        }
+
+        joueurParcelle.actionIrrigation(spyPlateau, piocheIrrigation);
+        verify(spyPlateau, times(1)).poseIrrigation(any(Irrigation.class));
+        assertEquals(1, spyPlateau.getIrrigationsPosees().length);
+        joueurParcelle.actionIrrigation(spyPlateau, piocheIrrigation);
     }
 
     @Test
@@ -121,6 +162,15 @@ class JoueurTest {
 
     @Test
     void piocheObjectif() {
+        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurJardinier.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurComplet.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+
+        assertEquals(1, joueurPanda.nombreObjectifsEnMain());
+        assertEquals(1, joueurParcelle.nombreObjectifsEnMain());
+        assertEquals(1, joueurJardinier.nombreObjectifsEnMain());
+        assertEquals(1, joueurComplet.nombreObjectifsEnMain());
     }
 
     @Test
@@ -160,24 +210,36 @@ class JoueurTest {
         PiocheObjectifParcelle piocheObjectifParcelle = new PiocheObjectifParcelle(mockRandom);
         PiocheObjectifJardinier piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
         PiocheObjectifPanda piocheObjectifPanda = new PiocheObjectifPanda(new Random());
-        when(mockRandom.nextInt()).thenReturn(0, 0);
+        when(mockRandom.nextInt(anyInt())).thenReturn(0, 0);
 
         joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
         joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
 
-        plateau.poseParcelle(new ParcelleCouleur(new Position(1, 1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(new Position(1, 1), Couleur.VERTE);
+        plateau.poseParcelle(parcelleCouleur11);
         joueurParcelle.gestionObjectif(plateau);
         assertEquals(0, joueurParcelle.nombreObjectifsTermines());
 
-        plateau.poseParcelle(new ParcelleCouleur(new Position(2, 0), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(new Position(2, 0), Couleur.VERTE);
+        plateau.poseParcelle(parcelleCouleur20);
         joueurParcelle.gestionObjectif(plateau);
         assertEquals(0, joueurParcelle.nombreObjectifsTermines());
 
-        plateau.poseParcelle(new ParcelleCouleur(new Position(3, 1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur31 = new ParcelleCouleur(new Position(3, 1), Couleur.VERTE);
+        plateau.poseParcelle(parcelleCouleur31);
+        joueurParcelle.gestionObjectif(plateau);
+        assertEquals(0, joueurParcelle.nombreObjectifsTermines());
+
+        parcelleCouleur11.setIrriguee(true);
+        parcelleCouleur20.setIrriguee(true);
+        parcelleCouleur31.setIrriguee(true);
+
         joueurParcelle.gestionObjectif(plateau);
         assertEquals(1, joueurParcelle.nombreObjectifsTermines());
 
-        plateau.poseParcelle(new ParcelleCouleur(new Position(-1, 1), Couleur.VERTE));
+        ParcelleCouleur parcelleCouleur40 = new ParcelleCouleur(new Position(4, 0), Couleur.VERTE);
+        plateau.poseParcelle(parcelleCouleur40);
+        parcelleCouleur40.setIrriguee(true);
         joueurParcelle.gestionObjectif(plateau);
         assertEquals(2, joueurParcelle.nombreObjectifsTermines());
     }

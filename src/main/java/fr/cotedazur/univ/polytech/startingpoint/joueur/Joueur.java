@@ -40,6 +40,7 @@ public class Joueur {
             case PARCELLE -> new StrategieParcelle();
             case PANDA -> new StrategiePanda();
             case JARDINIER -> new StrategieJardinier();
+            case COMPLET -> new StrategieComplete();
         };
     }
 
@@ -211,8 +212,8 @@ public class Joueur {
     private void supprimerObjectifs(List<Objectif> listObjectifSup) {
         for (Objectif objectif : listObjectifSup) {
             AfficheurObjectif.finObjectif(objectif);
-            objectifEnMainList.remove(objectif);
         }
+        objectifEnMainList.removeAll(listObjectifSup);
     }
 
     /**
@@ -230,7 +231,7 @@ public class Joueur {
      * @param plateau le plateau du jeu
      */
     public void gestionObjectif(Plateau plateau) {
-        List<Objectif> objectifsASupprimer = new ArrayList<>(5);
+        List<Objectif> objectifsASupprimer = new ArrayList<>();
 
         for (Objectif objectif : objectifEnMainList) {
             boolean objectifValide;

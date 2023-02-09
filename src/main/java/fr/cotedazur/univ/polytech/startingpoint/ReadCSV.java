@@ -4,24 +4,23 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.exceptions.CsvValidationException;
+import com.opencsv.exceptions.CsvException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.List;
 
 public class ReadCSV {
     private static final Path cheminFichier = FileSystems.getDefault().getPath("stats", "data.csv");
 
-    public static void main(String[] args) {
+    public static String main(String[] args) {
         CSVParser csvParser = new CSVParserBuilder()
                 .withSeparator(',')
                 .withIgnoreQuotations(true)
                 .build();
-
         CSVReader csvReader;
         try {
             csvReader = new CSVReaderBuilder(new FileReader(cheminFichier.toFile()))
@@ -32,14 +31,19 @@ public class ReadCSV {
         }
 
         //Read CSV line by line and use the string array as you want
-        String[] nextLine;
         try {
-            while ((nextLine = csvReader.readNext()) != null) {
-                System.out.println(Arrays.toString(nextLine));
+            List<String[]> listString = csvReader.readAll();
+
+            if (listString.size() > 1) {
+                String[] chaine = listString.get(listString.size() - 1);
+                csvReader.close();
+                return chaine[chaine.length - 1];
             }
-        } catch (CsvValidationException | IOException e) {
+            csvReader.close();
+
+        } catch (CsvException | IOException e) {
             throw new AssertionError(e);
         }
-
+        return "0";
     }
 }

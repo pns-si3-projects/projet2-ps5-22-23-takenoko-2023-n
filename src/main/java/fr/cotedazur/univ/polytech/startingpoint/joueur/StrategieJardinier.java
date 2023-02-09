@@ -4,12 +4,10 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
@@ -99,23 +97,22 @@ public class StrategieJardinier implements Strategie {
         //Déplacements possibles
         List<Position> deplacementsPossibles = GestionPersonnages
                 .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
-        boolean parcellePourDeplacementTrouvee = false;
-        for (Position position : deplacementsPossibles){
+
+        Position positionEtang = new Position();
+        if (deplacementsPossibles.size() > 1 && deplacementsPossibles.contains(positionEtang)) {
+            deplacementsPossibles.remove(positionEtang);
+        }
+        futurePositionJardinier = deplacementsPossibles.get(0);
+        /*for (Position position : deplacementsPossibles){
             Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
             if (parcelle.isPresent() && parcelle.get().getClass().equals(ParcelleCouleur.class)) {
                 ParcelleCouleur futureParcelleCouleurJardinier = (ParcelleCouleur) parcelle.get();
                 futurePositionJardinier = futureParcelleCouleurJardinier.getPosition();
                 if (futureParcelleCouleurJardinier.isIrriguee()) {
-                    for (ObjectifJardinier objectifJardinier : objectifsJardinierList) {
-                        if (futureParcelleCouleurJardinier.getCouleur().equals(objectifJardinier.getCouleur())) {
-                            parcellePourDeplacementTrouvee = true;
-                            break;
-                        }
-                    }
-                    if (parcellePourDeplacementTrouvee) break;
+                    break;
                 }
             }
-        }
+        }*/
 
         //Déplacement du Jardinier
         if (futurePositionJardinier!=null) {

@@ -13,9 +13,9 @@ import java.util.Optional;
  * Classe qui permet de gérer les possibilités de Motifs possible
  * @author equipe N
  */
-public class GestionnairePossibiliteMotif {
+public class GestionnairePossibiliteMotifJoueur {
 
-    private GestionnairePossibiliteMotif() {
+    private GestionnairePossibiliteMotifJoueur() {
         throw new IllegalStateException();
     }
 
@@ -35,6 +35,7 @@ public class GestionnairePossibiliteMotif {
         int differenceY = parcelleACheck.getPosition().getY() - motifAFaire[0].getPosition().getY();
         int nombreParcelleProcheMotif = 1;
 
+
         for (int i = 1; i < motifAFaire.length; i++) {
             Position positionMotif = motifAFaire[i].getPosition();
             Position positionACheck =
@@ -50,6 +51,30 @@ public class GestionnairePossibiliteMotif {
             }
         }
         return nombreParcelleProcheMotif;
+    }
+
+    public static Parcelle[] getMotifAFaire(Parcelle[] tableauParcellesPlateau, Parcelle parcelleMotifAFaire, Parcelle[] motifAFaire){
+        int differenceX = parcelleMotifAFaire.getPosition().getX() - motifAFaire[0].getPosition().getX();
+        int differenceY = parcelleMotifAFaire.getPosition().getY() - motifAFaire[0].getPosition().getY();
+        Parcelle[] motifRessemblantAuMotifAFaire = new Parcelle[motifAFaire.length];
+        motifRessemblantAuMotifAFaire[0] = parcelleMotifAFaire;
+
+        for (int i = 1; i < motifAFaire.length; i++) {
+            Position positionMotif = motifAFaire[i].getPosition();
+            Position positionACheck = new Position(positionMotif.getX() + differenceX, positionMotif.getY() + differenceY);
+            Parcelle parcelleTrouve = null;
+
+            for (Parcelle parcellePlateau : tableauParcellesPlateau) {
+                if (parcellePlateau.getPosition().equals(positionACheck)) {
+                    parcelleTrouve = parcellePlateau;
+                    break;
+                }
+            }
+
+            if (parcelleTrouve == null) parcelleTrouve = new ParcelleDisponible(positionACheck);
+            motifRessemblantAuMotifAFaire[i] = parcelleTrouve;
+        }
+        return motifRessemblantAuMotifAFaire;
     }
 
     /**
@@ -74,41 +99,6 @@ public class GestionnairePossibiliteMotif {
         return parcelleMaxMotif;
     }
 
-    /**
-     * Crée le Motif avec la Parcelle qui est la plus proche de finir l'objectif
-     * @param tableauParcellesPlateau Tableau des parcelles du plateau
-     * @param parcelleMotifAFaire Parcelle qui est la plus proche de finir l'objectif
-     * @param motifAFaire Motif à faire avec la parcelle
-     * @return le tableau du Motif ressemblant au motif de l'objectif parcelle
-     */
-    public static Parcelle[] getMotifAFaire(Parcelle[] tableauParcellesPlateau,
-                                            Parcelle parcelleMotifAFaire, Parcelle[] motifAFaire) {
-
-        int differenceX = parcelleMotifAFaire.getPosition().getX() - motifAFaire[0].getPosition().getX();
-        int differenceY = parcelleMotifAFaire.getPosition().getY() - motifAFaire[0].getPosition().getY();
-        Parcelle[] motifRessemblantAuMotifAFaire = new Parcelle[motifAFaire.length];
-        motifRessemblantAuMotifAFaire[0] = parcelleMotifAFaire;
-
-        for (int i = 1; i < motifAFaire.length; i++) {
-            Position positionMotif = motifAFaire[i].getPosition();
-            Position positionACheck =
-                    new Position(positionMotif.getX() + differenceX, positionMotif.getY() + differenceY);
-            Parcelle parcelleTrouve = null;
-
-            for (Parcelle parcellePlateau : tableauParcellesPlateau) {
-                if (parcellePlateau.getPosition().equals(positionACheck)) {
-                    parcelleTrouve = parcellePlateau;
-                    break;
-                }
-            }
-
-            if (parcelleTrouve == null) {
-                parcelleTrouve = new ParcelleDisponible(positionACheck);
-            }
-            motifRessemblantAuMotifAFaire[i] = parcelleTrouve;
-        }
-        return motifRessemblantAuMotifAFaire;
-    }
 
     /**
      * Renvoie le nombre de parcelles de couleur dans le motif
@@ -261,11 +251,11 @@ public class GestionnairePossibiliteMotif {
             }
         }
 
-        Optional<Position> positionARecuperer = GestionnairePossibiliteMotif
+        Optional<Position> positionARecuperer = GestionnairePossibiliteMotifJoueur
                 .cherchePositionPossibilitePourFaireMotif(positionsDisponiblesBoard, motifPlusRessemblant);
         if(positionARecuperer.isPresent()) return positionARecuperer;
 
-        Optional<Position> optPosition = GestionnairePossibiliteMotif
+        Optional<Position> optPosition = GestionnairePossibiliteMotifJoueur
                 .cherchePositionARecuperer(positionsDisponiblesBoard,motifPlusRessemblant);
         if(optPosition.isPresent()) return optPosition;
         else return Optional.of(positionsDisponiblesBoard[0]);
