@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.Empereur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +27,10 @@ class JoueurTest {
     Plateau plateau;
     PiocheSectionBambou piocheSectionBambou;
     PiocheParcelle piocheParcelle;
+    PiocheIrrigation piocheIrrigation;
+    PiocheObjectifParcelle piocheObjectifParcelle;
+    PiocheObjectifPanda piocheObjectifPanda;
+    PiocheObjectifJardinier piocheObjectifJardinier;
     boolean[] piochesVides;
 
 
@@ -38,6 +43,10 @@ class JoueurTest {
         piocheSectionBambou = new PiocheSectionBambou();
         plateau = new Plateau(piocheSectionBambou);
         piocheParcelle = new PiocheParcelle(new Random());
+        piocheIrrigation = new PiocheIrrigation();
+        piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
+        piocheObjectifPanda = new PiocheObjectifPanda(new Random());
+        piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piochesVides = new boolean[] {false, false, false, false, false};
     }
 
@@ -108,20 +117,39 @@ class JoueurTest {
     @Test
     void joueParcelle() {
         Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurJardinier.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurComplet.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
 
         assertEquals(1, spyPlateau.getParcelles().length);
 
-        for (int i=0; i<6; i++){
+        for (int i=0; i<2; i++){
             joueurPanda.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurParcelle.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurComplet.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
         }
 
-        assertEquals(7, spyPlateau.getParcelles().length);
+        assertEquals(9, spyPlateau.getParcelles().length);
 
-        verify(spyPlateau, times(6)).poseParcelle(any(ParcelleCouleur.class));
+        verify(spyPlateau, times(8)).poseParcelle(any(ParcelleCouleur.class));
     }
 
     @Test
     void joueIrrigation() {
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+        assertEquals(0, spyPlateau.getIrrigationsPosees().length);
+        for (int i=0; i<2; i++){
+            joueurPanda.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurComplet.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+        }
+
+        joueurParcelle.actionIrrigation(spyPlateau, piocheIrrigation);
+        verify(spyPlateau, times(1)).poseIrrigation(any(Irrigation.class));
+        assertEquals(1, spyPlateau.getIrrigationsPosees().length);
+        joueurParcelle.actionIrrigation(spyPlateau, piocheIrrigation);
     }
 
     @Test
@@ -134,6 +162,15 @@ class JoueurTest {
 
     @Test
     void piocheObjectif() {
+        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurJardinier.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurComplet.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+
+        assertEquals(1, joueurPanda.nombreObjectifsEnMain());
+        assertEquals(1, joueurParcelle.nombreObjectifsEnMain());
+        assertEquals(1, joueurJardinier.nombreObjectifsEnMain());
+        assertEquals(1, joueurComplet.nombreObjectifsEnMain());
     }
 
     @Test
