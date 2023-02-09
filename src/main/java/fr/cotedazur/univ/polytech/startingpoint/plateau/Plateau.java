@@ -26,7 +26,7 @@ public class Plateau {
     private final Panda panda;
     private final Jardinier jardinier;
     private final Set<Irrigation> irrigationsPosees;
-    private Set<Irrigation> irrigationsDisponibles;
+    private final Set<Irrigation> irrigationsDisponibles;
     private final PiocheSectionBambou piocheBambou;
 
 
@@ -138,9 +138,6 @@ public class Plateau {
         return irrigationsDisponibles.toArray(new Irrigation[0]);
     }
 
-    public void setIrrigationsDisponibles(Set<Irrigation> irrigationsDisponibles){
-        this.irrigationsDisponibles = irrigationsDisponibles;
-    }
 
     // Méthodes d'utilisation
 
@@ -278,13 +275,12 @@ public class Plateau {
     }
 
     /**
-     * Pose du bambou uniquement si la parcelle est irriguée, ajoute une nouvelle section de bambou si il
-     * existe déja un bambou sur la parcelle, sinon crée un nouveau bambou puis ajoute une section de bambou
+     * Pose du bambou uniquement si la parcelle est irriguée
      * @param parcelleCouleur parcelle sur laquelle on veut faire pousser du bambou
      * @param sectionBambou sectionBambou pioché dans la Pioche Bamboou
      * @return true si le bambou a bien été posé, false sinon
      */
-    public boolean poseBambou(ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou){
+    public boolean poseBambou(ParcelleCouleur parcelleCouleur, SectionBambou sectionBambou) {
         if (parcelleCouleur.isIrriguee()){
             Optional<Bambou> optionalBambou = GestionBambous.chercheBambou(getBambous(), parcelleCouleur.getPosition());
 
@@ -292,8 +288,10 @@ public class Plateau {
             if (optionalBambou.isPresent()){
                 Bambou bambou = optionalBambou.get();
                 try {
-                    if (!bambou.isTailleMaximum()) bambou.ajouteSectionBambou(sectionBambou);
-                    return true;
+                    if (!bambou.isTailleMaximum()) {
+                        bambou.ajouteSectionBambou(sectionBambou);
+                        return true;
+                    }
                 } catch (AjoutCouleurException e) {
                     throw new AssertionError(e);
                 }
@@ -316,25 +314,16 @@ public class Plateau {
     }
 
     /**
-     * eleve un bambou de la parcelle
-     * @param bambou un bambou
-     * @return une sectionBambou
-     */
-    public SectionBambou mangeBambou (Bambou bambou) {
-        return bambou.prendSectionBambou();
-    }
-
-    /**
-     * deplacement du Panda
+     * Déplacement du Panda
      * @param position la nouvelle position du panda
-     * @return la sectionBambou mangé
+     * @return la section de bambou mangée
      */
     public Optional<SectionBambou> deplacementPanda(Position position) {
         panda.move(position);
         AfficheurPersonnage.deplacePersonnage(panda);
 
-        Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(getParcelles(),position);
-        if(parcelle.isPresent() && parcelle.get().getClass().equals(ParcelleCouleur.class)) {
+        Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(getParcelles(), position);
+        if (parcelle.isPresent() && parcelle.get().getClass().equals(ParcelleCouleur.class)) {
             Optional<Bambou> bambou = GestionBambous.chercheBambou(getBambous(), position);
 
             if (bambou.isPresent() && !bambou.get().isEmpty()) {
@@ -345,9 +334,17 @@ public class Plateau {
     }
 
     /**
-     * Déplace le jardinier et ajoute le bambous sur la parcelle et ses voisins irriguées et de la même couleur
-     * @param position position de la parcelle où on veut déplavcer le jardinier
-     * @throws ParcelleNonPoseeException Renvoi une erreur si existe une exception
+     * Mange une section de bambou de la parcelle
+     * @param bambou un bambou
+     * @return une sectionBambou
+     */
+    private SectionBambou mangeBambou (Bambou bambou) {
+        return bambou.prendSectionBambou();
+    }
+
+    /**
+     * Déplace le jardinier et ajoute le bambou sur la parcelle et ses voisines irriguées et de la même couleur
+     * @param position la position de la parcelle où déplacer le jardinier
      */
     public void deplacementJardinier(Position position) {
         // déplacement du jardinier
@@ -357,26 +354,38 @@ public class Plateau {
         Optional<Parcelle> parcelleJardinier = GestionParcelles.chercheParcelle(getParcelles(),position);
         if (parcelleJardinier.isPresent() && parcelleJardinier.get().getClass().equals(ParcelleCouleur.class)){
             ParcelleCouleur parcelleCouleurJardinier = (ParcelleCouleur) parcelleJardinier.get();
-            Couleur couleurParcelleJardinier = parcelleCouleurJardinier.getCouleur();
+            poseBambousParcelle(parcelleCouleurJardinier);
+        }
+    }
 
-            //ajout du bambou sur la parcelle du Jardinier
-            if (parcelleCouleurJardinier.isIrriguee()) poseBambou(parcelleCouleurJardinier, piocheBambou.pioche(parcelleCouleurJardinier.getCouleur()));
+    /**
+     * Pose les bambous sur la parcelle donnée (si irriguée) et les voisines irriguées de même couleur
+     * @param parcelleCouleur la parcelle de départ
+     */
+    private void poseBambousParcelle(ParcelleCouleur parcelleCouleur) {
+        Couleur couleurParcelleJardinier = parcelleCouleur.getCouleur();
 
-            //ajout du bambou sur les parcelles voisines irriguées
-            Parcelle[] voisines;
-            try {
-                voisines = getVoisinesParcelle(parcelleCouleurJardinier);
-            } catch (ParcelleNonPoseeException e) {
-                throw new AssertionError(e);
-            }
-            for (Parcelle parcelle : voisines){
-                if (parcelle.getClass().equals(ParcelleCouleur.class)) {
-                    ParcelleCouleur parcelleVoisine = (ParcelleCouleur) parcelle;
-                    if (parcelleVoisine.isIrriguee() && parcelleVoisine.getCouleur().equals(couleurParcelleJardinier))
-                        poseBambou(parcelleVoisine, piocheBambou.pioche(parcelleCouleurJardinier.getCouleur()));
+        //ajout du bambou sur la parcelle du Jardinier
+        if (parcelleCouleur.isIrriguee()) {
+            poseBambou(parcelleCouleur, piocheBambou.pioche(parcelleCouleur.getCouleur()));
+        }
+
+        //ajout du bambou sur les parcelles voisines irriguées
+        Parcelle[] voisines;
+        try {
+            voisines = getVoisinesParcelle(parcelleCouleur);
+        } catch (ParcelleNonPoseeException e) {
+            throw new AssertionError(e);
+        }
+
+        for (Parcelle parcelle : voisines) {
+            if (parcelle.getClass().equals(ParcelleCouleur.class)) {
+                ParcelleCouleur parcelleVoisine = (ParcelleCouleur) parcelle;
+
+                if (parcelleVoisine.isIrriguee() && parcelleVoisine.getCouleur().equals(couleurParcelleJardinier)) {
+                    poseBambou(parcelleVoisine, piocheBambou.pioche(parcelleCouleur.getCouleur()));
                 }
             }
-
         }
     }
 }

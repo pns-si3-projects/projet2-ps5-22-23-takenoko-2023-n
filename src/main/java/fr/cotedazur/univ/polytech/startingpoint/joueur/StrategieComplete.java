@@ -22,6 +22,7 @@ import java.util.*;
 
 public class StrategieComplete implements Strategie {
     private boolean premierTour = true;
+
     @Override
     public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs,
                                                      Plateau plateau, boolean[] piochesVides) {
@@ -57,6 +58,13 @@ public class StrategieComplete implements Strategie {
         return Plaquette.ActionPossible.JARDINIER;
     }
 
+    /**
+     * Renvoie s'il faut faire le choix de l'action objectif
+     * @param actionsRealiseesTour le tableau des actions réalisées lors du tour
+     * @param objectifs la liste des objectifs à réaliser
+     * @param piochesVides un tableau pour savoir quelle pioche est vide
+     * @return {@code true} si l'action objectif est à réaliser
+     */
     public static boolean choixObjectif(boolean[] actionsRealiseesTour,
                                         List<Objectif> objectifs, boolean[] piochesVides) {
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
@@ -142,10 +150,10 @@ public class StrategieComplete implements Strategie {
     }
 
     /**
-     * Renvoie la parcelles couleur pour remplir les parcelles de l'etang
-     * @param parcellesAutourEtang parcelles voisines autour de l'etang
-     * @param parcellePioches Le tableau de parcelle Pioche
-     * @return la parcelles couleur pour remplir les parcelles de l'etang
+     * Renvoie la parcelle couleur pour remplir les parcelles autour de l'étang
+     * @param parcellesAutourEtang parcelles voisines autour de l'étang
+     * @param parcellePioches le tableau de parcelle Pioche
+     * @return la parcelle couleur pour remplir les parcelles autour de l'étang
      */
     public Optional<ParcelleCouleur> actionParcelleEtang(Parcelle[] parcellesAutourEtang, ParcellePioche[] parcellePioches) {
         Set<Couleur> setCouleur = getCouleurParcelleVoisineEtang(parcellesAutourEtang);
@@ -153,9 +161,9 @@ public class StrategieComplete implements Strategie {
     }
 
     /**
-     * Renvoie le nombre de parcelle Couleur autour de l'etang
+     * Renvoie le nombre de parcelles Couleur autour de l'étang
      * @param voisines les voisines d'une parcelle
-     * @return le nombre de parcelle Couleur autour de l'etang
+     * @return le nombre de parcelles Couleur autour de l'étang
      */
     private int countParcelleCouleur(Parcelle[] voisines) {
         int count = 0;
@@ -168,9 +176,9 @@ public class StrategieComplete implements Strategie {
     }
 
     /**
-     * Renvoie les couleurs des parcelles autour de l'etang
-     * @param parcelleVoisineEtang Les parcelles voisines autour de l'etang
-     * @return les couleurs des parcelles autour de l'etang
+     * Renvoie les couleurs des parcelles autour de l'étang
+     * @param parcelleVoisineEtang les parcelles voisines autour de l'étang
+     * @return les couleurs des parcelles autour de l'étang
      */
     private Set<Couleur> getCouleurParcelleVoisineEtang(Parcelle[] parcelleVoisineEtang) {
         Set<Couleur> setCouleur = new HashSet<>();
@@ -184,11 +192,11 @@ public class StrategieComplete implements Strategie {
     }
 
     /**
-     * Renvoie la position à prendre autour de l'etang
-     * @param parcelleVoisineEtang Les parcelles voisines autour de l'etang
-     * @param couleurPresente Les couleurs présente dans les parcelles voisines de l'etang
-     * @param parcellePioches Le tableau de Parcelles pioche
-     * @return la position à prendre autour de l'etang
+     * Renvoie la position à prendre autour de l'étang
+     * @param parcelleVoisineEtang Les parcelles voisines autour de l'étang
+     * @param couleurPresente les couleurs présentes dans les parcelles voisines de l'étang
+     * @param parcellePioches le tableau de Parcelles pioche
+     * @return la position à prendre autour de l'étang
      */
     private Optional<ParcelleCouleur> positionAPrendreAutourEtang(Parcelle[] parcelleVoisineEtang, Set<Couleur> couleurPresente, ParcellePioche[] parcellePioches) {
         Couleur[] couleurs = new Couleur[]{Couleur.VERTE, Couleur.ROSE, Couleur.JAUNE};
@@ -215,8 +223,8 @@ public class StrategieComplete implements Strategie {
 
     /**
      * Renvoie la parcellePioche en fonction de la couleur de la parcelle couleur
-     * @param parcellePioches Le tableau des 3 parcelles piocher
-     * @param parcelleCouleur La parcelle Couleur choisi
+     * @param parcellePioches le tableau des 3 parcelles à piocher
+     * @param parcelleCouleur la parcelle Couleur choisie
      * @return la parcellePioche en fonction de la couleur de la parcelle couleur
      */
     private ParcellePioche findListParcellePioche(ParcellePioche[] parcellePioches, ParcelleCouleur parcelleCouleur) {
@@ -314,13 +322,12 @@ public class StrategieComplete implements Strategie {
     }
 
     /**
-     * retourne une position disponible pour le deplacement a la couleur souhaitee
+     * Retourne une position disponible pour le déplacement de la couleur souhaitée
      * @param plateau le plateau
      * @param couleur la couleur voulue
-     * @return la position qui et disponible pour le deplecement et de la couleur voulue.
-     * Si aucune parcelle de la couluer voulue n'est disponible on renvoie le premier position
+     * @return la position disponible pour le déplacement de la couleur souhaitée ou la première position
      */
-    public Position parcelleCouleurVoulue(Plateau plateau, Couleur couleur, boolean bambouMax) {
+    private Position parcelleCouleurVoulue(Plateau plateau, Couleur couleur, boolean bambouMax) {
         //recuperation des deplacement possible
         List<Position> deplacementPossible = GestionPersonnages
                 .deplacementsPossibles(plateau.getParcelleEtVoisinesList(),plateau.getPanda().getPosition());
@@ -330,23 +337,29 @@ public class StrategieComplete implements Strategie {
     }
 
     /**
-     * renvoie la couleur manquante pour objectifPanda de 3 bambou
+     * Renvoie la couleur manquante pour objectifPanda de 3 bambous
      * @param plaquette la plaquette
      * @return la couleur manquante
      */
-    public Couleur plaquetteCouleurManquante(Plaquette plaquette) {
-        if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.VERTE) == 0) {return Couleur.VERTE; }
-        if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.ROSE) == 0) {return Couleur.ROSE; }
-        if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.JAUNE) == 0) {return Couleur.JAUNE; }
+    private Couleur plaquetteCouleurManquante(Plaquette plaquette) {
+        if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.VERTE) == 0) {
+            return Couleur.VERTE;
+        }
+        if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.ROSE) == 0) {
+            return Couleur.ROSE;
+        }
+        if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.JAUNE) == 0) {
+            return Couleur.JAUNE;
+        }
         return null;
     }
 
     /**
-     * retourne les objectifPandas d'une liste d'objectif
-     * @param objectifs la liste des objectifs mis en parametre
+     * Retourne les objectifPandas d'une liste d'objectif
+     * @param objectifs la liste des objectifs mis en paramètre
      * @return la liste des objectifPanda issu de la liste d'objectif
      */
-    public List<ObjectifPanda> getObjectifPanda(List<Objectif> objectifs) {
+    private List<ObjectifPanda> getObjectifPanda(List<Objectif> objectifs) {
         List<ObjectifPanda> objectifsPandas = new ArrayList<>();
         for (Objectif objectif : objectifs) {
             if(objectif.getClass().equals(ObjectifPanda.class)) {
@@ -357,11 +370,11 @@ public class StrategieComplete implements Strategie {
     }
 
     /**
-     * retourne les objectifJardiniers d'une liste d'objectif
-     * @param objectifs la liste des objectifs mis en parametre
+     * Retourne les objectifJardiniers d'une liste d'objectif
+     * @param objectifs la liste des objectifs mis en paramètre
      * @return la liste des objectifJardinier issu de la liste d'objectif
      */
-    public List<ObjectifJardinier> getObjectifJardinier(List<Objectif> objectifs) {
+    private List<ObjectifJardinier> getObjectifJardinier(List<Objectif> objectifs) {
         List<ObjectifJardinier> objectifsJardiniers = new ArrayList<>();
         for (Objectif objectif : objectifs) {
             if(objectif.getClass().equals(ObjectifJardinier.class)) {
@@ -372,11 +385,11 @@ public class StrategieComplete implements Strategie {
     }
 
     /**
-     * retourne les objectifParcelles d'une liste d'objectif
-     * @param objectifs la liste des objectifs mis en parametre
+     * Retourne les objectifParcelles d'une liste d'objectif
+     * @param objectifs la liste des objectifs mis en paramètre
      * @return la liste des objectifParcelle issu de la liste d'objectif
      */
-    public List<ObjectifParcelle> getObjectifParcelle(List<Objectif> objectifs) {
+    private List<ObjectifParcelle> getObjectifParcelle(List<Objectif> objectifs) {
         List<ObjectifParcelle> objectifsParcelle = new ArrayList<>();
         for (Objectif objectif : objectifs) {
             if(objectif.getClass().equals(ObjectifParcelle.class)) {

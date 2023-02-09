@@ -14,9 +14,21 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class ReadCSV {
+    // Définition des attributs
+
     private static final Path cheminFichier = FileSystems.getDefault().getPath("stats", "data.csv");
 
-    public static String main(String[] args) {
+
+    // Définition d'un constructeur privé pour éviter les instanciations
+
+    private ReadCSV() {
+        throw new IllegalStateException("Utility class");
+    }
+
+
+    // Méthodes d'utilisation
+
+    public static String read() {
         CSVParser csvParser = new CSVParserBuilder()
                 .withSeparator(',')
                 .withIgnoreQuotations(true)
