@@ -62,10 +62,13 @@ public class StrategieComplete implements Strategie {
             //positions disponibles pour poser la parcelle
             Position[] positionsDisponible = plateau.getPositionsDisponibles();
 
-            Optional<Position> optPosition = GestionnairePossibiliteMotifJoueur.cherchePositionPossibilitePourFaireMotif(plateau.getPositionsDisponibles(), objectifParcellesMax.getSchema().getTableauParcelles());
-
+            //si il existe un objectif
             Position positionChoisie = null;
-            if (optPosition.isPresent()) positionChoisie = optPosition.get();
+            if (objectifParcellesMax != null) {
+                //position
+                Optional<Position> optPosition = GestionnairePossibiliteMotifJoueur.cherchePositionPossibilitePourFaireMotif(plateau.getPositionsDisponibles(), objectifParcellesMax.getSchema().getTableauParcelles());
+                if (optPosition.isPresent()) positionChoisie = optPosition.get();
+            }
 
             //si positionChoisie == null, alors pas de possibilités pour compléter le motif donc 1er position disponible
             if (positionChoisie == null) positionChoisie = positionsDisponible[0];
@@ -73,16 +76,8 @@ public class StrategieComplete implements Strategie {
             //pioche 3 parcelles
             ParcellePioche[] pioche3parcelles = piocheParcelle.pioche();
 
-            //couleur des parcelles du motif
-            Parcelle[] parcellesMotif = objectifParcellesMax.getSchema().getTableauParcelles();
-            Couleur[] couleursMotif = new Couleur[parcellesMotif.length];
-            for (int i=0; i < parcellesMotif.length; i++){
-                if (parcellesMotif[i].getClass().equals(ParcelleCouleur.class)) {
-                    ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcellesMotif[i];
-                    couleursMotif[i] = parcelleCouleur.getCouleur();
-                }
-            }
 
+            //recuperer couleur motif et comparer avec couleur posees
             //Ajouter une condition avec la couleur de l'objectif
             //for (ParcellePioche parcellePioche : pioche3parcelles){
             //    if (parcellePioche.getCouleur().equals());
