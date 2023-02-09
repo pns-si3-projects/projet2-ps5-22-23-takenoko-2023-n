@@ -16,7 +16,11 @@ import java.util.List;
 public class ReadCSV {
     private static final Path cheminFichier = FileSystems.getDefault().getPath("stats", "data.csv");
 
-    public static String main(String[] args) {
+    private ReadCSV() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static String lireCSV() {
         CSVParser csvParser = new CSVParserBuilder()
                 .withSeparator(',')
                 .withIgnoreQuotations(true)
