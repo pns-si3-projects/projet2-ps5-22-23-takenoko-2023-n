@@ -9,6 +9,7 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,11 @@ class JoueurTest {
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piochesVides = new boolean[] {false, false, false, false, false};
+
+        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurJardinier.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurComplet.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
     }
 
 
@@ -117,10 +123,6 @@ class JoueurTest {
     @Test
     void joueParcelle() {
         Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
-        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
-        joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
-        joueurJardinier.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
-        joueurComplet.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
 
         assertEquals(1, spyPlateau.getParcelles().length);
 
@@ -141,6 +143,7 @@ class JoueurTest {
         Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
         assertEquals(0, spyPlateau.getIrrigationsPosees().length);
         for (int i=0; i<2; i++){
+            joueurParcelle.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
             joueurPanda.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
             joueurComplet.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
             joueurJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
@@ -154,10 +157,46 @@ class JoueurTest {
 
     @Test
     void deplaceJardinier() {
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        for (int i=0; i<2; i++){
+            joueurParcelle.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurPanda.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurComplet.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+        }
+        for (int i=0; i<2; i++) {
+            joueurJardinier.actionJardinier(spyPlateau, piocheSectionBambou);
+            joueurComplet.actionJardinier(spyPlateau, piocheSectionBambou);
+            joueurParcelle.actionJardinier(spyPlateau, piocheSectionBambou);
+            joueurPanda.actionJardinier(spyPlateau, piocheSectionBambou);
+        }
+
+        try {
+            verify(spyPlateau, times(8)).deplacementJardinier(any(Position.class));
+        } catch (ParcelleNonPoseeException e) {
+            throw new AssertionError(e);
+        }
     }
 
     @Test
     void deplacePanda() {
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        for (int i=0; i<2; i++){
+            joueurParcelle.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurPanda.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurComplet.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+            joueurJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou);
+        }
+        for (int i=0; i<2; i++) {
+            joueurPanda.actionPanda(spyPlateau);
+            joueurComplet.actionPanda(spyPlateau);
+            joueurParcelle.actionPanda(spyPlateau);
+            joueurJardinier.actionPanda(spyPlateau);
+        }
+        verify(spyPlateau, times(8)).deplacementPanda(any(Position.class));
+
     }
 
     @Test
