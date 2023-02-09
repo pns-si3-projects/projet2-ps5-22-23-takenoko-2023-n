@@ -93,10 +93,10 @@ public class Main {
      * Joue une partie de demo entre plusieurs bots
      */
     private static void joueDemo() {
-        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.PANDA);
+        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.JARDINIER);
+        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.PARCELLE);
         Joueur joueur3 = new Joueur("joueurCom", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.JARDINIER);
+        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.PANDA);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
@@ -106,7 +106,7 @@ public class Main {
      * Joue un nombre limité de parties en enregistrant des statistiques dans un fichier CSV
      */
     private static void joueCSV() {
-        String totalPointPartiePrecedente = ReadCSV.main(null);
+        String totalPointPartiePrecedente = ReadCSV.lireCSV();
         Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.PANDA);
         Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.PARCELLE);
         Joueur joueur3 = new Joueur("joueurCom", Strategie.StrategiePossible.COMPLET);
@@ -123,18 +123,5 @@ public class Main {
         int totalPointsToutesParties = Integer.parseInt(totalPointPartiePrecedente) + totalPts;
         WriteCSV.main(new String[]{String.valueOf(nbrPtsJ1), String.valueOf(nbrPtsJ2), String.valueOf(nbrPtsJ3),
                 String.valueOf(nbrPtsJ4), String.valueOf(totalPts), String.valueOf(totalPointsToutesParties) });
-    }
-
-    /**
-     * Joue une partie normale
-     */
-    private static void jouePresentation() {
-        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur3 = new Joueur("joueurCom", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.COMPLET);
-        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
-        maitreDuJeu.jeu();
-        AfficheurJeu.etatJeu(maitreDuJeu);
     }
 }
