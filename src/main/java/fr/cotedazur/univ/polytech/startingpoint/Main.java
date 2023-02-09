@@ -78,7 +78,7 @@ public class Main {
      */
     private static void joue2Thousands() {
         LOGGER.warning("Début mode 2thousands");
-        for (int i=0; i<50; i++){
+        for (int i=0; i<1000; i++){
             Joueur joueur1 = new Joueur("joueurPar1", Strategie.StrategiePossible.PANDA);
             Joueur joueur2 = new Joueur("joueurPar2", Strategie.StrategiePossible.PARCELLE);
             Joueur joueur3 = new Joueur("joueurPar3", Strategie.StrategiePossible.COMPLET);
@@ -129,10 +129,10 @@ public class Main {
      * Joue une partie normale
      */
     private static void jouePresentation() {
-        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.PANDA);
-        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.PARCELLE);
+        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.COMPLET);
+        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.COMPLET);
         Joueur joueur3 = new Joueur("joueurCom", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.JARDINIER);
+        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.COMPLET);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
