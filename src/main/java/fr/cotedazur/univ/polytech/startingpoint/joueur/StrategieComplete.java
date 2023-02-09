@@ -24,12 +24,8 @@ public class StrategieComplete implements Strategie {
     public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs,
                                                      Plateau plateau, boolean[] piochesVides) {
 
-        Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
-        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size()<Joueur.NOMBRE_OBJECTIFS_MAX)
-                && (!piochesVides[GestionTours.PiochesPossibles.OBJ_PANDA.ordinal()]
-                || !piochesVides[GestionTours.PiochesPossibles.OBJ_PARCELLE.ordinal()]
-                || !piochesVides[GestionTours.PiochesPossibles.OBJ_JARDINIER.ordinal()] )) {
-            return objectif;
+        if (choixObjectif(actionsRealiseesTour, objectifs, piochesVides)) {
+            return Plaquette.ActionPossible.OBJECTIF;
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
@@ -57,6 +53,16 @@ public class StrategieComplete implements Strategie {
         }
 
         return Plaquette.ActionPossible.JARDINIER;
+    }
+
+    public static boolean choixObjectif(boolean[] actionsRealiseesTour,
+                                        List<Objectif> objectifs, boolean[] piochesVides) {
+        Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
+
+        return (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size()<Joueur.NOMBRE_OBJECTIFS_MAX)
+                && (!piochesVides[GestionTours.PiochesPossibles.OBJ_PANDA.ordinal()]
+                || !piochesVides[GestionTours.PiochesPossibles.OBJ_PARCELLE.ordinal()]
+                || !piochesVides[GestionTours.PiochesPossibles.OBJ_JARDINIER.ordinal()] ));
     }
 
     @Override

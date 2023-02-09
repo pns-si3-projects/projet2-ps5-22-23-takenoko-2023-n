@@ -112,12 +112,8 @@ public class StrategieParcelle implements Strategie {
             return parcelle;
         }
 
-        Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
-        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)
-                && (!piochesVides[GestionTours.PiochesPossibles.OBJ_PANDA.ordinal()]
-                || !piochesVides[GestionTours.PiochesPossibles.OBJ_PARCELLE.ordinal()]
-                || !piochesVides[GestionTours.PiochesPossibles.OBJ_JARDINIER.ordinal()] )) {
-            return objectif;
+        if (StrategieComplete.choixObjectif(actionsRealiseesTour, objectifs, piochesVides)) {
+            return Plaquette.ActionPossible.OBJECTIF;
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
