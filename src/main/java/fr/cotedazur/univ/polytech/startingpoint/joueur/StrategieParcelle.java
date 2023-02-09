@@ -230,11 +230,16 @@ public class StrategieParcelle implements Strategie {
     }
 
     public Position choixDeplacementPosition(Plateau plateau, Position position, boolean bambouMax) {
-        List<Position> deplacementPossible =
-                GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), position);
-        List<Position> positionAvecBambou =
-                GestionBambous.positionAvecBambou(deplacementPossible, plateau, bambouMax);
-        return positionAvecBambou.get(positionAvecBambou.size()/2);
+        List<Position> deplacementsPossibles = GestionPersonnages
+                .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), position);
+        List<Position> positionsAvecBambou =
+                GestionBambous.positionAvecBambou(deplacementsPossibles, plateau, bambouMax);
+
+        if (positionsAvecBambou.isEmpty()) {
+            return deplacementsPossibles.get(deplacementsPossibles.size()/2);
+        } else {
+            return positionsAvecBambou.get(positionsAvecBambou.size()/2);
+        }
     }
 
     @Override

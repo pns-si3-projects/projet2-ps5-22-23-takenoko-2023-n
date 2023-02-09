@@ -78,13 +78,6 @@ public class StrategieComplete implements Strategie {
         try {
             ParcellePioche[] pioche3parcelles = piocheParcelle.pioche();
 
-            /*
-            //recuperer couleur motif et comparer avec couleur posees
-            Ajouter une condition avec la couleur de l'objectif
-            for (ParcellePioche parcellePioche : pioche3parcelles){
-                if (parcellePioche.getCouleur().equals());
-            }*/
-
             ParcelleCouleur parcelleCouleurChoisie = piocheParcelle.choisiParcelle(pioche3parcelles[0], positionChoisie);
             plateau.poseParcelle(parcelleCouleurChoisie);
         } catch (PiocheParcelleVideException | PiocheParcelleEnCoursException e) {
@@ -102,17 +95,43 @@ public class StrategieComplete implements Strategie {
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
         List<ObjectifJardinier> objectifJardiniers = getObjectifJardinier(objectifs);
 
-        ObjectifJardinier objectifJardinierChoisi = objectifJardiniers.get(0);
-        for (int i=1; i<objectifJardiniers.size(); i++) {
-            ObjectifJardinier objectifJardinier = objectifJardiniers.get(i);
-            if (objectifJardinierChoisi.getNombrePoints() < objectifJardinier.getNombrePoints()) {
-                objectifJardinierChoisi = objectifJardinier;
+        Position futurePosition;
+
+        if (objectifJardiniers.isEmpty()) {
+            futurePosition = futurePosition(plateau, true);
+        }
+        else {
+            ObjectifJardinier objectifJardinierChoisi = objectifJardiniers.get(0);
+            for (int i=1; i<objectifJardiniers.size(); i++) {
+                ObjectifJardinier objectifJardinier = objectifJardiniers.get(i);
+                if (objectifJardinierChoisi.getNombrePoints() < objectifJardinier.getNombrePoints()) {
+                    objectifJardinierChoisi = objectifJardinier;
+                }
             }
+
+            Couleur couleurVoulue = objectifJardinierChoisi.getCouleur();
+            futurePosition = parcelleCouleurVoulue(plateau, couleurVoulue, true);
         }
 
-        Couleur couleurVoulue = objectifJardinierChoisi.getCouleur();
-        Position futurePosition = parcelleCouleurVoulue(plateau, couleurVoulue, true);
         plateau.deplacementJardinier(futurePosition);
+    }
+
+    /**
+     * Renvoie la future position du personnage
+     * @param plateau le plateau du jeu
+     * @param bambouMax si on vérifie pour des bambous de taille maximum
+     */
+    private Position futurePosition(Plateau plateau, boolean bambouMax) {
+        List<Position> deplacementsPossibles = GestionPersonnages
+                .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
+        List<Position> positionsAvecBambou =
+                GestionBambous.positionAvecBambou(deplacementsPossibles, plateau, bambouMax);
+
+        if (positionsAvecBambou.isEmpty()) {
+            return deplacementsPossibles.get(0);
+        } else {
+            return positionsAvecBambou.get(0);
+        }
     }
 
     @Override
@@ -120,27 +139,34 @@ public class StrategieComplete implements Strategie {
         Optional<SectionBambou> bambouMange;
         List<ObjectifPanda> objectifPandas = getObjectifPanda(objectifs);
 
-        ObjectifPanda objectifPandaChoisi = objectifPandas.get(0);
-        for (int i=1; i<objectifPandas.size(); i++) {
-            ObjectifPanda objectifPanda = objectifPandas.get(i);
-            if (objectifPandaChoisi.getNombrePoints() < objectifPanda.getNombrePoints()) {
-                objectifPandaChoisi = objectifPanda;
+        Position futurePosition;
+
+        if (objectifPandas.isEmpty()) {
+            futurePosition = futurePosition(plateau, false);
+        }
+
+        else {
+            ObjectifPanda objectifPandaChoisi = objectifPandas.get(0);
+            for (int i=1; i<objectifPandas.size(); i++) {
+                ObjectifPanda objectifPanda = objectifPandas.get(i);
+                if (objectifPandaChoisi.getNombrePoints() < objectifPanda.getNombrePoints()) {
+                    objectifPandaChoisi = objectifPanda;
+                }
+            }
+
+            // si objectifPanda est de trois sections bambou de different couleur
+            if (objectifPandaChoisi.getBambousAManger().size() == 3) {
+                Couleur couleurVoulue = plaquetteCouleurManquante(plaquette);
+                futurePosition = parcelleCouleurVoulue(plateau, couleurVoulue, false);
+            }
+            // objectifPanda avec deux sectionBambou de meme couleur
+            else {
+                Couleur couleur = objectifPandaChoisi.getBambousAManger().get(0).getCouleur();
+                futurePosition = parcelleCouleurVoulue(plateau, couleur, false);
             }
         }
 
-        Position positionDeplacer;
-        // si objectifPanda est de trois sections bambou de different couleur
-        if (objectifPandaChoisi.getBambousAManger().size() == 3) {
-            Couleur couleurVoulue = plaquetteCouleurManquante(plaquette);
-            positionDeplacer = parcelleCouleurVoulue(plateau, couleurVoulue, false);
-        }
-        // objectifPanda avec deux sectionBambou de meme couleur
-        else {
-            Couleur couleur = objectifPandaChoisi.getBambousAManger().get(0).getCouleur();
-            positionDeplacer = parcelleCouleurVoulue(plateau, couleur, false);
-        }
-
-        bambouMange = plateau.deplacementPanda(positionDeplacer);
+        bambouMange = plateau.deplacementPanda(futurePosition);
         bambouMange.ifPresent(plaquette::mangeSectionBambou);
     }
 
@@ -218,7 +244,8 @@ public class StrategieComplete implements Strategie {
     }
 
     @Override
-    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier, PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
+    public void actionObjectif(PiocheObjectifParcelle piocheObjectifParcelle, PiocheObjectifJardinier piocheObjectifJardinier,
+                               PiocheObjectifPanda piocheObjectifPanda, List<Objectif> objectifs) {
         List<Objectif> objectifsPandaList = new ArrayList<>();
         List<Objectif> objectifParcelleList = new ArrayList<>();
 
@@ -227,13 +254,14 @@ public class StrategieComplete implements Strategie {
             else if (objectif.getClass().equals(ObjectifParcelle.class)) objectifParcelleList.add(objectif);
         }
 
-        Objectif objectif;
-        if (objectifsPandaList.size() < 2 && !piocheObjectifPanda.isEmpty()) objectif = piocheObjectifPanda.pioche();
-        else if (objectifParcelleList.size() < 2 && !piocheObjectifParcelle.isEmpty()) objectif = piocheObjectifParcelle.pioche();
-        else if (!piocheObjectifJardinier.isEmpty()) objectif = piocheObjectifJardinier.pioche();
-        else objectif = piocheObjectifPanda.pioche();
+        boolean piocheParcelleVide = piocheObjectifParcelle.isEmpty();
+        boolean piocheJardinierVide = piocheObjectifJardinier.isEmpty();
+        boolean piochePandaVide = piocheObjectifPanda.isEmpty();
 
-        objectifs.add(objectif);
+        if (!piochePandaVide && objectifsPandaList.size() < 2) objectifs.add(piocheObjectifPanda.pioche());
+        else if (!piocheParcelleVide && objectifParcelleList.size() < 2) objectifs.add(piocheObjectifParcelle.pioche());
+        else if (!piocheJardinierVide) objectifs.add(piocheObjectifJardinier.pioche());
+        else if (!piochePandaVide) objectifs.add(piocheObjectifPanda.pioche());
+        else objectifs.add(piocheObjectifParcelle.pioche());
     }
-
 }

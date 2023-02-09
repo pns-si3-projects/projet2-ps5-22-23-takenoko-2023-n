@@ -78,10 +78,10 @@ public class Main {
      */
     private static void joue2Thousands() {
         LOGGER.warning("Début mode 2thousands");
-        Joueur joueur1 = new Joueur("joueurPar1", Strategie.StrategiePossible.PANDA);
-        Joueur joueur2 = new Joueur("joueurPar2", Strategie.StrategiePossible.PARCELLE);
-        Joueur joueur3 = new Joueur("joueurPar3", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur4 = new Joueur("joueurPar4", Strategie.StrategiePossible.JARDINIER);
+        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.PANDA);
+        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.PARCELLE);
+        Joueur joueur3 = new Joueur("joueurCom", Strategie.StrategiePossible.COMPLET);
+        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.JARDINIER);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
@@ -95,10 +95,10 @@ public class Main {
      * Joue une partie de demo entre plusieurs bots
      */
     private static void joueDemo() {
-        Joueur joueur1 = new Joueur("joueurJar1", Strategie.StrategiePossible.JARDINIER);
-        Joueur joueur2 = new Joueur("joueurJar2", Strategie.StrategiePossible.JARDINIER);
-        Joueur joueur3 = new Joueur("joueurJar3", Strategie.StrategiePossible.JARDINIER);
-        Joueur joueur4 = new Joueur("joueurJar4", Strategie.StrategiePossible.JARDINIER);
+        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.PANDA);
+        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.PARCELLE);
+        Joueur joueur3 = new Joueur("joueurCom", Strategie.StrategiePossible.COMPLET);
+        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.JARDINIER);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
@@ -109,10 +109,10 @@ public class Main {
      */
     private static void joueCSV() {
         String totalPointPartiePrecedente = ReadCSV.main(null);
-        Joueur joueur1 = new Joueur("joueurPar1", Strategie.StrategiePossible.PARCELLE);
-        Joueur joueur2 = new Joueur("joueurPar2", Strategie.StrategiePossible.JARDINIER);
-        Joueur joueur3 = new Joueur("joueurPar3", Strategie.StrategiePossible.PANDA);
-        Joueur joueur4 = new Joueur("joueurPar4", Strategie.StrategiePossible.COMPLET);
+        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.PANDA);
+        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.PARCELLE);
+        Joueur joueur3 = new Joueur("joueurCom", Strategie.StrategiePossible.COMPLET);
+        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.JARDINIER);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
@@ -131,10 +131,10 @@ public class Main {
      * Joue une partie normale
      */
     private static void jouePresentation() {
-        Joueur joueur1 = new Joueur("joueur1", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur2 = new Joueur("joueur2", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur3 = new Joueur("joueur3", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur4 = new Joueur("joueur4",Strategie.StrategiePossible.COMPLET);
+        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.PANDA);
+        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.PARCELLE);
+        Joueur joueur3 = new Joueur("joueurCom", Strategie.StrategiePossible.COMPLET);
+        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.JARDINIER);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);

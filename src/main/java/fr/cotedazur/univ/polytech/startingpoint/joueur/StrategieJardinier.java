@@ -112,7 +112,7 @@ public class StrategieJardinier implements Strategie {
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
         Position futurePosition;
         List<Position> deplacementsPossibles = GestionPersonnages
-                .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
+                .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getPanda().getPosition());
         List<Position> positionsAvecBambou =
                 GestionBambous.positionAvecBambou(deplacementsPossibles, plateau, false);
 
