@@ -17,6 +17,6 @@ public class ArgumentConverter implements IStringConverter<ArgumentPossibleMain>
         if (value.equals("--csv")) {
             return ArgumentPossibleMain.CSV;
         }
-        return ArgumentPossibleMain.PRESENTATION;
+        return ArgumentPossibleMain.DEMO;
     }
 }

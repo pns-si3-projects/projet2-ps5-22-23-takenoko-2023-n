@@ -31,7 +31,7 @@ public class Main {
             argumentMain = argsMain.getArgument();
         }
         else {
-            argumentMain = ArgumentPossibleMain.PRESENTATION;
+            argumentMain = ArgumentPossibleMain.DEMO;
         }
 
         configureLogger(argumentMain);
@@ -67,7 +67,6 @@ public class Main {
             case THOUSANDS -> joue2Thousands();
             case DEMO -> joueDemo();
             case CSV -> joueCSV();
-            case PRESENTATION -> jouePresentation();
         }
     }
 
@@ -85,7 +84,8 @@ public class Main {
             Joueur joueur4 = new Joueur("joueurPar4", Strategie.StrategiePossible.JARDINIER);
             MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
             maitreDuJeu.jeu();
-            LOGGER.warning(Integer.toString(i+1));
+            String nbJeu = Integer.toString(i+1);
+            LOGGER.warning(nbJeu);
         }
     }
 
@@ -93,10 +93,10 @@ public class Main {
      * Joue une partie de demo entre plusieurs bots
      */
     private static void joueDemo() {
-        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.PANDA);
-        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.PARCELLE);
-        Joueur joueur3 = new Joueur("joueurCom", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.JARDINIER);
+        Joueur joueur1 = new Joueur("joueur panda", Strategie.StrategiePossible.PANDA);
+        Joueur joueur2 = new Joueur("joueur parcelle", Strategie.StrategiePossible.PARCELLE);
+        Joueur joueur3 = new Joueur("joueur complet", Strategie.StrategiePossible.COMPLET);
+        Joueur joueur4 = new Joueur("joueur jardinier", Strategie.StrategiePossible.JARDINIER);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
@@ -123,18 +123,5 @@ public class Main {
         int totalPointsToutesParties = Integer.parseInt(totalPointPartiePrecedente) + totalPts;
         WriteCSV.main(new String[]{String.valueOf(nbrPtsJ1), String.valueOf(nbrPtsJ2), String.valueOf(nbrPtsJ3),
                 String.valueOf(nbrPtsJ4), String.valueOf(totalPts), String.valueOf(totalPointsToutesParties) });
-    }
-
-    /**
-     * Joue une partie normale
-     */
-    private static void jouePresentation() {
-        Joueur joueur1 = new Joueur("joueurPan", Strategie.StrategiePossible.PANDA);
-        Joueur joueur2 = new Joueur("joueurPar", Strategie.StrategiePossible.PARCELLE);
-        Joueur joueur3 = new Joueur("joueurCom", Strategie.StrategiePossible.COMPLET);
-        Joueur joueur4 = new Joueur("joueurJar", Strategie.StrategiePossible.JARDINIER);
-        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
-        maitreDuJeu.jeu();
-        AfficheurJeu.etatJeu(maitreDuJeu);
     }
 }
