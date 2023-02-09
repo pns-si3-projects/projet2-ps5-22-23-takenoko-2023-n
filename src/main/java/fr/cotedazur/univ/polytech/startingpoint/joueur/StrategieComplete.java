@@ -262,7 +262,8 @@ public class StrategieComplete implements Strategie {
         Objectif objectif;
         if (objectifsPandaList.size() < 2 && !piocheObjectifPanda.isEmpty()) objectif = piocheObjectifPanda.pioche();
         else if (objectifParcelleList.size() < 2 && !piocheObjectifParcelle.isEmpty()) objectif = piocheObjectifParcelle.pioche();
-        else objectif = piocheObjectifJardinier.pioche();
+        else if (!piocheObjectifJardinier.isEmpty()) objectif = piocheObjectifJardinier.pioche();
+        else  objectif = piocheObjectifPanda.pioche();
 
         objectifs.add(objectif);
     }
