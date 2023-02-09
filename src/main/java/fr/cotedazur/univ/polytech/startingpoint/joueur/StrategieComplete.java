@@ -128,7 +128,7 @@ public class StrategieComplete implements Strategie {
             do {
                 objParChoisi = objectifParcelles.get(i);
                 optPosition = GestionnairePossibiliteMotifJoueur.cherchePositionPossibilitePourFaireMotif(
-                        plateau.getPositionsDisponibles(), objParChoisi.getSchema().getTableauParcelles());
+                        positionsDisponible, objParChoisi.getSchema().getTableauParcelles());
                 if (optPosition.isPresent()) positionChoisie = optPosition.get();
                 i++;
             } while (optPosition.isEmpty() && i<objectifParcelles.size());
