@@ -12,6 +12,7 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionParcelles;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
@@ -142,21 +143,25 @@ public class StrategieComplete implements Strategie {
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
+        Optional<SectionBambou> bambouMange = Optional.empty();
         List<ObjectifPanda> objectifPandas = getObjectifPanda(objectifs);
         for (ObjectifPanda objectifPanda : objectifPandas) {
             // si objectifPanda est de trois sections bambou de different couleur
             if(objectifPanda.getBambousAManger().size() == 3) {
                 Couleur couleurVoulue = plaquetteCouleurManquante(plaquette);
                 Position positionDeplacer = parcelleCouleurVoulue(plateau, couleurVoulue);
-                plateau.deplacementPanda(positionDeplacer);
+                bambouMange = plateau.deplacementPanda(positionDeplacer);
             }
             // objectifPanda avec deux sectionBambou de meme couleur
             else {
                 Couleur couleur = objectifPanda.getBambousAManger().get(0).getCouleur();
                 Position positionDeplacer = parcelleCouleurVoulue(plateau, couleur);
-                plateau.deplacementPanda(positionDeplacer);
+                bambouMange = plateau.deplacementPanda(positionDeplacer);
             }
             break;
+        }
+        if (bambouMange.isPresent()) {
+            plaquette.mangeSectionBambou(bambouMange.get());
         }
     }
 
@@ -196,8 +201,6 @@ public class StrategieComplete implements Strategie {
         if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.ROSE) == 0) {return Couleur.ROSE; }
         if (GestionnaireObjectifs.countCouleurSectionBambou(plaquette.getReserveBambousManges(), Couleur.JAUNE) == 0) {return Couleur.JAUNE; }
         return null;
-
-
     }
 
     /**
