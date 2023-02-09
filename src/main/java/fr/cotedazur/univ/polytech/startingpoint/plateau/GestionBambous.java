@@ -4,6 +4,8 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class GestionBambous {
@@ -27,5 +29,16 @@ public class GestionBambous {
             if (bambou.getPosition().equals(position)) return Optional.of(bambou);
         }
         return Optional.empty();
+    }
+
+    public static List<Position> positionAvecBambou(List<Position> listePosition, Plateau plateau) {
+        List<Position> positionList = new ArrayList<>();
+        for (Position position : listePosition) {
+            Optional<Bambou> bambou = GestionBambous.chercheBambou(plateau.getBambous(), position);
+            if (bambou.isPresent()) {
+                positionList.add(position);
+            }
+        }
+        return positionList;
     }
 }
