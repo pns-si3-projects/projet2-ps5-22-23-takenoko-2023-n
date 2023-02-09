@@ -32,8 +32,9 @@ public class MaitreDuJeu {
             throw new IllegalArgumentException(nbJoueurs < 2 ? "Il n'y a pas assez de joueurs" : "Il y a trop de joueurs");
         }
 
-        this.joueurs = Arrays.copyOf(joueurs, nbJoueurs);
         gestionTours = new GestionTours();
+        this.joueurs = Arrays.copyOf(joueurs, nbJoueurs);
+        gestionTours.initialiseJoueurs(this.joueurs);
         nombreObjectifsDemandes = nombreObjectifsDemandes(nbJoueurs);
 
         AfficheurJeu.initialisation(nbJoueurs, nombreObjectifsDemandes);

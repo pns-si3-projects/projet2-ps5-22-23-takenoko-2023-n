@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -95,6 +96,14 @@ public class Joueur {
 
 
     // Méthodes d'utilisation
+
+    /**
+     * Initialise la liste des objectifs du joueur
+     * @param objectifs le tableau des objectifs à ajouter
+     */
+    public void initialiseObjectifs(Objectif[] objectifs) {
+        Collections.addAll(objectifEnMainList, objectifs);
+    }
 
     /**
      * Renvoie le nombre d'objectifs possédés, mais pas terminés

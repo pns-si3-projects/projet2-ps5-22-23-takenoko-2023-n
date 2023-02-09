@@ -20,8 +20,7 @@ class ArgumentConverterTest {
         assertEquals(ArgumentPossibleMain.THOUSANDS, argumentConverter.convert("--2thousands"));
         assertEquals(ArgumentPossibleMain.DEMO, argumentConverter.convert("--demo"));
         assertEquals(ArgumentPossibleMain.CSV, argumentConverter.convert("--csv"));
-        assertEquals(ArgumentPossibleMain.PRESENTATION, argumentConverter.convert(""));
-        assertEquals(ArgumentPossibleMain.PRESENTATION, argumentConverter.convert("zeofn"));
-        assertEquals(ArgumentPossibleMain.PRESENTATION, argumentConverter.convert("--presentation"));
+        assertEquals(ArgumentPossibleMain.DEMO, argumentConverter.convert(""));
+        assertEquals(ArgumentPossibleMain.DEMO, argumentConverter.convert("zeofn"));
     }
 }

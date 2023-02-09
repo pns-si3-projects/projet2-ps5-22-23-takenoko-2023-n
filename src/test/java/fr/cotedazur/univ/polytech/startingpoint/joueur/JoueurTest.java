@@ -48,11 +48,11 @@ class JoueurTest {
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piochesVides = new boolean[] {false, false, false, false, false};
-
+        /*
         joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
         joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
         joueurJardinier.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
-        joueurComplet.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
+        joueurComplet.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);*/
     }
 
 
@@ -82,6 +82,16 @@ class JoueurTest {
         assertEquals(0, joueurPanda.getObjectifsTermines().length);
     }
 
+    @Test
+    void initialiseObjectifs() {
+        assertEquals(0, joueurParcelle.nombreObjectifsEnMain());
+        Objectif[] objectifs = new Objectif[3];
+        objectifs[0] = piocheObjectifParcelle.pioche();
+        objectifs[1] = piocheObjectifPanda.pioche();
+        objectifs[2] = piocheObjectifJardinier.pioche();
+        joueurParcelle.initialiseObjectifs(objectifs);
+        assertEquals(3, joueurParcelle.nombreObjectifsEnMain());
+    }
 
     @Test
     void nombreObjectifsEnMain() {
@@ -299,6 +309,7 @@ class JoueurTest {
             joueurJardinier.actionJardinier(plateau, piocheSectionBambou);
         }
 
+        joueurJardinier.actionJardinier(plateau, piocheSectionBambou);
         joueurJardinier.gestionObjectif(plateau);
         assertEquals(0, joueurJardinier.nombreObjectifsEnMain());
         assertEquals(2, joueurJardinier.nombreObjectifsTermines());

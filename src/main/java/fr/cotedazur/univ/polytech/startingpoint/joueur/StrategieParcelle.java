@@ -112,9 +112,8 @@ public class StrategieParcelle implements Strategie {
             return parcelle;
         }
 
-        Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
-        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)) {
-            return objectif;
+        if (StrategieComplete.choixObjectif(actionsRealiseesTour, objectifs, piochesVides)) {
+            return Plaquette.ActionPossible.OBJECTIF;
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
@@ -185,8 +184,12 @@ public class StrategieParcelle implements Strategie {
         Parcelle[] tableauParcellePlateau = plateau.getParcelles();
         Position[] tableauPositionDisponible = plateau.getPositionsDisponibles();
         ObjectifParcelle objectifParcelleChoisi = getMaxObjectifParcelle(objectifs);
-        Optional<Position> optPosition = GestionnairePossibiliteMotifJoueur.positionPossiblePrendrePourMotif(
-                tableauParcellePlateau, tableauPositionDisponible, objectifParcelleChoisi);
+        Optional<Position> optPosition = Optional.empty();
+
+        if (objectifParcelleChoisi != null) {
+            optPosition = GestionnairePossibiliteMotifJoueur.positionPossiblePrendrePourMotif(
+                    tableauParcellePlateau, tableauPositionDisponible, objectifParcelleChoisi);
+        }
 
         Position positionChoisi = optPosition.orElseGet(() -> tableauPositionDisponible[0]);
         Optional<ParcelleCouleur> parcelleCouleurChoisi = choisirParcelle(piocheParcelle, positionChoisi);

@@ -31,7 +31,8 @@ public class StrategieJardinier implements Strategie {
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && plateau.getParcelles().length < 2) {
+        if (!actionsRealiseesTour[parcelle.ordinal()] && plateau.getParcelles().length < 2
+                && !piochesVides[GestionTours.PiochesPossibles.PARCELLE.ordinal()]) {
             return parcelle;
         }
 
@@ -42,9 +43,8 @@ public class StrategieJardinier implements Strategie {
 
         }
 
-        Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
-        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)) {
-            return objectif;
+        if (StrategieComplete.choixObjectif(actionsRealiseesTour, objectifs, piochesVides)) {
+            return Plaquette.ActionPossible.OBJECTIF;
         }
         
         return Plaquette.ActionPossible.PANDA;
@@ -93,17 +93,6 @@ public class StrategieJardinier implements Strategie {
         } else {
             futurePosition = positionsAvecBambou.get(0);
         }
-
-        /*for (Position position : deplacementsPossibles){
-            Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
-            if (parcelle.isPresent() && parcelle.get().getClass().equals(ParcelleCouleur.class)) {
-                ParcelleCouleur futureParcelleCouleurJardinier = (ParcelleCouleur) parcelle.get();
-                futurePositionJardinier = futureParcelleCouleurJardinier.getPosition();
-                if (futureParcelleCouleurJardinier.isIrriguee()) {
-                    break;
-                }
-            }
-        }*/
 
         plateau.deplacementJardinier(futurePosition);
     }

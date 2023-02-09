@@ -31,7 +31,7 @@ public class Main {
             argumentMain = argsMain.getArgument();
         }
         else {
-            argumentMain = ArgumentPossibleMain.PRESENTATION;
+            argumentMain = ArgumentPossibleMain.DEMO;
         }
 
         configureLogger(argumentMain);
@@ -67,7 +67,6 @@ public class Main {
             case THOUSANDS -> joue2Thousands();
             case DEMO -> joueDemo();
             case CSV -> joueCSV();
-            case PRESENTATION -> jouePresentation();
         }
     }
 
@@ -85,7 +84,8 @@ public class Main {
             Joueur joueur4 = new Joueur("joueurPar4", Strategie.StrategiePossible.JARDINIER);
             MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
             maitreDuJeu.jeu();
-            LOGGER.warning(Integer.toString(i+1));
+            String nbJeu = Integer.toString(i+1);
+            LOGGER.warning(nbJeu);
         }
     }
 
