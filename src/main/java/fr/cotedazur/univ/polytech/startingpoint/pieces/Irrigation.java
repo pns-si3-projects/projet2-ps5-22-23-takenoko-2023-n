@@ -2,46 +2,74 @@ package fr.cotedazur.univ.polytech.startingpoint.pieces;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.Set;
 
+/**
+ * Représente une irrigation.
+ * @author equipe N
+ */
 public class Irrigation {
-    List<Position> positions;
+    // Définition des attributs
 
-    public Irrigation(List<Position> positions) {
-        this.positions = positions;
-    }
+    private final Set<Position> positions;
 
-    /**
-     * Renvoie les positions de l'irrigation si il existe
-     * @return les positions de l'irrigation si il existe
-     */
-    public Optional<List<Position>> getPositions() {
-        if (!positions.isEmpty()) {
-            return Optional.of(positions);
-        }
-        return Optional.empty();
-    }
+
+    // Définition des constructeurs
 
     /**
-     * Ajout de position à l'irrigation si il n'y a pas de position
-     * @param position1 Position n°1 de l'irrigation
-     * @param position2 Position n°2 de l'irrigation
+     * Construit une irrigation
      */
-    public void addPosition(Position position1, Position position2) {
-        if (!positions.isEmpty()) {
+    public Irrigation() {
+        positions = new HashSet<>(2);
+    }
+
+
+    // Accesseurs
+
+    /**
+     * Renvoie les positions de l'irrigation s'il existe
+     * @return les positions de l'irrigation s'il existe
+     */
+    public List<Position> getPositions() {
+        return positions.stream().toList();
+    }
+
+
+    /**
+     * Ajout de positions à l'irrigation s'il n'y en a pas encore
+     * @param position1 première position de l'irrigation
+     * @param position2 deuxième position de l'irrigation
+     */
+    public boolean addPosition(Position position1, Position position2) {
+        if (positions.isEmpty()) {
+            Position positionEtang = new Position();
+            if (position1.equals(positionEtang) || position2.equals(positionEtang)) {
+                return false;
+            }
+
             positions.add(position1);
             positions.add(position2);
+            if (positions.size() == 2) {
+                return true;
+            }
+            positions.clear();
+            return false;
         }
+        return false;
     }
+
+
+    // Méthodes toString et equals
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Irrigation that)) return false;
-        return Objects.equals(positions, that.positions) || (positions.get(0).equals(that.positions.get(1))
-                && positions.get(1).equals(that.positions.get(0)));
+        if (positions.isEmpty() && that.getPositions().isEmpty()) return true;
+        return positions.containsAll(that.getPositions());
     }
 
     @Override
@@ -52,8 +80,10 @@ public class Irrigation {
     @Override
     public String toString() {
         String str = "";
-        if(!positions.isEmpty()) {
-            str = " entre les parcelles en " + positions.get(0) + " et en " + positions.get(1);
+
+        if (!positions.isEmpty()) {
+            List<Position> positionList = getPositions();
+            str = " entre les parcelles en " + positionList.get(0) + " et en " + positionList.get(1);
         }
         return "Irrigation" + str;
     }

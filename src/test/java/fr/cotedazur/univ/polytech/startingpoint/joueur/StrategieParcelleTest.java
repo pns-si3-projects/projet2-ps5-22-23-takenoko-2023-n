@@ -10,7 +10,6 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -225,12 +224,11 @@ class StrategieParcelleTest {
         spyPlateau.poseParcelle(new ParcelleCouleur(position11, Couleur.JAUNE));
         spyPlateau.poseParcelle(new ParcelleCouleur(position20, Couleur.VERTE));
         strategieParcelle.actionIrrigation(spyPlateau, spyPiocheIrrigation, plaquette);
-        List<Position> listPosition = new ArrayList<>();
-        listPosition.add(position20);
-        listPosition.add(position11);
+        Irrigation irrigation2011 = new Irrigation();
+        irrigation2011.addPosition(position20, position11);
 
-        verify(spyPiocheIrrigation, times(1)).pioche(listPosition);
-        verify(spyPlateau, times(1)).poseIrrigation(new Irrigation(listPosition));
+        verify(spyPiocheIrrigation, times(1)).pioche();
+        verify(spyPlateau, times(1)).poseIrrigation(irrigation2011);
         assertEquals(1, spyPlateau.getIrrigationsPosees().length);
         assertEquals(0, spyPlateau.getIrrigationsDisponibles().length);
     }
@@ -258,11 +256,7 @@ class StrategieParcelleTest {
 
         strategieParcelle.actionJardinier(spyPlateau,piocheSectionBambou,objectifs);
         assertNotEquals(positionInitial, spyPlateau.getJardinier().getPosition());
-        try {
-            verify(spyPlateau, times(1)).deplacementJardinier(any(Position.class));
-        } catch (ParcelleNonPoseeException e) {
-            System.out.println(e);
-        }
+        verify(spyPlateau, times(1)).deplacementJardinier(any(Position.class));
     }
 
     @Test

@@ -3,15 +3,11 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -96,11 +92,7 @@ class StrategieJardinierTest {
             strategieJardinier.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou, objectifs);
         }
         strategieJardinier.actionJardinier(spyPlateau, piocheSectionBambou, objectifs);
-        try {
-            verify(spyPlateau, times(1)).deplacementJardinier(any(Position.class));
-        } catch (ParcelleNonPoseeException e) {
-            System.out.println(e);
-        }
+        verify(spyPlateau, times(1)).deplacementJardinier(any(Position.class));
     }
 
     @Test

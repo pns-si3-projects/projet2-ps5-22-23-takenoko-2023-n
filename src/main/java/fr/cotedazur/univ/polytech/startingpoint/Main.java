@@ -129,9 +129,9 @@ public class Main {
      * Joue une partie normale
      */
     private static void jouePresentation() {
-        Joueur joueur1 = new Joueur("joueur1", Strategie.StrategiePossible.PARCELLE);
-        Joueur joueur2 = new Joueur("joueur2", Strategie.StrategiePossible.JARDINIER);
-        Joueur joueur3 = new Joueur("joueur3", Strategie.StrategiePossible.PANDA);
+        Joueur joueur1 = new Joueur("joueur1", Strategie.StrategiePossible.COMPLET);
+        Joueur joueur2 = new Joueur("joueur2", Strategie.StrategiePossible.COMPLET);
+        Joueur joueur3 = new Joueur("joueur3", Strategie.StrategiePossible.COMPLET);
         Joueur joueur4 = new Joueur("joueur4",Strategie.StrategiePossible.COMPLET);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();

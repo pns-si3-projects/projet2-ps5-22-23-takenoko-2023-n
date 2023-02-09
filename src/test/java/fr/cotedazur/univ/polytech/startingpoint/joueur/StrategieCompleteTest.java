@@ -7,7 +7,6 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 class StrategieCompleteTest {
@@ -129,11 +129,7 @@ class StrategieCompleteTest {
 
         for (int i = 0; i < 2; i++) {
             strategieComplete.actionJardinier(spyPlateau, piocheSectionBambou, objectifs);
-            try {
-                verify(spyPlateau, times(i + 1)).deplacementJardinier(any(Position.class));
-            } catch (ParcelleNonPoseeException e) {
-                throw new AssertionError(e);
-            }
+            verify(spyPlateau, times(i + 1)).deplacementJardinier(any(Position.class));
         }
     }
 

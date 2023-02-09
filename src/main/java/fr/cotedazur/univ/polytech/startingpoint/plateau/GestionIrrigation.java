@@ -20,133 +20,191 @@ public class GestionIrrigation {
     // Méthodes d'utilisation
 
     /**
-     * Ajoute les irrigations à la suite de celle en paramètre au set des irrigations disponibles si elles sont possible d'être posées
-     * @param irrigation l'irrigation à partir de laquelle il faut rechercher les nouvelles irrigations possible
+     * Renvoie les nouvelles irrigations disponibles
+     * @param parcellesEtVoisines la liste des parcelles et leurs voisines
+     * @param irrigation l'irrigation à partir de laquelle il faut rechercher les nouvelles irrigations possibles
+     * @param irrigationsPosees la liste des irrigations du plateau
      */
-    public static Optional<Set<Irrigation>> addIrrigationDisponible(@NotNull Map<Parcelle, Parcelle[]> parcellesEtVoisines,
-                                               Irrigation irrigation, @NotNull Set<Irrigation> irrigationsDisponibles,
-                                                @NotNull Set<Irrigation> irrigationsPosees) {
+    public static Set<Irrigation> addIrrigationDisponible(@NotNull Map<Parcelle, Parcelle[]> parcellesEtVoisines,
+                                               Irrigation irrigation, @NotNull Set<Irrigation> irrigationsPosees) {
         if (irrigation.getPositions().isEmpty()) {
-            return Optional.empty();
+            return new HashSet<>();
         }
 
-        List<Position> positionsIrrigation = irrigation.getPositions().get();
-        Position position1 = positionsIrrigation.get(0);
-        Position position2 = positionsIrrigation.get(1);
-        ParcelleCouleur parcelle1;
-        ParcelleCouleur parcelle2;
-        Optional<Parcelle> optP1 = GestionParcelles.chercheParcelle(GestionParcelles.getParcelles(parcellesEtVoisines), position1);
-        Optional<Parcelle> optP2 = GestionParcelles.chercheParcelle(GestionParcelles.getParcelles(parcellesEtVoisines), position2);
-        if (optP1.isEmpty() || optP2.isEmpty()) {
-            throw new AssertionError("La parcelle devrait etre existante");
+        List<Position> posIrrigation = irrigation.getPositions();
+        Optional<Parcelle> optParcelle1 = GestionParcelles
+                .chercheParcelle(GestionParcelles.getParcelles(parcellesEtVoisines), posIrrigation.get(0));
+        Optional<Parcelle> optParcelle2 = GestionParcelles
+                .chercheParcelle(GestionParcelles.getParcelles(parcellesEtVoisines), posIrrigation.get(1));
+
+        if (optParcelle1.isEmpty() || optParcelle2.isEmpty()) {
+            throw new AssertionError("Parcelle introuvable");
         }
-        parcelle1 = (ParcelleCouleur) optP1.get();
-        parcelle2 = (ParcelleCouleur) optP2.get();
+        ParcelleCouleur parcelleC1 = (ParcelleCouleur) optParcelle1.get();
+        ParcelleCouleur parcelleC2 = (ParcelleCouleur) optParcelle2.get();
 
-        try {
-            //on récupère les voisins des 2 parcelles
-            Parcelle[] voisinsP1 = GestionParcelles.getVoisinesParcelle(parcellesEtVoisines, parcelle1);
-            Parcelle[] voisinsP2 =GestionParcelles.getVoisinesParcelle(parcellesEtVoisines, parcelle2);
-            List<Parcelle> parcellesPossiblePourIrrigation = new ArrayList<>();
+        List<ParcelleCouleur> parcellesPossibles = voisinesCommunes(parcellesEtVoisines, parcelleC1, parcelleC2);
+        ParcelleCouleur[] parcelles = new ParcelleCouleur[]{parcelleC1, parcelleC2};
 
-            //on regarde les voisins communs
-            for (Parcelle voisin1 : voisinsP1) {
-                for (Parcelle voisin2 : voisinsP2)
-                    if (voisin1 == voisin2 && voisin1.getClass() != Etang.class) {
-                        parcellesPossiblePourIrrigation.add(voisin1);
-                    }
-            }
-            for (Parcelle parcelle : parcellesPossiblePourIrrigation) {
-                if (parcelle.getClass() == ParcelleCouleur.class) {
-                    ParcelleCouleur parcelleAIrrigee = (ParcelleCouleur) parcelle;
-
-                    //pour chaque position de l'irrigation, on chereche si il y a dejà une irrigation avec la parcelle à irriguer
-                    for (Position position : positionsIrrigation) {
-                        Optional<Irrigation> irrigationDejaPosee =
-                                chercheIrrigation(position, parcelleAIrrigee.getPosition(), irrigationsPosees);
-
-                        //si il n'y a pas d'irrigation, on ajoute cette position d'irrigation au set d'irrigations disponibles
-                        if (irrigationDejaPosee.isEmpty()){
-                            List<Position> positionsIrrigationPotentielle = new ArrayList<>();
-                            positionsIrrigationPotentielle.add(position);
-                            positionsIrrigationPotentielle.add(parcelleAIrrigee.getPosition());
-                            Irrigation irrigationPotentielle = new Irrigation(positionsIrrigationPotentielle);
-                            boolean dejaDisponible = false;
-                            //on vérifie que l'irrigation n'appartient pas déjà au set d'irrigations disponibles
-                            for (Irrigation irrigationDispo : irrigationsDisponibles) {
-                                if (irrigationDispo.equals(irrigationPotentielle)) {
-                                    dejaDisponible = true;
-                                    break;
-                                }
-                            }
-                            if (!dejaDisponible) irrigationsDisponibles.add(irrigationPotentielle);
-                        }
-                    }
-                }
-            }
-            return Optional.of(irrigationsDisponibles);
-        }
-        catch (ParcelleNonPoseeException e){
-            throw new AssertionError(e);
-        }
+        return nouvellesIrrigations(irrigationsPosees, parcelles, parcellesPossibles);
     }
 
     /**
-     * Vérifie si il y a des irrigations autour de la parcelle en paramètre
-     * puis ajoute des irrigations disponibles par rapport aux irrigations trouvées
-     * @param parcelleCouleur parcelle pour laquelle on veut verifier si il y a des irrigations autour
+     * Renvoie la liste des voisines communes aux 2 parcelles données
+     * @param parcellesEtVoisines la liste des parcelles et leurs voisines
+     * @param parcelleC1 la première parcelle
+     * @param parcelleC2 la deuxième parcelle
+     * @return la liste des voisines communes aux 2 parcelles données
      */
-    public static Optional<Set<Irrigation>> checkIrrigationsAutour(@NotNull Map<Parcelle, Parcelle[]> parcellesEtVoisines,
-                                                                   ParcelleCouleur parcelleCouleur,
-                                                                   @NotNull Set<Irrigation> irrigationsDisponibles,
-                                                                   @NotNull Set<Irrigation> irrigationsPosees){
+    private static List<ParcelleCouleur> voisinesCommunes(Map<Parcelle, Parcelle[]> parcellesEtVoisines,
+                                                          ParcelleCouleur parcelleC1, ParcelleCouleur parcelleC2) {
+        Parcelle[] voisinesTab1;
+        Parcelle[] voisinesTab2;
         try {
-            Parcelle[] voisins = GestionParcelles.getVoisinesParcelle(parcellesEtVoisines, parcelleCouleur);
-            boolean voisinEtang = false;
-            Optional<Set<Irrigation>> irrigationsDisponiblesSet = Optional.of(irrigationsDisponibles);
-
-            for (int i = 0; i < voisins.length - 1; i++) {
-                // cherche si il y a une irrigation entre les 2 voisins
-                Optional<Irrigation> irrigation =
-                        chercheIrrigation(voisins[i].getPosition(), voisins[i + 1].getPosition(), irrigationsPosees);
-
-                // si il en existe une, on met à jour le set d'irrigations disponible à partir de cette irrigation
-                if (irrigation.isPresent() && irrigationsDisponiblesSet.isPresent()) {
-                    irrigationsDisponiblesSet = addIrrigationDisponible(parcellesEtVoisines, irrigation.get(), irrigationsDisponiblesSet.get(), irrigationsPosees);
-                }
-                if (voisins[i].equals(GestionParcelles.ETANG)) voisinEtang = true;
-            }
-
-            Optional<Irrigation> irrigation =
-                    chercheIrrigation(voisins[5].getPosition(), voisins[0].getPosition(), irrigationsPosees);
-            if (irrigation.isPresent() && irrigationsDisponiblesSet.isPresent()) {
-                irrigationsDisponiblesSet = addIrrigationDisponible(parcellesEtVoisines, irrigation.get(), irrigationsDisponiblesSet.get(), irrigationsPosees);
-            }
-            if (voisins[5].equals(GestionParcelles.ETANG)) voisinEtang = true;
-
-            // si 2 parcelles voisines sont autour de l'étang, alors on ajoute la possibilité d'irrigation dans le set des irrigations disponibles
-            if (voisinEtang){
-                for (Parcelle parcelle : voisins){
-                    if (parcelle.getClass() == ParcelleCouleur.class) {
-                        Parcelle[] voisinsParcelle = GestionParcelles.getVoisinesParcelle(parcellesEtVoisines, parcelle);
-                        for (Parcelle voisin : voisinsParcelle) {
-                            if (voisin.equals(GestionParcelles.ETANG)) {
-                                List<Position> positionsIrrigationDispo = new ArrayList<>();
-                                positionsIrrigationDispo.add(parcelleCouleur.getPosition());
-                                positionsIrrigationDispo.add(parcelle.getPosition());
-                                Irrigation irrigationDispo = new Irrigation(positionsIrrigationDispo);
-                                irrigationsDisponiblesSet.ifPresent(irrigations -> irrigations.add(irrigationDispo));
-                            }
-                        }
-                        if (irrigationsDisponiblesSet.isPresent()) return irrigationsDisponiblesSet;
-                    }
-                }
-            }
-        }
-        catch (ParcelleNonPoseeException e){
+            voisinesTab1 = GestionParcelles.getVoisinesParcelle(parcellesEtVoisines, parcelleC1);
+            voisinesTab2 = GestionParcelles.getVoisinesParcelle(parcellesEtVoisines, parcelleC2);
+        } catch (ParcelleNonPoseeException e) {
             throw new AssertionError(e);
         }
-        return Optional.empty();
+
+        List<Parcelle> voisinesP1 = GestionParcelles.voisinesPosees(voisinesTab1);
+        List<Parcelle> voisinesP2 = GestionParcelles.voisinesPosees(voisinesTab2);
+
+        List<ParcelleCouleur> parcellesPossibles = new ArrayList<>();
+
+        for (Parcelle voisine1 : voisinesP1) {
+            for (Parcelle voisine2 : voisinesP2) {
+                if (voisine1.equals(voisine2) && !voisine1.getClass().equals(Etang.class)) {
+                    parcellesPossibles.add((ParcelleCouleur) voisine1);
+                }
+            }
+        }
+        return parcellesPossibles;
+    }
+
+    /**
+     * Crée les nouvelles irrigations par les 2 parcelles et leurs voisines en vérifiant si pas encore posées
+     * @param irrigationsPosees la liste des irrigations posées
+     * @param parcelles les deux parcelles
+     * @param voisines les voisines des 2 parcelles
+     * @return la liste des nouvelles irrigations
+     */
+    private static Set<Irrigation> nouvellesIrrigations(Set<Irrigation> irrigationsPosees,
+                                                         ParcelleCouleur[] parcelles, List<ParcelleCouleur> voisines) {
+        Set<Irrigation> irrigations = new HashSet<>();
+        Irrigation irrigation;
+
+        for (ParcelleCouleur voisine : voisines) {
+            for (ParcelleCouleur parcelle : parcelles) {
+                irrigation = creeIrrigation(parcelle, voisine);
+
+                if (!irrigationsPosees.contains(irrigation)) {
+                    irrigations.add(irrigation);
+                }
+            }
+        }
+        return irrigations;
+    }
+
+    /**
+     * Crée une irrigation à partir d'une parcelle et sa voisine
+     * @param parcelle la parcelle
+     * @param voisine la voisine de la parcelle
+     * @return l'irrigation crée
+     */
+    private static Irrigation creeIrrigation(ParcelleCouleur parcelle, ParcelleCouleur voisine) {
+        Position positionPar = parcelle.getPosition();
+        Position positionVoi = voisine.getPosition();
+        Irrigation irrigation = new Irrigation();
+
+        if (irrigation.addPosition(positionPar, positionVoi)) {
+            return irrigation;
+        }
+        throw new AssertionError("Les positions de l'irrigation doivent etre ajoutees");
+    }
+
+    /**
+     * Vérifie s'il y a des irrigations autour de la parcelle donnée
+     * puis ajoute des irrigations disponibles par rapport aux irrigations trouvées
+     * @param parcelleCouleur parcelle pour laquelle on veut verifier s'il y a des irrigations autour
+     */
+    public static Set<Irrigation> checkIrrigationsAutour(@NotNull Map<Parcelle, Parcelle[]> parcellesEtVoisines,
+                                                         ParcelleCouleur parcelleCouleur,
+                                                         @NotNull Set<Irrigation> irrigationsPosees) {
+        Parcelle[] voisines;
+        try {
+            voisines = GestionParcelles.getVoisinesParcelle(parcellesEtVoisines, parcelleCouleur);
+        } catch (ParcelleNonPoseeException e) {
+            throw new AssertionError(e);
+        }
+        List<Parcelle> voisinesNonDispo = GestionParcelles.voisinesPosees(voisines);
+
+        return irrigationsDisponibles(parcellesEtVoisines, irrigationsPosees, parcelleCouleur, voisinesNonDispo);
+    }
+
+    /**
+     * Renvoie les nouvelles irrigations disponibles par la parcelle posée et ses voisines
+     * @param parcellesEtVoisines la liste des parcelles et leurs voisines
+     * @param irrigationsPosees la liste des irrigations posées
+     * @param parcellePosee la parcelle posée
+     * @param voisines les voisines de la parcelle posée
+     * @return la liste des nouvelles irrigations disponibles
+     */
+    private static Set<Irrigation> irrigationsDisponibles(Map<Parcelle, Parcelle[]> parcellesEtVoisines,
+                                                          Set<Irrigation> irrigationsPosees,
+                                                          ParcelleCouleur parcellePosee, List<Parcelle> voisines) {
+        Set<Irrigation> irrigationsDispo = new HashSet<>();
+
+        int nbParcelles = voisines.size();
+        int j;
+        for (int i=0; i<nbParcelles; i++) {
+            if (i == nbParcelles-1) {
+                j = 0;
+            } else {
+                j = i+1;
+            }
+
+            Parcelle voisineI = voisines.get(i);
+            Parcelle voisineJ = voisines.get(j);
+            Optional<Irrigation> optIrrigation = irrigationDispoEtang(parcellePosee, voisineI, voisineJ);
+
+            if (optIrrigation.isPresent()) {
+                irrigationsDispo.add(optIrrigation.get());
+            } else {
+                optIrrigation = chercheIrrigation(voisineI.getPosition(), voisineJ.getPosition(), irrigationsPosees);
+
+                if (optIrrigation.isPresent()) {
+                    Irrigation irrigation = optIrrigation.get();
+                    irrigationsDispo.addAll(addIrrigationDisponible(parcellesEtVoisines, irrigation, irrigationsPosees));
+                }
+            }
+        }
+        return irrigationsDispo;
+    }
+
+    /**
+     * Renvoie une irrigation disponible dans le cas d'une voisine Etang
+     * @param parcellePosee la parcelle posée
+     * @param voisine1 la première voisine
+     * @param voisine2 la deuxième voisine
+     * @return un optional de l'irrigation disponible
+     */
+    private static Optional<Irrigation> irrigationDispoEtang(ParcelleCouleur parcellePosee,
+                                                             Parcelle voisine1, Parcelle voisine2) {
+        Position positionVoisine;
+        if (voisine1.getClass().equals(Etang.class) && voisine2.getClass().equals(Etang.class)) {
+            return Optional.empty();
+        } else if (voisine1.getClass().equals(Etang.class)) {
+            positionVoisine = voisine2.getPosition();
+        } else if (voisine2.getClass().equals(Etang.class)) {
+            positionVoisine = voisine1.getPosition();
+        } else {
+            return Optional.empty();
+        }
+
+        Irrigation irrigation = new Irrigation();
+        irrigation.addPosition(parcellePosee.getPosition(), positionVoisine);
+        return Optional.of(irrigation);
     }
 
     /**
@@ -157,10 +215,8 @@ public class GestionIrrigation {
      */
     public static Optional<Irrigation> chercheIrrigation(Position position1, Position position2,
                                                          @NotNull Set<Irrigation> irrigationsPosees){
-        List<Position> positionsIrrigationRecherchee = new ArrayList<>();
-        positionsIrrigationRecherchee.add(position1);
-        positionsIrrigationRecherchee.add(position2);
-        Irrigation irrigationRecherchee = new Irrigation(positionsIrrigationRecherchee);
+        Irrigation irrigationRecherchee = new Irrigation();
+        irrigationRecherchee.addPosition(position1, position2);
 
         for (Irrigation irrigation : irrigationsPosees){
             if (irrigation.equals(irrigationRecherchee)) return Optional.of(irrigationRecherchee);

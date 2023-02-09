@@ -198,10 +198,11 @@ public class StrategieParcelle implements Strategie {
         Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
 
         if (irrigationsDisponibles.length > 0) {
-            Optional<List<Position>> positionIrrigation = irrigationsDisponibles[irrigationsDisponibles.length/2].getPositions();
+            List<Position> positionIrrigation = irrigationsDisponibles[irrigationsDisponibles.length/2].getPositions();
 
-            if (positionIrrigation.isPresent()) {
-                Irrigation irrigationPioche = piocheIrrigation.pioche(positionIrrigation.get());
+            if (!positionIrrigation.isEmpty()) {
+                Irrigation irrigationPioche = piocheIrrigation.pioche();
+                irrigationPioche.addPosition(positionIrrigation.get(0), positionIrrigation.get(1));
                 plateau.poseIrrigation(irrigationPioche);
             }
 
@@ -214,25 +215,26 @@ public class StrategieParcelle implements Strategie {
     @Override
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
         Jardinier jardinier = plateau.getJardinier();
-        Position positionDeplacee = choixDeplacementPosition(plateau, jardinier.getPosition());
-        try {
-            plateau.deplacementJardinier(positionDeplacee);
-        } catch (ParcelleNonPoseeException e) {
-            throw new AssertionError(e);
-        }
+        Position positionDeplacee = choixDeplacementPosition(plateau, jardinier.getPosition(), true);
+
+        plateau.deplacementJardinier(positionDeplacee);
     }
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
         Panda panda = plateau.getPanda();
-        Position positionDeplacee = choixDeplacementPosition(plateau, panda.getPosition());
+        Position positionDeplacee = choixDeplacementPosition(plateau, panda.getPosition(), false);
+
         Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(positionDeplacee);
         sectionBambou.ifPresent(plaquette::mangeSectionBambou);
     }
 
-    public Position choixDeplacementPosition( Plateau plateau, Position position) {
-        List<Position> deplacementPossibles = GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), position);
-        return deplacementPossibles.get(deplacementPossibles.size()/2);
+    public Position choixDeplacementPosition(Plateau plateau, Position position, boolean bambouMax) {
+        List<Position> deplacementPossible =
+                GestionPersonnages.deplacementsPossibles(plateau.getParcelleEtVoisinesList(), position);
+        List<Position> positionAvecBambou =
+                GestionBambous.positionAvecBambou(deplacementPossible, plateau, bambouMax);
+        return positionAvecBambou.get(positionAvecBambou.size()/2);
     }
 
     @Override

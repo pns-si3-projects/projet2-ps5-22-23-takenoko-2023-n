@@ -2,7 +2,6 @@ package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotifJoueur;
 import fr.cotedazur.univ.polytech.startingpoint.motif.GestionnairePossibiliteMotifVerification;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;

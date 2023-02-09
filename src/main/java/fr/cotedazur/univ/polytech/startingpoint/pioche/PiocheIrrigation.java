@@ -1,10 +1,6 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PiocheIrrigation {
     // Définition des attributs
@@ -45,15 +41,14 @@ public class PiocheIrrigation {
 
     /**
      * Renvoie une irrigation de la pioche
-     * @param listPosition La liste de position vide ou pas pour l'irrigation
      * @implNote la pioche ne doit pas être vide
      */
-    public Irrigation pioche(List<Position> listPosition) {
+    public Irrigation pioche() {
         if (isEmpty()) {
             throw new AssertionError("La pioche d'objectifs d'irrigation est vide");
         }
         nombreIrrigation--;
-        return new Irrigation(listPosition);
+        return new Irrigation();
     }
 
 
