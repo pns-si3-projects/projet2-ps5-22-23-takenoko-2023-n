@@ -93,10 +93,11 @@ public class StrategiePanda implements Strategie {
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, Plaquette plaquette) {
         Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
         if (irrigationsDisponibles.length > 0){
-            Optional<List<Position>> positionIrrigation = irrigationsDisponibles[0].getPositions();
+            List<Position> positionIrrigation = irrigationsDisponibles[0].getPositions();
 
-            if (!piocheIrrigation.isEmpty() && positionIrrigation.isPresent()) {
-                Irrigation irrigationAAdd = piocheIrrigation.pioche(positionIrrigation.get());
+            if (!piocheIrrigation.isEmpty()) {
+                Irrigation irrigationAAdd = piocheIrrigation.pioche();
+                irrigationAAdd.addPosition(positionIrrigation.get(0), positionIrrigation.get(1));
                 plateau.poseIrrigation(irrigationAAdd);
             }
         }
@@ -146,9 +147,7 @@ public class StrategiePanda implements Strategie {
 
         positionDeplacer = listPositionPossibleDeplacement.get(0);
         Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(positionDeplacer);
-        if (sectionBambou.isPresent()) {
-            plaquette.mangeSectionBambou(sectionBambou.get());
-        }
+        sectionBambou.ifPresent(plaquette::mangeSectionBambou);
     }
 
     /**

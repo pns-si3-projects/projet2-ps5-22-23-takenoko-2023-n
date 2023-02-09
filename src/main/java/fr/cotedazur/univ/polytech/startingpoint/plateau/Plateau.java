@@ -187,9 +187,9 @@ public class Plateau {
         }
 
         // On met à jour le set d'irrigations disponible
-        Optional<Set<Irrigation>> newIrrigationsDisponible = GestionIrrigation.checkIrrigationsAutour(
-                this.parcelleEtVoisinesList, parcelle, this.irrigationsDisponibles, irrigationsPosees);
-        newIrrigationsDisponible.ifPresent(this::setIrrigationsDisponibles);
+        Set<Irrigation> newIrrigationsDisponible =
+                GestionIrrigation.checkIrrigationsAutour(parcelleEtVoisinesList, parcelle, irrigationsPosees);
+        irrigationsDisponibles.addAll(newIrrigationsDisponible);
         return true;
     }
 
@@ -208,59 +208,73 @@ public class Plateau {
     }
 
     /**
-     * Ajoute une irrigation entre les parcelles aux positions données
-     * @param irrigationPioche Irrigation pioche à poser
+     * Renvoie si l'irrigation donnée est posée
+     * @param irrigation irrigation à poser
+     * @return {@code true} si l'irrigation est posée
      */
-    public boolean poseIrrigation(Irrigation irrigationPioche) {
-        if ( irrigationPioche.getPositions().isEmpty() ) {
+    public boolean poseIrrigation(Irrigation irrigation) {
+        if (!ajouteIrrigation(irrigation)) {
             return false;
         }
-        List<Position> positionIrrigationPioche = irrigationPioche.getPositions().get();
-        Position position1 = positionIrrigationPioche.get(0);
-        Position position2 = positionIrrigationPioche.get(1);
-        Optional<Parcelle> parcelle1 = GestionParcelles.chercheParcelle(getParcelles(),position1);
-        Optional<Parcelle> parcelle2 = GestionParcelles.chercheParcelle(getParcelles(),position2);
-        boolean ajoute = false;
-        if (position1 != position2 && parcelle1.isPresent() && parcelle2.isPresent() && parcelle1.get().getClass() != Etang.class && parcelle2.get().getClass() != Etang.class){
-            ParcelleCouleur parcelleC1 = (ParcelleCouleur) parcelle1.get();
-            ParcelleCouleur parcelleC2 = (ParcelleCouleur) parcelle2.get();
-            List<Position> positions = new ArrayList<>();
-            positions.add(position1);
-            positions.add(position2);
-            Irrigation irrigationAAdd = new Irrigation(positions);
-            //pose l'irrigation si elle est présente dans les irrigations disponibles
-            for (Irrigation irrigationDisponible : irrigationsDisponibles) {
-                if (irrigationAAdd.equals(irrigationDisponible)){
-                    irrigationsPosees.add(irrigationAAdd);
-                    ajoute = true;
-                    AfficheurPieces.poseIrrigation(irrigationAAdd);
-                    break;
-                }
-            }
-            if (ajoute){
-                //supprime l'irrigation posées du set des irrigations disponibles
-                Set<Irrigation> setIrrigationsDispo = new HashSet<>();
-                for (Irrigation irrigation : irrigationsDisponibles){
-                    if (!(irrigation.equals(irrigationAAdd))) setIrrigationsDispo.add(irrigation);
-                }
-                irrigationsDisponibles = setIrrigationsDispo;
-                //irrige et pose un bambou si la parcelle n'est pas irrigée
-                if (!parcelleC1.isIrriguee()){
-                    parcelleC1.setIrriguee(true);
-                    poseBambou(parcelleC1, piocheBambou.pioche(parcelleC1.getCouleur()));
-                }
-                //irrige et pose un bambou si la parcelle n'est pas irrigée
-                if (!parcelleC2.isIrriguee()){
-                    parcelleC2.setIrriguee(true);
-                    poseBambou(parcelleC2, piocheBambou.pioche(parcelleC2.getCouleur()));
-                }
-                //met a jour le set des irrigations disponibles avec les nouvelles possibilités
-                Optional<Set<Irrigation>> irrigationsDisponoblesSet =GestionIrrigation.addIrrigationDisponible(
-                        parcelleEtVoisinesList, irrigationAAdd, irrigationsDisponibles, irrigationsPosees);
-                irrigationsDisponoblesSet.ifPresent(this::setIrrigationsDisponibles);
+        irrigueParcelles(irrigation);
+
+        // Met à jour les irrigations disponibles avec les nouvelles possibilités
+        Set<Irrigation> nouvIrrigationsDispo =
+                GestionIrrigation.addIrrigationDisponible(parcelleEtVoisinesList, irrigation, irrigationsPosees);
+        irrigationsDisponibles.addAll(nouvIrrigationsDispo);
+
+        return true;
+    }
+
+    /**
+     * Renvoie si l'irrigation est posée sur le plateau
+     * @param irrigation l'irrigation à poser
+     * @return {@code true} si l'irrigation est posée sur le plateau
+     */
+    private boolean ajouteIrrigation(Irrigation irrigation) {
+        if (irrigation.getPositions().isEmpty()) {
+            return false;
+        }
+
+        for (Irrigation irrigationDisponible : irrigationsDisponibles) {
+            if (irrigation.equals(irrigationDisponible)){
+                irrigationsPosees.add(irrigation);
+                irrigationsDisponibles.remove(irrigation); // Supprime l'irrigation posée de la liste des disponibles
+
+                AfficheurPieces.poseIrrigation(irrigation);
+                return true;
             }
         }
-        return ajoute;
+        return false;
+    }
+
+    /**
+     * Irrigue les parcelles de l'irrigation
+     * @param irrigation l'irrigation posée
+     */
+    private void irrigueParcelles(Irrigation irrigation) {
+        List<Position> positions = irrigation.getPositions();
+        Optional<Parcelle> optParcelle1 = GestionParcelles.chercheParcelle(getParcelles(), positions.get(0));
+        Optional<Parcelle> optParcelle2 = GestionParcelles.chercheParcelle(getParcelles(), positions.get(1));
+        if (optParcelle1.isEmpty() || optParcelle2.isEmpty()) {
+            throw new AssertionError("Parcelle introuvable");
+        }
+
+        Parcelle parcelle1 = optParcelle1.get();
+        Parcelle parcelle2 = optParcelle2.get();
+        if (!parcelle1.getClass().equals(Etang.class) && !parcelle2.getClass().equals(Etang.class)) {
+            ParcelleCouleur parcelleC1 = (ParcelleCouleur) parcelle1;
+            ParcelleCouleur parcelleC2 = (ParcelleCouleur) parcelle2;
+
+            if (!parcelleC1.isIrriguee()) {
+                parcelleC1.setIrriguee(true);
+                poseBambou(parcelleC1, piocheBambou.pioche(parcelleC1.getCouleur()));
+            }
+            if (!parcelleC2.isIrriguee()) {
+                parcelleC2.setIrriguee(true);
+                poseBambou(parcelleC2, piocheBambou.pioche(parcelleC2.getCouleur()));
+            }
+        }
     }
 
     /**

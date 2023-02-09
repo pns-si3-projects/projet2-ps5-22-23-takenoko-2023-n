@@ -45,7 +45,7 @@ public class StrategieComplete implements Strategie {
 
     @Override
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, Plaquette plaquette) {
-        Irrigation irrigation = piocheIrrigation.pioche(new ArrayList<>());
+        Irrigation irrigation = piocheIrrigation.pioche();
         plaquette.ajoutIrrigation(irrigation);
     }
 

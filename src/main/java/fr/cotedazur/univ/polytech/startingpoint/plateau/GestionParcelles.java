@@ -55,6 +55,21 @@ public class GestionParcelles {
     }
 
     /**
+     * Renvoie la liste des voisines posées (sans les parcelles disponibles)
+     * @param voisines le tableau des voisines
+     * @return la liste des voisines posées
+     */
+    public static List<Parcelle> voisinesPosees(Parcelle[] voisines) {
+        List<Parcelle> parcellesNonDispo = new ArrayList<>();
+        for (Parcelle parcelle : voisines) {
+            if (!parcelle.getClass().equals(ParcelleDisponible.class)) {
+                parcellesNonDispo.add(parcelle);
+            }
+        }
+        return parcellesNonDispo;
+    }
+
+    /**
      * Renvoie la parcelle à la position demandée
      * @param parcelles le tableau des parcelles posées
      * @param position la position de la parcelle demandée

@@ -198,10 +198,11 @@ public class StrategieParcelle implements Strategie {
         Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
 
         if (irrigationsDisponibles.length > 0) {
-            Optional<List<Position>> positionIrrigation = irrigationsDisponibles[0].getPositions();
+            List<Position> positionIrrigation = irrigationsDisponibles[0].getPositions();
 
-            if (positionIrrigation.isPresent()) {
-                Irrigation irrigationPioche = piocheIrrigation.pioche(positionIrrigation.get());
+            if (!positionIrrigation.isEmpty()) {
+                Irrigation irrigationPioche = piocheIrrigation.pioche();
+                irrigationPioche.addPosition(positionIrrigation.get(0), positionIrrigation.get(1));
                 plateau.poseIrrigation(irrigationPioche);
             }
 
