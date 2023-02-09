@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.startingpoint.jeu;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.AfficheurJoueur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Plaquette;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
@@ -42,6 +43,21 @@ public class GestionTours {
 
 
     // Méthodes d'utilisation
+
+    /**
+     * Donne un objectif de chaque type à chaque joueur
+     * @param joueurs le tableau des joueurs
+     */
+    public void initialiseJoueurs(Joueur[] joueurs) {
+        for (Joueur joueur : joueurs) {
+            Objectif[] objectifs = new Objectif[3];
+            objectifs[0] = piocheObjectifParcelle.pioche();
+            objectifs[1] = piocheObjectifPanda.pioche();
+            objectifs[2] = piocheObjectifJardinier.pioche();
+
+            joueur.initialiseObjectifs(objectifs);
+        }
+    }
 
     /**
      * Gère les tours de chaque joueur jusqu'à ce qu'un joueur finisse le nombre d'objectifs demandé

@@ -40,7 +40,7 @@ public class StrategiePanda implements Strategie {
         }
 
         Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
-        if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 2
+        if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 3
                 && plateau.getBambous().length > 0) {
             return panda;
         }
@@ -51,7 +51,7 @@ public class StrategiePanda implements Strategie {
             return parcelle;
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
-        int irrigationPossable = plateau.getIrrigationsPosees().length -plateau.getIrrigationsDisponibles().length;
+        int irrigationPossable = plateau.getIrrigationsDisponibles().length;
         if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3) &&
                 !piochesVides[GestionTours.PiochesPossibles.IRRIGATION.ordinal()]) {
             return irrigation;

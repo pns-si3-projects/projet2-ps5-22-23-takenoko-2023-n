@@ -21,7 +21,8 @@ import java.util.Optional;
 public class StrategieComplete implements Strategie {
     private boolean premierTour = true;
     @Override
-    public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs, Plateau plateau, boolean[] piochesVides) {
+    public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs,
+                                                     Plateau plateau, boolean[] piochesVides) {
 
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
         if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size()<Joueur.NOMBRE_OBJECTIFS_MAX)
@@ -32,14 +33,20 @@ public class StrategieComplete implements Strategie {
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
-        if (!piochesVides[GestionTours.PiochesPossibles.IRRIGATION.ordinal()] &&
-                (plateau.getBambous().length == 0 && !actionsRealiseesTour[irrigation.ordinal()]) || premierTour) {
-            if(premierTour) premierTour = false;
+        int irrigationPossable = plateau.getIrrigationsDisponibles().length;
+        if ((!piochesVides[GestionTours.PiochesPossibles.IRRIGATION.ordinal()]
+                && !actionsRealiseesTour[irrigation.ordinal()] && irrigationPossable >= 3)
+               || premierTour) {
+            if (premierTour) premierTour = false;
             return irrigation;
         }
 
         Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
-        if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 3) {
+        List<Position> positionsDeplacement = GestionPersonnages
+                .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getPanda().getPosition());
+        List<Position> positionsAvecBambou =
+                GestionBambous.positionAvecBambou(positionsDeplacement, plateau, false);
+        if (!actionsRealiseesTour[panda.ordinal()] && !positionsAvecBambou.isEmpty()) {
             return panda;
         }
 
