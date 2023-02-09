@@ -369,14 +369,23 @@ public class Plateau {
             } catch (ParcelleNonPoseeException e) {
                 throw new AssertionError(e);
             }
-            for (Parcelle parcelle : voisines){
-                if (parcelle.getClass().equals(ParcelleCouleur.class)) {
-                    ParcelleCouleur parcelleVoisine = (ParcelleCouleur) parcelle;
-                    if (parcelleVoisine.isIrriguee() && parcelleVoisine.getCouleur().equals(couleurParcelleJardinier))
-                        poseBambou(parcelleVoisine, piocheBambou.pioche(parcelleCouleurJardinier.getCouleur()));
-                }
-            }
 
+            poseBambouVoisine(voisines, couleurParcelleJardinier);
+        }
+    }
+
+    /**
+     * Pose les bambous aux voisins
+     * @param parcellesVoisines Les parcelles voisines autour de la parcelle où est le jardinier
+     * @param couleurParcelleJardinier La couleur de la parcelle du jardinier
+     */
+    private void poseBambouVoisine(Parcelle[] parcellesVoisines, Couleur couleurParcelleJardinier) {
+        for (Parcelle parcelle : parcellesVoisines){
+            if (parcelle.getClass().equals(ParcelleCouleur.class)) {
+                ParcelleCouleur parcelleVoisine = (ParcelleCouleur) parcelle;
+                if (parcelleVoisine.isIrriguee() && parcelleVoisine.getCouleur().equals(couleurParcelleJardinier))
+                    poseBambou(parcelleVoisine, piocheBambou.pioche(couleurParcelleJardinier));
+            }
         }
     }
 }
