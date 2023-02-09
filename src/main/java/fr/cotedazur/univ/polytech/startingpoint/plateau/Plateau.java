@@ -338,7 +338,7 @@ public class Plateau {
      * @param bambou un bambou
      * @return une sectionBambou
      */
-    private SectionBambou mangeBambou (Bambou bambou) {
+    private SectionBambou mangeBambou(Bambou bambou) {
         return bambou.prendSectionBambou();
     }
 

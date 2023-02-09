@@ -381,4 +381,6 @@ class PlateauTest {
         assertTrue(optionalBambou02_apres.isEmpty());
     }
 
+
+
 }
