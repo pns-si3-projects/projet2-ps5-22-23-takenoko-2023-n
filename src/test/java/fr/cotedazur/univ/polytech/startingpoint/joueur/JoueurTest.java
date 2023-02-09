@@ -82,6 +82,16 @@ class JoueurTest {
         assertEquals(0, joueurPanda.getObjectifsTermines().length);
     }
 
+    @Test
+    void initialiseObjectifs() {
+        assertEquals(0, joueurParcelle.nombreObjectifsEnMain());
+        Objectif[] objectifs = new Objectif[3];
+        objectifs[0] = piocheObjectifParcelle.pioche();
+        objectifs[1] = piocheObjectifPanda.pioche();
+        objectifs[2] = piocheObjectifJardinier.pioche();
+        joueurParcelle.initialiseObjectifs(objectifs);
+        assertEquals(3, joueurParcelle.nombreObjectifsEnMain());
+    }
 
     @Test
     void nombreObjectifsEnMain() {
