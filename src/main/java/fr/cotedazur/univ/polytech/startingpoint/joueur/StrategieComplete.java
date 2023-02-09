@@ -32,9 +32,9 @@ public class StrategieComplete implements Strategie {
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
-        int irrigationPossable = plateau.getIrrigationsDisponibles().length;
+        int irrigationPosable = plateau.getIrrigationsDisponibles().length;
         if ((!piochesVides[GestionTours.PiochesPossibles.IRRIGATION.ordinal()]
-                && !actionsRealiseesTour[irrigation.ordinal()] && irrigationPossable >= 3)
+                && !actionsRealiseesTour[irrigation.ordinal()] && irrigationPosable >= 3)
                || premierTour) {
             if (premierTour) premierTour = false;
             return irrigation;

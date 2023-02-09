@@ -81,7 +81,7 @@ public class Main {
      */
     private static void joue2Thousands() {
         LOGGER.warning("Début mode 2thousands");
-        for (int i=0; i<1000; i++){
+        for (int i=0; i<2000; i++) {
             MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
             maitreDuJeu.jeu();
             String nbJeu = Integer.toString(i+1);

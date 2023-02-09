@@ -62,6 +62,7 @@ public class GestionTours {
     /**
      * Gère les tours de chaque joueur jusqu'à ce qu'un joueur finisse le nombre d'objectifs demandé
      * @param joueurs les joueurs de la partie
+     * @param nombreObjectifsDemandes le nombre d'objectifs à réaliser
      * @return le joueur ayant terminé le nombre d'objectifs demandé
      */
     public Joueur tours(Joueur[] joueurs, int nombreObjectifsDemandes) {
@@ -137,6 +138,7 @@ public class GestionTours {
     /**
      * Effectue le dernier tour de jeu sans le joueur ayant reçu la carte Empereur
      * @param joueurs les joueurs de la partie sans le joueur ayant reçu la carte Empereur
+     * @param joueurFinObjectifs le premier joueur à finir le nombre d'objectifs terminés
      */
     public void dernierTour(Joueur[] joueurs, Joueur joueurFinObjectifs) {
         AfficheurJeu.debutDernierTour();
