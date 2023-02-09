@@ -28,7 +28,7 @@ public class StrategieComplete implements Strategie {
 
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
         if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size()<Joueur.NOMBRE_OBJECTIFS_MAX) && (!piochesVides[GestionTours.PiochesPossibles.OBJ_PANDA.ordinal()]  |
-                !piochesVides[GestionTours.PiochesPossibles.OBJ_PARCELLE.ordinal()] | !piochesVides[GestionTours.PiochesPossibles.OBJ_JARDINIER.ordinal()] )) {
+                !piochesVides[GestionTours.PiochesPossibles.OBJ_PARCELLE.ordinal()] | !piochesVides[GestionTours.PiochesPossibles.OBJ_JARDINIER.ordinal()])) {
             return objectif;
         }
 
