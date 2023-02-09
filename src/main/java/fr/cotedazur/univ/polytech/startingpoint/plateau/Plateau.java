@@ -26,7 +26,7 @@ public class Plateau {
     private final Panda panda;
     private final Jardinier jardinier;
     private final Set<Irrigation> irrigationsPosees;
-    private Set<Irrigation> irrigationsDisponibles;
+    private final Set<Irrigation> irrigationsDisponibles;
     private final PiocheSectionBambou piocheBambou;
 
 
@@ -136,10 +136,6 @@ public class Plateau {
      */
     public Irrigation[] getIrrigationsDisponibles(){
         return irrigationsDisponibles.toArray(new Irrigation[0]);
-    }
-
-    public void setIrrigationsDisponibles(Set<Irrigation> irrigationsDisponibles){
-        this.irrigationsDisponibles = irrigationsDisponibles;
     }
 
     // Méthodes d'utilisation
@@ -347,7 +343,6 @@ public class Plateau {
     /**
      * Déplace le jardinier et ajoute le bambous sur la parcelle et ses voisins irriguées et de la même couleur
      * @param position position de la parcelle où on veut déplavcer le jardinier
-     * @throws ParcelleNonPoseeException Renvoi une erreur si existe une exception
      */
     public void deplacementJardinier(Position position) {
         // déplacement du jardinier

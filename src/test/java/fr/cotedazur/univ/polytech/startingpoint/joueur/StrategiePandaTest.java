@@ -1,12 +1,15 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +55,7 @@ class StrategiePandaTest {
                 strategiePanda.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
 
         actionsRealiseesTour[Plaquette.ActionPossible.OBJECTIF.ordinal()] = true;
+        assertEquals(1, plateau.getParcelles().length);
         assertEquals(Plaquette.ActionPossible.PARCELLE,
                 strategiePanda.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
 
@@ -60,6 +64,10 @@ class StrategiePandaTest {
                 strategiePanda.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
 
         actionsRealiseesTour[Plaquette.ActionPossible.JARDINIER.ordinal()] = true;
+        assertEquals(Plaquette.ActionPossible.JARDINIER,
+                strategiePanda.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
+
+        actionsRealiseesTour[Plaquette.ActionPossible.IRRIGATION.ordinal()] = true;
         assertEquals(Plaquette.ActionPossible.JARDINIER,
                 strategiePanda.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
     }
@@ -121,5 +129,18 @@ class StrategiePandaTest {
         Position positionFinal = spyPlateau.getPanda().getPosition();
         assertNotEquals(positionInitial,positionFinal);
         verify(spyPlateau, times(1)).deplacementPanda(any(Position.class));
+    }
+
+    @Test
+    void plaquetteCouleurManquante() {
+        Plaquette mockPlaquette = mock(Plaquette.class);
+        SectionBambou sectionBambouVerte = new SectionBambou(Couleur.VERTE);
+        SectionBambou sectionBambouRose = new SectionBambou(Couleur.ROSE);
+        when(mockPlaquette.getReserveBambousManges()).thenReturn(new SectionBambou[0],
+                new SectionBambou[]{sectionBambouVerte}, new SectionBambou[]{sectionBambouVerte, sectionBambouRose});
+
+        assertEquals(Couleur.VERTE, strategiePanda.plaquetteCouleurManquante(mockPlaquette));
+        assertEquals(Couleur.ROSE, strategiePanda.plaquetteCouleurManquante(mockPlaquette));
+        assertEquals(Couleur.JAUNE, strategiePanda.plaquetteCouleurManquante(mockPlaquette));
     }
 }
