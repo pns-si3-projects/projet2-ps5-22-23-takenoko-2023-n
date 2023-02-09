@@ -185,8 +185,12 @@ public class StrategieParcelle implements Strategie {
         Parcelle[] tableauParcellePlateau = plateau.getParcelles();
         Position[] tableauPositionDisponible = plateau.getPositionsDisponibles();
         ObjectifParcelle objectifParcelleChoisi = getMaxObjectifParcelle(objectifs);
-        Optional<Position> optPosition = GestionnairePossibiliteMotifJoueur.positionPossiblePrendrePourMotif(
-                tableauParcellePlateau, tableauPositionDisponible, objectifParcelleChoisi);
+        Optional<Position> optPosition = Optional.empty();
+
+        if (objectifParcelleChoisi != null) {
+            optPosition = GestionnairePossibiliteMotifJoueur.positionPossiblePrendrePourMotif(
+                    tableauParcellePlateau, tableauPositionDisponible, objectifParcelleChoisi);
+        }
 
         Position positionChoisi = optPosition.orElseGet(() -> tableauPositionDisponible[0]);
         Optional<ParcelleCouleur> parcelleCouleurChoisi = choisirParcelle(piocheParcelle, positionChoisi);
