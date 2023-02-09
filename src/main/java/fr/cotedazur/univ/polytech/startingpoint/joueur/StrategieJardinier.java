@@ -3,16 +3,14 @@ package fr.cotedazur.univ.polytech.startingpoint.joueur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionBambous;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,25 +82,18 @@ public class StrategieJardinier implements Strategie {
 
     @Override
     public void actionJardinier(Plateau plateau, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
-        List<ObjectifJardinier> objectifsJardinierList = new ArrayList<>();
-        Position futurePositionJardinier = null;
-
-        //Liste des objectfsJardiniers
-        for (Objectif objectif: objectifs) {
-            if (objectif.getClass().equals(ObjectifJardinier.class)) {
-                objectifsJardinierList.add((ObjectifJardinier) objectif);
-            }
-        }
-
+        Position futurePosition;
         //Déplacements possibles
         List<Position> deplacementsPossibles = GestionPersonnages
                 .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
+        List<Position> positionsAvecBambou = GestionBambous.positionAvecBambou(deplacementsPossibles, plateau, true);
 
-        Position positionEtang = new Position();
-        if (deplacementsPossibles.size() > 1 && deplacementsPossibles.contains(positionEtang)) {
-            deplacementsPossibles.remove(positionEtang);
+        if (positionsAvecBambou.isEmpty()) {
+            futurePosition = deplacementsPossibles.get(0);
+        } else {
+            futurePosition = positionsAvecBambou.get(0);
         }
-        futurePositionJardinier = deplacementsPossibles.get(0);
+
         /*for (Position position : deplacementsPossibles){
             Optional<Parcelle> parcelle = GestionParcelles.chercheParcelle(plateau.getParcelles(), position);
             if (parcelle.isPresent() && parcelle.get().getClass().equals(ParcelleCouleur.class)) {
@@ -114,22 +105,23 @@ public class StrategieJardinier implements Strategie {
             }
         }*/
 
-        //Déplacement du Jardinier
-        if (futurePositionJardinier!=null) {
-            try {
-                plateau.deplacementJardinier(futurePositionJardinier);
-            } catch (ParcelleNonPoseeException e) {
-                throw new AssertionError(e);
-            }
-        }
+        plateau.deplacementJardinier(futurePosition);
     }
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
+        Position futurePosition;
         List<Position> deplacementsPossibles = GestionPersonnages
                 .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getJardinier().getPosition());
+        List<Position> positionsAvecBambou =
+                GestionBambous.positionAvecBambou(deplacementsPossibles, plateau, false);
 
-        Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(deplacementsPossibles.get(0));
+        if (positionsAvecBambou.isEmpty()) {
+            futurePosition = deplacementsPossibles.get(0);
+        } else {
+            futurePosition = positionsAvecBambou.get(0);
+        }
+        Optional<SectionBambou> sectionBambou = plateau.deplacementPanda(futurePosition);
         sectionBambou.ifPresent(plaquette::mangeSectionBambou);
     }
 

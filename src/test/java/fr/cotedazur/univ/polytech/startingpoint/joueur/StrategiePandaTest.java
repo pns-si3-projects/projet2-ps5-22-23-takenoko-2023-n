@@ -4,7 +4,6 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -106,11 +105,7 @@ class StrategiePandaTest {
             assertNotEquals(positionInitial,positionFinal);
             positionInitial = positionFinal;
         }
-        try {
-            verify(spyPlateau, times(2)).deplacementJardinier(any(Position.class));
-        } catch (ParcelleNonPoseeException e) {
-            System.out.println(e);
-        }
+        verify(spyPlateau, times(2)).deplacementJardinier(any(Position.class));
     }
 
     @Test

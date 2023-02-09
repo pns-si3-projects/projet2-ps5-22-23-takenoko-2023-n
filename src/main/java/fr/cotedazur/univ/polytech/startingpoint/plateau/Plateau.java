@@ -349,7 +349,7 @@ public class Plateau {
      * @param position position de la parcelle où on veut déplavcer le jardinier
      * @throws ParcelleNonPoseeException Renvoi une erreur si existe une exception
      */
-    public void deplacementJardinier(Position position) throws ParcelleNonPoseeException {
+    public void deplacementJardinier(Position position) {
         // déplacement du jardinier
         jardinier.move(position);
         AfficheurPersonnage.deplacePersonnage(jardinier);
@@ -363,7 +363,12 @@ public class Plateau {
             if (parcelleCouleurJardinier.isIrriguee()) poseBambou(parcelleCouleurJardinier, piocheBambou.pioche(parcelleCouleurJardinier.getCouleur()));
 
             //ajout du bambou sur les parcelles voisines irriguées
-            Parcelle[] voisines = getVoisinesParcelle(parcelleCouleurJardinier);
+            Parcelle[] voisines;
+            try {
+                voisines = getVoisinesParcelle(parcelleCouleurJardinier);
+            } catch (ParcelleNonPoseeException e) {
+                throw new AssertionError(e);
+            }
             for (Parcelle parcelle : voisines){
                 if (parcelle.getClass().equals(ParcelleCouleur.class)) {
                     ParcelleCouleur parcelleVoisine = (ParcelleCouleur) parcelle;

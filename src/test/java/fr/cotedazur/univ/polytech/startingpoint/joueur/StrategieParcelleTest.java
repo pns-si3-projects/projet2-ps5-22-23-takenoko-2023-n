@@ -10,7 +10,6 @@ import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
 import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -257,11 +256,7 @@ class StrategieParcelleTest {
 
         strategieParcelle.actionJardinier(spyPlateau,piocheSectionBambou,objectifs);
         assertNotEquals(positionInitial, spyPlateau.getJardinier().getPosition());
-        try {
-            verify(spyPlateau, times(1)).deplacementJardinier(any(Position.class));
-        } catch (ParcelleNonPoseeException e) {
-            throw new AssertionError(e);
-        }
+        verify(spyPlateau, times(1)).deplacementJardinier(any(Position.class));
     }
 
     @Test

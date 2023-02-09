@@ -356,11 +356,7 @@ class PlateauTest {
 
         //déplacement du jardinier
         assertEquals(new Position(), plateau.getJardinier().getPosition());
-        try {
-            plateau.deplacementJardinier(position11);
-        } catch (ParcelleNonPoseeException e) {
-            throw new AssertionError(e);
-        }
+        plateau.deplacementJardinier(position11);
 
         //Jardinier est bien déplacé
         assertEquals(position11, plateau.getJardinier().getPosition());
