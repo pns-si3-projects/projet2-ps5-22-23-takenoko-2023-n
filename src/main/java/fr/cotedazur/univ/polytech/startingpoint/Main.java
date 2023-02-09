@@ -78,13 +78,17 @@ public class Main {
      */
     private static void joue2Thousands() {
         LOGGER.warning("Début mode 2thousands");
-        Joueur joueur1 = new Joueur("joueurPar1", Strategie.StrategiePossible.PARCELLE);
+        Joueur joueur1 = new Joueur("joueurPar1", Strategie.StrategiePossible.PANDA);
         Joueur joueur2 = new Joueur("joueurPar2", Strategie.StrategiePossible.PARCELLE);
-        Joueur joueur3 = new Joueur("joueurPar3", Strategie.StrategiePossible.PARCELLE);
-        Joueur joueur4 = new Joueur("joueurPar4", Strategie.StrategiePossible.PARCELLE);
+        Joueur joueur3 = new Joueur("joueurPar3", Strategie.StrategiePossible.COMPLET);
+        Joueur joueur4 = new Joueur("joueurPar4", Strategie.StrategiePossible.JARDINIER);
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
+        LOGGER.info("Points: "+ joueur1.nombrePoints());
+        LOGGER.info("Points: "+ joueur2.nombrePoints());
+        LOGGER.info("Points: "+ joueur3.nombrePoints());
+        LOGGER.info("Points: "+ joueur4.nombrePoints());
     }
 
     /**

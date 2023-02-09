@@ -95,7 +95,7 @@ public class StrategiePanda implements Strategie {
     public void actionIrrigation(Plateau plateau, PiocheIrrigation piocheIrrigation, Plaquette plaquette) {
         Irrigation[] irrigationsDisponibles = plateau.getIrrigationsDisponibles();
         if (irrigationsDisponibles.length > 0){
-            Optional<List<Position>> positionIrrigation = irrigationsDisponibles[0].getPositions();
+            Optional<List<Position>> positionIrrigation = irrigationsDisponibles[irrigationsDisponibles.length-1].getPositions();
 
             if (!piocheIrrigation.isEmpty() && positionIrrigation.isPresent()) {
                 Irrigation irrigationAAdd = piocheIrrigation.pioche(positionIrrigation.get());
