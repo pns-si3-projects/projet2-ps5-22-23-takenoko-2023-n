@@ -85,10 +85,10 @@ public class Main {
         MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueur1, joueur2, joueur3, joueur4);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
-        LOGGER.warning("Points: "+ joueur1.nombrePoints());
-        LOGGER.warning("Points: "+ joueur2.nombrePoints());
-        LOGGER.warning("Points: "+ joueur3.nombrePoints());
-        LOGGER.warning("Points: "+ joueur4.nombrePoints());
+        LOGGER.info("Points: "+ joueur1.nombrePoints());
+        LOGGER.info("Points: "+ joueur2.nombrePoints());
+        LOGGER.info("Points: "+ joueur3.nombrePoints());
+        LOGGER.info("Points: "+ joueur4.nombrePoints());
     }
 
     /**
