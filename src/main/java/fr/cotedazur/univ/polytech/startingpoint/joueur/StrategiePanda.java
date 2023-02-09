@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.GestionTours;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.GestionnaireObjectifs;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
@@ -31,7 +32,10 @@ public class StrategiePanda implements Strategie {
                                                      Plateau plateau, boolean[] piochesVides) {
 
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
-        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)) {
+        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size() < Joueur.NOMBRE_OBJECTIFS_MAX)
+                && (!piochesVides[GestionTours.PiochesPossibles.OBJ_PANDA.ordinal()]
+                || !piochesVides[GestionTours.PiochesPossibles.OBJ_PARCELLE.ordinal()]
+                || !piochesVides[GestionTours.PiochesPossibles.OBJ_JARDINIER.ordinal()] )) {
             return objectif;
         }
 
@@ -41,14 +45,15 @@ public class StrategiePanda implements Strategie {
             return panda;
         }
 
-
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && (plateau.getParcelles().length < 2))
+        if (!actionsRealiseesTour[parcelle.ordinal()] && (plateau.getParcelles().length < 5)
+                && !piochesVides[GestionTours.PiochesPossibles.PARCELLE.ordinal()])
             return parcelle;
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
         int irrigationPossable = plateau.getIrrigationsPosees().length -plateau.getIrrigationsDisponibles().length;
-        if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3)) {
+        if (!actionsRealiseesTour[irrigation.ordinal()] && (irrigationPossable==3) &&
+                !piochesVides[GestionTours.PiochesPossibles.IRRIGATION.ordinal()]) {
             return irrigation;
         }
 

@@ -24,26 +24,28 @@ public class StrategieComplete implements Strategie {
     public Plaquette.ActionPossible choisiActionTour(boolean[] actionsRealiseesTour, List<Objectif> objectifs, Plateau plateau, boolean[] piochesVides) {
 
         Plaquette.ActionPossible objectif = Plaquette.ActionPossible.OBJECTIF;
-        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size()<Joueur.NOMBRE_OBJECTIFS_MAX) && (!piochesVides[GestionTours.PiochesPossibles.OBJ_PANDA.ordinal()]  ||
-                !piochesVides[GestionTours.PiochesPossibles.OBJ_PARCELLE.ordinal()] || !piochesVides[GestionTours.PiochesPossibles.OBJ_JARDINIER.ordinal()] )) {
+        if (!actionsRealiseesTour[objectif.ordinal()] && (objectifs.size()<Joueur.NOMBRE_OBJECTIFS_MAX)
+                && (!piochesVides[GestionTours.PiochesPossibles.OBJ_PANDA.ordinal()]
+                || !piochesVides[GestionTours.PiochesPossibles.OBJ_PARCELLE.ordinal()]
+                || !piochesVides[GestionTours.PiochesPossibles.OBJ_JARDINIER.ordinal()] )) {
             return objectif;
         }
 
         Plaquette.ActionPossible irrigation = Plaquette.ActionPossible.IRRIGATION;
         if (!piochesVides[GestionTours.PiochesPossibles.IRRIGATION.ordinal()] &&
-                (plateau.getBambous().length == 0 /* ou parcelle adversaire autre methode en plus */ && !actionsRealiseesTour[irrigation.ordinal()]) || premierTour ) {
+                (plateau.getBambous().length == 0 && !actionsRealiseesTour[irrigation.ordinal()]) || premierTour) {
             if(premierTour) premierTour = false;
             return irrigation;
         }
 
         Plaquette.ActionPossible panda = Plaquette.ActionPossible.PANDA;
         if (!actionsRealiseesTour[panda.ordinal()] && plateau.getParcelles().length > 3) {
-            //jardinier et panda adversai --> faire dans actionPanda
             return panda;
         }
 
         Plaquette.ActionPossible parcelle = Plaquette.ActionPossible.PARCELLE;
-        if (!actionsRealiseesTour[parcelle.ordinal()] && !getObjectifParcelle(objectifs).isEmpty() && !piochesVides[GestionTours.PiochesPossibles.PARCELLE.ordinal()]) {
+        if (!actionsRealiseesTour[parcelle.ordinal()] && !getObjectifParcelle(objectifs).isEmpty()
+                && !piochesVides[GestionTours.PiochesPossibles.PARCELLE.ordinal()]) {
             return parcelle;
         }
 

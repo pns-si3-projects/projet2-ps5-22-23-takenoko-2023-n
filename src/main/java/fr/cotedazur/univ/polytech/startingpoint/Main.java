@@ -78,7 +78,7 @@ public class Main {
      */
     private static void joue2Thousands() {
         LOGGER.warning("Début mode 2thousands");
-        for (int i=0; i<50; i++){
+        for (int i=0; i<200; i++){
             Joueur joueur1 = new Joueur("joueurPar1", Strategie.StrategiePossible.PANDA);
             Joueur joueur2 = new Joueur("joueurPar2", Strategie.StrategiePossible.PARCELLE);
             Joueur joueur3 = new Joueur("joueurPar3", Strategie.StrategiePossible.COMPLET);
