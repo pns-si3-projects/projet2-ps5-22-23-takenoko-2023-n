@@ -15,10 +15,10 @@ mvn exec:java
 ```
 
 ## Fonctionnalités
-Le jeu est joué par 2 joueurs automatisés avec affichage de leurs actions effectuées
+Le jeu est joué par 4 joueurs automatisés avec affichage de leurs actions effectuées
 * Initialisation du jeu avec l'Etang, le Jardinier et le Panda
 * Les robots peuvent faire 2 actions différentes maximum par tour  
-    (poser une parcelle, piocher un objectif de son choix, déplacer le Panda, déplacer le Jardinier)
+    (poser une parcelle, piocher un objectif de son choix, déplacer le Panda, déplacer le Jardinier, poser une irrigation)
 * Les robots sont capables de poser plusieurs parcelles sur le plateau
 * Il est possible de déplacer le Panda pour manger du bambou
 * Le Jardinier est utilisé pour faire pousser du bambou
