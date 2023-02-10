@@ -48,26 +48,26 @@ Le bot choisi l'action Irrigation lorsqu'il y a 3 possibilités d'irrigation sur
 
 
 ## Architecture et qualité
-Comment est faite l'architecture du projet ? Et quels choix vous ont amené à la réaliser ainsi ?  
+_**Comment est faite l'architecture du projet ? Et quels choix vous ont amené à la réaliser ainsi ?**_  
 Généralement, on code à l'interface mais dans les cas où il y a beaucoup de code communs entre plusieurs classes, on utilisait une classe abstract.  
 On a choisi de créer des interfaces pour les parcelles (Etang, ParcelleCouleur, ParcelleDisponible) car elles sont toutes des parcelles avec une position. Cela permet de regrouper dans les appels de méthodes. De même pour les pioches d'objectifs.  
 On a choisi de créer une classe abstraite pour Motif car on a remarqué que les différentes classes de motifs de parcelles ont du code communs pour les comparaisons et donc on a généralisé ces méthodes.  
+  
 
-
-Où trouver les infos ?  
+_**Où trouver les infos ?**_  
 De la Java doc est présente dans chacune de nos classes et interfaces.
+  
 
-
-Quelles parties sont bien faites ?  
+_**Quelles parties sont bien faites ?**_  
 Les pioches font leur role en ayant un minimum de méthodes. Egalement, il n'y a pas l'utilisation de getClass().
 Les différents gestionnaires permettant de mieux définir les responsabilités des classes. 
+  
 
-
-Quelles parties sont à refactor et pourquoi ?  
+_**Quelles parties sont à refactor et pourquoi ?**_  
 Pour améliorer notre code, un refactor de la classe StrategieComplete pourrait être réalisé car elle possède trop de méthodes. Il aurait été possible de faire une autre classe pour aider à réflechir sur la stratégie.
+  
 
-
-Comment la sortie SONAR le montre-elle ?  
+_**Comment la sortie SONAR le montre-elle ?**_  
 Sur la visualisation en ville de notre code, nous pouvons remarquer que cette classe est plus haute que les autres et a une complexité plus importante.
 
 
@@ -81,14 +81,14 @@ Amandine : Jardinier, Bambous, Irrigations, objectifs Jardinier, Stratégie Pand
 
 
 Quel est le process de l'équipe ?  
-**Git**  
+_**Git**_  
 Nous avons créer des milestones pour l'implémentation de chaque nouvelles fonctionnalités ou lors d'un refactor.  
 Nous les avons ensuite découpé en slices que nous avons par la suite découpé en features.  
 Les features comportaient ensuite les différentes tasks que nous avions à réaliser ainsi que les tests.  
 Chacun de nos commit était relié à une issue.
 
 
-**Branching Strategy**  
+_**Branching Strategy**_  
 Des branches de travail dans lesquelles on rajoutait les nouvelles fonctionnalités à implémenter.  
 Le merge d'une branche de travail vers la branche Develop nécessitait une pull request validée par au moins un autre membre de l'équipe.  
 Une branche Develop pour gérer les conflits entre ces branches de travail lors des merges.  
