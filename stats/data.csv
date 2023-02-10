@@ -1,5 +1,5 @@
-Joueurs,nb parties gagnees,% parties gagnees,nb parties perdues,% parties perdues,nb parties nulles,% parties nulles,score moyen
-Joueur complet,6,60,4,40,0,0,31.6
-Joueur panda,3,30,7,70,0,0,26.7
-Joueur jardinier,1,10,9,90,0,0,17.3
-Joueur parcelle,0,0,10,100,0,0,4.2
+Joueurs,nb parties gagnées,% parties gagnées,nb parties perdues,% parties perdues,nb parties nulles,% parties nulles,score moyen
+Joueur complet,12,60,8,40,0,0,30.3
+Joueur panda,7,35,13,65,0,0,26.0
+Joueur jardinier,1,5,19,95,0,0,15.0
+Joueur parcelle,0,0,20,100,0,0,4.65
