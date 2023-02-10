@@ -7,9 +7,21 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 public class WriteCSV {
+    // Définition des attributs
+
     private static final Path cheminFichier = FileSystems.getDefault().getPath("stats", "data.csv");
 
-    public static void main(String[] args) {
+
+    // Définition d'un constructeur privé pour éviter les instanciations
+
+    private WriteCSV() {
+        throw new IllegalStateException("Utility class");
+    }
+
+
+    // Méthodes d'utilisation
+
+    public static void ecrireCSV(String[] args) {
         CSVWriter writer;
         try {
             writer = new CSVWriter(new FileWriter(cheminFichier.toFile(), true));

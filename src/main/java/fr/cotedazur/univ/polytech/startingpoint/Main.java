@@ -93,7 +93,9 @@ public class Main {
      * Joue une partie de demo entre plusieurs bots
      */
     private static void joueDemo() {
-        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
+        Joueur joueurComplet1 = new Joueur("Joueur complet1", Strategie.StrategiePossible.COMPLET);
+        Joueur joueurComplet2 = new Joueur("Joueur complet2", Strategie.StrategiePossible.COMPLET);
+        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet1, joueurComplet2);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
     }
@@ -117,7 +119,7 @@ public class Main {
         int nbrPtsJ4 = joueurPan.nombrePoints();
         int totalPts = nbrPtsJ1 + nbrPtsJ2 +nbrPtsJ3 + nbrPtsJ4;
         int totalPointsToutesParties = Integer.parseInt(totalPointPartiePrecedente) + totalPts;
-        WriteCSV.main(new String[]{String.valueOf(nbrPtsJ1), String.valueOf(nbrPtsJ2), String.valueOf(nbrPtsJ3),
+        WriteCSV.ecrireCSV(new String[]{String.valueOf(nbrPtsJ1), String.valueOf(nbrPtsJ2), String.valueOf(nbrPtsJ3),
                 String.valueOf(nbrPtsJ4), String.valueOf(totalPts), String.valueOf(totalPointsToutesParties) });
     }
 }
