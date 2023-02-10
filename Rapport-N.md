@@ -76,7 +76,7 @@ Fabien : Parcelles, création des objectifs, Panda, Gestion des déplacements de
 Amandine : Jardinier, Bambous, objectifs Jardinier, Stratégie Panda, Stratégie Complète  
 
 
-Quel est le process de l'équipe ?
+Quel est le process de l'équipe ?  
 **Git**  
 Nous avons créer des milestones pour l'implémentation de chaque nouvelles fonctionnalités ou lors d'un refactor.  
 Nous les avons ensuite découpé en slices que nous avons par la suite découpé en features.  
