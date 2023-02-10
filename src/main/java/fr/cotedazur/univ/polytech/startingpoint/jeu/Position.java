@@ -6,7 +6,7 @@ import java.util.Objects;
  * Représente la position d'une pièce du jeu.
  * @author equipe N
  */
-public class Position {
+public class Position  implements Comparable<Position> {
     // Définition des attributs
 
     private final int x;
@@ -52,6 +52,15 @@ public class Position {
 
 
     // Méthodes toString et equals
+
+    @Override
+    public int compareTo(Position position){
+        if(x > position.x) return 1;
+        else if(x < position.x) return -1;
+        else if(y > position.y) return 1;
+        else if(y < position.y) return -1;
+        else return 0;
+    }
 
     @Override
     public String toString() {
