@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Représente la plaquette individuelle d'un joueur.
@@ -116,6 +117,17 @@ public class Plaquette {
      */
     public void ajoutIrrigation(@NotNull Irrigation irrigation) {
         reserveIrrigation.add(irrigation);
+    }
+
+    /**
+     * Renvoie une irrigation de la plaquette
+     * @return l'irrigation de la plaquette
+     */
+    public Optional<Irrigation> enleveIrrigation() {
+        if (!reserveIrrigation.isEmpty()) {
+            return Optional.of(reserveIrrigation.remove(0));
+        }
+        return Optional.empty();
     }
 
     /**

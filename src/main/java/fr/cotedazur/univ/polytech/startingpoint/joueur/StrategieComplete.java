@@ -13,10 +13,7 @@ import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
 import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionBambous;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionPersonnages;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.ParcelleNonPoseeException;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.*;
 
 import java.util.*;
 
@@ -45,7 +42,8 @@ public class StrategieComplete implements Strategie {
                 .deplacementsPossibles(plateau.getParcelleEtVoisinesList(), plateau.getPanda().getPosition());
         List<Position> positionsAvecBambou =
                 GestionBambous.positionAvecBambou(positionsDeplacement, plateau, false);
-        if (!actionsRealiseesTour[panda.ordinal()] && !positionsAvecBambou.isEmpty()) {
+        if ((!actionsRealiseesTour[panda.ordinal()] && !positionsAvecBambou.isEmpty())
+                || plateau.getIrrigationsDisponibles().length > 0) {
             return panda;
         }
 
@@ -76,7 +74,8 @@ public class StrategieComplete implements Strategie {
     }
 
     @Override
-    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou, List<Objectif> objectifs) {
+    public void actionParcelle(Plateau plateau, PiocheParcelle piocheParcelle, PiocheSectionBambou piocheSectionBambou,
+                               List<Objectif> objectifs) {
         ParcellePioche[] pioche3parcelles;
 
         try {
@@ -287,6 +286,21 @@ public class StrategieComplete implements Strategie {
 
     @Override
     public void actionPanda(Plateau plateau, List<Objectif> objectifs, Plaquette plaquette) {
+        // Ajoute irrigation
+        if (plaquette.getReserveIrrigation().length > 0 && plateau.getIrrigationsDisponibles().length > 0) {
+            Optional<Irrigation> optIrrigation = plaquette.enleveIrrigation();
+
+            if (optIrrigation.isPresent()) {
+                Irrigation irrigation = optIrrigation.get();
+                List<Position> positions = plateau.getIrrigationsDisponibles()[0].getPositions();
+                irrigation.addPosition(positions.get(0), positions.get(1));
+
+                plateau.poseIrrigation(irrigation);
+            } else {
+                throw new AssertionError("Irrigation introuvable");
+            }
+        }
+
         Optional<SectionBambou> bambouMange;
         List<ObjectifPanda> objectifPandas = getObjectifPanda(objectifs);
 

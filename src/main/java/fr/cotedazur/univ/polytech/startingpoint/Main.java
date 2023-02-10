@@ -46,7 +46,7 @@ public class Main {
             argumentMain = argsMain.getArgument();
         }
         else {
-            argumentMain = ArgumentPossibleMain.CSV;
+            argumentMain = ArgumentPossibleMain.THOUSANDS;
         }
 
         configureLogger(argumentMain);
@@ -121,7 +121,11 @@ public class Main {
      * Joue une partie de demo entre plusieurs bots
      */
     private static void joueDemo() {
-        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurPanda, joueurJardinier, joueurParcelle);
+        Joueur joueurCom1 = new Joueur(NOM_JOUEUR_COMPLET + "1", Strategie.StrategiePossible.COMPLET);
+        Joueur joueurCom2 = new Joueur(NOM_JOUEUR_COMPLET + "2", Strategie.StrategiePossible.COMPLET);
+        Joueur joueurJar = new Joueur(NOM_JOUEUR_JARDINIER, Strategie.StrategiePossible.JARDINIER);
+        Joueur joueurPar = new Joueur(NOM_JOUEUR_PARCELLE, Strategie.StrategiePossible.PANDA);
+        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurCom1, joueurCom2, joueurJar, joueurPar);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
     }
