@@ -60,7 +60,7 @@ public class Affichage2Thousands {
         LOGGER_2THOUSANDS.info(separation);
 
         for (JoueurStats joueurActuel : joueursStats) {
-            LOGGER_2THOUSANDS.info("Le " + joueurActuel.getNomJoueur() + " a gagné " + joueurActuel.getNombrePartiesGagnees()
+            LOGGER_2THOUSANDS.info("Le " + joueurActuel.getNomJoueur() + " a gagne " + joueurActuel.getNombrePartiesGagnees()
                     + " parties, soit " + joueurActuel.getPourcentagePartiesGagnees() + "%\n\t il a perdu " + joueurActuel.getNombrePartiesPerdues()
                     + " parties, soit " + joueurActuel.getPourcentagePartiesPerdues() + "%\n\t donc avec un score moyen de "
                     + joueurActuel.getScoreMoyen());
