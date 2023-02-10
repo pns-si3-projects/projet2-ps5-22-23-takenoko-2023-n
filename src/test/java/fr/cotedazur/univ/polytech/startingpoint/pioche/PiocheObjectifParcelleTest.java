@@ -4,7 +4,6 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.motif.*;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -117,7 +117,7 @@ public class Main {
         int nbrPtsJ4 = joueurPan.nombrePoints();
         int totalPts = nbrPtsJ1 + nbrPtsJ2 +nbrPtsJ3 + nbrPtsJ4;
         int totalPointsToutesParties = Integer.parseInt(totalPointPartiePrecedente) + totalPts;
-        WriteCSV.main(new String[]{String.valueOf(nbrPtsJ1), String.valueOf(nbrPtsJ2), String.valueOf(nbrPtsJ3),
+        WriteCSV.ecrireCSV(new String[]{String.valueOf(nbrPtsJ1), String.valueOf(nbrPtsJ2), String.valueOf(nbrPtsJ3),
                 String.valueOf(nbrPtsJ4), String.valueOf(totalPts), String.valueOf(totalPointsToutesParties) });
     }
 }

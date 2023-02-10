@@ -48,11 +48,6 @@ class JoueurTest {
         piocheObjectifPanda = new PiocheObjectifPanda(new Random());
         piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
         piochesVides = new boolean[] {false, false, false, false, false};
-        /*
-        joueurPanda.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
-        joueurParcelle.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
-        joueurJardinier.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);
-        joueurComplet.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda);*/
     }
 
 
