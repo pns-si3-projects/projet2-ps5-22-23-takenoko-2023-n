@@ -93,9 +93,7 @@ public class Main {
      * Joue une partie de demo entre plusieurs bots
      */
     private static void joueDemo() {
-        Joueur joueurComplet1 = new Joueur("Joueur complet1", Strategie.StrategiePossible.COMPLET);
-        Joueur joueurComplet2 = new Joueur("Joueur complet2", Strategie.StrategiePossible.COMPLET);
-        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet1, joueurComplet2);
+        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
     }
