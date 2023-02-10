@@ -12,6 +12,8 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static fr.cotedazur.univ.polytech.startingpoint.Affichage2Thousands.*;
+
 public class Main {
     // Définition des attributs
 
@@ -36,7 +38,7 @@ public class Main {
             argumentMain = argsMain.getArgument();
         }
         else {
-            argumentMain = ArgumentPossibleMain.THOUSANDS;
+            argumentMain = ArgumentPossibleMain.DEMO;
         }
 
         configureLogger(argumentMain);
@@ -83,11 +85,9 @@ public class Main {
     private static void joue2Thousands() {
         LOGGER.warning("Début mode 2thousands");
         for (int i = 0; i < 2; i++) {
-            JoueurStats[] joueursStats = new JoueurStats[4];
-            joueursStats[0] = new JoueurStats(joueurComplet.getNom());
-            joueursStats[1] = new JoueurStats(joueurParcelle.getNom());
-            joueursStats[2] = new JoueurStats(joueurJardinier.getNom());
-            joueursStats[3] = new JoueurStats(joueurPanda.getNom());
+            Affichage2Thousands.setJoueursStats(new JoueurStats(joueurComplet.getNom()),
+                    new JoueurStats(joueurParcelle.getNom()), new JoueurStats(joueurJardinier.getNom()),
+                    new JoueurStats(joueurPanda.getNom()));
 
             for (int j = 0; j < 1000; j++) {
                 Joueur joueurComplet = new Joueur("Joueur complet", Strategie.StrategiePossible.COMPLET);
@@ -96,53 +96,19 @@ public class Main {
                 Joueur joueurPanda = new Joueur("Joueur panda", Strategie.StrategiePossible.PANDA);
                 MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
                 Optional<Joueur> optJoueurGagnant = maitreDuJeu.jeu();
+
                 if (optJoueurGagnant.isPresent()) {
-                    ajouteStats(optJoueurGagnant.get(), joueursStats, joueurComplet, joueurParcelle, joueurJardinier,
+                    ajouteStats(optJoueurGagnant.get(), joueurComplet, joueurParcelle, joueurJardinier,
                             joueurPanda);
                 }
                 else {
-                    ajouteStats(optJoueurGagnant.get(), joueursStats, joueurComplet, joueurParcelle, joueurJardinier,
-                            joueurPanda);
+                    ajouteStats(null, joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
                 }
             }
 
-            afficheJeu2thousands(joueursStats);
+            afficheJeu2thousands();
         }
 
-    }
-
-    /**
-     * Ajoute les statistique des parties aux diverses joueurs
-     * @param joueurGagnant Le joueur gagnant de la partie si il existe
-     * @param joueurStats les joueurs qui enregistrent leur score
-     * @param joueursPresent Les joueurs présent en partie
-     */
-    private static void ajouteStats(Joueur joueurGagnant, JoueurStats[] joueurStats, Joueur... joueursPresent) {
-        for (int i = 0; i < joueurStats.length; i++) {
-            if (joueurGagnant != null && joueurGagnant.equals(joueursPresent[i])) {
-                joueurStats[i].ajoutePartie(JoueurStats.EtatPartie.GAGNEE, joueursPresent[i].nombrePoints());
-            }
-            else if (joueurGagnant != null) {
-                joueurStats[i].ajoutePartie(JoueurStats.EtatPartie.PERDUE, joueursPresent[i].nombrePoints());
-            }
-            else {
-                joueurStats[i].ajoutePartie(JoueurStats.EtatPartie.NULLE, joueursPresent[i].nombrePoints());
-            }
-        }
-    }
-
-    /**
-     * Affiche les statistiques des joueurs après 1000 parties
-     * @param joueurStats Les joueurs contenant les scores de chaque parties
-     */
-    private static void afficheJeu2thousands(JoueurStats[] joueurStats) {
-        for (int i = 0; i < joueurStats.length; i++ ) {
-            JoueurStats joueurActuel = joueurStats[i];
-            LOGGER.warning("Le "+ joueurActuel.getNomJoueur() + " a gagner " + joueurActuel.getNombrePartiesGagnees()
-            + " parties soit " + joueurActuel.getPourcentagePartiesGagnees() + "% et perdu " + joueurActuel.getNombrePartiesPerdues()
-            + " parties soit " + joueurActuel.getPourcentagePartiesPerdues() + "% donc avec un score moyen de "
-                    + joueurActuel.getScoreMoyen());
-        }
     }
 
     /**
