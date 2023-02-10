@@ -46,7 +46,7 @@ public class Main {
             argumentMain = argsMain.getArgument();
         }
         else {
-            argumentMain = ArgumentPossibleMain.CSV;
+            argumentMain = ArgumentPossibleMain.DEMO;
         }
 
         configureLogger(argumentMain);
