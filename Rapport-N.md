@@ -19,9 +19,9 @@ Le jeu est joué par 4 joueurs automatisés avec affichage de leurs actions effe
 * Les objectifs Parcelles sont validés lorque le motif de l'objectif est posé sur le plateau
 * Le premier joueur ayant validé le nombre d'objectifs requit gagne la carte Empereur qui lui fait rajoute 2 points à son score
 * Stratégies de jeu : 3 stratégies qui se focalisent uniquement sur un type d'objectif
-`* Stratégie Panda`
-`* Stratégie Parcelle`
-`* Stratégie Jardinier`
+   `* Stratégie Panda`  
+   `* Stratégie Parcelle`  
+   `* Stratégie Jardinier`
 
 ### Fonctionnalités non réalisées :
 * Le dé météo
@@ -76,7 +76,7 @@ Fabien : Parcelles, création des objectifs, Panda, Gestion des déplacements de
 Amandine : Jardinier, Bambous, objectifs Jardinier, Stratégie Panda, Stratégie Complète  
 
 
-Quel est le process de l'équipe ?  
+Quel est le process de l'équipe ?
 **Git**  
 Nous avons créer des milestones pour l'implémentation de chaque nouvelles fonctionnalités ou lors d'un refactor.  
 Nous les avons ensuite découpé en slices que nous avons par la suite découpé en features.  
@@ -90,4 +90,3 @@ Le merge d'une branche de travail vers la branche Develop nécessitait une pull 
 Une branche Develop pour gérer les conflits entre ces branches de travail lors des merges.  
 Le merge de la branche Develop vers la branche Master nécessitait une pull request validée par au moins la moitié des membres de l'équipe.  
 Une branche Master qui permet des rendu stables.
-
