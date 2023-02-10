@@ -6,10 +6,13 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.MaitreDuJeu;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Strategie;
 
+import java.util.Optional;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static fr.cotedazur.univ.polytech.startingpoint.Affichage2Thousands.*;
 
 public class Main {
     // Définition des attributs
@@ -81,12 +84,31 @@ public class Main {
      */
     private static void joue2Thousands() {
         LOGGER.warning("Début mode 2thousands");
-        for (int i=0; i<2000; i++) {
-            MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
-            maitreDuJeu.jeu();
-            String nbJeu = Integer.toString(i+1);
-            LOGGER.warning(nbJeu);
+        for (int i = 0; i < 2; i++) {
+            Affichage2Thousands.setJoueursStats(new JoueurStats(joueurComplet.getNom()),
+                    new JoueurStats(joueurParcelle.getNom()), new JoueurStats(joueurJardinier.getNom()),
+                    new JoueurStats(joueurPanda.getNom()));
+
+            for (int j = 0; j < 1000; j++) {
+                Joueur joueurComplet = new Joueur("Joueur complet", Strategie.StrategiePossible.COMPLET);
+                Joueur joueurParcelle = new Joueur("Joueur parcelle", Strategie.StrategiePossible.PARCELLE);
+                Joueur joueurJardinier = new Joueur("Joueur jardinier", Strategie.StrategiePossible.JARDINIER);
+                Joueur joueurPanda = new Joueur("Joueur panda", Strategie.StrategiePossible.PANDA);
+                MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
+                Optional<Joueur> optJoueurGagnant = maitreDuJeu.jeu();
+
+                if (optJoueurGagnant.isPresent()) {
+                    ajouteStats(optJoueurGagnant.get(), joueurComplet, joueurParcelle, joueurJardinier,
+                            joueurPanda);
+                }
+                else {
+                    ajouteStats(null, joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
+                }
+            }
+
+            afficheJeu2thousands();
         }
+
     }
 
     /**
