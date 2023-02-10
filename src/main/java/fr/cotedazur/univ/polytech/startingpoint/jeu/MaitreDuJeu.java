@@ -63,17 +63,17 @@ public class MaitreDuJeu {
     /**
      * Lance la partie du jeu et donne les tours aux joueurs
      */
-    public void jeu() {
+    public Optional<Joueur> jeu() {
         Joueur joueurFinObjectifs = gestionTours.tours(joueurs, nombreObjectifsDemandes);
         joueurFinObjectifs.recoitEmpereur(new Empereur());
         AfficheurJeu.recoitEmpereur(joueurFinObjectifs);
-
         gestionTours.dernierTour(joueurs, joueurFinObjectifs);
 
         Optional<Joueur> joueurOpt = gestionTours.gagnant(joueurs);
         joueurOpt.ifPresent(AfficheurJeu::victoire);
 
         AfficheurJeu.victoire();
+        return joueurOpt;
     }
 
 
