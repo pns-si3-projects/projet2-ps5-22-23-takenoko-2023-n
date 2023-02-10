@@ -30,10 +30,8 @@ Le jeu est joué par 4 joueurs automatisés avec affichage de leurs actions effe
 ### Logs
 En fonction du mode de jeu, on peut désactiver l'affichage des logger en changeant le level.
 Nous avons utilisé les logger pour l'affichage des actions réalisées, la validation des objectifs, le début et la fin du jeu.
-Nous avons découpé en différentes classes les affichages en fonction 
-
-
-
+Nous avons découpé en différentes classes les affichages en fonction de ce qu'elles affichaient.
+Par exemple : L'affichage du déplacement des personnages est dans la classe AfficheurPersonnage, celle de la validation des objectifs est dans AfficheurObjectifs, celle du choix des actions des personnages est dans AfficheurJoueur, etc. 
 
 ### CSV
 
@@ -79,13 +77,14 @@ Amandine : Jardinier, Bambous, objectifs Jardinier, Stratégie Panda, Stratégie
 
 
 Quel est le process de l'équipe ?
-### Git
+**Git**
 Nous avons créer des milestones pour l'implémentation de chaque nouvelles fonctionnalités ou lors d'un refactor.
-Nous découpions ensuite ces milestones en slice, puis en features.
-Enfin 
+Nous les avons ensuite découpé en slices que nous avons par la suite découpé en features.
+Les features comportaient ensuite les différentes tasks que nous avions à réaliser ainsi que les tests.
+Chacun de nos commit était relié à une issue.
 
 
-### Branching Strategy
+**Branching Strategy**
 Des branches de travail dans lesquelles on rajoutait les nouvelles fonctionnalités à implémenter.
 Le merge d'une branche de travail vers la branche Develop nécessitait une pull request validée par au moins un autre membre de l'équipe.
 Une branche Develop pour gérer les conflits entre ces branches de travail lors des merges.
