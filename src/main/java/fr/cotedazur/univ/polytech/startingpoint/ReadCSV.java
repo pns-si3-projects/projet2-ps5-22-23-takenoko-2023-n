@@ -11,7 +11,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ReadCSV {
     // Définition des attributs
@@ -28,34 +30,72 @@ public class ReadCSV {
 
     // Méthodes d'utilisation
 
-    public static String lireCSV() {
+    /**
+     * Initialise la lecture du fichier CSV
+     * @return {@code Optional<CSVReader>} si le fichier existe, {@code Optional.empty} sinon
+     */
+    public static Optional<CSVReader> initialiseLectureCSV() {
         CSVParser csvParser = new CSVParserBuilder()
                 .withSeparator(',')
                 .withIgnoreQuotations(true)
                 .build();
+
         CSVReader csvReader;
         try {
             csvReader = new CSVReaderBuilder(new FileReader(cheminFichier.toFile()))
+                    .withSkipLines(1)
                     .withCSVParser(csvParser)
                     .build();
+            return Optional.of(csvReader);
         } catch (FileNotFoundException e) {
-            throw new AssertionError(e);
+            return Optional.empty();
         }
+    }
+
+    /**
+     * Lit le fichier par le CSVReader donné et renvoie les données
+     * @param csvReader le CSVReader innitialisé pour lire les données du fichier de stats
+     * @return une liste de JoueurStats contenant les données du fichier de stats
+     */
+    public static List<JoueurStats> litCSV(CSVReader csvReader, List<String> nomsJoueurs) {
+        List<JoueurStats> joueurStatsList = new ArrayList<>();
 
         //Read CSV line by line and use the string array as you want
         try {
             List<String[]> listString = csvReader.readAll();
 
-            if (listString.size() > 1) {
-                String[] chaine = listString.get(listString.size() - 1);
-                csvReader.close();
-                return chaine[chaine.length - 1];
+            for (String[] ligne : listString) {
+                if (ligne.length == JoueurStats.NOMBRE_DONNEES) {
+                    joueurStatsList.add(JoueurStats.joueurAvecStatistiques(ligne)); // Ajoute les données de la ligne
+                }
             }
             csvReader.close();
-
-        } catch (CsvException | IOException e) {
+        }
+        catch (CsvException | IOException e) {
             throw new AssertionError(e);
         }
-        return "0";
+
+        joueurStatsList = verifieNomsJoueurs(joueurStatsList, nomsJoueurs);
+        return joueurStatsList;
+    }
+
+    /**
+     * Renvoie la liste des JoueurStats qui ont un nom demandé
+     * @param joueurStatsList la liste des JoueurStats
+     * @param nomsJoueurs la liste des noms de joueurs demandés
+     * @return la liste des JoueurStats qui ont un nom demandé
+     */
+    private static List<JoueurStats> verifieNomsJoueurs(List<JoueurStats> joueurStatsList, List<String> nomsJoueurs) {
+        List<JoueurStats> joueursStats = new ArrayList<>();
+
+        for (String nomJoueur: nomsJoueurs) {
+            for (JoueurStats joueurStats : joueurStatsList) {
+                if (joueurStats.getNomJoueur().equals(nomJoueur)) {
+                    joueursStats.add(joueurStats);
+                    break;
+                }
+            }
+        }
+        return joueursStats;
     }
 }

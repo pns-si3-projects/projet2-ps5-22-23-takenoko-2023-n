@@ -12,6 +12,7 @@ public class JoueurStats {
     // Définition des attributs
 
     public enum EtatPartie {GAGNEE, PERDUE, NULLE}
+    public static final int NOMBRE_DONNEES = 8;
     private static final int GAGNEE = EtatPartie.GAGNEE.ordinal();
     private static final int PERDUE = EtatPartie.PERDUE.ordinal();
     private static final int NULLE = EtatPartie.NULLE.ordinal();
@@ -172,7 +173,7 @@ public class JoueurStats {
      */
     public static JoueurStats joueurAvecStatistiques(String[] statistiques) {
         int nbDonnees = statistiques.length;
-        if (nbDonnees != 8) {
+        if (nbDonnees != NOMBRE_DONNEES) {
             throw new AssertionError("Nombre de données incorrecte");
         }
 
