@@ -1,48 +1,66 @@
 package fr.cotedazur.univ.polytech.startingpoint.objectif;
 
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class ObjectifJardinierTest {
-    ObjectifJardinier objJ1_1;
-    ObjectifJardinier objJ2_2;
-    ObjectifJardinier objJ2_2_bis;
-    ObjectifJardinier objJ3_2;
-    ObjectifJardinier objJ2_3;
+    ObjectifJardinier objJ5_4_J;
+    ObjectifJardinier objJ5_4_JBis;
+    ObjectifJardinier objJ5_4_V;
+    ObjectifJardinier objJ6_4_R;
+    ObjectifJardinier objJ6_6_R;
+    Couleur verte;
+    Couleur rose;
+    Couleur jaune;
+
 
     @BeforeEach
     void setUp() {
-        objJ1_1 = new ObjectifJardinier(1, 1);
-        objJ2_2 = new ObjectifJardinier(2, 2);
-        objJ2_2_bis = new ObjectifJardinier(2, 2);
-        objJ3_2 = new ObjectifJardinier(3, 2);
-        objJ2_3 = new ObjectifJardinier(2, 3);
+        verte = Couleur.VERTE;
+        rose = Couleur.ROSE;
+        jaune = Couleur.JAUNE;
+        objJ5_4_J = new ObjectifJardinier(5, 4, jaune);
+        objJ5_4_JBis = new ObjectifJardinier(5, 4, jaune);
+        objJ5_4_V = new ObjectifJardinier(5, 4, verte);
+        objJ6_4_R = new ObjectifJardinier(6, 4, rose);
+        objJ6_6_R = new ObjectifJardinier(6, 6, rose);
     }
+
 
     @Test
     void getNombreBambousAFairePousser() {
-        assertEquals(1, objJ1_1.getNombreBambousAFairePousser());
-        assertEquals(2, objJ2_2.getNombreBambousAFairePousser());
-        assertEquals(3, objJ2_3.getNombreBambousAFairePousser());
-        assertNotEquals(3, objJ3_2.getNombreBambousAFairePousser());
+        assertEquals(4, objJ5_4_J.getSchema());
+        assertEquals(4, objJ5_4_V.getSchema());
+        assertEquals(4, objJ6_4_R.getSchema());
+        assertEquals(6, objJ6_6_R.getSchema());
     }
 
     @Test
-    void getNombreBambousRestant(){
-        assertEquals(1,objJ1_1.getNombreBambousRestant());
-        assertEquals(2, objJ2_2.getNombreBambousRestant());
-        assertEquals(3, objJ2_3.getNombreBambousRestant());
-        assertNotEquals(3, objJ3_2.getNombreBambousRestant());
+    void getCouleur() {
+        assertEquals(jaune, objJ5_4_J.getCouleur());
+        assertEquals(verte, objJ5_4_V.getCouleur());
+        assertEquals(rose, objJ6_4_R.getCouleur());
+        assertEquals(rose, objJ6_6_R.getCouleur());
+    }
+
+
+    @Test
+    void testToString() {
+        assertEquals("Objectif de jardinier de 5 points",
+                objJ5_4_J.toString());
+        assertEquals("Objectif de jardinier de 6 points",
+                objJ6_4_R.toString());
     }
 
     @Test
     void testEquals() {
-        assertEquals(objJ2_2, objJ2_2_bis);
-        assertNotEquals(objJ1_1, objJ2_2_bis);
-        assertNotEquals(objJ3_2, objJ2_2);
-        assertNotEquals(objJ2_3, objJ2_2);
+        assertEquals(objJ5_4_J, objJ5_4_JBis);
+        assertNotEquals(objJ5_4_J, objJ5_4_V);
+        assertNotEquals(objJ5_4_V, objJ6_4_R);
+        assertNotEquals(objJ6_4_R, objJ6_6_R);
     }
 }

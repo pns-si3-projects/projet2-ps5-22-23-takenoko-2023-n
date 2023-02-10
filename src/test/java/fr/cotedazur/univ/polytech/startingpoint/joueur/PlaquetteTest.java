@@ -1,307 +1,167 @@
 package fr.cotedazur.univ.polytech.startingpoint.joueur;
 
-import fr.cotedazur.univ.polytech.startingpoint.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.Position;
-import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.*;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlaquetteTest {
-    SectionBambou secBa;
-    ObjectifParcelle objPar2_3;
-    ObjectifParcelle objPar3_4;
-    ObjectifPanda objPan3_2;
-    ObjectifPanda objPan4_2;
-    ObjectifJardinier objJar3_2;
-    ObjectifJardinier objJar6_4;
     Plaquette plaquette;
-    Motif motifParDefaut = null;
+    boolean[] actions;
+    Plaquette.ActionPossible parcelle;
+    Plaquette.ActionPossible irrigation;
+    Plaquette.ActionPossible jardinier;
+    Plaquette.ActionPossible panda;
+    Plaquette.ActionPossible objectif;
+
 
     @BeforeEach
     void setUp() {
-        try {
-            motifParDefaut = new Motif(new ParcelleCouleur(new Position(0,0),Couleur.VERT),new ParcelleCouleur(new Position(1,1),Couleur.VERT));
-        }
-        catch (MotifNonValideException mNVE){
-            assert false : "Les parcelles sont voisines";
-        }
+        plaquette = new Plaquette();
+        actions = new boolean[]{false, false, false, false, false};
+        parcelle = Plaquette.ActionPossible.PARCELLE;
+        irrigation = Plaquette.ActionPossible.IRRIGATION;
+        jardinier = Plaquette.ActionPossible.JARDINIER;
+        panda = Plaquette.ActionPossible.PANDA;
+        objectif = Plaquette.ActionPossible.OBJECTIF;
+    }
 
-        secBa = new SectionBambou(Couleur.VERT);
-        objPar2_3 = new ObjectifParcelle(2, motifParDefaut);
-        objPar3_4 = new ObjectifParcelle(3, motifParDefaut);
-        objPan3_2 = new ObjectifPanda(3, 2,Couleur.VERT);
-        objPan4_2 = new ObjectifPanda(4, 2,Couleur.VERT);
-        objJar3_2 = new ObjectifJardinier(3, 2);
-        objJar6_4 = new ObjectifJardinier(6, 4);
-        plaquette = new Plaquette(objPar2_3, objPan3_2, objJar3_2);
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // modifier pour vert
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // modifier pour rose
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT)); // modifier pour jaune
+
+    @Test
+    void getReserveBambousManges() {
+        assertEquals(0, plaquette.getReserveBambousManges().length);
     }
 
     @Test
-    void getNombreBambousVerts() {
-        assertEquals(3, plaquette.getNombreBambousVerts());
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT));
-        assertEquals(4, plaquette.getNombreBambousVerts());
+    void getReserveIrrigation() { assertEquals(0, plaquette.getReserveIrrigation().length);}
+
+    @Test
+    void getActionsTour() {
+        boolean[] actionsTour = plaquette.getActionsTour();
+
+        assertEquals(actions[parcelle.ordinal()], actionsTour[parcelle.ordinal()]);
+        assertEquals(actions[irrigation.ordinal()], actionsTour[irrigation.ordinal()]);
+        assertEquals(actions[jardinier.ordinal()], actionsTour[jardinier.ordinal()]);
+        assertEquals(actions[panda.ordinal()], actionsTour[panda.ordinal()]);
+        assertEquals(actions[objectif.ordinal()], actionsTour[objectif.ordinal()]);
     }
 
     @Test
-    void getNombreBambousRoses() {
-        assertEquals(0, plaquette.getNombreBambousRoses()); // A modifier
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.ROSE));
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.ROSE));
-        assertEquals(2, plaquette.getNombreBambousRoses());
+    void isActionTour() {
+        assertFalse(plaquette.isActionTour(parcelle));
+        assertFalse(plaquette.isActionTour(irrigation));
+        assertFalse(plaquette.isActionTour(jardinier));
+        assertFalse(plaquette.isActionTour(panda));
+        assertFalse(plaquette.isActionTour(objectif));
+    }
+
+
+    @Test
+    void nombreBambouCouleur() {
+        assertEquals(0, plaquette.nombreBambouCouleur(Couleur.VERTE));
+        assertEquals(0, plaquette.nombreBambouCouleur(Couleur.ROSE));
+        assertEquals(0, plaquette.nombreBambouCouleur(Couleur.JAUNE));
     }
 
     @Test
-    void getNombreBambousJaunes() {
-        assertEquals(0, plaquette.getNombreBambousJaunes());
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
-        assertEquals(3, plaquette.getNombreBambousJaunes());
+    void mangeSectionBambou() {
+        plaquette.mangeSectionBambou(new SectionBambou(Couleur.VERTE));
+        plaquette.mangeSectionBambou(new SectionBambou(Couleur.ROSE));
+        plaquette.mangeSectionBambou(new SectionBambou(Couleur.JAUNE));
+        plaquette.mangeSectionBambou(new SectionBambou(Couleur.ROSE));
+        plaquette.mangeSectionBambou(new SectionBambou(Couleur.VERTE));
+        plaquette.mangeSectionBambou(new SectionBambou(Couleur.VERTE));
+
+        assertEquals(3, plaquette.nombreBambouCouleur(Couleur.VERTE));
+        assertEquals(2, plaquette.nombreBambouCouleur(Couleur.ROSE));
+        assertEquals(1, plaquette.nombreBambouCouleur(Couleur.JAUNE));
     }
 
     @Test
-    void getNombreObjectifParcelle() {
-        assertEquals(1, plaquette.getNombreObjectifParcelle());
-        try {
-            plaquette.ajouteObjectif(objPar3_4);
-            plaquette.ajouteObjectif(objPan4_2);
-        } catch (NombreObjectifsEnCoursException nOECE) {
-            throw new AssertionError(nOECE);
-        }
-        assertEquals(2, plaquette.getNombreObjectifParcelle());
+    void joueActionTour() {
+        assertTrue(plaquette.joueActionTour(panda));
+        assertTrue(plaquette.joueActionTour(jardinier));
+        assertFalse(plaquette.isActionTour(parcelle));
+        assertFalse(plaquette.isActionTour(irrigation));
+        assertTrue(plaquette.isActionTour(jardinier));
+        assertTrue(plaquette.isActionTour(panda));
+        assertFalse(plaquette.isActionTour(objectif));
+
+        assertFalse(plaquette.joueActionTour(parcelle));
+        assertFalse(plaquette.joueActionTour(objectif));
+
+        plaquette.termineTour();
+        assertTrue(plaquette.joueActionTour(parcelle));
+        assertTrue(plaquette.joueActionTour(objectif));
+        assertTrue(plaquette.isActionTour(parcelle));
+        assertFalse(plaquette.isActionTour(irrigation));
+        assertFalse(plaquette.isActionTour(jardinier));
+        assertFalse(plaquette.isActionTour(panda));
+        assertTrue(plaquette.isActionTour(objectif));
     }
 
     @Test
-    void getNombreObjectifPanda() {
-        assertEquals(1, plaquette.getNombreObjectifPanda());
-        try {
-            plaquette.ajouteObjectif(objPar3_4);
-            plaquette.ajouteObjectif(objPan4_2);
-        } catch (NombreObjectifsEnCoursException nOECE) {
-            throw new AssertionError(nOECE);
-        }
-        assertEquals(2, plaquette.getNombreObjectifPanda());
+    void termineTour() {
+        plaquette.joueActionTour(parcelle);
+        plaquette.joueActionTour(jardinier);
+        assertTrue(plaquette.isActionTour(parcelle));
+        assertTrue(plaquette.isActionTour(jardinier));
+        plaquette.termineTour();
+        assertFalse(plaquette.isActionTour(parcelle));
+        assertFalse(plaquette.isActionTour(jardinier));
+
+        plaquette.joueActionTour(panda);
+        assertTrue(plaquette.isActionTour(panda));
+        plaquette.termineTour();
+        assertFalse(plaquette.isActionTour(panda));
+
+        plaquette.joueActionTour(objectif);
+        assertTrue(plaquette.isActionTour(objectif));
+        plaquette.termineTour();
+        assertFalse(plaquette.isActionTour(objectif));
+
+        plaquette.joueActionTour(irrigation);
+        assertTrue(plaquette.isActionTour(irrigation));
+        plaquette.termineTour();
+        assertFalse(plaquette.isActionTour(irrigation));
     }
 
     @Test
-    void getNombreObjectifJardinier() {
-        assertEquals(1, plaquette.getNombreObjectifJardinier());
-        try {
-            plaquette.ajouteObjectif(objPar3_4);
-            plaquette.ajouteObjectif(objJar6_4);
-        } catch (NombreObjectifsEnCoursException nOECE) {
-            throw new AssertionError(nOECE);
-        }
-        assertEquals(2, plaquette.getNombreObjectifJardinier());
-    }
+    void enleveSectionBambouList() {
+        SectionBambou sectionBambouJaune = new SectionBambou(Couleur.JAUNE);
+        SectionBambou sectionBambouRose = new SectionBambou(Couleur.ROSE);
+        SectionBambou sectionBambouVerte = new SectionBambou(Couleur.VERTE);
 
-    @Test
-    void getNombreObjectifs() {
-        assertEquals(3, plaquette.getNombreObjectifs());
-        try {
-            plaquette.ajouteObjectif(objPan4_2);
-            plaquette.ajouteObjectif(objJar6_4);
-        } catch (NombreObjectifsEnCoursException nOECE) {
-            throw new AssertionError(nOECE);
-        }
-        assertEquals(5, plaquette.getNombreObjectifs());
-    }
+        plaquette.mangeSectionBambou(sectionBambouJaune);
+        plaquette.mangeSectionBambou(sectionBambouJaune);
+        plaquette.mangeSectionBambou(sectionBambouVerte);
+        plaquette.mangeSectionBambou(sectionBambouVerte);
+        plaquette.mangeSectionBambou(sectionBambouRose);
 
-    @Test
-    void getNombreObjectifsMax() {
-        assertEquals(5, plaquette.getNombreObjectifsMax());
-        assertEquals(Plaquette.NOMBRE_OBJECTIFS_MAX, plaquette.getNombreObjectifsMax());
-    }
+        assertEquals(2, plaquette.nombreBambouCouleur(sectionBambouJaune.getCouleur()));
+        assertEquals(2, plaquette.nombreBambouCouleur(sectionBambouVerte.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouRose.getCouleur()));
 
-    @Test
-    void getNombreActionsTourRealisees() {
-        assertEquals(0, plaquette.getNombreActionsTourRealisees());
-        plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
-        assertEquals(1, plaquette.getNombreActionsTourRealisees());
-        plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
-        plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
-        plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
-        assertEquals(4, plaquette.getNombreActionsTourRealisees());
-    }
+        plaquette.enleveSectionBambouList(sectionBambouJaune);
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouJaune.getCouleur()));
+        assertEquals(2, plaquette.nombreBambouCouleur(sectionBambouVerte.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouRose.getCouleur()));
 
-    @Test
-    void getActionsTourRealisees() {
-        Plaquette.ActionPossible[] actions = plaquette.getActionsTourRealisees();
-        assertEquals(0, actions.length);
-        plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
-        actions = plaquette.getActionsTourRealisees();
-        assertEquals(1, actions.length);
-        assertEquals(Plaquette.ActionPossible.OBJECTIF, actions[0]);
-        plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
-        plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
-        plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
-        actions = plaquette.getActionsTourRealisees();
-        assertEquals(4, actions.length);
-        assertEquals(Plaquette.ActionPossible.PANDA, actions[2]);
-        assertEquals(Plaquette.ActionPossible.PARCELLE, actions[3]); // rendu sens inverse des actions possibles
-        assertEquals(Plaquette.ActionPossible.JARDINIER,actions[0]);
-    }
+        plaquette.enleveSectionBambouList(sectionBambouVerte);
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouJaune.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouVerte.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouRose.getCouleur()));
 
-    @Test
-    void isActionRealisee() {
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
+        plaquette.enleveSectionBambouList(sectionBambouRose);
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouJaune.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouVerte.getCouleur()));
+        assertEquals(0, plaquette.nombreBambouCouleur(sectionBambouRose.getCouleur()));
 
-        plaquette.realiseAction(Plaquette.ActionPossible.PANDA);
-
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
-        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
-
-        plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE);
-        plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF);
-
-        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
-        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
-
-        plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER);
-
-        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
-        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
-        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
-    }
-
-    @Test
-    void getObjectifsParcelle() {
-        assertEquals(objPar2_3, plaquette.getObjectifsParcelle()[0]);
-        try {
-            plaquette.ajouteObjectif(objPar3_4);
-        } catch (NombreObjectifsEnCoursException nOECE) {
-            throw new AssertionError(nOECE);
-        }
-        // Parce que pris dans l'ordre inverse d'ajout
-        assertNotEquals(objPar2_3, plaquette.getObjectifsParcelle()[0]);
-        assertEquals(objPar3_4, plaquette.getObjectifsParcelle()[0]);
-        assertEquals(objPar2_3, plaquette.getObjectifsParcelle()[1]);
-    }
-
-    @Test
-    void getObjectifsPanda() {
-        assertEquals(objPan3_2, plaquette.getObjectifsPanda()[0]);
-        try {
-            plaquette.ajouteObjectif(objPan4_2);
-        } catch (NombreObjectifsEnCoursException nOECE) {
-            throw new AssertionError(nOECE);
-        }
-        // Parce que pris dans l'ordre inverse d'ajout
-        assertNotEquals(objPan3_2, plaquette.getObjectifsPanda()[0]);
-        assertEquals(objPan4_2, plaquette.getObjectifsPanda()[0]);
-        assertEquals(objPan3_2, plaquette.getObjectifsPanda()[1]);
-    }
-
-    @Test
-    void getObjectifsJardinier() {
-        assertEquals(objJar3_2, plaquette.getObjectifsJardinier()[0]);
-        try {
-            plaquette.ajouteObjectif(objJar6_4);
-        } catch (NombreObjectifsEnCoursException nOECE) {
-            throw new AssertionError(nOECE);
-        }
-        // Parce que pris dans l'ordre inverse d'ajout
-        assertNotEquals(objJar3_2, plaquette.getObjectifsJardinier()[0]);
-        assertEquals(objJar6_4, plaquette.getObjectifsJardinier()[0]);
-        assertEquals(objJar3_2, plaquette.getObjectifsJardinier()[1]);
-    }
-
-    @Test
-    void getObjectifs() {
-        // Parce que pris dans l'ordre inverse d'ajout
-        assertEquals(objJar3_2, plaquette.getObjectifs()[0]);
-        assertEquals(objPan3_2, plaquette.getObjectifs()[1]);
-        assertEquals(objPar2_3, plaquette.getObjectifs()[2]);
-        try {
-            plaquette.ajouteObjectif(objPan4_2);
-            plaquette.ajouteObjectif(objJar6_4);
-        } catch (NombreObjectifsEnCoursException nOECE) {
-            throw new AssertionError(nOECE);
-        }
-        assertEquals(objJar6_4, plaquette.getObjectifs()[0]);
-        assertEquals(objPan4_2, plaquette.getObjectifs()[1]);
-        assertEquals(objPar2_3, plaquette.getObjectifs()[4]);
-    }
-
-    @Test
-    void ajouteSectionBambou() {
-        assertEquals(3, plaquette.getNombreBambousVerts());
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT));
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.ROSE));
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT));
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.VERT));
-        plaquette.ajouteSectionBambou(new SectionBambou(Couleur.JAUNE));
-        assertEquals(6, plaquette.getNombreBambousVerts());
-        assertEquals(1, plaquette.getNombreBambousRoses());
-        assertEquals(2, plaquette.getNombreBambousJaunes());
-    }
-
-    @Test
-    void ajouteObjectif() {
-        try {
-            plaquette.ajouteObjectif(objPar3_4);
-            plaquette.ajouteObjectif(objPan4_2);
-            assertEquals(5, plaquette.getNombreObjectifs());
-        } catch (NombreObjectifsEnCoursException nOECE) {
-            throw new AssertionError(nOECE);
-        }
-        assertThrows(NombreObjectifsEnCoursException.class, () -> plaquette.ajouteObjectif(objJar6_4));
-    }
-
-    @Test
-    void realiseAction() {
-        // Vérifie l'état de la plaquette
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
-        assertFalse(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
-        // Réalise des actions
-        assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.PARCELLE));
-        assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.PANDA));
-        assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.OBJECTIF));
-        assertTrue(plaquette.realiseAction(Plaquette.ActionPossible.JARDINIER));
-        assertFalse(plaquette.realiseAction(Plaquette.ActionPossible.PANDA));
-        // Vérifie l'état de la plaquette
-        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PARCELLE));
-        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.PANDA));
-        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.OBJECTIF));
-        assertTrue(plaquette.isActionRealisee(Plaquette.ActionPossible.JARDINIER));
-    }
-
-    @Test
-    void supprimeObjectif() {
-        // Ajoute 2 objectifs
-        try {
-            plaquette.ajouteObjectif(objPar3_4);
-            plaquette.ajouteObjectif(objPan4_2);
-            assertEquals(5, plaquette.getNombreObjectifs());
-        } catch (NombreObjectifsEnCoursException nOECE) {
-            throw new AssertionError(nOECE);
-        }
-        // Supprime 3 objectifs de la plaquette
-        assertTrue(plaquette.supprimeObjectif(objPar2_3));
-        assertTrue(plaquette.supprimeObjectif(objPan3_2));
-        assertTrue(plaquette.supprimeObjectif(objJar3_2));
-        // Essaie de resupprimer un objectif déjà supprimé
-        assertFalse(plaquette.supprimeObjectif(objPar2_3));
-        // Supprime les 2 derniers objectifs
-        assertTrue(plaquette.supprimeObjectif(objPar3_4));
-        assertTrue(plaquette.supprimeObjectif(objPan4_2));
+        plaquette.enleveSectionBambouList(sectionBambouRose);
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouJaune.getCouleur()));
+        assertEquals(1, plaquette.nombreBambouCouleur(sectionBambouVerte.getCouleur()));
+        assertEquals(0, plaquette.nombreBambouCouleur(sectionBambouRose.getCouleur()));
     }
 }

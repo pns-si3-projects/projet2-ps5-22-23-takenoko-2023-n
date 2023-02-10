@@ -1,36 +1,44 @@
 package fr.cotedazur.univ.polytech.startingpoint.personnage;
 
-import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JardinierTest {
-    Jardinier jardinier;
-    Position position_1_0;
-    Position position_0_0;
+    Jardinier jardinier1;
+    Jardinier jardinier2;
+    Position position0_0;
+    Position position1_1;
+
 
     @BeforeEach
     void setUp(){
-        jardinier=new Jardinier();
-        position_1_0=new Position(1,0);
-        position_0_0=new Position(0,0);
+        jardinier1 = new Jardinier();
+        jardinier2 = new Jardinier();
+        position0_0 = new Position(0,0);
+        position1_1 = new Position(1,1);
     }
 
-    @Test
-    void move() {
-        assertEquals(jardinier.position(),position_0_0);
-        jardinier.move(position_1_0);
-        assertNotEquals(jardinier.position(),position_0_0);
-        assertEquals(jardinier.position(), new Position(1,0));
-    }
 
     @Test
     void getPosition() {
-        assertEquals(jardinier.position(), new Position(0,0));
-        jardinier.move((position_1_0));
-        assertEquals(jardinier.position(),new Position(1,0));
-        assertNotEquals(jardinier.position(),new Position(0,0));
+        assertEquals(new Position(), jardinier1.getPosition());
+        assertEquals(new Position(), jardinier2.getPosition());
+    }
+
+    @Test
+    void moveTest () {
+        jardinier1.move(position1_1);
+        assertEquals(new Position(1,1), jardinier1.getPosition());
+        jardinier1.move(position0_0);
+        assertEquals(new Position(0,0),jardinier1.getPosition());
+    }
+
+    @Test
+    void testToString() {
+        assertEquals("Jardinier", jardinier1.toString());
+        assertEquals("Jardinier", jardinier2.toString());
     }
 }

@@ -1,42 +1,49 @@
 package fr.cotedazur.univ.polytech.startingpoint.personnage;
 
-import fr.cotedazur.univ.polytech.startingpoint.Position;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Classe représentant le Jardinier
+ * Représente le jardinier.
  * @author equipe N
  */
 public class Jardinier implements Personnage {
     // Définition des attributs
-    private final Position position;
+
+    private Position position;
 
 
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut du Jardinier qui commence sur l'étang
+     * Construit le jardinier, commence sur l'étang
      */
     public Jardinier() {
         position = new Position();
     }
 
-    public void move(Position position){
-        this.position.setX(position.getX());
-        this.position.setY(position.getY());
-    }
 
+    // Accesseurs
 
-    // Accesseurs et méthode toString
     /**
-     * Renvoie la position du Jardinier
-     * @return la position
+     * Renvoie la position du jardinier
+     * @return la position du jardinier
      */
     @Override
-    public Position position() {
+    public Position getPosition() {
         return position;
     }
 
+
+    // Méthode toString
+
     @Override
     public String toString() {
-        return "Jardinier en " + position;
+        return "Jardinier";
+    }
+
+    @Override
+    public void move(@NotNull Position position) {
+        this.position = position;
     }
 }

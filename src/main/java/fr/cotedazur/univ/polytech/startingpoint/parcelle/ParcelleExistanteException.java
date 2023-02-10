@@ -1,11 +1,17 @@
 package fr.cotedazur.univ.polytech.startingpoint.parcelle;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
- * Exception dans le cas où la parcelle à ajouter au plateau existe déjà
+ * Exception si la parcelle à ajouter au plateau existe déjà.
  * @author equipe N
  */
 public class ParcelleExistanteException extends Exception {
-    public ParcelleExistanteException(Parcelle parcelle) {
-        super("La parcelle de position " + parcelle.position() + " est déjà existante");
+    /**
+     * Construit le message de l'exception
+     * @param parcelle la parcelle qui doit être ajoutée au plateau
+     */
+    public ParcelleExistanteException(@NotNull Parcelle parcelle) {
+        super("La " + parcelle + " demandee est deja placee sur le plateau");
     }
 }

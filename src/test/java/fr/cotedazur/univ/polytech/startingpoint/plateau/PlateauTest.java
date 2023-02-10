@@ -1,304 +1,386 @@
 package fr.cotedazur.univ.polytech.startingpoint.plateau;
 
-import fr.cotedazur.univ.polytech.startingpoint.Couleur;
-import fr.cotedazur.univ.polytech.startingpoint.Position;
-import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Jardinier;
+import fr.cotedazur.univ.polytech.startingpoint.personnage.Panda;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Bambou;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlateauTest {
     Plateau plateau;
-    ParcelleCouleur pC20;
-    ParcelleCouleur pC11;
-    Bambou bambou2_0;
-    Bambou bambou1_1;
-    SectionBambou secBam2_0;
-    SectionBambou secBam1_1;
-    Couleur couleurBambouDefault = Couleur.VERT;
 
     @BeforeEach
-    void setUp(){
-        plateau = new Plateau();
-        pC20 = new ParcelleCouleur(new Position(2,0), couleurBambouDefault);
-        pC11 = new ParcelleCouleur(new Position(1,1), couleurBambouDefault);
-        secBam2_0 = new SectionBambou(couleurBambouDefault);
-        secBam1_1 = new SectionBambou(couleurBambouDefault);
-        try {
-            plateau.addParcelle(pC20, secBam2_0);
-            bambou2_0 = new Bambou(pC20);
-            bambou2_0.ajouteSectionBambou(secBam2_0);
-            plateau.addParcelle(pC11, secBam1_1);
-            bambou1_1 = new Bambou(pC11);
-            bambou1_1.ajouteSectionBambou(secBam1_1);
-        }
-        catch (ParcelleExistanteException | NombreParcelleVoisineException | AjoutCouleurException exception){
-            assert false : "Ne doit pas renvoyer d'exception";
-        }
+    void setUp() {
+        plateau = new Plateau(new PiocheSectionBambou());
     }
 
+
     @Test
-    void getListParcelle() {
-        List<Parcelle> listParcelle = new ArrayList<>();
-        listParcelle.add(pC20);
-        listParcelle.add(pC11);
+    void getParcelles() {
         Parcelle[] parcelles = plateau.getParcelles();
-        assertEquals(3, parcelles.length);
-        for (Parcelle parcelle : parcelles) {
-            if (!parcelle.getClass().equals(Etang.class)) {
-                assertTrue(listParcelle.contains(parcelle));
-            }
-        }
+        assertEquals(1, parcelles.length);
+        assertEquals(GestionParcelles.ETANG, parcelles[0]);
     }
 
     @Test
-    void getListParcelleDeux() {
-        ParcelleCouleur pC31 = new ParcelleCouleur(new Position(3,1), couleurBambouDefault);
-        SectionBambou secBam3_1 = new SectionBambou(couleurBambouDefault);
-        List<Parcelle> listParcelle = new ArrayList<>();
-        listParcelle.add(pC20);
-        listParcelle.add(pC11);
-        listParcelle.add(pC31);
-        try {
-            plateau.addParcelle(pC31, secBam3_1);
-        }
-        catch (NombreParcelleVoisineException | ParcelleExistanteException exception){
-            assert false : "Ne doit pas renvoyer d'exception";
-        }
+    void getVoisinesParcelle() {
+        assertThrows(ParcelleNonPoseeException.class,
+                () -> plateau.getVoisinesParcelle(new ParcelleCouleur(new Position(2, 0), Couleur.VERTE)));
 
-        Parcelle[] parcelles = plateau.getParcelles();
-        assertEquals(4, parcelles.length);
-        for (Parcelle parcelle : parcelles) {
-            if (!parcelle.getClass().equals(Etang.class)) {
-                assertTrue(listParcelle.contains(parcelle));
-            }
-        }
-    }
+        Parcelle pD2_0 = new ParcelleDisponible(new Position(2, 0));
+        Parcelle pD1_1 = new ParcelleDisponible(new Position(1, 1));
+        Parcelle pDm2_0 = new ParcelleDisponible(new Position(-2, 0));
+        Parcelle pD4_0 = new ParcelleDisponible(new Position(4, 0));
 
-    @Test
-    void getParcellesCouleur() {
-        ParcelleCouleur pCm1_m1R = new ParcelleCouleur(new Position(-1, -1), Couleur.ROSE);
-        ParcelleCouleur pCm2_0J = new ParcelleCouleur(new Position(-2, 0), Couleur.JAUNE);
-        ParcelleCouleur pCm1_1J = new ParcelleCouleur(new Position(-1, 1), Couleur.JAUNE);
+        Parcelle[] voisines;
         try {
-            plateau.addParcelle(pCm1_m1R, new SectionBambou(Couleur.ROSE));
-        } catch (ParcelleExistanteException | NombreParcelleVoisineException e) {
+            voisines = plateau.getVoisinesParcelle(GestionParcelles.ETANG);
+        } catch (ParcelleNonPoseeException e) {
             throw new AssertionError(e);
         }
-        List<ParcelleCouleur> parcellesCouleurDefaut = plateau.getParcellesCouleur(couleurBambouDefault);
-        assertFalse(parcellesCouleurDefaut.isEmpty());
-        assertTrue(parcellesCouleurDefaut.contains(pC11));
-        assertTrue(parcellesCouleurDefaut.contains(pC20));
+        List<Parcelle> voisinesList = new ArrayList<>(List.of(voisines));
 
-        List<ParcelleCouleur> parcellesRoses = plateau.getParcellesCouleur(Couleur.ROSE);
-        assertFalse(parcellesRoses.isEmpty());
-        assertTrue(parcellesRoses.contains(pCm1_m1R));
+        assertTrue(voisinesList.contains(pD2_0));
+        assertTrue(voisinesList.contains(pD1_1));
+        assertTrue(voisinesList.contains(pDm2_0));
+        assertFalse(voisinesList.contains(pD4_0));
+    }
 
-        List<ParcelleCouleur> parcellesJaunes = plateau.getParcellesCouleur(Couleur.JAUNE);
-        assertTrue(parcellesJaunes.isEmpty());
-        try {
-            plateau.addParcelle(pCm2_0J, new SectionBambou(Couleur.JAUNE));
-            plateau.addParcelle(pCm1_1J, new SectionBambou(Couleur.JAUNE));
-        } catch (ParcelleExistanteException | NombreParcelleVoisineException e) {
-            throw new AssertionError(e);
-        }
-        parcellesJaunes = plateau.getParcellesCouleur(Couleur.JAUNE);
-        assertFalse(parcellesJaunes.isEmpty());
-        assertTrue(parcellesJaunes.contains(pCm2_0J));
-        assertTrue(parcellesJaunes.contains(pCm1_1J));
+    @Test
+    void getPositionsDisponibles() {
+        List<Position> positions = new ArrayList<>();
+        positions.add(new Position(1, 1));
+        positions.add(new Position(2, 0));
+        positions.add(new Position(1, -1));
+        positions.add(new Position(-1, -1));
+        positions.add(new Position(-2, 0));
+        positions.add(new Position(-1, 1));
+
+        List<Position> positionsDisponibles = Arrays.stream(plateau.getPositionsDisponibles()).toList();
+        assertEquals(6, positionsDisponibles.size());
+        assertTrue(positionsDisponibles.containsAll(positions));
     }
 
     @Test
     void getBambous() {
-        Bambou[] plateauBambous = plateau.getBambous();
-        if(plateauBambous[0].equals(bambou2_0)){
-            assertEquals(bambou2_0, plateauBambous[0]);
-            assertEquals(bambou1_1, plateauBambous[1]);
-        }
-        else{
-            assertEquals(bambou1_1, plateauBambous[0]);
-            assertEquals(bambou2_0, plateauBambous[1]);
-        }
+        assertEquals(0, plateau.getBambous().length);
     }
 
     @Test
-    void getBambou() {
-        Optional<Bambou> optBambou2_0 = plateau.getBambou(new Position(2, 0));
-        Optional<Bambou> optBambou1_1 = plateau.getBambou(new Position(1, 1));
-        optBambou2_0.ifPresent(bambou -> assertEquals(bambou2_0, bambou)); // bambou est optBambou2_0.get()
-        optBambou1_1.ifPresent(bambou -> assertEquals(bambou1_1, bambou)); // bambou est optBambou1_1.get()
+    void getPanda() {
+        assertEquals(Panda.class, plateau.getPanda().getClass());
     }
 
     @Test
-    void getTableauVoisinSansException() {
-        try {
-            Parcelle[] listVoisin = plateau.getTableauVoisines(pC20);
-            assertEquals(listVoisin[4],new Etang());
-            assertEquals(listVoisin[0],new ParcelleDisponible(new Position(3,1)));
-            assertEquals(listVoisin[1],new ParcelleDisponible(new Position(4,0)));
-            assertEquals(listVoisin[2],new ParcelleDisponible(new Position(3,-1)));
-            assertEquals(listVoisin[3],new ParcelleDisponible(new Position(1,-1)));
-            assertEquals(listVoisin[5],pC11);
+    void getJardinier() {
+        assertEquals(Jardinier.class, plateau.getJardinier().getClass());
+    }
 
-            listVoisin = plateau.getTableauVoisines(pC11);
-            assertEquals(listVoisin[3],new Etang());
-            assertEquals(listVoisin[2],pC20);
-        }
-        catch (ParcelleNonExistanteException exception){
-            assert false: "Ne doit pas renvoyer d'exception";
-        }
+
+    @Test
+    void poseParcelle() {
+        Position p2_0 = new Position(2, 0);
+        Position pm1_m1 = new Position(-1, -1);
+        Position p1_1 = new Position(1, 1);
+        Position p3_1 = new Position(3, 1);
+        ParcelleCouleur pC4_0R = new ParcelleCouleur(new Position(4, 0), Couleur.ROSE);
+        ParcelleCouleur pC2_0J = new ParcelleCouleur(p2_0, Couleur.JAUNE);
+        ParcelleCouleur pCm1_m1V = new ParcelleCouleur(pm1_m1, Couleur.VERTE);
+        ParcelleCouleur pC1_1R = new ParcelleCouleur(p1_1, Couleur.ROSE);
+        List<Parcelle> parcelles;
+        List<Position> positionsDisponibles;
+
+        // Ajout de pC4_0R pas possible, car pas dans la liste des positions disponibles
+        assertFalse(plateau.poseParcelle(pC4_0R));
+
+        // Ajout de pC2_0J
+        assertTrue(plateau.poseParcelle(pC2_0J));
+        parcelles = Arrays.stream(plateau.getParcelles()).toList();
+        positionsDisponibles = Arrays.stream(plateau.getPositionsDisponibles()).toList();
+        assertEquals(2, parcelles.size());
+        assertEquals(5, positionsDisponibles.size()); // Position de la parcelle ajoutée plus disponible
+        assertTrue(parcelles.contains(pC2_0J));
+        assertFalse(parcelles.contains(pC4_0R));
+        assertFalse(positionsDisponibles.contains(p2_0)); // Position de pC2_0J plus disponible
+
+        // Ajout de pCm1_m1V
+        assertTrue(plateau.poseParcelle(pCm1_m1V));
+        parcelles = Arrays.stream(plateau.getParcelles()).toList();
+        positionsDisponibles = Arrays.stream(plateau.getPositionsDisponibles()).toList();
+        assertEquals(3, parcelles.size());
+        assertEquals(4, positionsDisponibles.size()); // Position de la parcelle ajoutée plus disponible
+        assertTrue(parcelles.contains(pCm1_m1V));
+        assertFalse(positionsDisponibles.contains(pm1_m1)); // Position de pCm1_m1V plus disponible
+
+        // Ajout de pC1_1R
+        assertTrue(plateau.poseParcelle(pC1_1R));
+        parcelles = Arrays.stream(plateau.getParcelles()).toList();
+        positionsDisponibles = Arrays.stream(plateau.getPositionsDisponibles()).toList();
+        assertEquals(4, parcelles.size());
+        // Position de la parcelle ajoutée plus disponible, mais ajout nouvelle position
+        assertEquals(4, positionsDisponibles.size());
+        assertTrue(parcelles.contains(pC1_1R));
+        assertFalse(positionsDisponibles.contains(p1_1)); // Position de pC1_1R plus disponible
+        // Position de pC1_1R plus disponible, mais ajout nouvelle position
+        assertTrue(positionsDisponibles.contains(p3_1));
     }
 
     @Test
-    void getTableauVoisinAvecException() {
-        ParcelleCouleur pC40 = new ParcelleCouleur(new Position(4,0), Couleur.JAUNE);
-        try {
-            plateau.getTableauVoisines(pC40);
-        }
-        catch (ParcelleNonExistanteException pNEE){
-            assertEquals("La parcelle de position "+ pC40.position()+" n'existe pas sur le plateau",pNEE.getMessage());
-        }
+    void addIrrigation(){
+        Position position11 = new Position(1,1);
+        Position position20 = new Position(2,0);
+        Position position31 = new Position(3,1);
+        Position position22 = new Position(2,2);
+        ParcelleCouleur pc11 = new ParcelleCouleur(position11, Couleur.JAUNE);
+        ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
+        assertTrue(plateau.poseParcelle(pc11));
+        assertTrue(plateau.poseParcelle(pc20));
+        assertTrue(pc11.isIrriguee());
+        assertTrue(pc20.isIrriguee());
+        assertEquals(0, plateau.getIrrigationsPosees().length);
+        assertEquals(1, plateau.getIrrigationsDisponibles().length);
+
+        Irrigation irrigation1120 = new Irrigation();
+        irrigation1120.addPosition(position11, position20);
+        assertTrue(plateau.poseIrrigation(irrigation1120));
+        assertEquals(1, plateau.getIrrigationsPosees().length);
+        assertEquals(0, plateau.getIrrigationsDisponibles().length);
+
+        ParcelleCouleur pc31 = new ParcelleCouleur(position31, Couleur.VERTE);
+        assertTrue(plateau.poseParcelle(pc31));
+        assertFalse(pc31.isIrriguee());
+        assertEquals(1, plateau.getIrrigationsPosees().length);
+        assertEquals(2, plateau.getIrrigationsDisponibles().length);
+
+        ParcelleCouleur pc22 =  new ParcelleCouleur(position22, Couleur.JAUNE);
+        assertTrue(plateau.poseParcelle(pc22));
+        assertFalse(pc22.isIrriguee());
+        assertEquals(1, plateau.getIrrigationsPosees().length);
+        assertEquals(2, plateau.getIrrigationsDisponibles().length);
+
+        Irrigation irrigation1131 = new Irrigation();
+        irrigation1131.addPosition(position11, position31);
+        assertTrue(plateau.poseIrrigation(irrigation1131));
+        assertTrue(pc31.isIrriguee());
+        assertEquals(2, plateau.getIrrigationsPosees().length);
+        assertEquals(3, plateau.getIrrigationsDisponibles().length);
+
+        Irrigation irrigation2031 = new Irrigation();
+        irrigation2031.addPosition(position20, position31);
+        assertTrue(plateau.poseIrrigation(irrigation2031));
+        assertEquals(3, plateau.getIrrigationsPosees().length);
+        assertEquals(2, plateau.getIrrigationsDisponibles().length);
     }
 
     @Test
-    void getPositionsDisponible() {
-        Position[] listPosition = plateau.getPositionsDisponible();
-        assertEquals(5, listPosition.length);
-        assertEquals(new Position(3,1),listPosition[4]);
-        assertEquals(new Position(1,-1),listPosition[0]);
-        assertEquals(new Position(-1,-1),listPosition[1]);
-        assertEquals(new Position(-2,0),listPosition[2]);
-        assertEquals(new Position(-1,1),listPosition[3]);
-
-        try {
-            plateau.addParcelle(new ParcelleCouleur(new Position(3,1),couleurBambouDefault), new SectionBambou(couleurBambouDefault));
-        }
-        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
-            assert false : "Ne doit pas renvoyer d'exception";
-        }
-        listPosition = plateau.getPositionsDisponible();
-        assertEquals(6, listPosition.length);
-        assertEquals(new Position(4,0),listPosition[4]);
-        assertEquals(new Position(2,2),listPosition[5]);
+    void isIrrigeeVoisinEtang(){
+        Position position11 = new Position(1,1);
+        Position position20 = new Position(2,0);
+        ParcelleCouleur pc11 = new ParcelleCouleur(position11, Couleur.JAUNE);
+        ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
+        plateau.poseParcelle(pc11);
+        plateau.poseParcelle(pc20);
+        assertTrue(pc11.isIrriguee());
+        assertTrue(pc20.isIrriguee());
     }
 
     @Test
-    void getEtang() {
-        assertEquals(new Etang(),plateau.getEtang());
+    void addIrrigationNonPossible(){
+        Position position11 = new Position(1,1);
+        Position position20 = new Position(2,0);
+        Position position31 = new Position(3,1);
+        Position position22 = new Position(2,2);
+        ParcelleCouleur pc11 = new ParcelleCouleur(position11, Couleur.JAUNE);
+        ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
+        plateau.poseParcelle(pc11);
+        plateau.poseParcelle(pc20);
+
+        Irrigation irrigation1120 = new Irrigation();
+        irrigation1120.addPosition(position11, position20);
+        plateau.poseIrrigation(irrigation1120);
+
+        ParcelleCouleur pc31 = new ParcelleCouleur(position31, Couleur.VERTE);
+        ParcelleCouleur pc22 = new ParcelleCouleur(position22, Couleur.JAUNE);
+        plateau.poseParcelle(pc31);
+        plateau.poseParcelle(pc22);
+        Irrigation irrigation1122 = new Irrigation();
+        irrigation1122.addPosition(position11, position22);
+
+        //Ajout de l'irrigation alors qu'il n'y a pas d'irrigation avant : donc l'ajout est impossible et les set ne sont pas modifiés
+        assertFalse(plateau.poseIrrigation(irrigation1122));
+        assertEquals(1, plateau.getIrrigationsPosees().length);
+        assertEquals(2, plateau.getIrrigationsDisponibles().length);
+        assertTrue(pc20.isIrriguee());
+        assertTrue(pc11.isIrriguee());
+        assertFalse(pc31.isIrriguee());
+        assertFalse(pc22.isIrriguee());
     }
 
     @Test
-    void addParcelleSansException() {
-        Parcelle[] parcelles = plateau.getParcelles();
-        Bambou[] bambous = plateau.getBambous();
-        List<Parcelle> listParcelle = new ArrayList<>();
-        listParcelle.add(new Etang());
-        listParcelle.add(pC20);
-        listParcelle.add(pC11);
-        List<Bambou> listBambou = new ArrayList<>();
-        listBambou.add(bambou2_0);
-        listBambou.add(bambou1_1);
-        assertEquals(3, parcelles.length);
-        assertEquals(2, bambous.length);
+    void poseBambou(){
+        Position position11 = new Position(1,1);
+        Position position20 = new Position(2,0);
+        Position position31 = new Position(3,1);
+        ParcelleCouleur pc11 = new ParcelleCouleur(position11, Couleur.JAUNE);
+        ParcelleCouleur pc20 = new ParcelleCouleur(position20, Couleur.ROSE);
+        ParcelleCouleur pc31 = new ParcelleCouleur(position31, Couleur.VERTE);
+        plateau.poseParcelle(pc11);
 
-        ParcelleCouleur pC31 = new ParcelleCouleur(new Position(3,1), couleurBambouDefault);
-        ParcelleCouleur pCm1m1 = new ParcelleCouleur(new Position(-1,-1), couleurBambouDefault);
-        SectionBambou secBam3_1 = new SectionBambou(couleurBambouDefault);
-        SectionBambou secBamm1_m1 = new SectionBambou(couleurBambouDefault);
-        Bambou bambou3_1 = new Bambou(pC31);
-        Bambou bamboum1_m1 = new Bambou(pCm1m1);
-        try {
-            plateau.addParcelle(pC31, secBam3_1);
-            listParcelle.add(pC31);
-            bambou3_1.ajouteSectionBambou(secBam3_1);
-            listBambou.add(bambou3_1);
+        plateau.poseParcelle(pc20);
+        plateau.poseParcelle(pc31);
+        Irrigation irrigation1120 = new Irrigation();
+        irrigation1120.addPosition(position11, position20);
 
-            plateau.addParcelle(pCm1m1, secBamm1_m1);
-            listParcelle.add(pCm1m1);
-            bamboum1_m1.ajouteSectionBambou(secBamm1_m1);
-            listBambou.add(bamboum1_m1);
-        }
-        catch (ParcelleExistanteException | NombreParcelleVoisineException | AjoutCouleurException exception){
-            assert false : "Ne doit pas renvoyer d'exception";
-        }
-        parcelles = plateau.getParcelles();
-        bambous = plateau.getBambous();
+        Irrigation irrigation1131 = new Irrigation();
+        irrigation1131.addPosition(position11, position31);
 
-        assertEquals(5, parcelles.length);
-        assertEquals(4, bambous.length);
-        for(Parcelle parcelle : parcelles){
-            assertTrue(listParcelle.contains(parcelle));
-        }
-        for (Bambou bambou : bambous) {
-            assertTrue(listBambou.contains(bambou));
-        }
+        // autour de l'étang donc automatiquement irrigué et donc automatiquement un bambou
+        Optional<Bambou> optionalBambou11 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
+        optionalBambou11.ifPresent(bambou -> assertEquals(1, bambou.getTailleBambou()));
+
+        Optional<Bambou> optionalBambou20 = GestionBambous.chercheBambou(plateau.getBambous(), position20);
+        optionalBambou20.ifPresent(bambou -> assertEquals(1, bambou.getTailleBambou()));
+
+        // n'ajoute pas de bambou si non irrigué
+        assertFalse(plateau.poseBambou(pc31, new SectionBambou(pc31.getCouleur())));
+        plateau.poseIrrigation(irrigation1120);
+        plateau.poseIrrigation(irrigation1131);
+
+        // ajout si irriguée
+        assertTrue(pc31.isIrriguee());
+        assertTrue(plateau.poseBambou(pc31, new SectionBambou(pc31.getCouleur())));
+
+        Optional<Bambou> optionalBambou31 = GestionBambous.chercheBambou(plateau.getBambous(), position31);
+        optionalBambou31.ifPresent(bambou -> assertEquals(2, bambou.getTailleBambou()));
+
+        assertTrue(plateau.poseBambou(pc11, new SectionBambou(pc11.getCouleur())));
+        Optional<Bambou> optionalBambou11_2 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
+        optionalBambou11_2.ifPresent(bambou -> assertEquals(2, bambou.getTailleBambou()));
     }
 
     @Test
-    void addParcelleParcelleExistanteException(){
-        ParcelleCouleur pC20bis = new ParcelleCouleur(new Position(2,0), couleurBambouDefault);
-        SectionBambou secBam2_0_bis = new SectionBambou(couleurBambouDefault);
-        try {
-            plateau.addParcelle(pC20bis, secBam2_0_bis);
-        }
-        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
-            assertEquals("La parcelle de position "+pC20bis.position()+" est déjà existante",exception.getMessage());
-        }
+    void deplacementPandaTest () {
+        //position des pracelles
+        Position position1_1 = new Position(1, 1);
+        Position position2_0 = new Position(2, 0);
+        Position position1_m1 = new Position(1, -1);
+        Position positionm1_m1 = new Position(-1, -1);
+
+        //parcelles
+        ParcelleCouleur parcelleCouleur1_1 = new ParcelleCouleur(position1_1, Couleur.JAUNE);
+        ParcelleCouleur parcelleCouleur2_0 = new ParcelleCouleur(position2_0, Couleur.ROSE);
+        ParcelleCouleur parcelleCouleur1_m1 = new ParcelleCouleur(position1_m1, Couleur.ROSE);
+        ParcelleCouleur parcelleCouleurm1_m1 = new ParcelleCouleur(positionm1_m1, Couleur.VERTE);
+
+        //pose des parcelles
+        plateau.poseParcelle(parcelleCouleur1_1);
+        plateau.poseParcelle(parcelleCouleur2_0);
+        plateau.poseParcelle(parcelleCouleur1_m1);
+        plateau.poseParcelle(parcelleCouleurm1_m1);
+
+
+        //deplacement du panda
+        assertEquals(plateau.getPanda().getPosition(), new Position());
+
+        Position positionInitial = plateau.getPanda().getPosition();
+        plateau.deplacementPanda(position1_1);
+
+        assertEquals(position1_1, plateau.getPanda().getPosition());
+        Optional<Bambou> optBamboou1_1 = GestionBambous.chercheBambou(plateau.getBambous(), position1_1);
+        optBamboou1_1.ifPresent(bambou -> assertEquals(0, bambou.getTailleBambou()));
     }
 
     @Test
-    void addParcelleNombreVoisinException(){
-        ParcelleCouleur pC40 = new ParcelleCouleur(new Position(4,0), couleurBambouDefault);
-        SectionBambou secBam4_0 = new SectionBambou(couleurBambouDefault);
-        try {
-            plateau.addParcelle(pC40, secBam4_0);
-        }
-        catch (ParcelleExistanteException | NombreParcelleVoisineException exception){
-            assertEquals("Il manque des voisines",exception.getMessage());
-        }
+    void deplacementJardinier(){
+        //irrigation : 20 - 11 ; 11 - 31
+        //positions des parcelles
+        Position position11 = new Position(1,1);
+        Position position20 = new Position(2, 0);
+        Position position31 = new Position(3, 1);
+        Position position22 = new Position(2, 2);
+        Position positionM11 = new Position(-1, 1);
+        Position position02 = new Position(0, 2);
+        //parcelles
+        ParcelleCouleur PC11 = new ParcelleCouleur(position11, Couleur.JAUNE);
+        ParcelleCouleur PC20 = new ParcelleCouleur(position20, Couleur.JAUNE);
+        ParcelleCouleur PC31 = new ParcelleCouleur(position31, Couleur.JAUNE);
+        ParcelleCouleur PC22 = new ParcelleCouleur(position22, Couleur.JAUNE);
+        ParcelleCouleur PCm11 = new ParcelleCouleur(positionM11, Couleur.ROSE);
+        ParcelleCouleur PC02 = new ParcelleCouleur(position02, Couleur.VERTE);
+        //pose les parcelles
+        plateau.poseParcelle(PC11);
+        plateau.poseParcelle(PC20);
+        plateau.poseParcelle(PC31);
+        plateau.poseParcelle(PC22);
+        plateau.poseParcelle(PCm11);
+        plateau.poseParcelle(PC02);
+        //pose les irrigations
+        Irrigation irrigation1120 = new Irrigation();
+        irrigation1120.addPosition(position11, position20);
+        Irrigation irrigation1131 = new Irrigation();
+        irrigation1131.addPosition(position11, position31);
+
+        plateau.poseIrrigation(irrigation1120);
+        plateau.poseIrrigation(irrigation1131);
+
+        //état des bambous avant le déplacement
+        Optional<Bambou> optionalBambou11 = GestionBambous.chercheBambou(plateau.getBambous(), position11);
+        optionalBambou11.ifPresent(bambou -> assertEquals(1, bambou.getTailleBambou()));
+
+        Optional<Bambou> optionalBambou20 = GestionBambous.chercheBambou(plateau.getBambous(), position20);
+        optionalBambou20.ifPresent(bambou -> assertEquals(1, bambou.getTailleBambou()));
+
+        Optional<Bambou> optionalBambou31 = GestionBambous.chercheBambou(plateau.getBambous(), position31);
+        optionalBambou31.ifPresent(bambou -> assertEquals(1, bambou.getTailleBambou()));
+
+        Optional<Bambou> optionalBambou22 = GestionBambous.chercheBambou(plateau.getBambous(), position22);
+        assertTrue(optionalBambou22.isEmpty());
+
+        Optional<Bambou> optionalBambouM11 = GestionBambous.chercheBambou(plateau.getBambous(), positionM11);
+        optionalBambouM11.ifPresent(bambou -> assertEquals(1, bambou.getTailleBambou()));
+
+        Optional<Bambou> optionalBambou02 = GestionBambous.chercheBambou(plateau.getBambous(), position02);
+        assertTrue(optionalBambou02.isEmpty());
+
+        //déplacement du jardinier
+        assertEquals(new Position(), plateau.getJardinier().getPosition());
+        plateau.deplacementJardinier(position11);
+
+        //Jardinier est bien déplacé
+        assertEquals(position11, plateau.getJardinier().getPosition());
+
+        //état des bambous après le déplacement du jardinier
+        Optional<Bambou> optionalBambou11_apres = GestionBambous.chercheBambou(plateau.getBambous(), position11);
+        optionalBambou11_apres.ifPresent(bambou -> assertEquals(2, bambou.getTailleBambou()));
+
+        Optional<Bambou> optionalBambou20_apres = GestionBambous.chercheBambou(plateau.getBambous(), position20);
+        optionalBambou20_apres.ifPresent(bambou -> assertEquals(2, bambou.getTailleBambou()));
+
+        Optional<Bambou> optionalBambou31_apres = GestionBambous.chercheBambou(plateau.getBambous(), position31);
+        optionalBambou31_apres.ifPresent(bambou -> assertEquals(2, bambou.getTailleBambou()));
+
+        Optional<Bambou> optionalBambou22_apres = GestionBambous.chercheBambou(plateau.getBambous(), position22);
+        assertTrue(optionalBambou22_apres.isEmpty());
+
+        Optional<Bambou> optionalBambouM11_apres = GestionBambous.chercheBambou(plateau.getBambous(), positionM11);
+        optionalBambouM11_apres.ifPresent(bambou -> assertEquals(1, bambou.getTailleBambou()));
+
+        Optional<Bambou> optionalBambou02_apres = GestionBambous.chercheBambou(plateau.getBambous(), position02);
+        assertTrue(optionalBambou02_apres.isEmpty());
     }
-/*
-    @Test
-    void jardinierAddBambousParcelleExistante() throws ParcelleExistanteException, NombreParcelleVoisineException {
-        ParcelleCouleur pc40=new ParcelleCouleur(new Position(4,0));
-        ParcelleCouleur pc3_1=new ParcelleCouleur(new Position(3,-1));
-        ParcelleCouleur pc5_1=new ParcelleCouleur(new Position(5,-1));
-        ParcelleCouleur pc60=new ParcelleCouleur(new Position(6,0));
-        ParcelleCouleur pc51=new ParcelleCouleur(new Position(5,1));
-        ParcelleCouleur pc31=new ParcelleCouleur(new Position(3,1));
-
-        SectionBambou secBam4_0=new SectionBambou();
-        SectionBambou secBam3__1=new SectionBambou();
-        SectionBambou secBam5__1=new SectionBambou();
-        SectionBambou secBam6_0=new SectionBambou();
-        SectionBambou secBam5_1=new SectionBambou();
-        SectionBambou secBam3_1=new SectionBambou();
-
-            plateau.addParcelle(pc40,secBam4_0);
-            plateau.addParcelle(pc3_1,secBam3__1);
-            plateau.addParcelle(pc5_1,secBam5__1);
-            plateau.addParcelle(pc60,secBam6_0);
-            plateau.addParcelle(pc51,secBam5_1);
-            plateau.addParcelle(pc31,secBam3_1);
 
 
-        try {
-            plateau.jardinierAddBambous(pc40);
-            assertEquals(plateau.jardinierAddBambous(pc40),7);
-        } catch (ParcelleNonExistanteException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    @Test
-    void jardinierAddBambousParcelleNonExistante(){
-
-    }
-
- */
 }

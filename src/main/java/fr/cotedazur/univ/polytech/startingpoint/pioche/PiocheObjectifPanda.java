@@ -1,91 +1,114 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
-import fr.cotedazur.univ.polytech.startingpoint.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.SectionBambou;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
- * Classe permettant de gérer la pioche des cartes objectif de panda
+ * Représente la pioche des objectifs de panda.
  * @author équipe N
  */
 public class PiocheObjectifPanda implements PiocheObjectifInterface {
     // Définition des attributs
+
+    private final List<ObjectifPanda> objectifPandaList;
     private final Random random;
-    private final int[] objectifPandaList;
 
 
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut
-     * @param random est un objet Random qui va permettre de créer une pioche aléatoire
+     * Construit la pioche d'objectifs de panda
+     * @param random un objet Random pour l'aléatoire de la pioche
      */
-    public PiocheObjectifPanda(Random random) {
-        objectifPandaList = new int[]{5, 4, 3, 3};
+    public PiocheObjectifPanda(@NotNull Random random) {
+        objectifPandaList = new ArrayList<>(15);
+        creePiocheObjectifsPanda();
+
         this.random = random;
     }
 
+    /**
+     * Initialise la pioche en lui ajoutant les objectifs de panda
+     */
+    private void creePiocheObjectifsPanda() {
 
-    // Accesseurs et méthode toString
+        for (int i=0; i<5; i++) { // les 5 objectifs de panda vert
+            List<SectionBambou> bambousAManger = new ArrayList<>();
+            for (int j=0; j < 2; j++){
+                bambousAManger.add(new SectionBambou(Couleur.VERTE));
+            }
+            objectifPandaList.add(new ObjectifPanda(3, bambousAManger));
+        }
+
+        for (int i=0; i<4; i++) { // les 4 objectifs de panda jaune
+            List<SectionBambou> bambousAManger = new ArrayList<>();
+            for (int j=0; j < 2;j++){
+                bambousAManger.add(new SectionBambou(Couleur.JAUNE));
+            }
+            objectifPandaList.add(new ObjectifPanda(4, bambousAManger));
+        }
+
+        for (int i=0; i<3; i++) { // les 3 objectifs de panda rose
+            List<SectionBambou> bambousAManger = new ArrayList<>();
+            for (int j=0; j < 2;j++){
+                bambousAManger.add(new SectionBambou(Couleur.ROSE));
+            }
+            objectifPandaList.add(new ObjectifPanda(5, bambousAManger));
+        }
+
+        for (int i=0; i<3; i++) { // les 3 objectifs de panda des trois couleurs
+            List<SectionBambou> bambousAManger = new ArrayList<>();
+            bambousAManger.add(new SectionBambou(Couleur.VERTE));
+            bambousAManger.add(new SectionBambou(Couleur.JAUNE));
+            bambousAManger.add(new SectionBambou(Couleur.ROSE));
+            objectifPandaList.add(new ObjectifPanda(6, bambousAManger));
+        }
+    }
+
+
+    // Accesseurs
+
     @Override
     public int getNombreObjectifsRestants() {
-        return objectifPandaList[0] + objectifPandaList[1] + objectifPandaList[2] + objectifPandaList[3];
+        return objectifPandaList.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return getNombreObjectifsRestants() == 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Pioche d'objectifs de panda : " + getNombreObjectifsRestants() + " cartes.";
+        return objectifPandaList.isEmpty();
     }
 
 
     // Méthodes d'utilisation
+
     @Override
     public Objectif pioche() {
-        assert !isEmpty() : "La pioche d'objectifs de panda est vide";
+        if (isEmpty()) {
+            throw new AssertionError("La pioche d'objectifs de panda est vide");
+        }
+
         int size = getNombreObjectifsRestants();
         int positionCarte = random.nextInt(size);
-        if (positionCarte < 0 || positionCarte >= size) throw new ArithmeticException("Erreur objet random");
-        return prendCarteObjectifPanda(positionCarte);
-    }
-
-    /**
-     * Cherche l'objectifPanda à créer, le renvoie et le retire de la pioche
-     * @param position est la position de l'objectifPanda entre toutes les cartes restantes de la pioche
-     * @return l'objectifPanda désigné par la position
-     * @implSpec la position doit être comprise entre 0 et "le nombre de cartes de la pioche - 1"
-     */
-    private ObjectifPanda prendCarteObjectifPanda(int position) {
-        assert position>=0 && position<getNombreObjectifsRestants() : "La position demandée dans la pioche est impossible";
-        int somme = 0;
-        for (int i=0; i<objectifPandaList.length; i++) {
-            somme += objectifPandaList[i];
-            if (position < somme) {
-                objectifPandaList[i]--;
-                return creeCarteObjectifPanda(i);
-            }
+        if (positionCarte < 0 || positionCarte >= size) {
+            throw new ArithmeticException("Erreur objet random");
         }
-        throw new IndexOutOfBoundsException("La position de la carte demandée est en dehors de la pioche");
+
+        AfficheurPioche.piocheObjectif(objectifPandaList.get(positionCarte));
+        return objectifPandaList.remove(positionCarte);
     }
 
-    /**
-     * Crée l'objectifPanda désigné par la position et le renvoie
-     * @param indice est la position de la carte objectifPanda dans le tableau de la pioche
-     * @return la carte objectifPanda demandée
-     * @implSpec la position doit être comprise entre 0 et 3
-     */
-    private ObjectifPanda creeCarteObjectifPanda(int indice) {
-        return switch (indice) {
-            case 0 -> new ObjectifPanda(3, 2, Couleur.VERT);
-            case 1 -> new ObjectifPanda(4, 2, Couleur.VERT);
-            case 2 -> new ObjectifPanda(5, 2, Couleur.ROSE);
-            case 3 -> new ObjectifPanda(6, 3,Couleur.JAUNE);
-            default -> throw new IndexOutOfBoundsException("La carte ObjectifPanda demandée est introuvable");
-        };
+
+    // Méthode toString
+
+    @Override
+    public String toString() {
+        return "Pioche d'objectifs de panda : " + getNombreObjectifsRestants() + " objectifs";
     }
 }

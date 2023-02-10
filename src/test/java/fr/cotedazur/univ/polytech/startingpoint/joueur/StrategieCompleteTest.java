@@ -1,0 +1,212 @@
+package fr.cotedazur.univ.polytech.startingpoint.joueur;
+
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
+import fr.cotedazur.univ.polytech.startingpoint.motif.MotifDiagonale;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.Objectif;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
+import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.Parcelle;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleCouleur;
+import fr.cotedazur.univ.polytech.startingpoint.parcelle.ParcelleDisponible;
+import fr.cotedazur.univ.polytech.startingpoint.pieces.Irrigation;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
+import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Mockito.*;
+
+class StrategieCompleteTest {
+    StrategieComplete strategieComplete;
+    List<Objectif> objectifs;
+    Plateau plateau;
+    PiocheParcelle piocheParcelle;
+    PiocheSectionBambou piocheSectionBambou;
+    PiocheIrrigation piocheIrrigation;
+    PiocheObjectifJardinier piocheObjectifJardinier;
+    PiocheObjectifPanda piocheObjectifPanda;
+    PiocheObjectifParcelle piocheObjectifParcelle;
+    Plaquette plaquette;
+    boolean[] piochesVides;
+
+
+    @BeforeEach
+    void setup() {
+        strategieComplete = new StrategieComplete();
+        objectifs = new ArrayList<>();
+        plateau = new Plateau(new PiocheSectionBambou());
+        piocheParcelle = new PiocheParcelle(new Random());
+        piocheSectionBambou = new PiocheSectionBambou();
+        piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
+        piocheObjectifPanda = new PiocheObjectifPanda(new Random());
+        piocheObjectifParcelle = new PiocheObjectifParcelle(new Random());
+        piocheIrrigation = new PiocheIrrigation();
+        piochesVides = new boolean[]{false, false, false, false, false};
+        plaquette = new Plaquette();
+
+        objectifs.add(piocheObjectifPanda.pioche());
+        objectifs.add(piocheObjectifParcelle.pioche());
+        objectifs.add(piocheObjectifJardinier.pioche());
+    }
+
+    @Test
+    void choisiActionTour() {
+        boolean[] actionsRealiseesTour = new boolean[]{false, false, false, false, false};
+        assertEquals(Plaquette.ActionPossible.OBJECTIF,
+                strategieComplete.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
+
+        actionsRealiseesTour[Plaquette.ActionPossible.OBJECTIF.ordinal()] = true;
+        assertEquals(Plaquette.ActionPossible.IRRIGATION,
+                strategieComplete.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
+
+        actionsRealiseesTour[Plaquette.ActionPossible.IRRIGATION.ordinal()] = true;
+        assertEquals(Plaquette.ActionPossible.PARCELLE,
+                strategieComplete.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
+
+        actionsRealiseesTour[Plaquette.ActionPossible.PANDA.ordinal()] = true;
+        assertEquals(Plaquette.ActionPossible.PARCELLE,
+                strategieComplete.choisiActionTour(actionsRealiseesTour, objectifs, plateau, piochesVides));
+    }
+
+    @Test
+    void actionObjectif() {
+        strategieComplete.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda, objectifs);
+
+        List<Objectif> objectifsPandaList = new ArrayList<>();
+        List<Objectif> objectifParcelleList = new ArrayList<>();
+        List<Objectif> objectifsJardinierList = new ArrayList<>();
+        for (Objectif objectif : objectifs) {
+            if (objectif.getClass().equals(ObjectifPanda.class)) objectifsPandaList.add(objectif);
+            else if (objectif.getClass().equals(ObjectifParcelle.class)) objectifParcelleList.add(objectif);
+            else objectifsJardinierList.add(objectif);
+        }
+
+        assertEquals(2, objectifsPandaList.size());
+        assertEquals(1, objectifParcelleList.size());
+        assertEquals(1, objectifsJardinierList.size());
+
+        strategieComplete.actionObjectif(piocheObjectifParcelle, piocheObjectifJardinier, piocheObjectifPanda, objectifs);
+
+        List<Objectif> objectifsPandaList_2 = new ArrayList<>();
+        List<Objectif> objectifParcelleList_2 = new ArrayList<>();
+        List<Objectif> objectifsJardinierList_2 = new ArrayList<>();
+        for (Objectif objectif : objectifs) {
+            if (objectif.getClass().equals(ObjectifPanda.class)) objectifsPandaList_2.add(objectif);
+            else if (objectif.getClass().equals(ObjectifParcelle.class)) objectifParcelleList_2.add(objectif);
+            else objectifsJardinierList_2.add(objectif);
+        }
+
+        assertEquals(2, objectifsPandaList_2.size());
+        assertEquals(2, objectifParcelleList_2.size());
+        assertEquals(1, objectifsJardinierList_2.size());
+    }
+
+    @Test
+    void actionParcelle(){
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        assertEquals(1, spyPlateau.getParcelles().length);
+
+        //pose des parcelles
+        for (int i=0; i<6; i++){
+            strategieComplete.actionParcelle(spyPlateau,piocheParcelle,piocheSectionBambou,objectifs);
+        }
+        verify(spyPlateau, times(6)).poseParcelle(any(ParcelleCouleur.class));
+        assertEquals(7, spyPlateau.getParcelles().length);
+    }
+
+    @Test
+    void actionJardinier() {
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        //Pose de parcelles
+        for (int i = 0; i < 6; i++) {
+            strategieComplete.actionParcelle(spyPlateau, piocheParcelle, piocheSectionBambou, objectifs);
+        }
+
+        for (int i = 0; i < 2; i++) {
+            strategieComplete.actionJardinier(spyPlateau, piocheSectionBambou, objectifs);
+            verify(spyPlateau, times(i + 1)).deplacementJardinier(any(Position.class));
+        }
+    }
+
+    @Test
+    void actionIrrigationTest() {
+        Plaquette spyPlaquette = spy(new Plaquette());
+        strategieComplete.actionIrrigation(plateau,piocheIrrigation,spyPlaquette);
+        
+        verify(spyPlaquette, times(1)).ajoutIrrigation(any(Irrigation.class));
+    }
+
+    @Test
+    void actionPanda () {
+        Plateau spyPlateau = spy(new Plateau(piocheSectionBambou));
+
+        Position positionInitial = spyPlateau.getJardinier().getPosition();
+        for (int i =0; i<4; i++) {
+            strategieComplete.actionParcelle(spyPlateau,piocheParcelle,piocheSectionBambou,objectifs);
+        }
+        strategieComplete.actionObjectif(piocheObjectifParcelle,piocheObjectifJardinier,piocheObjectifPanda,objectifs);
+        strategieComplete.actionPanda(spyPlateau,objectifs,plaquette);
+        Position positionFinal = spyPlateau.getPanda().getPosition();
+        assertNotEquals(positionInitial,positionFinal);
+        verify(spyPlateau, times(1)).deplacementPanda(any(Position.class));
+    }
+
+    @Test
+    void actionParcelleAutre() {
+        Plateau spyPlateau = spy(new Plateau(new PiocheSectionBambou()));
+        ObjectifParcelle objectifParcelle = new ObjectifParcelle(3, new MotifDiagonale(
+                new ParcelleCouleur(new Position(-1, -1), Couleur.VERTE),
+                new ParcelleCouleur(new Position(0, 0), Couleur.VERTE),
+                new ParcelleCouleur(new Position(1, 1), Couleur.VERTE)));
+        List<Objectif> listObjectif = new ArrayList<>();
+        listObjectif.add(objectifParcelle);
+        Position positionRecup = strategieComplete.actionParcelleAutre(spyPlateau, listObjectif);
+        Position position11 = new Position(1,1);
+        verify(spyPlateau, times(1)).getPositionsDisponibles();
+        assertEquals(position11, positionRecup);
+    }
+
+    @Test
+    void actionParcelleEtang() {
+        Parcelle[] parcellesVoisines = new Parcelle[6];
+        ParcelleDisponible parcelleDisponible11 = new ParcelleDisponible(new Position(1, 1));
+        ParcelleDisponible parcelleDisponible20 = new ParcelleDisponible(new Position(2, 0));
+        ParcelleDisponible parcelleDisponible1m1 = new ParcelleDisponible(new Position(1, -1));
+        ParcelleDisponible parcelleDisponiblem1m1 = new ParcelleDisponible(new Position(-1, -1));
+        ParcelleDisponible parcelleDisponiblem20 = new ParcelleDisponible(new Position(2, 0));
+        ParcelleDisponible parcelleDisponiblem11 = new ParcelleDisponible(new Position(-1, 1));
+        parcellesVoisines[0] = parcelleDisponible11;
+        parcellesVoisines[1] = parcelleDisponible20;
+        parcellesVoisines[2] = parcelleDisponible1m1;
+        parcellesVoisines[3] = parcelleDisponiblem1m1;
+        parcellesVoisines[4] = parcelleDisponiblem20;
+        parcellesVoisines[5] = parcelleDisponiblem11;
+
+        ParcellePioche[] parcellePioches = new ParcellePioche[3];
+        parcellePioches[0] = new ParcellePioche(Couleur.ROSE);
+        parcellePioches[1] = new ParcellePioche(Couleur.VERTE);
+        parcellePioches[2] = new ParcellePioche(Couleur.JAUNE);
+
+        ParcelleCouleur parcelleCouleur11 = new ParcelleCouleur(parcelleDisponible11.getPosition(), Couleur.VERTE);
+        assertEquals(Optional.of(parcelleCouleur11),
+                strategieComplete.actionParcelleEtang(parcellesVoisines, parcellePioches));
+
+        parcellesVoisines[0] = parcelleCouleur11;
+        parcellePioches[0] = new ParcellePioche(Couleur.VERTE);
+        ParcelleCouleur parcelleCouleur20 = new ParcelleCouleur(parcelleDisponible20.getPosition(), Couleur.JAUNE);
+        assertEquals(Optional.of(parcelleCouleur20),
+                strategieComplete.actionParcelleEtang(parcellesVoisines, parcellePioches));
+
+        parcellesVoisines[1] = parcelleCouleur20;
+        parcellePioches[0] = new ParcellePioche(Couleur.VERTE);
+        assertEquals(Optional.empty(),
+                strategieComplete.actionParcelleEtang(parcellesVoisines, parcellePioches));
+    }
+}

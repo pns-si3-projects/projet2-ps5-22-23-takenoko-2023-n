@@ -1,7 +1,8 @@
 package fr.cotedazur.univ.polytech.startingpoint.pioche;
 
+import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -15,40 +16,65 @@ import static org.mockito.Mockito.when;
 class PiocheObjectifJardinierTest {
     PiocheObjectifJardinier piocheObjectifJardinier;
     @Mock
-    Random mockRandom = mock(Random.class);
+    Random mockRandom;
+
+
+    @BeforeEach
+    void setUp() {
+        piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
+        mockRandom = mock(Random.class);
+    }
+
 
     @Test
     void getNombreObjectifsRestants() {
-        piocheObjectifJardinier = new PiocheObjectifJardinier(new Random());
         assertEquals(15, piocheObjectifJardinier.getNombreObjectifsRestants());
+
         piocheObjectifJardinier.pioche();
         assertEquals(14, piocheObjectifJardinier.getNombreObjectifsRestants());
     }
 
     @Test
+    void isEmpty() {
+        assertFalse(piocheObjectifJardinier.isEmpty());
+        piocheObjectifJardinier.pioche();
+        assertFalse(piocheObjectifJardinier.isEmpty());
+    }
+
+
+    @Test
     void piocheValeurTropGrande() {
         when(mockRandom.nextInt(anyInt())).thenReturn(15);
         piocheObjectifJardinier = new PiocheObjectifJardinier(mockRandom);
-        assertThrows(ArithmeticException.class, () -> {piocheObjectifJardinier.pioche();});
+
+        assertThrows(ArithmeticException.class, () -> piocheObjectifJardinier.pioche());
     }
 
     @Test
     void piocheValeurTropPetite() {
         when(mockRandom.nextInt(anyInt())).thenReturn(-1);
         piocheObjectifJardinier = new PiocheObjectifJardinier(mockRandom);
-        assertThrows(ArithmeticException.class, () -> {piocheObjectifJardinier.pioche();});
+
+        assertThrows(ArithmeticException.class, () -> piocheObjectifJardinier.pioche());
     }
 
     @Test
     void pioche() {
         when(mockRandom.nextInt(anyInt())).thenReturn(14, 10, 11, 0, 1);
         piocheObjectifJardinier = new PiocheObjectifJardinier(mockRandom);
-        Assertions.assertEquals(new ObjectifJardinier(3, 4), piocheObjectifJardinier.pioche());
-        assertEquals(new ObjectifJardinier(5, 4), piocheObjectifJardinier.pioche());
-        // car en supprimant 10, les suivant sont décalés donc on prend ancien 12
-        assertEquals(new ObjectifJardinier(6, 4), piocheObjectifJardinier.pioche());
-        assertEquals(new ObjectifJardinier(5, 4), piocheObjectifJardinier.pioche());
-        // car en supprimant 0, les suivant sont décalés donc on prend ancien 2
-        assertEquals(new ObjectifJardinier(6, 6), piocheObjectifJardinier.pioche());
+
+        assertEquals(new ObjectifJardinier(3, 4, Couleur.VERTE), piocheObjectifJardinier.pioche());
+        assertEquals(new ObjectifJardinier(5, 4, Couleur.ROSE), piocheObjectifJardinier.pioche());
+        // car en supprimant 10, les suivants sont décalés donc on prend ancien 12
+        assertEquals(new ObjectifJardinier(6, 4, Couleur.ROSE), piocheObjectifJardinier.pioche());
+        assertEquals(new ObjectifJardinier(5, 4, Couleur.JAUNE), piocheObjectifJardinier.pioche());
+        // car en supprimant 0, les suivants sont décalés donc on prend ancien 2
+        assertEquals(new ObjectifJardinier(6, 6, Couleur.ROSE), piocheObjectifJardinier.pioche());
+    }
+
+
+    @Test
+    void testToString() {
+        assertEquals("Pioche d'objectifs de jardinier : 15 objectifs", piocheObjectifJardinier.toString());
     }
 }

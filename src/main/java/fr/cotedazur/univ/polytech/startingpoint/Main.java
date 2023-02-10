@@ -1,56 +1,123 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
+import com.beust.jcommander.JCommander;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.AfficheurJeu;
+import fr.cotedazur.univ.polytech.startingpoint.jeu.MaitreDuJeu;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifJardinier;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifPanda;
-import fr.cotedazur.univ.polytech.startingpoint.objectif.ObjectifParcelle;
-import fr.cotedazur.univ.polytech.startingpoint.pioche.*;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.GestionnairePossibilitePlateau;
-import fr.cotedazur.univ.polytech.startingpoint.plateau.Plateau;
+import fr.cotedazur.univ.polytech.startingpoint.joueur.Strategie;
 
-import java.util.Random;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
     // Définition des attributs
-    public static final Plateau PLATEAU = new Plateau();
-    public static final GestionnairePossibilitePlateau GESTIONNAIRE_PLATEAU = new GestionnairePossibilitePlateau(PLATEAU);
-    public static final Afficheur AFFICHEUR = new Afficheur();
-    private static final Random RANDOM = new Random();
-    private static final PiocheObjectifPanda piocheObjectifPanda= new PiocheObjectifPanda(RANDOM);
-    private static final PiocheObjectifParcelle piocheObjectifParcelle = new PiocheObjectifParcelle(RANDOM);
-    private static final PiocheObjectifJardinier piocheObjectifJardinier = new PiocheObjectifJardinier(RANDOM);
-    public static final PiocheObjectif piocheObjectif = new PiocheObjectif(piocheObjectifParcelle,piocheObjectifPanda,piocheObjectifJardinier);
-    public static final  PiocheParcelle piocheParcelle = new PiocheParcelle(RANDOM);
-    public static final PiocheBambou piocheBambou = new PiocheBambou(RANDOM);
-    public static final Arbitre ARBITRE = new Arbitre();
+
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getPackageName());
+    private static final Joueur joueurComplet = new Joueur("Joueur complet", Strategie.StrategiePossible.COMPLET);
+    private static final Joueur joueurParcelle = new Joueur("Joueur parcelle", Strategie.StrategiePossible.PARCELLE);
+    private static final Joueur joueurJardinier = new Joueur("Joueur jardinier", Strategie.StrategiePossible.JARDINIER);
+    private static final Joueur joueurPanda = new Joueur("Joueur panda", Strategie.StrategiePossible.PANDA);
+
+
+    // Méthode d'exécution
 
     public static void main(String... args) {
-        ObjectifParcelle objParJ1 = piocheObjectif.piocheObjectifParcelle();
-        ObjectifPanda objPanJ1 = piocheObjectif.piocheObjectifPanda();
-        ObjectifJardinier objJarJ1 = piocheObjectif.piocheObjectifJardinier();
-        ObjectifParcelle objParJ2 = piocheObjectif.piocheObjectifParcelle();
-        ObjectifPanda objPanJ2 = piocheObjectif.piocheObjectifPanda();
-        ObjectifJardinier objJarJ2 = piocheObjectif.piocheObjectifJardinier();
-        Joueur joueur1 = new Joueur("Robot1", RANDOM, objParJ1, objPanJ1, objJarJ1);
-        Joueur joueur2 = new Joueur("Robot2", RANDOM, objParJ2, objPanJ2, objJarJ2);
-        jeu(joueur1,joueur2);
+        ArgumentPossibleMain argumentMain;
+
+        if (args.length > 0) {
+            ArgumentsMain argsMain = new ArgumentsMain();
+            JCommander.newBuilder()
+                    .addObject(argsMain)
+                    .build()
+                    .parse(args);
+            argumentMain = argsMain.getArgument();
+        }
+        else {
+            argumentMain = ArgumentPossibleMain.DEMO;
+        }
+
+        configureLogger(argumentMain);
+        appliqueModeJeu(argumentMain);
+    }
+
+
+    // Méthodes d'utilisation
+
+    /**
+     * Permet de configurer tous les loggers (format et level affiché)
+     */
+    public static void configureLogger(ArgumentPossibleMain argumentMain) {
+        LOGGER.setUseParentHandlers(false);
+
+        Handler handler = new ConsoleHandler();
+        handler.setFormatter(new LoggerFormatter());
+        LOGGER.addHandler(handler);
+
+        if (argumentMain.isThousands()) {
+            LOGGER.setLevel(Level.WARNING);
+        } else {
+            LOGGER.setLevel(Level.INFO);
+        }
     }
 
     /**
-     * Permet de lancer la partie avec les affichages
-     * @param joueurs sont les joueurs automatiques qui participent à la partie
+     * Applique le mode de jeu demandé
+     * @param argumentMain le mode de jeu demandé
      */
-    public static void jeu(Joueur... joueurs){
-        while (!ARBITRE.verifieFinDeJeu(joueurs)){
-            AFFICHEUR.afficheDebutTour(ARBITRE.getNombreTour());
-            for(Joueur joueur : joueurs){
-                AFFICHEUR.afficheJoueurDebutTour(joueur);
-                joueur.tour(piocheObjectif, piocheBambou, piocheParcelle, PLATEAU,ARBITRE,GESTIONNAIRE_PLATEAU);
-                AFFICHEUR.afficheJoueurFinTour(joueur);
-            }
-            AFFICHEUR.afficheFinTour(ARBITRE.getNombreTour());
-            ARBITRE.addTour();
+    private static void appliqueModeJeu(ArgumentPossibleMain argumentMain) {
+        switch (argumentMain) {
+            case THOUSANDS -> joue2Thousands();
+            case DEMO -> joueDemo();
+            case CSV -> joueCSV();
         }
-        AFFICHEUR.afficheGagnant(ARBITRE.joueurGagnant(joueurs));
+    }
+
+    /**
+     * Joue le mode de jeu de 2 × 1000 parties
+     * 1000 parties entre le meilleur bot et les autres
+     * 1000 parties entre le meilleur bot et lui-même
+     */
+    private static void joue2Thousands() {
+        LOGGER.warning("Début mode 2thousands");
+        for (int i=0; i<2000; i++) {
+            MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
+            maitreDuJeu.jeu();
+            String nbJeu = Integer.toString(i+1);
+            LOGGER.warning(nbJeu);
+        }
+    }
+
+    /**
+     * Joue une partie de demo entre plusieurs bots
+     */
+    private static void joueDemo() {
+        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
+        maitreDuJeu.jeu();
+        AfficheurJeu.etatJeu(maitreDuJeu);
+    }
+
+    /**
+     * Joue un nombre limité de parties en enregistrant des statistiques dans un fichier CSV
+     */
+    private static void joueCSV() {
+        String totalPointPartiePrecedente = ReadCSV.lireCSV();
+        Joueur joueurCom = joueurComplet;
+        Joueur joueurPar = joueurParcelle;
+        Joueur joueurJar = joueurJardinier;
+        Joueur joueurPan = joueurPanda;
+        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurCom, joueurPar, joueurJar, joueurPan);
+        maitreDuJeu.jeu();
+        AfficheurJeu.etatJeu(maitreDuJeu);
+
+        int nbrPtsJ1 = joueurCom.nombrePoints();
+        int nbrPtsJ2 = joueurPar.nombrePoints();
+        int nbrPtsJ3 = joueurJar.nombrePoints();
+        int nbrPtsJ4 = joueurPan.nombrePoints();
+        int totalPts = nbrPtsJ1 + nbrPtsJ2 +nbrPtsJ3 + nbrPtsJ4;
+        int totalPointsToutesParties = Integer.parseInt(totalPointPartiePrecedente) + totalPts;
+        WriteCSV.ecrireCSV(new String[]{String.valueOf(nbrPtsJ1), String.valueOf(nbrPtsJ2), String.valueOf(nbrPtsJ3),
+                String.valueOf(nbrPtsJ4), String.valueOf(totalPts), String.valueOf(totalPointsToutesParties) });
     }
 }

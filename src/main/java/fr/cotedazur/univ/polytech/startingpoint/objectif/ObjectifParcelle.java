@@ -5,61 +5,66 @@ import fr.cotedazur.univ.polytech.startingpoint.motif.Motif;
 import java.util.Objects;
 
 /**
- * Représente les objectifs des parcelles avec un nombre de parcelles à placer et irriguer si besoin
+ * Représente les objectifs de parcelles.
+ * Un objectif de parcelles est un nombre de parcelles à placer.
  * @author équipe N
  */
 public class ObjectifParcelle extends Objectif {
     // Définition des attributs
-    private Motif motifParcelle;
+
+    private final Motif motifARealiser;
 
 
     // Définition des constructeurs
+
     /**
-     * Constructeur par défaut
-     * @param nbPoints est le nombre de points de l'objectif
-     * @param motifParcelle est le motif a effectuer
-     * @implSpec <code>nbPoints > 0</code>, <code>nbParcelles > 0</code>
+     * Construit un objectif de parcelles par le nombre de points et le schéma à obtenir sur le plateau
+     * @param nbPoints le nombre de points de l'objectif
+     * @param schema le schéma de parcelles à obtenir
+     * @implSpec {@code nbPoints > 0}, {@code schema > 0}
      */
-    public ObjectifParcelle(int nbPoints, Motif motifParcelle) {
+    public ObjectifParcelle(int nbPoints, Motif schema) {
+        if (nbPoints <= 0) {
+            throw new IllegalArgumentException("Le nombre de points doit être supérieur à 0");
+        }
+        if (schema == null) {
+            throw new IllegalArgumentException("Le motif ne doit pas être vide");
+        }
+
         nombrePoints = nbPoints;
-        this.motifParcelle = motifParcelle;
+        motifARealiser = schema;
     }
 
 
-    // Accesseurs et méthodes toString et equals
+    // Accesseurs
+
     /**
-     * Renvoie le nombre de parcelles irriguées qui doivent se retrouver sur le plateau
-     * @return le nombre de parcelles irriguées qui doivent être sur le plateau
+     * Renvoie le schéma à obtenir sur le plateau
+     * @return le schéma à obtenir sur le plateau
      */
-    public Motif getMotif() {
-        return motifParcelle;
+    public Motif getSchema() {
+        return motifARealiser;
     }
 
+
+    // Méthodes to String et equals
 
     @Override
     public String toString() {
-        String s = "Objectif de faire le ";
-        s += motifParcelle + " et vaut ";
-        s += nombrePoints + " points";
-        return s;
+        return "Objectif de parcelle de " + nombrePoints + " points";
     }
 
-    /**
-     * Compare 2 ObjectifParcelle par le nombre de points et le nombre de parcelles
-     * @param o est l'objet à comparer avec celui actuel
-     * @return <code>true</code> si l'ObjectifParcelle donné a le même nombre de points et de parcelles, <code>false</code> sinon
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ObjectifParcelle that = (ObjectifParcelle) o;
-        return motifParcelle.equals(that.motifParcelle);
+        return getSchema().equals(that.getSchema());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), motifParcelle);
+        return Objects.hash(super.hashCode(), getSchema());
     }
 }
