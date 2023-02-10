@@ -3,11 +3,13 @@ package fr.cotedazur.univ.polytech.startingpoint.plateau;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Couleur;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
+import fr.cotedazur.univ.polytech.startingpoint.pioche.PiocheSectionBambou;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,9 +20,11 @@ class GestionParcellesTest {
     Parcelle pC1_1R;
     Parcelle pC1_m1J;
     Parcelle pC3_m1R;
+    Parcelle pC4_2V;
     Couleur verte;
     Couleur rose;
     Couleur jaune;
+    Plateau plateau;
 
 
     @BeforeEach
@@ -28,12 +32,14 @@ class GestionParcellesTest {
         verte = Couleur.VERTE;
         rose = Couleur.ROSE;
         jaune = Couleur.JAUNE;
+        plateau = new Plateau(new PiocheSectionBambou());
 
         etang = GestionParcelles.ETANG;
         pC2_0V = new ParcelleCouleur(new Position(2, 0), verte);
         pC1_1R = new ParcelleCouleur(new Position(1, 1), rose);
         pC1_m1J = new ParcelleCouleur(new Position(1, -1), jaune);
         pC3_m1R = new ParcelleCouleur(new Position(3, -1), rose);
+        pC4_2V = new ParcelleCouleur(new Position(4, 2), verte);
 
         parcelles = new Parcelle[5];
         parcelles[0] = etang;
@@ -41,6 +47,11 @@ class GestionParcellesTest {
         parcelles[2] = pC1_1R;
         parcelles[3] = pC1_m1J;
         parcelles[4] = pC3_m1R;
+        plateau.poseParcelle((ParcelleCouleur) pC2_0V);
+        plateau.poseParcelle((ParcelleCouleur) pC1_1R);
+        plateau.poseParcelle((ParcelleCouleur) pC1_m1J);
+        plateau.poseParcelle((ParcelleCouleur) pC3_m1R);
+        plateau.poseParcelle((ParcelleCouleur) pC4_2V);
     }
 
 
@@ -150,5 +161,26 @@ class GestionParcellesTest {
         assertTrue(nouvellesPDis.contains(pm2_0));
         assertFalse(nouvellesPDis.contains(pm3_1));
         assertFalse(nouvellesPDis.contains(pm2_2));
+    }
+
+    @Test
+    void ParcelleIrrigueTest() {
+        List<ParcelleCouleur> listeParcelleIrrigue = GestionParcelles.parcelleIrrigue(plateau);
+        assertTrue(listeParcelleIrrigue.contains(pC1_1R));
+        assertFalse(listeParcelleIrrigue.contains(pC3_m1R));
+        assertTrue(listeParcelleIrrigue.contains(pC2_0V));
+        assertTrue(listeParcelleIrrigue.contains(pC1_m1J));
+        assertFalse(listeParcelleIrrigue.contains(pC4_2V));
+    }
+
+    @Test
+    void ParcelleNonIrrigueVoisineIrrigueTest(){
+        List<ParcelleCouleur> listeParcelleNonIrrigueVoisine = GestionParcelles.parcelleNonIrrigueVoisineIrrigue(plateau);
+        assertFalse(listeParcelleNonIrrigueVoisine.contains(pC1_m1J));
+        assertFalse(listeParcelleNonIrrigueVoisine.contains(pC2_0V));
+        assertFalse(listeParcelleNonIrrigueVoisine.contains(pC1_1R));
+        assertTrue(listeParcelleNonIrrigueVoisine.contains(pC3_m1R));
+        assertFalse(listeParcelleNonIrrigueVoisine.contains(pC4_2V));
+
     }
 }
