@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class AfficheurPieces {
     // Définition des attributs
 
-    private static final Logger LOGGER = Logger.getLogger(AfficheurJoueur.class.getPackageName());
+    private static final Logger LOGGER = Logger.getLogger(AfficheurPieces.class.getPackageName());
     private static final String SEPARATION = "\t\t\t";
 
 

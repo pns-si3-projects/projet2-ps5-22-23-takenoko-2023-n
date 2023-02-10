@@ -1,24 +1,35 @@
 package fr.cotedazur.univ.polytech.startingpoint;
 
 import com.beust.jcommander.JCommander;
+import com.opencsv.CSVReader;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.AfficheurJeu;
 import fr.cotedazur.univ.polytech.startingpoint.jeu.MaitreDuJeu;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Strategie;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static fr.cotedazur.univ.polytech.startingpoint.Affichage2Thousands.afficheJeu2thousands;
+import static fr.cotedazur.univ.polytech.startingpoint.Affichage2Thousands.ajouteStats;
+
 public class Main {
     // Définition des attributs
 
     private static final Logger LOGGER = Logger.getLogger(Main.class.getPackageName());
-    private static final Joueur joueurComplet = new Joueur("Joueur complet", Strategie.StrategiePossible.COMPLET);
-    private static final Joueur joueurParcelle = new Joueur("Joueur parcelle", Strategie.StrategiePossible.PARCELLE);
-    private static final Joueur joueurJardinier = new Joueur("Joueur jardinier", Strategie.StrategiePossible.JARDINIER);
-    private static final Joueur joueurPanda = new Joueur("Joueur panda", Strategie.StrategiePossible.PANDA);
+    private static final String NOM_JOUEUR_COMPLET = "Joueur complet";
+    private static final String NOM_JOUEUR_PANDA = "Joueur panda";
+    private static final String NOM_JOUEUR_JARDINIER = "Joueur jardinier";
+    private static final String NOM_JOUEUR_PARCELLE = "Joueur parcelle";
+    private static final Joueur joueurComplet = new Joueur(NOM_JOUEUR_COMPLET, Strategie.StrategiePossible.COMPLET);
+    private static final Joueur joueurPanda = new Joueur(NOM_JOUEUR_PANDA, Strategie.StrategiePossible.PANDA);
+    private static final Joueur joueurJardinier = new Joueur(NOM_JOUEUR_JARDINIER, Strategie.StrategiePossible.JARDINIER);
+    private static final Joueur joueurParcelle = new Joueur(NOM_JOUEUR_PARCELLE, Strategie.StrategiePossible.PARCELLE);
 
 
     // Méthode d'exécution
@@ -55,10 +66,10 @@ public class Main {
         handler.setFormatter(new LoggerFormatter());
         LOGGER.addHandler(handler);
 
-        if (argumentMain.isThousands()) {
-            LOGGER.setLevel(Level.WARNING);
-        } else {
+        if (argumentMain.isDemo()) {
             LOGGER.setLevel(Level.INFO);
+        } else {
+            LOGGER.setLevel(Level.OFF);
         }
     }
 
@@ -80,20 +91,37 @@ public class Main {
      * 1000 parties entre le meilleur bot et lui-même
      */
     private static void joue2Thousands() {
-        LOGGER.warning("Début mode 2thousands");
-        for (int i=0; i<2000; i++) {
-            MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
-            maitreDuJeu.jeu();
-            String nbJeu = Integer.toString(i+1);
-            LOGGER.warning(nbJeu);
+        for (int i = 0; i < 2; i++) {
+            Affichage2Thousands.setJoueursStats(new JoueurStats(joueurComplet.getNom()),
+                    new JoueurStats(joueurPanda.getNom()), new JoueurStats(joueurJardinier.getNom()),
+                    new JoueurStats(joueurParcelle.getNom()));
+
+            for (int j = 0; j < 1000; j++) {
+                Joueur joueurCom = new Joueur(NOM_JOUEUR_COMPLET, Strategie.StrategiePossible.COMPLET);
+                Joueur joueurPan = new Joueur(NOM_JOUEUR_PANDA, Strategie.StrategiePossible.PANDA);
+                Joueur joueurJar = new Joueur(NOM_JOUEUR_JARDINIER, Strategie.StrategiePossible.JARDINIER);
+                Joueur joueurPar = new Joueur(NOM_JOUEUR_PARCELLE, Strategie.StrategiePossible.PARCELLE);
+                MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurCom, joueurPan, joueurJar, joueurPar);
+                Optional<Joueur> optJoueurGagnant = maitreDuJeu.jeu();
+
+                if (optJoueurGagnant.isPresent()) {
+                    ajouteStats(optJoueurGagnant.get(), joueurCom, joueurPan, joueurJar, joueurPar);
+                }
+                else {
+                    ajouteStats(null, joueurCom, joueurPan, joueurJar, joueurPar);
+                }
+            }
+
+            afficheJeu2thousands();
         }
+
     }
 
     /**
      * Joue une partie de demo entre plusieurs bots
      */
     private static void joueDemo() {
-        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurParcelle, joueurJardinier, joueurPanda);
+        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurPanda, joueurJardinier, joueurParcelle);
         maitreDuJeu.jeu();
         AfficheurJeu.etatJeu(maitreDuJeu);
     }
@@ -102,22 +130,87 @@ public class Main {
      * Joue un nombre limité de parties en enregistrant des statistiques dans un fichier CSV
      */
     private static void joueCSV() {
-        String totalPointPartiePrecedente = ReadCSV.lireCSV();
-        Joueur joueurCom = joueurComplet;
-        Joueur joueurPar = joueurParcelle;
-        Joueur joueurJar = joueurJardinier;
-        Joueur joueurPan = joueurPanda;
-        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurCom, joueurPar, joueurJar, joueurPan);
-        maitreDuJeu.jeu();
-        AfficheurJeu.etatJeu(maitreDuJeu);
+        List<String> nomJoueurs = initialiseNomsJoueurs();
+        List<JoueurStats> joueurStatsList = initialiseJoueurStatsList(nomJoueurs);
+        Optional<CSVReader> optCsvReader = ReadCSV.initialiseLectureCSV();
+        if (optCsvReader.isPresent()) {
+            joueurStatsList = ReadCSV.litCSV(optCsvReader.get(), nomJoueurs);
 
-        int nbrPtsJ1 = joueurCom.nombrePoints();
-        int nbrPtsJ2 = joueurPar.nombrePoints();
-        int nbrPtsJ3 = joueurJar.nombrePoints();
-        int nbrPtsJ4 = joueurPan.nombrePoints();
-        int totalPts = nbrPtsJ1 + nbrPtsJ2 +nbrPtsJ3 + nbrPtsJ4;
-        int totalPointsToutesParties = Integer.parseInt(totalPointPartiePrecedente) + totalPts;
-        WriteCSV.ecrireCSV(new String[]{String.valueOf(nbrPtsJ1), String.valueOf(nbrPtsJ2), String.valueOf(nbrPtsJ3),
-                String.valueOf(nbrPtsJ4), String.valueOf(totalPts), String.valueOf(totalPointsToutesParties) });
+            if (joueurStatsList.size() != nomJoueurs.size()) {
+                joueurStatsList = initialiseJoueurStatsList(nomJoueurs);
+            }
+        }
+
+        // Effectue 10 parties
+        for (int i=0; i<10; i++) {
+            List<Joueur> joueurs = new ArrayList<>(4);
+            joueurs.add(new Joueur(NOM_JOUEUR_COMPLET, Strategie.StrategiePossible.COMPLET));
+            joueurs.add(new Joueur(NOM_JOUEUR_PANDA, Strategie.StrategiePossible.PANDA));
+            joueurs.add(new Joueur(NOM_JOUEUR_JARDINIER, Strategie.StrategiePossible.JARDINIER));
+            joueurs.add(new Joueur(NOM_JOUEUR_PARCELLE, Strategie.StrategiePossible.PARCELLE));
+
+            MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurs.get(0), joueurs.get(1), joueurs.get(2), joueurs.get(3));
+            Optional<Joueur> gagnant = maitreDuJeu.jeu();
+            AfficheurJeu.etatJeu(maitreDuJeu);
+
+            ajouteDonneesJoueurs(joueurStatsList, joueurs, gagnant);
+        }
+
+        Affichage2Thousands.setJoueursStats(joueurStatsList.toArray(new JoueurStats[0]));
+        Affichage2Thousands.afficheJeu2thousands();
+        WriteCSV.ecrireCSV(joueurStatsList);
+    }
+
+    /**
+     * Ajoute les données aux JoueurStats
+     * @param joueurStatsList la liste des JoueurStats
+     * @param joueurs la liste des joueurs
+     */
+    private static void ajouteDonneesJoueurs(List<JoueurStats> joueurStatsList,
+                                             List<Joueur> joueurs, Optional<Joueur> gagnant) {
+        if (gagnant.isPresent()) {
+            Joueur joueurGagnant = gagnant.get();
+            for (int i=0; i<joueurStatsList.size(); i++) {
+                JoueurStats.EtatPartie etatPartie = JoueurStats.EtatPartie.PERDUE;
+                if (joueurGagnant.equals(joueurs.get(i))) {
+                    etatPartie = JoueurStats.EtatPartie.GAGNEE;
+                }
+
+                joueurStatsList.get(i).ajoutePartie(etatPartie, (double) joueurs.get(i).nombrePoints());
+            }
+        }
+        else {
+            for (int i=0; i<joueurStatsList.size(); i++) {
+                joueurStatsList.get(i).ajoutePartie(JoueurStats.EtatPartie.NULLE, (double) joueurs.get(i).nombrePoints());
+            }
+        }
+    }
+
+    /**
+     * Initialise la liste de noms des joueurs
+     * @return la liste de noms des joueurs
+     */
+    private static List<String> initialiseNomsJoueurs() {
+        List<String> nomsJoueurs = new ArrayList<>(4);
+
+        nomsJoueurs.add(NOM_JOUEUR_COMPLET);
+        nomsJoueurs.add(NOM_JOUEUR_PANDA);
+        nomsJoueurs.add(NOM_JOUEUR_JARDINIER);
+        nomsJoueurs.add(NOM_JOUEUR_PARCELLE);
+        return nomsJoueurs;
+    }
+
+    /**
+     * Initialise la liste de JoueurStats avec un nom par défaut
+     * @param nomsJoueurs la liste des noms des joueurs
+     * @return la liste des JoueurStats initialisés
+     */
+    private static List<JoueurStats> initialiseJoueurStatsList(List<String> nomsJoueurs) {
+        List<JoueurStats> joueurStatsList = new ArrayList<>(nomsJoueurs.size());
+
+        for (String nom : nomsJoueurs) {
+            joueurStatsList.add(new JoueurStats(nom));
+        }
+        return joueurStatsList;
     }
 }

@@ -5,10 +5,7 @@ import fr.cotedazur.univ.polytech.startingpoint.jeu.Position;
 import fr.cotedazur.univ.polytech.startingpoint.parcelle.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Permet de gérer les parcelles du plateau
@@ -271,5 +268,44 @@ public class GestionParcelles {
         }
         int nbVoisines = parcellesVoisines.size();
         return nbVoisines >= 2 && nbVoisines < 6;
+    }
+
+    /**
+     * renvoie la liste des parcelle irrigue
+     * @param plateau la plateau
+     * @return la liste des parcelle irrigue
+     */
+    static List<ParcelleCouleur> parcelleIrrigue(Plateau plateau) {
+        List<Parcelle> listeParcelle = Arrays.stream(plateau.getParcelles()).filter(c -> !c.getClass().equals(Etang.class)).toList();
+        List<ParcelleCouleur> listeParcelleIrrigue = new ArrayList<>();
+        for (Parcelle parcelle : listeParcelle) {
+            ParcelleCouleur parcelleCouleur = (ParcelleCouleur) parcelle;
+            if (parcelleCouleur.isIrriguee()) {
+                listeParcelleIrrigue.add(parcelleCouleur);
+            }
+        }
+        return listeParcelleIrrigue;
+    }
+
+    /**
+     * retoune la liste des parcelle dont un de leur voisin est irigue mais pas elle
+     * @param plateau la plateau
+     * @return la liste des parcelle non irrigue mais voisin a une parcell eirrigue
+     */
+    static List<ParcelleCouleur> parcelleNonIrrigueVoisineIrrigue(Plateau plateau) {
+        List<ParcelleCouleur> listeParcelleIrrigue = parcelleIrrigue(plateau);
+        List<ParcelleCouleur> listeParcelleNonIrrigueVoisine = new ArrayList<>();
+        for (Parcelle parcelle : plateau.getParcelles()) {
+            try {
+                List<Parcelle> listeVoisine = voisinesPosees(getVoisinesParcelle(plateau.getParcelleEtVoisinesList(), parcelle)).stream().filter(c -> !c.getClass().equals(Etang.class)).toList();
+                for (Parcelle parcelle1 : listeVoisine) {
+                    listeParcelleNonIrrigueVoisine.add((ParcelleCouleur) parcelle1);
+                }
+            } catch (ParcelleNonPoseeException e) {
+                throw new AssertionError("la parcelle n'a pas de voisine");
+            }
+        }
+        listeParcelleNonIrrigueVoisine.removeAll(listeParcelleIrrigue);
+        return listeParcelleNonIrrigueVoisine;
     }
 }

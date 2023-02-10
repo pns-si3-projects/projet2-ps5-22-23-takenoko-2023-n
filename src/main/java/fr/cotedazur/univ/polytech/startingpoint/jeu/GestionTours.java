@@ -67,7 +67,7 @@ public class GestionTours {
      */
     public Joueur tours(Joueur[] joueurs, int nombreObjectifsDemandes) {
         int nbTours = 1;
-        while (true) {
+        while (nbTours < 50) {
             AfficheurJeu.debutTour(nbTours);
             for (Joueur joueur : joueurs) {
                 joueTour(joueur);
@@ -77,6 +77,17 @@ public class GestionTours {
             }
             nbTours++;
         }
+        return joueurObjectifMax(joueurs);
+    }
+
+    private Joueur joueurObjectifMax(Joueur[] joueurs) {
+        Joueur joueurTermine = joueurs[0];
+        for (int i=1; i<joueurs.length; i++) {
+            if (joueurs[i].nombreObjectifsTermines() > joueurTermine.nombreObjectifsTermines()) {
+                joueurTermine = joueurs[i];
+            }
+        }
+        return joueurTermine;
     }
 
     /**
