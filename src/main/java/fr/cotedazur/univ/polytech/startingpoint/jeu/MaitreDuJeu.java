@@ -34,10 +34,10 @@ public class MaitreDuJeu {
 
         gestionTours = new GestionTours();
         this.joueurs = Arrays.copyOf(joueurs, nbJoueurs);
-        gestionTours.initialiseJoueurs(this.joueurs);
         nombreObjectifsDemandes = nombreObjectifsDemandes(nbJoueurs);
 
         AfficheurJeu.initialisation(nbJoueurs, nombreObjectifsDemandes);
+        gestionTours.initialiseJoueurs(this.joueurs);
     }
 
     /**
