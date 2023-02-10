@@ -16,18 +16,20 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static fr.cotedazur.univ.polytech.startingpoint.Affichage2Thousands.*;
+
 public class Main {
     // Définition des attributs
 
     private static final Logger LOGGER = Logger.getLogger(Main.class.getPackageName());
     private static final String NOM_JOUEUR_COMPLET = "Joueur complet";
-    private static final String NOM_JOUEUR_PARCELLE = "Joueur parcelle";
-    private static final String NOM_JOUEUR_JARDINIER = "Joueur jardinier";
     private static final String NOM_JOUEUR_PANDA = "Joueur panda";
+    private static final String NOM_JOUEUR_JARDINIER = "Joueur jardinier";
+    private static final String NOM_JOUEUR_PARCELLE = "Joueur parcelle";
     private static final Joueur joueurComplet = new Joueur(NOM_JOUEUR_COMPLET, Strategie.StrategiePossible.COMPLET);
-    private static final Joueur joueurParcelle = new Joueur(NOM_JOUEUR_PARCELLE, Strategie.StrategiePossible.PARCELLE);
-    private static final Joueur joueurJardinier = new Joueur(NOM_JOUEUR_JARDINIER, Strategie.StrategiePossible.JARDINIER);
     private static final Joueur joueurPanda = new Joueur(NOM_JOUEUR_PANDA, Strategie.StrategiePossible.PANDA);
+    private static final Joueur joueurJardinier = new Joueur(NOM_JOUEUR_JARDINIER, Strategie.StrategiePossible.JARDINIER);
+    private static final Joueur joueurParcelle = new Joueur(NOM_JOUEUR_PARCELLE, Strategie.StrategiePossible.PARCELLE);
 
 
     // Méthode d'exécution
@@ -44,7 +46,7 @@ public class Main {
             argumentMain = argsMain.getArgument();
         }
         else {
-            argumentMain = ArgumentPossibleMain.DEMO;
+            argumentMain = ArgumentPossibleMain.THOUSANDS;
         }
 
         configureLogger(argumentMain);
@@ -90,12 +92,31 @@ public class Main {
      */
     private static void joue2Thousands() {
         LOGGER.warning("Début mode 2thousands");
-        for (int i=0; i<20000; i++) {
-            MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurComplet, joueurPanda, joueurJardinier, joueurParcelle);
-            maitreDuJeu.jeu();
-            String nbJeu = Integer.toString(i+1);
-            LOGGER.warning(nbJeu);
+        for (int i = 0; i < 2; i++) {
+            Affichage2Thousands.setJoueursStats(new JoueurStats(joueurComplet.getNom()),
+                    new JoueurStats(joueurPanda.getNom()), new JoueurStats(joueurJardinier.getNom()),
+                    new JoueurStats(joueurParcelle.getNom()));
+
+            for (int j = 0; j < 1000; j++) {
+                Joueur joueurCom = new Joueur(NOM_JOUEUR_COMPLET, Strategie.StrategiePossible.COMPLET);
+                Joueur joueurPan = new Joueur(NOM_JOUEUR_PANDA, Strategie.StrategiePossible.PANDA);
+                Joueur joueurJar = new Joueur(NOM_JOUEUR_JARDINIER, Strategie.StrategiePossible.JARDINIER);
+                Joueur joueurPar = new Joueur(NOM_JOUEUR_PARCELLE, Strategie.StrategiePossible.PARCELLE);
+                MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurCom, joueurPan, joueurJar, joueurPar);
+                Optional<Joueur> optJoueurGagnant = maitreDuJeu.jeu();
+                LOGGER.warning("Partie " + j);
+
+                if (optJoueurGagnant.isPresent()) {
+                    ajouteStats(optJoueurGagnant.get(), joueurCom, joueurPan, joueurJar, joueurPar);
+                }
+                else {
+                    ajouteStats(null, joueurCom, joueurPan, joueurJar, joueurPar);
+                }
+            }
+
+            afficheJeu2thousands();
         }
+
     }
 
     /**
