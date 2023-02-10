@@ -27,19 +27,19 @@ Le jeu est joué par 4 joueurs automatisés avec affichage de leurs actions effe
 * Le dé météo
 * Les amménagements et les parcelles avec des aménagements
 
-### Logs
+### Logs :
 En fonction du mode de jeu, on peut désactiver l'affichage des logger en changeant le level.
 Nous avons utilisé les logger pour l'affichage des actions réalisées, la validation des objectifs, le début et la fin du jeu.
 Nous avons découpé en différentes classes les affichages en fonction de ce qu'elles affichaient.
 Par exemple : L'affichage du déplacement des personnages est dans la classe AfficheurPersonnage, celle de la validation des objectifs est dans AfficheurObjectifs, celle du choix des actions des personnages est dans AfficheurJoueur, etc. 
 
-### CSV
+### CSV :
 
 
 
 
 
-### Bot spécifique demandé
+### Bot spécifique demandé :
 Au premier tour, les actions du bot sont de piocher une carte Objectif et une irrigation.
 Le bot choisi l'action Panda dès qu'il y a un bambou sur le plateau et favorise ceux de la couleur de ses objectifs de panda.
 Le bot fait en sorte de toujours avoir 5 objectifs en main en préférant en avoir un de chaque minimum.
@@ -48,46 +48,46 @@ Le bot choisi l'action Irrigation lorsqu'il y a 3 possibilités d'irrigation sur
 
 
 ## Architecture et qualité
-Comment est faite l'architecture du projet ? Et quels choix vous ont amené à la réaliser ainsi ?
+Comment est faite l'architecture du projet ? Et quels choix vous ont amené à la réaliser ainsi ?  
 On a avancé petit à petit pour introduire les nouvelles fonctionnalités, puis on a augmenté en complexité pour pouvoir 
 
 
 
-Où trouver les infos ?
+Où trouver les infos ?  
 De la Java doc est présente dans chacune de nos classes et interfaces.
 
-Quelles parties sont bien faites ?
+Quelles parties sont bien faites ?  
 Les pioches font leur role en ayant un minimum de méthodes. Egalement, il n'y a pas l'utilisation de getClass().
 Les différents gestionnaires permettant de mieux définir les responsabilités des classes. 
 
-Quelles parties sont à refactor et pourquoi ?
+Quelles parties sont à refactor et pourquoi ?  
 Pour améliorer notre code, un refactor de la classe StrategieComplete pourrait être réalisé car elle possède trop de méthodes. Il aurait été possible de faire une autre classe pour aider à réflechir sur la stratégie.
 
-Comment la sortie SONAR le montre-elle ?
+Comment la sortie SONAR le montre-elle ?  
 Sur la visualisation en ville de notre code, nous pouvons remarquer que cette classe est plus haute que les autres et a une complexité plus importante.
 
 
 ## Processus
 
-Qui est responsable de quoi / qui a fait quoi ?
-Chloé : Jardinier, Irrigations, objectifs Jardinier, objectifs Panda, Stratégie Jardinier, Stratégie Complète
-Nicolas : Parcelles, Refactor du plateau et plaquette, Gestion des déplacements de personnages, Motifs d'objectifs Parcelles, Stratégie Parcelle
-Fabien : Parcelles, création des objectifs, Panda, Gestion des déplacements de personnages, Bambous, Couleur, documentations, Refactor plateau plaquette joueur et arbitre, Pioches, Ajout JCommander et Logger, Mode de jeu CSV
-Amandine : Jardinier, Bambous, objectifs Jardinier, Stratégie Panda, Stratégie Complète
+Qui est responsable de quoi / qui a fait quoi ?  
+Chloé : Jardinier, Irrigations, objectifs Jardinier, objectifs Panda, Stratégie Jardinier, Stratégie Complète  
+Nicolas : Parcelles, Refactor du plateau et plaquette, Gestion des déplacements de personnages, Motifs d'objectifs Parcelles, Stratégie Parcelle  
+Fabien : Parcelles, création des objectifs, Panda, Gestion des déplacements de personnages, Bambous, Couleur, documentations, Refactor plateau plaquette joueur et arbitre, Pioches, Ajout JCommander et Logger, Mode de jeu CSV  
+Amandine : Jardinier, Bambous, objectifs Jardinier, Stratégie Panda, Stratégie Complète  
 
 
-Quel est le process de l'équipe ?
-**Git**
-Nous avons créer des milestones pour l'implémentation de chaque nouvelles fonctionnalités ou lors d'un refactor.
-Nous les avons ensuite découpé en slices que nous avons par la suite découpé en features.
-Les features comportaient ensuite les différentes tasks que nous avions à réaliser ainsi que les tests.
+Quel est le process de l'équipe ?  
+**Git**  
+Nous avons créer des milestones pour l'implémentation de chaque nouvelles fonctionnalités ou lors d'un refactor.  
+Nous les avons ensuite découpé en slices que nous avons par la suite découpé en features.  
+Les features comportaient ensuite les différentes tasks que nous avions à réaliser ainsi que les tests.  
 Chacun de nos commit était relié à une issue.
 
 
-**Branching Strategy**
-Des branches de travail dans lesquelles on rajoutait les nouvelles fonctionnalités à implémenter.
-Le merge d'une branche de travail vers la branche Develop nécessitait une pull request validée par au moins un autre membre de l'équipe.
-Une branche Develop pour gérer les conflits entre ces branches de travail lors des merges.
-Le merge de la branche Develop vers la branche Master nécessitait une pull request validée par au moins la moitié des membres de l'équipe.
+**Branching Strategy**  
+Des branches de travail dans lesquelles on rajoutait les nouvelles fonctionnalités à implémenter.  
+Le merge d'une branche de travail vers la branche Develop nécessitait une pull request validée par au moins un autre membre de l'équipe.  
+Une branche Develop pour gérer les conflits entre ces branches de travail lors des merges.  
+Le merge de la branche Develop vers la branche Master nécessitait une pull request validée par au moins la moitié des membres de l'équipe.  
 Une branche Master qui permet des rendu stables.
 
