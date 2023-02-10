@@ -18,7 +18,7 @@ Le jeu est joué par 4 joueurs automatisés avec affichage de leurs actions effe
 * Les objectifs Jardiniers sont validés lorsque des parcelles de la couleur demandée ont le nombre de section de bambou de l'objectif
 * Les objectifs Parcelles sont validés lorque le motif de l'objectif est posé sur le plateau
 * Le premier joueur ayant validé le nombre d'objectifs requit gagne la carte Empereur qui lui fait rajoute 2 points à son score
-* Stratégies de jeu : 3 stratégies qui se focalisent uniquement sur un type d'objectif
+* Stratégies de jeu : 3 stratégies qui se focalisent uniquement sur un type d'objectif  
    `* Stratégie Panda`  
    `* Stratégie Parcelle`  
    `* Stratégie Jardinier`
