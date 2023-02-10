@@ -67,7 +67,7 @@ public class Main {
         LOGGER.addHandler(handler);
 
         if (argumentMain.isThousands()) {
-            LOGGER.setLevel(Level.WARNING);
+            LOGGER.setLevel(Level.OFF);
         } else {
             LOGGER.setLevel(Level.INFO);
         }
@@ -91,7 +91,6 @@ public class Main {
      * 1000 parties entre le meilleur bot et lui-même
      */
     private static void joue2Thousands() {
-        LOGGER.warning("Début mode 2thousands");
         for (int i = 0; i < 2; i++) {
             Affichage2Thousands.setJoueursStats(new JoueurStats(joueurComplet.getNom()),
                     new JoueurStats(joueurPanda.getNom()), new JoueurStats(joueurJardinier.getNom()),
@@ -104,7 +103,6 @@ public class Main {
                 Joueur joueurPar = new Joueur(NOM_JOUEUR_PARCELLE, Strategie.StrategiePossible.PARCELLE);
                 MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurCom, joueurPan, joueurJar, joueurPar);
                 Optional<Joueur> optJoueurGagnant = maitreDuJeu.jeu();
-                LOGGER.warning("Partie " + j);
 
                 if (optJoueurGagnant.isPresent()) {
                     ajouteStats(optJoueurGagnant.get(), joueurCom, joueurPan, joueurJar, joueurPar);
