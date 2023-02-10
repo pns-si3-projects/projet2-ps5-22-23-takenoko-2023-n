@@ -17,7 +17,7 @@ public class JoueurStats {
     private static final int NULLE = EtatPartie.NULLE.ordinal();
     private final String nomJoueur;
     private final int[] nombreParties;
-    private final List<Integer> scores;
+    private final List<Double> scores;
 
 
     // Définition des constructeurs
@@ -124,7 +124,7 @@ public class JoueurStats {
 
         double somme = 0;
 
-        for (Integer score : scores) {
+        for (Double score : scores) {
             somme += score;
         }
         return somme / scores.size();
@@ -138,12 +138,80 @@ public class JoueurStats {
      * @param etatPartie l'état de la partie pour le joueur (gagnée, perdue ou nulle)
      * @param score le score du joueur sur la partie actuelle
      */
-    public void ajoutePartie(EtatPartie etatPartie, int score) {
+    public void ajoutePartie(EtatPartie etatPartie, Double score) {
         nombreParties[etatPartie.ordinal()]++;
         scores.add(score);
 
         if (getNombreParties() != scores.size()) {
             throw new AssertionError("Nombre de parties incorrecte");
+        }
+    }
+
+    /**
+     * Renvoie les statistiques du joueur
+     * @return un tableau de string représentant les statistiques du joueur
+     */
+    public String[] envoieStatistiques() {
+        String[] statistiques = new String[8];
+
+        statistiques[0] = getNomJoueur();
+        statistiques[1] = Integer.toString(getNombrePartiesGagnees());
+        statistiques[2] = Integer.toString(getPourcentagePartiesGagnees());
+        statistiques[3] = Integer.toString(getNombrePartiesPerdues());
+        statistiques[4] = Integer.toString(getPourcentagePartiesPerdues());
+        statistiques[5] = Integer.toString(getNombrePartiesNulles());
+        statistiques[6] = Integer.toString(getPourcentagePartiesNulles());
+        statistiques[7] = Double.toString(getScoreMoyen());
+        return statistiques;
+    }
+
+    /**
+     * Renvoie le JoueurStats avec les statistiques données
+     * @param statistiques les statistiques à enregistrer
+     * @return le JoueurStats avec les statistiques données
+     */
+    public static JoueurStats joueurAvecStatistiques(String[] statistiques) {
+        int nbDonnees = statistiques.length;
+        if (nbDonnees != 8) {
+            throw new AssertionError("Nombre de données incorrecte");
+        }
+
+        JoueurStats joueurStats = new JoueurStats(statistiques[0]);
+        int nbPartiesGagnees = Integer.parseInt(statistiques[1]);
+        int nbPartiesPerdues = Integer.parseInt(statistiques[3]);
+        int nbPartiesNulles = Integer.parseInt(statistiques[5]);
+        double scoreMoyen = Double.parseDouble(statistiques[7]);
+
+        ajouteDonneesJoueur(joueurStats, nbPartiesGagnees, nbPartiesPerdues, nbPartiesNulles, scoreMoyen);
+        return joueurStats;
+    }
+
+    /**
+     * Ajoute les données des parties au JoueurStats
+     * @param joueurStats le JoueurStats à modifier
+     * @param nbPartiesGagnees le nombre de parties gagnées
+     * @param nbPartiesPerdues le nombre de parties perdues
+     * @param nbPartiesNulles le nombre de parties nulles
+     * @param scoreMoyen le score moyen
+     */
+    private static void ajouteDonneesJoueur(JoueurStats joueurStats, int nbPartiesGagnees,
+                                                       int nbPartiesPerdues, int nbPartiesNulles, double scoreMoyen) {
+        ajouteParties(joueurStats, nbPartiesGagnees, EtatPartie.GAGNEE, scoreMoyen);
+        ajouteParties(joueurStats, nbPartiesPerdues, EtatPartie.PERDUE, scoreMoyen);
+        ajouteParties(joueurStats, nbPartiesNulles, EtatPartie.NULLE, scoreMoyen);
+    }
+
+    /**
+     * Ajoute les parties de l'etat demandée avec le score moyen
+     * @param joueurStats le JoueurStats à modifier
+     * @param nbParties le nombre de parties de l'état donné
+     * @param etatPartie l'état de la partie
+     * @param scoreMoyen le score moyen
+     */
+    private static void ajouteParties(JoueurStats joueurStats, int nbParties,
+                                      EtatPartie etatPartie, double scoreMoyen) {
+        for (int i=0; i<nbParties; i++) {
+            joueurStats.ajoutePartie(etatPartie, scoreMoyen);
         }
     }
 }
