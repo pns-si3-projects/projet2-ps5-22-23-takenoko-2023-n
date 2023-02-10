@@ -20,8 +20,6 @@ public class PiocheObjectifParcelle implements PiocheObjectifInterface {
 
     private final List<ObjectifParcelle> objectifParcelleList;
     private final Random random;
-    private Motif motifParDefaut2Parcelles;
-    private Motif motifParDefaut3Parcelles;
 
 
     // Définition des constructeurs
