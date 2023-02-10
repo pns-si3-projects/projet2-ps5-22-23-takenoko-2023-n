@@ -48,47 +48,47 @@ Le bot choisi l'action Irrigation lorsqu'il y a 3 possibilités d'irrigation sur
 
 
 ## Architecture et qualité
-_**Comment est faite l'architecture du projet ? Et quels choix vous ont amené à la réaliser ainsi ?**_  
-Généralement, on code à l'interface mais dans les cas où il y a beaucoup de code communs entre plusieurs classes, on utilisait une classe abstract.  
+**Comment est faite l'architecture du projet ? Et quels choix vous ont amené à la réaliser ainsi ?**  
+Généralement, on code à l'interface mais dans les cas où il y a beaucoup de code communs entre plusieurs classes, on utilisait une classe abstraite.  
 On a choisi de créer des interfaces pour les parcelles (Etang, ParcelleCouleur, ParcelleDisponible) car elles sont toutes des parcelles avec une position. Cela permet de regrouper dans les appels de méthodes. De même pour les pioches d'objectifs.  
-On a choisi de créer une classe abstraite pour Motif car on a remarqué que les différentes classes de motifs de parcelles ont du code communs pour les comparaisons et donc on a généralisé ces méthodes.  
-  
+On a choisi de créer une classe abstraite pour Motif car on a remarqué que les différentes classes de motifs de parcelles ont du code communs pour les comparaisons et donc on a généralisé ces méthodes.   
 
-_**Où trouver les infos ?**_  
-De la Java doc est présente dans chacune de nos classes et interfaces.
-  
 
-_**Quelles parties sont bien faites ?**_  
+**Où trouver les infos ?**  
+De la Java doc est présente dans chacune de nos classes et interfaces.   
+
+
+**Quelles parties sont bien faites ?**  
 Les pioches font leur role en ayant un minimum de méthodes. Egalement, il n'y a pas l'utilisation de getClass().
-Les différents gestionnaires permettant de mieux définir les responsabilités des classes. 
+Les différents gestionnaires permettant de mieux définir les responsabilités des classes.   
   
 
-_**Quelles parties sont à refactor et pourquoi ?**_  
-Pour améliorer notre code, un refactor de la classe StrategieComplete pourrait être réalisé car elle possède trop de méthodes. Il aurait été possible de faire une autre classe pour aider à réflechir sur la stratégie.
-  
+**Quelles parties sont à refactor et pourquoi ?**  
+Pour améliorer notre code, un refactor de la classe StrategieComplete pourrait être réalisé car elle possède trop de méthodes. Il aurait été possible de faire une autre classe pour aider à réflechir sur la stratégie.   
 
-_**Comment la sortie SONAR le montre-elle ?**_  
-Sur la visualisation en ville de notre code, nous pouvons remarquer que cette classe est plus haute que les autres et a une complexité plus importante.
+
+**Comment la sortie SONAR le montre-elle ?**  
+Sur la visualisation en ville de notre code, nous pouvons remarquer que cette classe est plus haute que les autres et a une complexité plus importante.  
 
 
 ## Processus
 
-Qui est responsable de quoi / qui a fait quoi ?  
+**Qui est responsable de quoi / qui a fait quoi ?**  
 Chloé : Jardinier, Irrigations, objectifs Jardinier, objectifs Panda, Stratégie Jardinier, Stratégie Complète  
 Nicolas : Parcelles, Refactor du plateau et plaquette, Gestion des déplacements de personnages, Motifs d'objectifs Parcelles, Stratégie Parcelle  
 Fabien : Parcelles, création des objectifs, Panda, Gestion des déplacements de personnages, Bambous, Couleur, documentations, Refactor plateau plaquette joueur et arbitre, Pioches, Ajout JCommander et Logger, Mode de jeu CSV  
 Amandine : Jardinier, Bambous, Irrigations, objectifs Jardinier, Stratégie Panda, Stratégie Complète  
 
 
-Quel est le process de l'équipe ?  
-_**Git**_  
+**Quel est le process de l'équipe ?**  
+__**Git**__  
 Nous avons créer des milestones pour l'implémentation de chaque nouvelles fonctionnalités ou lors d'un refactor.  
 Nous les avons ensuite découpé en slices que nous avons par la suite découpé en features.  
 Les features comportaient ensuite les différentes tasks que nous avions à réaliser ainsi que les tests.  
 Chacun de nos commit était relié à une issue.
 
 
-_**Branching Strategy**_  
+__**Branching Strategy**__  
 Des branches de travail dans lesquelles on rajoutait les nouvelles fonctionnalités à implémenter.  
 Le merge d'une branche de travail vers la branche Develop nécessitait une pull request validée par au moins un autre membre de l'équipe.  
 Une branche Develop pour gérer les conflits entre ces branches de travail lors des merges.  
