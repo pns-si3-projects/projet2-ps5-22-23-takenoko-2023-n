@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.List;
+
 public class WriteCSV {
     // Définition des attributs
 
@@ -21,21 +23,23 @@ public class WriteCSV {
 
     // Méthodes d'utilisation
 
-    public static void ecrireCSV(String[] args) {
+    public static void ecrireCSV(List<JoueurStats> joueurStatsList) {
         CSVWriter writer;
         try {
-            writer = new CSVWriter(new FileWriter(cheminFichier.toFile(), true));
+            writer = new CSVWriter(new FileWriter(cheminFichier.toFile()));
         } catch (IOException e) {
             throw new AssertionError(e);
         }
-        String[] str;
-        if(args[args.length - 1].equals(args[args.length - 2])) {
-            //Create record
-            str = "J1,J2,J3,J4,total,totalParties".split(",");
-            writer.writeNext(str, false);
+
+        String[] entete = ("Joueurs,nb parties gagnées,% parties gagnées" +
+                ",nb parties perdues,% parties perdues" +
+                ",nb parties nulles,% parties nulles,score moyen")
+                        .split(",");
+        writer.writeNext(entete, false);
+
+        for (JoueurStats joueurStats : joueurStatsList) {
+            writer.writeNext(joueurStats.envoieStatistiques(), false);
         }
-        str = args;
-        writer.writeNext(str, false);
 
         //close the writer
         try {

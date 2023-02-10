@@ -8,7 +8,6 @@ import fr.cotedazur.univ.polytech.startingpoint.joueur.Joueur;
 import fr.cotedazur.univ.polytech.startingpoint.joueur.Strategie;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.ConsoleHandler;
@@ -16,7 +15,8 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static fr.cotedazur.univ.polytech.startingpoint.Affichage2Thousands.*;
+import static fr.cotedazur.univ.polytech.startingpoint.Affichage2Thousands.afficheJeu2thousands;
+import static fr.cotedazur.univ.polytech.startingpoint.Affichage2Thousands.ajouteStats;
 
 public class Main {
     // Définition des attributs
@@ -46,7 +46,7 @@ public class Main {
             argumentMain = argsMain.getArgument();
         }
         else {
-            argumentMain = ArgumentPossibleMain.THOUSANDS;
+            argumentMain = ArgumentPossibleMain.CSV;
         }
 
         configureLogger(argumentMain);
@@ -66,10 +66,10 @@ public class Main {
         handler.setFormatter(new LoggerFormatter());
         LOGGER.addHandler(handler);
 
-        if (argumentMain.isThousands()) {
-            LOGGER.setLevel(Level.OFF);
-        } else {
+        if (argumentMain.isDemo()) {
             LOGGER.setLevel(Level.INFO);
+        } else {
+            LOGGER.setLevel(Level.OFF);
         }
     }
 
@@ -141,21 +141,24 @@ public class Main {
             }
         }
 
-        List<Joueur> joueurs = new ArrayList<>(4);
-        joueurs.add(joueurComplet);
-        joueurs.add(joueurPanda);
-        joueurs.add(joueurParcelle);
-        joueurs.add(joueurJardinier);
+        // Effectue 10 parties
+        for (int i=0; i<10; i++) {
+            List<Joueur> joueurs = new ArrayList<>(4);
+            joueurs.add(new Joueur(NOM_JOUEUR_COMPLET, Strategie.StrategiePossible.COMPLET));
+            joueurs.add(new Joueur(NOM_JOUEUR_PANDA, Strategie.StrategiePossible.PANDA));
+            joueurs.add(new Joueur(NOM_JOUEUR_JARDINIER, Strategie.StrategiePossible.JARDINIER));
+            joueurs.add(new Joueur(NOM_JOUEUR_PARCELLE, Strategie.StrategiePossible.PARCELLE));
 
-        MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurs.get(0), joueurs.get(1), joueurs.get(2), joueurs.get(3));
-        maitreDuJeu.jeu();
-        AfficheurJeu.etatJeu(maitreDuJeu);
+            MaitreDuJeu maitreDuJeu = new MaitreDuJeu(joueurs.get(0), joueurs.get(1), joueurs.get(2), joueurs.get(3));
+            Optional<Joueur> gagnant = maitreDuJeu.jeu();
+            AfficheurJeu.etatJeu(maitreDuJeu);
 
-        ajouteDonneesJoueurs(joueurStatsList, joueurs);
-        for (JoueurStats joueurStats : joueurStatsList) {
-            String donneesJoueur = Arrays.toString(joueurStats.envoieStatistiques());
-            LOGGER.info(donneesJoueur);
+            ajouteDonneesJoueurs(joueurStatsList, joueurs, gagnant);
         }
+
+        Affichage2Thousands.setJoueursStats(joueurStatsList.toArray(new JoueurStats[0]));
+        Affichage2Thousands.afficheJeu2thousands();
+        WriteCSV.ecrireCSV(joueurStatsList);
     }
 
     /**
@@ -163,9 +166,23 @@ public class Main {
      * @param joueurStatsList la liste des JoueurStats
      * @param joueurs la liste des joueurs
      */
-    private static void ajouteDonneesJoueurs(List<JoueurStats> joueurStatsList, List<Joueur> joueurs) {
-        for (int i=0; i<joueurStatsList.size(); i++) {
-            joueurStatsList.get(i).ajoutePartie(JoueurStats.EtatPartie.GAGNEE, (double) joueurs.get(i).nombrePoints());
+    private static void ajouteDonneesJoueurs(List<JoueurStats> joueurStatsList,
+                                             List<Joueur> joueurs, Optional<Joueur> gagnant) {
+        if (gagnant.isPresent()) {
+            Joueur joueurGagnant = gagnant.get();
+            for (int i=0; i<joueurStatsList.size(); i++) {
+                JoueurStats.EtatPartie etatPartie = JoueurStats.EtatPartie.PERDUE;
+                if (joueurGagnant.equals(joueurs.get(i))) {
+                    etatPartie = JoueurStats.EtatPartie.GAGNEE;
+                }
+
+                joueurStatsList.get(i).ajoutePartie(etatPartie, (double) joueurs.get(i).nombrePoints());
+            }
+        }
+        else {
+            for (int i=0; i<joueurStatsList.size(); i++) {
+                joueurStatsList.get(i).ajoutePartie(JoueurStats.EtatPartie.NULLE, (double) joueurs.get(i).nombrePoints());
+            }
         }
     }
 
@@ -179,7 +196,7 @@ public class Main {
         nomsJoueurs.add(NOM_JOUEUR_COMPLET);
         nomsJoueurs.add(NOM_JOUEUR_PANDA);
         nomsJoueurs.add(NOM_JOUEUR_JARDINIER);
-        nomsJoueurs.add(NOM_JOUEUR_PANDA);
+        nomsJoueurs.add(NOM_JOUEUR_PARCELLE);
         return nomsJoueurs;
     }
 
